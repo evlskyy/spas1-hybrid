@@ -27,7 +27,7 @@
 
 SPAS1 menyatukan alur menu dan gizi, stok logistik, absensi relawan, persiapan, distribusi, serta administrasi dalam satu aplikasi web. Frontend statis berjalan di Cloudflare Pages, sementara autentikasi dan data operasional menggunakan Supabase.
 
-> Repo ini dikembangkan terpisah dari `spas1-v2`. Fitur isolasi multi-SPPG, migrasi database, dan deployment hybrid belum selesai; jangan hubungkan ke domain publik atau jalankan migrasi sampai implementasi dan pengujiannya lengkap.
+> Repo ini dikembangkan terpisah dari `spas1-v2`. Fitur isolasi multi-SPPG, migrasi database, dan deployment hybrid.
 
 ## Fitur utama
 
@@ -48,8 +48,15 @@ Frontend merupakan situs statis yang disajikan melalui Cloudflare Pages. Supabas
 - Domain baru belum ditentukan. Domain `spas1.my.id` tetap untuk aplikasi lama.
 - Referensi project Supabase diatur di `index.html`; publishable key memang bersifat publik.
 - Edge Function registrasi relawan memerlukan secret `TURNSTILE_SECRET_KEY` di Supabase. Jangan masukkan secret ini ke kode frontend atau commit ke Git.
-- Origin browser yang diizinkan diatur dengan `APP_ALLOWED_ORIGINS`; nilai bawaan mencakup `https://spas1.my.id`. Origin localhost HTTP(S) juga diizinkan untuk pengembangan lokal, tetapi aksi terautentikasi tetap memerlukan sesi yang valid.
+- Origin browser yang diizinkan diatur dengan `APP_ALLOWED_ORIGINS`; nilai bawaan hanya `https://spas1-hybrid.pages.dev`. Origin localhost HTTP(S) juga diizinkan untuk pengembangan lokal, tetapi aksi terautentikasi tetap memerlukan sesi yang valid.
 - Skema database dan Row Level Security (RLS) dijelaskan di `supabase_migration.sql`. Tinjau perubahan dan cadangkan data sebelum menerapkannya ke project lain.
+
+### Status Multi-SPPG
+
+- Draf isolasi tenant ada di `supabase_multisppg_migration.sql`. Fungsi stok pada `supabase_migration.sql` bergantung pada helper yang dibuat oleh migrasi tersebut, jadi kedua migrasi harus dirilis sebagai satu perubahan terkoordinasi setelah semua tes dan backend siap.
+- `supabase_stock_conversion_migration.sql` juga memerlukan helper tenant tersebut; jangan jalankan sendiri pada database lama.
+- Migrasi database dan Edge Function belum dijalankan/deploy ke Supabase produksi. Fitur multi-SPPG dan deployment publik belum siap; jangan hubungkan domain baru atau jalankan SQL dulu.
+- Project Cloudflare sebelumnya dibuat sebagai Worker dan build-nya gagal. Buat project **Pages** terpisah sebelum deployment; repo dan domain lama tetap dipertahankan.
 
 ### AboutSky
 
@@ -74,7 +81,7 @@ Halaman Tentang Saya [iamSkyy](https://www.instagram.com/iamskyy/)
 
 ### Modul dan administrasi
 
-- Sidebar SUPER ADMIN mengelompokkan **Konten & Tautan Situs**, **Laporan**, **Relawan**, dan **Registrasi** di bawah **SUPER AKSES**, di atas menu **Akuntan**. Tata letak cetak absensi dan relawan menggunakan halaman landscape dengan warna yang aman untuk dicetak.
+- Sidebar SUPER ADMIN mengelompokkan **Konten & Tautan Situs**, **Laporan**, **Relawan**, dan **Registrasi** di bawah **SUPER AKSES**, di atas menu **Akuntan**. Tab **Permohonan SPPG** hanya ditampilkan untuk akun dengan klaim admin platform; persetujuan mengaktifkan tenant serta mengirim undangan email kepada admin pertama. Alur ini memerlukan Edge Function, migrasi, SMTP, dan konfigurasi auth yang sesuai sebelum digunakan. Tata letak cetak absensi dan relawan menggunakan halaman landscape dengan warna yang aman untuk dicetak.
 - Setelah login SUPER ADMIN pertama kali di suatu browser, layar **Welcome to SUPER SPAS1** menanyakan peran seperti Kepala SPPG, Ahli Gizi, Akuntan, Aslap, Head Chef, dan Admin. Setelah itu animasi robot chibi neon dengan logo S SPAS1 menyapa pengguna. Jawaban hanya untuk hiburan, tidak mengubah hak akses dan tidak disimpan; penanda sekali tampil disimpan di local storage browser dan akan muncul lagi jika data browser dihapus.
 - **SUPER GIZI** menyediakan kalkulator AKG per porsi. Masukkan berat bahan per porsi dan nilai zat gizi terverifikasi per 100 g; kalkulator menghitung energi, protein, lemak, karbohidrat, serat, vitamin A/C, kalsium, dan zat besi serta kontribusi kategori dan persentase terhadap target yang dapat diubah.
 - Dasbor SUPER GIZI menampilkan diagram donat kontribusi energi, kartu makronutrien, progres target zat gizi, dan tiga kontribusi tertinggi. Cetak/PDF memakai tata letak ringkas berlatar putih. Target energi 2.150 kkal hanya contoh ilustratif, bukan target universal; operator harus menyediakan data komposisi bahan sendiri karena aplikasi tidak menyertakan database gizi.

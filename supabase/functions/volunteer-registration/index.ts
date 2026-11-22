@@ -24,7 +24,7 @@ function getErrorMessage(error: unknown) {
 }
 
 function allowedOrigins() {
-  return (Deno.env.get("APP_ALLOWED_ORIGINS") || "https://spas1.my.id,https://spas1.pages.dev")
+  return (Deno.env.get("APP_ALLOWED_ORIGINS") || "https://spas1-hybrid.pages.dev")
     .split(",")
     .map((origin) => origin.trim())
     .filter(Boolean);
@@ -66,6 +66,40 @@ const pendingRegistrationStatuses = [
   "Menunggu Persetujuan SUPER ADMIN",
   "Menunggu Verifikasi SUPER ADMIN",
 ];
+const legacySppgId = "00000000-0000-4000-8000-000000000001";
+const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+async function verifyTurnstileToken(
+  token: string,
+  request: Request,
+  origin: string,
+): Promise<{ error: string; status: number } | null> {
+  const secret = Deno.env.get("TURNSTILE_SECRET_KEY");
+  if (!secret) return { error: "Verifikasi keamanan belum dikonfigurasi. Hubungi pengelola aplikasi.", status: 503 };
+  if (!token) return { error: "Selesaikan verifikasi keamanan terlebih dahulu.", status: 400 };
+
+  const body = new URLSearchParams({ secret, response: token });
+  const remoteIp = request.headers.get("cf-connecting-ip");
+  if (remoteIp) body.set("remoteip", remoteIp);
+  const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body,
+  });
+  if (!response.ok) throw new Error("Verifikasi Cloudflare gagal dijangkau.");
+  const verification = await response.json() as { success?: boolean; hostname?: string };
+  const originHostname = new URL(origin).hostname;
+  const localHosts = new Set(["localhost", "127.0.0.1", "[::1]"]);
+  const testMode = Deno.env.get("TURNSTILE_TEST_MODE") === "true";
+  if (testMode && !localHosts.has(originHostname)) {
+    return { error: "Mode uji Turnstile hanya boleh dipakai dari aplikasi lokal.", status: 403 };
+  }
+  const expectedHostname = testMode ? "example.com" : originHostname;
+  if (verification.success !== true || verification.hostname !== expectedHostname) {
+    return { error: "Verifikasi keamanan gagal atau sudah kedaluwarsa. Silakan coba lagi.", status: 400 };
+  }
+  return null;
+}
 
 Deno.serve(async (request) => {
   const originHeader = request.headers.get("Origin") || "";
@@ -105,6 +139,9 @@ Deno.serve(async (request) => {
     if (input.action === "submit") {
       return await submitRegistration(input, request, adminClient, origin);
     }
+    if (input.action === "submitOrganizationRequest") {
+      return await submitOrganizationRequest(input, request, adminClient, origin);
+    }
 
     const token = request.headers.get("Authorization")?.replace(/^Bearer\s+/i, "");
     if (!token) return jsonResponse({ error: "Login diperlukan." }, 401, origin);
@@ -114,18 +151,43 @@ Deno.serve(async (request) => {
     });
     const { data: { user }, error: userError } = await userClient.auth.getUser(token);
     if (userError || !user) return jsonResponse({ error: "Sesi login tidak valid." }, 401, origin);
+    if (input.action === "listOrganizationRequests" || input.action === "reviewOrganizationRequest") {
+      if (user.app_metadata?.platform_admin !== true) {
+        return jsonResponse({ error: "Aksi hanya tersedia untuk admin platform." }, 403, origin);
+      }
+      adminAuthorized = true;
+      if (input.action === "listOrganizationRequests") return await listOrganizationRequests(adminClient, origin);
+      return await reviewOrganizationRequest(input, user.id, adminClient, origin);
+    }
+    const { data: membership, error: membershipError } = await adminClient
+      .from("spas1_memberships")
+      .select("sppg_id,member_role,status")
+      .eq("user_id", user.id)
+      .maybeSingle();
+    if (membershipError) throw membershipError;
+    if (!membership || membership.status !== "active" || !uuidPattern.test(membership.sppg_id)) {
+      return jsonResponse({ error: "Keanggotaan SPPG tidak aktif." }, 403, origin);
+    }
+    const sppgId = membership.sppg_id;
+    const claimedSppgId = String(user.app_metadata?.sppg_id || "");
+    if (!uuidPattern.test(claimedSppgId) || claimedSppgId.toLowerCase() !== sppgId.toLowerCase()) {
+      return jsonResponse({ error: "Identitas SPPG pada sesi login tidak sesuai." }, 403, origin);
+    }
 
     if (input.action === "attendance") {
-      return await recordAttendance(input, user.id, adminClient, origin);
+      if (membership.member_role !== "employee" || user.app_metadata?.role !== "employee") {
+        return jsonResponse({ error: "Aksi absensi hanya tersedia untuk akun relawan." }, 403, origin);
+      }
+      return await recordAttendance(input, user.id, sppgId, adminClient, origin);
     }
-    if (user.app_metadata?.role !== "admin") {
+    if (user.app_metadata?.role !== "admin" || membership.member_role !== "admin") {
       return jsonResponse({ error: "Hanya SUPER ADMIN yang dapat mengelola permohonan." }, 403, origin);
     }
     adminAuthorized = true;
-    if (input.action === "list") return await listRegistrations(adminClient, origin);
-    if (input.action === "review") return await reviewRegistration(input, user.id, adminClient, origin);
-    if (input.action === "updateRequest") return await updateRegistration(input, adminClient, origin);
-    if (input.action === "deleteRequest") return await deleteRegistration(input, adminClient, origin);
+    if (input.action === "list") return await listRegistrations(sppgId, adminClient, origin);
+    if (input.action === "review") return await reviewRegistration(input, user.id, sppgId, adminClient, origin);
+    if (input.action === "updateRequest") return await updateRegistration(input, sppgId, adminClient, origin);
+    if (input.action === "deleteRequest") return await deleteRegistration(input, sppgId, adminClient, origin);
     return jsonResponse({ error: "Aksi tidak dikenal." }, 400, origin);
   } catch (error) {
     const message = getErrorMessage(error);
@@ -142,6 +204,19 @@ async function submitRegistration(
   adminClient: ReturnType<typeof createClient>,
   origin: string,
 ) {
+  const sppgId = String(input.sppgId || legacySppgId);
+  if (!uuidPattern.test(sppgId)) {
+    return jsonResponse({ error: "Identitas SPPG tidak valid." }, 400, origin);
+  }
+  const { data: organization, error: organizationError } = await adminClient
+    .from("spas1_organizations")
+    .select("id")
+    .eq("id", sppgId)
+    .eq("status", "active")
+    .maybeSingle();
+  if (organizationError) throw organizationError;
+  if (!organization) return jsonResponse({ error: "SPPG tujuan tidak ditemukan atau belum aktif." }, 404, origin);
+
   const name = String(input.nama || "").trim();
   const volunteerId = String(input.idRelawan || "").trim();
   const contactEmail = String(input.email || "").trim().toLowerCase();
@@ -159,37 +234,9 @@ async function submitRegistration(
     return jsonResponse({ error: "Data pendaftaran tidak valid. Periksa ID, email, nomor HP, dan PIN minimal 8 karakter." }, 400, origin);
   }
 
-  const turnstileSecret = Deno.env.get("TURNSTILE_SECRET_KEY");
   const turnstileToken = String(input.turnstileToken || "");
-  if (!turnstileSecret) {
-    return jsonResponse({ error: "Verifikasi keamanan belum dikonfigurasi. Hubungi pengelola aplikasi." }, 503, origin);
-  }
-  if (!turnstileToken) {
-    return jsonResponse({ error: "Selesaikan verifikasi Cloudflare terlebih dahulu." }, 400, origin);
-  }
-  const verificationBody = new URLSearchParams({
-    secret: turnstileSecret,
-    response: turnstileToken,
-  });
-  const remoteIp = request.headers.get("cf-connecting-ip");
-  if (remoteIp) verificationBody.set("remoteip", remoteIp);
-  const verificationResponse = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: verificationBody,
-  });
-  if (!verificationResponse.ok) throw new Error("Verifikasi Cloudflare gagal dijangkau.");
-  const verification = await verificationResponse.json();
-  const originHostname = new URL(origin).hostname;
-  const localHosts = new Set(["localhost", "127.0.0.1", "[::1]"]);
-  const testMode = Deno.env.get("TURNSTILE_TEST_MODE") === "true";
-  if (testMode && !localHosts.has(originHostname)) {
-    return jsonResponse({ error: "Mode uji Turnstile hanya boleh dipakai dari aplikasi lokal." }, 403, origin);
-  }
-  const expectedHostname = testMode ? "example.com" : originHostname;
-  if (verification.success !== true || verification.hostname !== expectedHostname) {
-    return jsonResponse({ error: "Verifikasi keamanan gagal atau sudah kedaluwarsa. Silakan coba lagi." }, 400, origin);
-  }
+  const verificationError = await verifyTurnstileToken(turnstileToken, request, origin);
+  if (verificationError) return jsonResponse({ error: verificationError.error }, verificationError.status, origin);
 
   const authEmail = `${volunteerId}@relawan.spas1.local`.toLowerCase();
   const { data: created, error: createError } = await adminClient.auth.admin.createUser({
@@ -203,16 +250,30 @@ async function submitRegistration(
   }
 
   const { error: metadataError } = await adminClient.auth.admin.updateUserById(created.user.id, {
-    app_metadata: { role: "employee", id_relawan: volunteerId },
+    app_metadata: { role: "employee", id_relawan: volunteerId, sppg_id: sppgId },
   });
   if (metadataError) {
-    await adminClient.auth.admin.deleteUser(created.user.id);
+    const { error: cleanupError } = await adminClient.auth.admin.deleteUser(created.user.id);
+    if (cleanupError) throw new Error("Identitas akun gagal diperbarui dan akun sementara gagal dibersihkan.");
     throw metadataError;
+  }
+
+  const { error: membershipError } = await adminClient.from("spas1_memberships").insert({
+    user_id: created.user.id,
+    sppg_id: sppgId,
+    member_role: "employee",
+    status: "suspended",
+  });
+  if (membershipError) {
+    const { error: cleanupError } = await adminClient.auth.admin.deleteUser(created.user.id);
+    if (cleanupError) throw new Error("Keanggotaan SPPG gagal dibuat dan akun sementara gagal dibersihkan.");
+    throw membershipError;
   }
 
   const requestId = `REG-${crypto.randomUUID()}`;
   const { error: insertError } = await adminClient.from("MODUL1_PendaftaranRelawan").insert({
     "ID Permohonan": requestId,
+    sppg_id: sppgId,
     "ID Relawan": volunteerId,
     "Auth User ID": created.user.id,
     "Nama Lengkap": name,
@@ -224,7 +285,8 @@ async function submitRegistration(
     "Diajukan Pada": new Date().toISOString(),
   });
   if (insertError) {
-    await adminClient.auth.admin.deleteUser(created.user.id);
+    const { error: cleanupError } = await adminClient.auth.admin.deleteUser(created.user.id);
+    if (cleanupError) throw new Error("Permohonan gagal disimpan dan akun sementara gagal dibersihkan.");
     if (insertError.code === "23505") {
       return jsonResponse({ error: "ID Relawan ini sudah terdaftar atau sedang menunggu persetujuan." }, 409, origin);
     }
@@ -233,13 +295,192 @@ async function submitRegistration(
   return jsonResponse({ status: "success", message: "Pendaftaran terkirim. Akun dapat digunakan setelah disetujui SUPER ADMIN." }, 200, origin);
 }
 
+async function submitOrganizationRequest(
+  input: Record<string, unknown>,
+  request: Request,
+  adminClient: ReturnType<typeof createClient>,
+  origin: string,
+) {
+  const name = String(input.name || "").trim();
+  const slug = String(input.slug || "").trim().toLowerCase();
+  const contactName = String(input.contactName || "").trim();
+  const contactEmail = String(input.contactEmail || "").trim().toLowerCase();
+  const contactPhone = String(input.contactPhone || "").trim();
+  if (name.length < 3 || name.length > 120 || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ||
+      slug.length > 63 || contactName.length < 2 || contactName.length > 150 ||
+      contactEmail.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail) ||
+      contactPhone.length < 5 || contactPhone.length > 40) {
+    return jsonResponse({ error: "Periksa nama SPPG, alamat slug, nama pemohon, email, dan nomor HP." }, 400, origin);
+  }
+  const verificationError = await verifyTurnstileToken(String(input.turnstileToken || ""), request, origin);
+  if (verificationError) return jsonResponse({ error: verificationError.error }, verificationError.status, origin);
+
+  const { data, error } = await adminClient
+    .from("spas1_organization_requests")
+    .insert({
+      slug,
+      name,
+      contact_name: contactName,
+      contact_email: contactEmail,
+      contact_phone: contactPhone,
+    })
+    .select("id")
+    .maybeSingle();
+  if (error?.code === "23505") {
+    return jsonResponse({ error: "Nama alamat SPPG tersebut sedang digunakan atau masih menunggu pemeriksaan." }, 409, origin);
+  }
+  if (error) throw error;
+  if (!data) throw new Error("Permohonan SPPG tidak berhasil disimpan.");
+  return jsonResponse({
+    status: "success",
+    message: "Permohonan SPPG terkirim. Jika disetujui, undangan untuk admin pertama akan dikirim ke email yang dicantumkan.",
+  }, 200, origin);
+}
+
+async function listOrganizationRequests(
+  adminClient: ReturnType<typeof createClient>,
+  origin: string,
+) {
+  const { data, error } = await adminClient
+    .from("spas1_organization_requests")
+    .select("id,slug,name,contact_name,contact_email,contact_phone,created_at")
+    .eq("status", "pending")
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return jsonResponse({ status: "success", requests: data || [] }, 200, origin);
+}
+
+async function reviewOrganizationRequest(
+  input: Record<string, unknown>,
+  adminId: string,
+  adminClient: ReturnType<typeof createClient>,
+  origin: string,
+) {
+  const requestId = String(input.requestId || "");
+  const decision = String(input.decision || "");
+  if (!uuidPattern.test(requestId) || !["approve", "reject"].includes(decision)) {
+    return jsonResponse({ error: "Permohonan atau keputusan tidak valid." }, 400, origin);
+  }
+
+  if (decision === "reject") {
+    const { data, error } = await adminClient
+      .from("spas1_organization_requests")
+      .update({ status: "rejected", decided_at: new Date().toISOString(), decided_by: adminId })
+      .eq("id", requestId)
+      .eq("status", "pending")
+      .select("id")
+      .maybeSingle();
+    if (error) throw error;
+    if (!data) return jsonResponse({ error: "Permohonan tidak ditemukan atau sudah diproses." }, 409, origin);
+    return jsonResponse({ status: "success", message: "Permohonan SPPG ditolak." }, 200, origin);
+  }
+
+  const { data: requestRow, error: claimError } = await adminClient
+    .from("spas1_organization_requests")
+    .update({ status: "processing" })
+    .eq("id", requestId)
+    .eq("status", "pending")
+    .select("id,slug,name,contact_name,contact_email")
+    .maybeSingle();
+  if (claimError) throw claimError;
+  if (!requestRow) return jsonResponse({ error: "Permohonan tidak ditemukan atau sudah diproses." }, 409, origin);
+
+  const organizationId = crypto.randomUUID();
+  let organizationCreated = false;
+  let invitedUserId: string | null = null;
+  try {
+    const { data: existingOrganization, error: existingOrganizationError } = await adminClient
+      .from("spas1_organizations")
+      .select("id")
+      .eq("slug", requestRow.slug)
+      .maybeSingle();
+    if (existingOrganizationError) throw existingOrganizationError;
+    if (existingOrganization) throw new Error("Alamat SPPG ini sudah digunakan oleh organisasi lain.");
+
+    const { error: organizationError } = await adminClient.from("spas1_organizations").insert({
+      id: organizationId,
+      slug: requestRow.slug,
+      name: requestRow.name,
+      status: "active",
+    });
+    if (organizationError) throw organizationError;
+    organizationCreated = true;
+
+    const { data: invitation, error: invitationError } = await adminClient.auth.admin.inviteUserByEmail(
+      requestRow.contact_email,
+      { data: { full_name: requestRow.contact_name } },
+    );
+    if (invitation.user) invitedUserId = invitation.user.id;
+    if (invitationError || !invitation.user) {
+      throw invitationError || new Error("Undangan email admin pertama tidak berhasil dibuat.");
+    }
+
+    const { error: metadataError } = await adminClient.auth.admin.updateUserById(invitedUserId, {
+      app_metadata: { role: "admin", sppg_id: organizationId },
+    });
+    if (metadataError) throw metadataError;
+
+    const { error: membershipError } = await adminClient.from("spas1_memberships").insert({
+      user_id: invitedUserId,
+      sppg_id: organizationId,
+      member_role: "admin",
+      status: "active",
+    });
+    if (membershipError) throw membershipError;
+
+    const { data: approvedRequest, error: approvalError } = await adminClient
+      .from("spas1_organization_requests")
+      .update({
+        status: "approved",
+        decided_at: new Date().toISOString(),
+        decided_by: adminId,
+        organization_id: organizationId,
+      })
+      .eq("id", requestId)
+      .eq("status", "processing")
+      .select("id")
+      .maybeSingle();
+    if (approvalError) throw approvalError;
+    if (!approvedRequest) throw new Error("Status permohonan berubah sebelum persetujuan selesai.");
+  } catch (error) {
+    const cleanupErrors: string[] = [];
+    if (invitedUserId) {
+      const { error: cleanupError } = await adminClient.auth.admin.deleteUser(invitedUserId);
+      if (cleanupError) cleanupErrors.push("akun undangan");
+    }
+    if (organizationCreated) {
+      const { error: cleanupError } = await adminClient
+        .from("spas1_organizations")
+        .delete()
+        .eq("id", organizationId);
+      if (cleanupError) cleanupErrors.push("organisasi");
+    }
+    const { error: restoreError } = await adminClient
+      .from("spas1_organization_requests")
+      .update({ status: "pending" })
+      .eq("id", requestId)
+      .eq("status", "processing");
+    if (restoreError) cleanupErrors.push("status permohonan");
+    if (cleanupErrors.length) {
+      throw new Error("Persetujuan gagal; pemulihan " + cleanupErrors.join(", ") + " juga gagal. Periksa data sebelum mencoba lagi.");
+    }
+    throw error;
+  }
+  return jsonResponse({
+    status: "success",
+    message: "SPPG aktif dan undangan admin pertama telah dikirim ke " + requestRow.contact_email + ".",
+  }, 200, origin);
+}
+
 async function listRegistrations(
+  sppgId: string,
   adminClient: ReturnType<typeof createClient>,
   origin: string,
 ) {
   const { data, error } = await adminClient
     .from("MODUL1_PendaftaranRelawan")
     .select('"ID Permohonan","ID Relawan","Nama Lengkap",Email,"No HP",Role,Divisi,Status,"Diajukan Pada"')
+    .eq("sppg_id", sppgId)
     .order("Diajukan Pada", { ascending: false });
   if (error) throw error;
   const registrations = (data || []).map((row) => ({
@@ -263,6 +504,7 @@ async function listRegistrations(
 async function reviewRegistration(
   input: Record<string, unknown>,
   adminId: string,
+  sppgId: string,
   adminClient: ReturnType<typeof createClient>,
   origin: string,
 ) {
@@ -275,6 +517,7 @@ async function reviewRegistration(
   const { data: requestRow, error: claimError } = await adminClient
     .from("MODUL1_PendaftaranRelawan")
     .update({ Status: processingStatus })
+    .eq("sppg_id", sppgId)
     .eq("ID Permohonan", requestId)
     .in("Status", pendingRegistrationStatuses)
     .select('*')
@@ -292,6 +535,7 @@ async function reviewRegistration(
 
     if (decision === "approve") {
       const { error: profileError } = await adminClient.from("MODUL1_DataRelawan").insert({
+        sppg_id: sppgId,
         "ID Relawan": requestRow["ID Relawan"],
         "Auth User ID": authUserId,
         "Nama Lengkap": requestRow["Nama Lengkap"],
@@ -303,6 +547,16 @@ async function reviewRegistration(
       });
       if (profileError) throw profileError;
       profileCreated = true;
+      const { data: membership, error: membershipError } = await adminClient
+        .from("spas1_memberships")
+        .update({ status: "active" })
+        .eq("user_id", authUserId)
+        .eq("sppg_id", sppgId)
+        .eq("status", "suspended")
+        .select("user_id")
+        .maybeSingle();
+      if (membershipError) throw membershipError;
+      if (!membership) throw new Error("Keanggotaan SPPG relawan tidak ditemukan atau sudah berubah.");
     }
 
     const { data: updatedRequest, error: requestError } = await adminClient
@@ -312,6 +566,7 @@ async function reviewRegistration(
         "Diputuskan Pada": new Date().toISOString(),
         "Diputuskan Oleh": adminId,
       })
+      .eq("sppg_id", sppgId)
       .eq("ID Permohonan", requestId)
       .eq("Status", processingStatus)
       .select('"ID Permohonan"')
@@ -336,16 +591,25 @@ async function reviewRegistration(
         "Diputuskan Pada": null,
         "Diputuskan Oleh": null,
       })
+      .eq("sppg_id", sppgId)
       .eq("ID Permohonan", requestId);
     let profileRollbackError: Error | null = null;
+    let membershipRollbackError: Error | null = null;
     if (profileCreated) {
       const { error } = await adminClient
         .from("MODUL1_DataRelawan")
         .delete()
+        .eq("sppg_id", sppgId)
         .eq("Auth User ID", authUserId);
       profileRollbackError = error;
+      const { error: membershipError } = await adminClient
+        .from("spas1_memberships")
+        .update({ status: "suspended" })
+        .eq("user_id", authUserId)
+        .eq("sppg_id", sppgId);
+      membershipRollbackError = membershipError;
     }
-    if (rollbackError || profileRollbackError) {
+    if (rollbackError || profileRollbackError || membershipRollbackError) {
       throw new Error("Proses gagal dan pemulihan data juga gagal. Periksa permohonan di Supabase sebelum mencoba lagi.");
     }
     throw error;
@@ -355,6 +619,7 @@ async function reviewRegistration(
 
 async function updateRegistration(
   input: Record<string, unknown>,
+  sppgId: string,
   adminClient: ReturnType<typeof createClient>,
   origin: string,
 ) {
@@ -379,6 +644,7 @@ async function updateRegistration(
       Role: role,
       Divisi: division,
     })
+    .eq("sppg_id", sppgId)
     .eq("ID Permohonan", requestId)
     .in("Status", pendingRegistrationStatuses)
     .select('"ID Permohonan"')
@@ -390,6 +656,7 @@ async function updateRegistration(
 
 async function deleteRegistration(
   input: Record<string, unknown>,
+  sppgId: string,
   adminClient: ReturnType<typeof createClient>,
   origin: string,
 ) {
@@ -399,6 +666,7 @@ async function deleteRegistration(
   const { data: requestRow, error: claimError } = await adminClient
     .from("MODUL1_PendaftaranRelawan")
     .update({ Status: deletingStatus })
+    .eq("sppg_id", sppgId)
     .eq("ID Permohonan", requestId)
     .in("Status", pendingRegistrationStatuses)
     .select('"ID Permohonan","Auth User ID"')
@@ -413,6 +681,7 @@ async function deleteRegistration(
       const { error: restoreError } = await adminClient
         .from("MODUL1_PendaftaranRelawan")
         .update({ Status: pendingRegistrationStatuses[0] })
+        .eq("sppg_id", sppgId)
         .eq("ID Permohonan", requestId)
         .eq("Status", deletingStatus);
       if (restoreError) throw new Error("Akun tidak dapat dihapus dan status permohonan gagal dipulihkan.");
@@ -423,6 +692,7 @@ async function deleteRegistration(
   const { data: deletedRequest, error: deleteError } = await adminClient
     .from("MODUL1_PendaftaranRelawan")
     .delete()
+    .eq("sppg_id", sppgId)
     .eq("ID Permohonan", requestId)
     .eq("Status", deletingStatus)
     .select('"ID Permohonan"')
@@ -431,6 +701,7 @@ async function deleteRegistration(
     const { data: restoredRequest, error: restoreError } = await adminClient
       .from("MODUL1_PendaftaranRelawan")
       .update({ Status: pendingRegistrationStatuses[0], "Auth User ID": null })
+      .eq("sppg_id", sppgId)
       .eq("ID Permohonan", requestId)
       .eq("Status", deletingStatus)
       .select('"ID Permohonan"')
@@ -447,6 +718,7 @@ async function deleteRegistration(
 async function recordAttendance(
   input: Record<string, unknown>,
   authUserId: string,
+  sppgId: string,
   adminClient: ReturnType<typeof createClient>,
   origin: string,
 ) {
@@ -456,7 +728,8 @@ async function recordAttendance(
   }
   const { data: volunteer, error: profileError } = await adminClient
     .from("MODUL1_DataRelawan")
-    .select('"ID Relawan","Nama Lengkap",Divisi,"Status Akun"')
+    .select('"ID Relawan","Nama Lengkap",Divisi,"Status Akun",sppg_id')
+    .eq("sppg_id", sppgId)
     .eq("Auth User ID", authUserId)
     .eq("Status Akun", "Aktif")
     .maybeSingle();
@@ -465,6 +738,7 @@ async function recordAttendance(
 
   const location = String(input.lokasi || "").slice(0, 200);
   const { error: insertError } = await adminClient.from("MODUL1_Absensi").insert({
+    sppg_id: volunteer.sppg_id,
     Timestamp: new Date().toISOString(),
     "ID Karyawan": volunteer["ID Relawan"],
     Nama: volunteer["Nama Lengkap"],

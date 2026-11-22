@@ -468,10 +468,12 @@ declare
   v_category_before text;
   v_price_before numeric;
   v_supplier_before text;
+  v_sppg_id uuid := public.spas1_current_sppg_id();
 begin
   if coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') <> 'admin' then
     raise exception 'Hanya SUPER ADMIN yang dapat mencatat stok masuk atau stok keluar gudang.';
   end if;
+  if v_sppg_id is null then raise exception 'Keanggotaan SPPG aktif diperlukan.'; end if;
   if nullif(btrim(p_item_id), '') is null
      or p_type is null or p_type not in ('Masuk', 'Keluar')
     or p_quantity is null or p_quantity < 0 or p_quantity::text in ('NaN', 'Infinity', '-Infinity')
@@ -482,7 +484,8 @@ begin
      or length(coalesce(p_supplier, '')) > 160
      or length(coalesce(p_note, '')) > 500
      or p_photo_path is null
-     or p_photo_path !~ '^spas1/stok-logistik/[0-9]{4}/[0-9]{2}/[0-9]{2}-[A-Za-z]+/[^/]+\.(jpeg|png|webp)$'
+     or split_part(p_photo_path, '/', 1) <> public.spas1_current_storage_folder()
+     or p_photo_path !~ '^[a-z0-9-]+/stok-logistik/[0-9]{4}/[0-9]{2}/[0-9]{2}-[A-Za-z]+/[^/]+\.(jpeg|png|webp)$'
      or (p_unit_price is not null and (p_unit_price < 0 or p_unit_price::text in ('NaN', 'Infinity', '-Infinity'))) then
     raise exception 'Data transaksi stok tidak valid.';
   end if;
@@ -502,7 +505,7 @@ begin
 
   select * into v_item
   from public."modul3_stok_logistik"
-  where "ID"::text = p_item_id
+  where "ID"::text = p_item_id and sppg_id = v_sppg_id
   for update;
   if not found then
     raise exception 'Item stok tidak ditemukan.';
@@ -538,20 +541,20 @@ begin
   update public."modul3_stok_logistik"
   set "Stok" = v_after,
       "Harga (Rp)" = case when p_type = 'Masuk' and p_unit_price is not null then p_unit_price else "Harga (Rp)" end
-  where "ID" = v_item."ID"
+  where "ID" = v_item."ID" and sppg_id = v_sppg_id
   returning * into v_item;
 
   insert into public."modul3_stok_logistik_transaksi" (
     "Tipe", "Item ID", "Kategori", "Nama Item", "Satuan", "Satuan Pecahan", "Faktor Konversi", "Jumlah Utama", "Jumlah Pecahan", "Jumlah",
     "Stok Sebelum", "Stok Sesudah", "Harga Satuan", "Supplier", "Catatan",
     "Tanggal", "Hari", "Lokasi", "Foto Path", "Dibuat Oleh",
-    "Kategori Sebelum", "Harga Sebelum", "Supplier Sebelum"
+    "Kategori Sebelum", "Harga Sebelum", "Supplier Sebelum", sppg_id
   ) values (
     p_type, p_item_id, coalesce(v_item."Kategori", ''), coalesce(v_item."Nama Item", ''),
     coalesce(v_item."Satuan", ''), v_small_unit, v_conversion_factor, p_quantity, p_small_quantity, v_quantity, v_before, v_after, p_unit_price,
     coalesce(btrim(p_supplier), ''), coalesce(btrim(p_note), ''), v_timestamp,
     v_weekday, btrim(p_location), p_photo_path, auth.uid(),
-    v_category_before, v_price_before, v_supplier_before
+    v_category_before, v_price_before, v_supplier_before, v_sppg_id
   ) returning * into v_movement;
 
   return jsonb_build_object('movement', to_jsonb(v_movement), 'stock', to_jsonb(v_item));
@@ -646,10 +649,12 @@ declare
   v_category_before text;
   v_price_before numeric;
   v_supplier_before text;
+  v_sppg_id uuid := public.spas1_current_sppg_id();
 begin
   if coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') <> 'admin' then
     raise exception 'Hanya SUPER ADMIN yang dapat mencatat pembelian stok harian.';
   end if;
+  if v_sppg_id is null then raise exception 'Keanggotaan SPPG aktif diperlukan.'; end if;
   if nullif(btrim(p_location), '') is null or length(p_location) > 300
      or length(coalesce(p_supplier, '')) > 160
      or length(coalesce(p_note, '')) > 500
@@ -671,19 +676,19 @@ begin
   if v_weekday not in ('Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat') then
     raise exception 'Transaksi operasional hanya dapat dicatat pada hari Senin–Jumat.';
   end if;
-  v_photo_folder := 'spas1/stok-logistik/' ||
+  v_photo_folder := public.spas1_current_storage_folder() || '/stok-logistik/' ||
     to_char(v_timestamp at time zone 'Asia/Jakarta', 'YYYY/MM/DD') || '-' || v_weekday || '/';
   if p_photo_path is null
      or p_photo_path not like v_photo_folder || '%'
-     or p_photo_path !~ '^spas1/stok-logistik/[0-9]{4}/[0-9]{2}/[0-9]{2}-[A-Za-z]+/[^/]+\.(jpeg|png|webp)$' then
+     or p_photo_path !~ '^[a-z0-9-]+/stok-logistik/[0-9]{4}/[0-9]{2}/[0-9]{2}-[A-Za-z]+/[^/]+\.(jpeg|png|webp)$' then
     raise exception 'Foto nota harus disimpan pada folder tanggal transaksi.';
   end if;
 
   insert into public."modul3_stok_logistik_belanja_harian" (
-    "Tanggal", "Hari", "Supplier", "Catatan", "Lokasi", "Foto Path", "Jumlah Item", "Dibuat Oleh"
+    "Tanggal", "Hari", "Supplier", "Catatan", "Lokasi", "Foto Path", "Jumlah Item", "Dibuat Oleh", sppg_id
   ) values (
     v_timestamp, v_weekday, coalesce(btrim(p_supplier), ''), coalesce(btrim(p_note), ''),
-    btrim(p_location), p_photo_path, jsonb_array_length(p_items), auth.uid()
+    btrim(p_location), p_photo_path, jsonb_array_length(p_items), auth.uid(), v_sppg_id
   ) returning * into v_report;
 
   lock table public."modul3_stok_logistik" in share row exclusive mode;
@@ -720,10 +725,10 @@ begin
       raise exception 'Jumlah harus lebih dari nol dan harga tidak boleh negatif.';
     end if;
 
-    perform pg_advisory_xact_lock(hashtextextended(lower(v_name), 0));
+    perform pg_advisory_xact_lock(hashtextextended(v_sppg_id::text || ':' || lower(v_name), 0));
     select * into v_item
     from public."modul3_stok_logistik"
-    where lower(btrim("Nama Item"::text)) = lower(v_name)
+    where sppg_id = v_sppg_id and lower(btrim("Nama Item"::text)) = lower(v_name)
     order by "ID"
     limit 1
     for update;
@@ -735,19 +740,21 @@ begin
       if v_sequence is null then
         select coalesce(max(nullif("ID"::text, '')::bigint), 0) + 1
         into v_new_id
-        from public."modul3_stok_logistik";
+        from public."modul3_stok_logistik"
+        where sppg_id = v_sppg_id;
       else
         loop
           execute 'select nextval($1::regclass)' into v_new_id using v_sequence;
           exit when not exists (
-            select 1 from public."modul3_stok_logistik" where "ID"::text = v_new_id::text
+            select 1 from public."modul3_stok_logistik"
+            where sppg_id = v_sppg_id and "ID"::text = v_new_id::text
           );
         end loop;
       end if;
       insert into public."modul3_stok_logistik" (
-        "ID", "Kategori", "Nama Item", "Satuan", "Satuan Pecahan", "Faktor Konversi", "Stok", "Harga (Rp)", "Supplier"
+        "ID", "Kategori", "Nama Item", "Satuan", "Satuan Pecahan", "Faktor Konversi", "Stok", "Harga (Rp)", "Supplier", sppg_id
       ) values (
-        v_new_id, v_category, v_name, v_unit, v_small_unit, v_conversion_factor, 0, v_unit_price, coalesce(btrim(p_supplier), '')
+        v_new_id, v_category, v_name, v_unit, v_small_unit, v_conversion_factor, 0, v_unit_price, coalesce(btrim(p_supplier), ''), v_sppg_id
       ) returning * into v_item;
     elsif lower(btrim(v_item."Satuan"::text)) <> lower(v_unit) then
       raise exception 'Satuan item "%" adalah "%"; gunakan satuan yang sama saat belanja.', v_name, v_item."Satuan";
@@ -769,19 +776,19 @@ begin
         "Stok" = v_after,
         "Harga (Rp)" = v_unit_price,
         "Supplier" = case when nullif(btrim(p_supplier), '') is not null then btrim(p_supplier) else "Supplier" end
-    where "ID" = v_item."ID"
+    where "ID" = v_item."ID" and sppg_id = v_sppg_id
     returning * into v_item;
 
     insert into public."modul3_stok_logistik_transaksi" (
       "Tipe", "Item ID", "Kategori", "Nama Item", "Satuan", "Satuan Pecahan", "Faktor Konversi", "Jumlah Utama", "Jumlah Pecahan", "Jumlah",
       "Stok Sebelum", "Stok Sesudah", "Harga Satuan", "Supplier", "Catatan",
       "Tanggal", "Hari", "Lokasi", "Foto Path", "Dibuat Oleh", "ID Belanja",
-      "Kategori Sebelum", "Harga Sebelum", "Supplier Sebelum"
+      "Kategori Sebelum", "Harga Sebelum", "Supplier Sebelum", sppg_id
     ) values (
       'Masuk', v_item."ID"::text, v_category, v_name, v_unit, v_small_unit, v_conversion_factor, v_quantity, 0, v_quantity,
       v_before, v_after, v_unit_price, coalesce(btrim(p_supplier), ''), coalesce(btrim(p_note), ''),
       v_timestamp, v_weekday, btrim(p_location), p_photo_path, auth.uid(), v_report."ID",
-      v_category_before, v_price_before, v_supplier_before
+      v_category_before, v_price_before, v_supplier_before, v_sppg_id
     ) returning * into v_movement;
 
     v_total := v_total + (v_quantity * v_unit_price);
@@ -791,7 +798,7 @@ begin
 
   update public."modul3_stok_logistik_belanja_harian"
   set "Total Belanja" = v_total
-  where "ID" = v_report."ID"
+  where "ID" = v_report."ID" and sppg_id = v_sppg_id
   returning * into v_report;
 
   return jsonb_build_object(
@@ -888,10 +895,12 @@ declare
   v_remainder numeric;
   v_small_unit text;
   v_conversion_factor numeric;
+  v_sppg_id uuid := public.spas1_current_sppg_id();
 begin
   if coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') not in ('admin', 'module') then
     raise exception 'Login Koki/Persiapan diperlukan untuk mencatat pemakaian harian.';
   end if;
+  if v_sppg_id is null then raise exception 'Keanggotaan SPPG aktif diperlukan.'; end if;
     if p_movement_id is null
       or p_used_primary_quantity is null
       or p_used_primary_quantity < 0
@@ -905,7 +914,7 @@ begin
 
   select * into v_movement
   from public."modul3_stok_logistik_transaksi"
-  where "ID" = p_movement_id and "Tipe" = 'Keluar'
+  where "ID" = p_movement_id and "Tipe" = 'Keluar' and sppg_id = v_sppg_id
   for update;
   if not found then
     raise exception 'Transaksi stok keluar gudang tidak ditemukan.';
@@ -925,7 +934,7 @@ begin
 
   select * into v_usage
   from public."modul3_stok_logistik_pemakaian_harian"
-  where "Transaksi Keluar ID" = v_movement."ID"
+  where "Transaksi Keluar ID" = v_movement."ID" and sppg_id = v_sppg_id
   for update;
   if found and v_usage."Dikembalikan Pada" is not null then
     raise exception 'Pemakaian tidak dapat diubah setelah sisa dikembalikan ke gudang.';
@@ -936,11 +945,11 @@ begin
   insert into public."modul3_stok_logistik_pemakaian_harian" (
     "Transaksi Keluar ID", "Item ID", "Tanggal", "Hari", "Jumlah Keluar",
     "Jumlah Dipakai", "Jumlah Dipakai Utama", "Jumlah Dipakai Pecahan", "Satuan Pecahan", "Faktor Konversi",
-    "Sisa Dapur", "Catatan", "Diperbarui Pada", "Diperbarui Oleh"
+    "Sisa Dapur", "Catatan", "Diperbarui Pada", "Diperbarui Oleh", sppg_id
   ) values (
     v_movement."ID", v_movement."Item ID", v_date, v_movement."Hari", v_movement."Jumlah",
     v_used_quantity, p_used_primary_quantity, p_used_small_quantity, v_small_unit, v_conversion_factor,
-    v_remainder, coalesce(btrim(p_note), ''), clock_timestamp(), auth.uid()
+    v_remainder, coalesce(btrim(p_note), ''), clock_timestamp(), auth.uid(), v_sppg_id
   )
   on conflict ("Transaksi Keluar ID") do update set
     "Item ID" = excluded."Item ID",
@@ -981,17 +990,19 @@ declare
   v_stock_type text;
   v_weekday text;
   v_timestamp timestamptz := clock_timestamp();
+  v_sppg_id uuid := public.spas1_current_sppg_id();
 begin
   if coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') <> 'admin' then
     raise exception 'Hanya SUPER ADMIN yang dapat mengembalikan sisa ke gudang.';
   end if;
+  if v_sppg_id is null then raise exception 'Keanggotaan SPPG aktif diperlukan.'; end if;
   if p_movement_id is null then
     raise exception 'Transaksi stok keluar tidak valid.';
   end if;
 
   select * into v_source
   from public."modul3_stok_logistik_transaksi"
-  where "ID" = p_movement_id and "Tipe" = 'Keluar'
+  where "ID" = p_movement_id and "Tipe" = 'Keluar' and sppg_id = v_sppg_id
   for update;
   if not found or v_source."Status" <> 'Aktif' then
     raise exception 'Transaksi stok keluar tidak ditemukan atau sudah dibatalkan.';
@@ -999,7 +1010,7 @@ begin
 
   select * into v_usage
   from public."modul3_stok_logistik_pemakaian_harian"
-  where "Transaksi Keluar ID" = p_movement_id and "Status" = 'Aktif'
+  where "Transaksi Keluar ID" = p_movement_id and "Status" = 'Aktif' and sppg_id = v_sppg_id
   for update;
   if not found then
     raise exception 'Simpan jumlah pemakaian harian sebelum mengembalikan sisa.';
@@ -1023,7 +1034,7 @@ begin
 
   select * into v_item
   from public."modul3_stok_logistik"
-  where "ID"::text = v_source."Item ID"
+  where "ID"::text = v_source."Item ID" and sppg_id = v_sppg_id
   for update;
   if not found then
     raise exception 'Item stok untuk sisa dapur tidak ditemukan.';
@@ -1038,18 +1049,19 @@ begin
   if v_stock_type in ('smallint', 'integer', 'bigint') and v_after <> trunc(v_after) then
     raise exception 'Kolom stok item hanya mendukung bilangan bulat; pengembalian sisa dihentikan.';
   end if;
-  update public."modul3_stok_logistik" set "Stok" = v_after where "ID" = v_item."ID" returning * into v_item;
+  update public."modul3_stok_logistik" set "Stok" = v_after
+  where "ID" = v_item."ID" and sppg_id = v_sppg_id returning * into v_item;
 
   insert into public."modul3_stok_logistik_transaksi" (
     "Tipe", "Item ID", "Kategori", "Nama Item", "Satuan", "Satuan Pecahan", "Faktor Konversi",
     "Jumlah Utama", "Jumlah Pecahan", "Jumlah", "Stok Sebelum", "Stok Sesudah", "Harga Satuan",
-    "Supplier", "Catatan", "Tanggal", "Hari", "Lokasi", "Foto Path", "Transaksi Referensi ID", "Dibuat Oleh"
+    "Supplier", "Catatan", "Tanggal", "Hari", "Lokasi", "Foto Path", "Transaksi Referensi ID", "Dibuat Oleh", sppg_id
   ) values (
     'Masuk', v_item."ID"::text, coalesce(v_item."Kategori", ''), coalesce(v_item."Nama Item", ''),
     coalesce(v_item."Satuan", ''), coalesce(v_source."Satuan Pecahan", ''), v_source."Faktor Konversi",
     v_remainder, 0, v_remainder, v_before, v_after, nullif(v_item."Harga (Rp)"::text, '')::numeric,
     coalesce(v_item."Supplier", ''), 'Pengembalian sisa pemakaian dari transaksi ' || p_movement_id::text,
-    v_timestamp, v_weekday, v_source."Lokasi", v_source."Foto Path", v_source."ID", auth.uid()
+    v_timestamp, v_weekday, v_source."Lokasi", v_source."Foto Path", v_source."ID", auth.uid(), v_sppg_id
   ) returning * into v_return;
 
   update public."modul3_stok_logistik_pemakaian_harian"
@@ -1058,7 +1070,7 @@ begin
       "Transaksi Pengembalian ID" = v_return."ID",
       "Diperbarui Pada" = v_timestamp,
       "Diperbarui Oleh" = auth.uid()
-  where "ID" = v_usage."ID"
+  where "ID" = v_usage."ID" and sppg_id = v_sppg_id
   returning * into v_usage;
 
   return jsonb_build_object('usage', to_jsonb(v_usage), 'returnMovement', to_jsonb(v_return), 'stock', to_jsonb(v_item));
@@ -1090,10 +1102,12 @@ declare
   v_timestamp timestamptz := clock_timestamp();
   v_adjustments jsonb := '[]'::jsonb;
   v_metadata_restored boolean := true;
+  v_sppg_id uuid := public.spas1_current_sppg_id();
 begin
   if coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') <> 'admin' then
     raise exception 'Hanya SUPER ADMIN yang dapat membatalkan transaksi stok.';
   end if;
+  if v_sppg_id is null then raise exception 'Keanggotaan SPPG aktif diperlukan.'; end if;
   if p_movement_id is null
      or nullif(btrim(p_reason), '') is null
      or length(btrim(p_reason)) < 5
@@ -1103,7 +1117,7 @@ begin
 
   select * into v_selected
   from public."modul3_stok_logistik_transaksi"
-  where "ID" = p_movement_id;
+  where "ID" = p_movement_id and sppg_id = v_sppg_id;
   if not found then
     raise exception 'Transaksi stok tidak ditemukan.';
   end if;
@@ -1112,7 +1126,7 @@ begin
   if v_report_id is not null then
     select * into v_report
     from public."modul3_stok_logistik_belanja_harian"
-    where "ID" = v_report_id
+    where "ID" = v_report_id and sppg_id = v_sppg_id
     for update;
     if not found then
       raise exception 'Laporan nota pembelian tidak ditemukan; pembatalan dihentikan.';
@@ -1122,13 +1136,13 @@ begin
     end if;
     perform 1
     from public."modul3_stok_logistik_transaksi"
-    where "ID Belanja" = v_report_id
+    where "ID Belanja" = v_report_id and sppg_id = v_sppg_id
     order by "Item ID", "ID"
     for update;
   else
     select * into v_selected
     from public."modul3_stok_logistik_transaksi"
-    where "ID" = p_movement_id
+    where "ID" = p_movement_id and sppg_id = v_sppg_id
     for update;
     if not found then
       raise exception 'Transaksi stok tidak ditemukan.';
@@ -1140,11 +1154,12 @@ begin
 
   perform 1
   from public."modul3_stok_logistik" s
-  where s."ID"::text in (
+  where s.sppg_id = v_sppg_id and s."ID"::text in (
     select t."Item ID"
     from public."modul3_stok_logistik_transaksi" t
-    where (v_report_id is not null and t."ID Belanja" = v_report_id)
-       or (v_report_id is null and t."ID" = p_movement_id)
+    where t.sppg_id = v_sppg_id
+      and ((v_report_id is not null and t."ID Belanja" = v_report_id)
+       or (v_report_id is null and t."ID" = p_movement_id))
   )
   order by s."ID"
   for update;
@@ -1158,8 +1173,9 @@ begin
   for v_movement in
     select *
     from public."modul3_stok_logistik_transaksi"
-    where (v_report_id is not null and "ID Belanja" = v_report_id)
-       or (v_report_id is null and "ID" = p_movement_id)
+    where sppg_id = v_sppg_id
+      and ((v_report_id is not null and "ID Belanja" = v_report_id)
+       or (v_report_id is null and "ID" = p_movement_id))
     order by "Item ID", "ID"
     for update
   loop
@@ -1172,6 +1188,8 @@ begin
       join public."modul3_stok_logistik_transaksi" returned
         on returned."ID" = usage."Transaksi Pengembalian ID"
       where usage."Transaksi Keluar ID" = v_movement."ID"
+        and usage.sppg_id = v_sppg_id
+        and returned.sppg_id = v_sppg_id
         and usage."Dikembalikan Pada" is not null
         and returned."Status" = 'Aktif'
     ) then
@@ -1180,7 +1198,7 @@ begin
 
     select * into v_item
     from public."modul3_stok_logistik"
-    where "ID"::text = v_movement."Item ID"
+    where "ID"::text = v_movement."Item ID" and sppg_id = v_sppg_id
     for update;
     if not found then
       raise exception 'Item "%" sudah tidak ada di stok gudang; pembatalan dihentikan.', v_movement."Nama Item";
@@ -1203,7 +1221,7 @@ begin
 
     update public."modul3_stok_logistik"
     set "Stok" = v_after
-    where "ID" = v_item."ID";
+    where "ID" = v_item."ID" and sppg_id = v_sppg_id;
 
     update public."modul3_stok_logistik_transaksi"
     set "Status" = 'Dibatalkan',
@@ -1212,7 +1230,7 @@ begin
         "Alasan Pembatalan" = btrim(p_reason),
         "Stok Sebelum Pembatalan" = v_before,
         "Stok Sesudah Pembatalan" = v_after
-    where "ID" = v_movement."ID";
+    where "ID" = v_movement."ID" and sppg_id = v_sppg_id;
 
     update public."modul3_stok_logistik_pemakaian_harian"
     set "Status" = 'Dibatalkan',
@@ -1220,6 +1238,7 @@ begin
         "Dibatalkan Oleh" = auth.uid(),
         "Alasan Pembatalan" = btrim(p_reason)
     where "Transaksi Keluar ID" = v_movement."ID"
+      and sppg_id = v_sppg_id
       and "Status" = 'Aktif';
 
     if v_movement."Transaksi Referensi ID" is not null then
@@ -1227,7 +1246,7 @@ begin
       set "Jumlah Dikembalikan" = 0,
           "Dikembalikan Pada" = null,
           "Transaksi Pengembalian ID" = null
-      where "Transaksi Pengembalian ID" = v_movement."ID";
+      where "Transaksi Pengembalian ID" = v_movement."ID" and sppg_id = v_sppg_id;
     end if;
 
     v_adjustments := v_adjustments || jsonb_build_array(jsonb_build_object(
@@ -1247,32 +1266,33 @@ begin
         "Dibatalkan Pada" = v_timestamp,
         "Dibatalkan Oleh" = auth.uid(),
         "Alasan Pembatalan" = btrim(p_reason)
-    where "ID" = v_report_id;
+    where "ID" = v_report_id and sppg_id = v_sppg_id;
   end if;
 
   for v_item_id in
     select distinct t."Item ID"
     from public."modul3_stok_logistik_transaksi" t
-    where (v_report_id is not null and t."ID Belanja" = v_report_id)
-       or (v_report_id is null and t."ID" = p_movement_id)
+    where t.sppg_id = v_sppg_id
+      and ((v_report_id is not null and t."ID Belanja" = v_report_id)
+       or (v_report_id is null and t."ID" = p_movement_id))
   loop
     if exists (
       select 1
       from public."modul3_stok_logistik_transaksi" t
-      where t."Item ID" = v_item_id
+      where t.sppg_id = v_sppg_id and t."Item ID" = v_item_id
         and ((v_report_id is not null and t."ID Belanja" = v_report_id)
           or (v_report_id is null and t."ID" = p_movement_id))
         and t."Tipe" = 'Masuk'
     ) then
       select * into v_latest
       from public."modul3_stok_logistik_transaksi" t
-      where t."Item ID" = v_item_id
+      where t.sppg_id = v_sppg_id and t."Item ID" = v_item_id
         and t."Tipe" = 'Masuk'
         and t."Status" = 'Aktif'
         and t."Tanggal" > (
           select max(cancelled."Tanggal")
           from public."modul3_stok_logistik_transaksi" cancelled
-          where cancelled."Item ID" = v_item_id
+          where cancelled.sppg_id = v_sppg_id and cancelled."Item ID" = v_item_id
             and ((v_report_id is not null and cancelled."ID Belanja" = v_report_id)
               or (v_report_id is null and cancelled."ID" = p_movement_id))
         )
@@ -1284,11 +1304,11 @@ begin
         set "Kategori" = v_latest."Kategori",
             "Harga (Rp)" = coalesce(v_latest."Harga Satuan", "Harga (Rp)"),
             "Supplier" = coalesce(v_latest."Supplier", '')
-        where "ID"::text = v_item_id;
+        where "ID"::text = v_item_id and sppg_id = v_sppg_id;
       else
         select * into v_snapshot
         from public."modul3_stok_logistik_transaksi" t
-        where t."Item ID" = v_item_id
+        where t.sppg_id = v_sppg_id and t."Item ID" = v_item_id
           and ((v_report_id is not null and t."ID Belanja" = v_report_id)
             or (v_report_id is null and t."ID" = p_movement_id))
           and t."Tipe" = 'Masuk'
@@ -1303,7 +1323,7 @@ begin
           set "Kategori" = coalesce(v_snapshot."Kategori Sebelum", "Kategori"),
               "Harga (Rp)" = coalesce(v_snapshot."Harga Sebelum", "Harga (Rp)"),
               "Supplier" = coalesce(v_snapshot."Supplier Sebelum", "Supplier")
-          where "ID"::text = v_item_id;
+          where "ID"::text = v_item_id and sppg_id = v_sppg_id;
         end if;
       end if;
     end if;

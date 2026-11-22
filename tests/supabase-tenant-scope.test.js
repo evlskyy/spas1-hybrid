@@ -10,20 +10,34 @@ const helperEnd = html.indexOf('async function supabaseStorageRequest', helperSt
 assert.notEqual(helperStart, -1, 'tenant-scoping helpers should exist');
 assert.notEqual(helperEnd, -1, 'tenant-scoping helper block should end');
 const helperSource = html.slice(helperStart, helperEnd) + '\nthis.applySupabaseTenantScope = applySupabaseTenantScope;';
+const storageStart = html.indexOf('function getSupabaseTenantStorageFolder');
+const storageEnd = html.indexOf('async function uploadSupabaseMedia', storageStart);
+assert.notEqual(storageStart, -1, 'tenant storage helpers should exist');
+assert.notEqual(storageEnd, -1, 'tenant storage helper block should end');
+const storageSource = html.slice(storageStart, storageEnd) +
+  '\nthis.getSupabaseTenantStorageFolder = getSupabaseTenantStorageFolder;' +
+  '\nthis.isSupabaseTenantStoragePath = isSupabaseTenantStoragePath;' +
+  '\nthis.isSupabaseStockReceiptPath = isSupabaseStockReceiptPath;';
 
 const tenantId = '01234567-89ab-4cde-8abc-0123456789ab';
+const legacyTenantId = '00000000-0000-4000-8000-000000000001';
 
-function createScope(sessionTenantId) {
+function createScope(sessionTenantId, hasSession) {
+  const context = createTenantContext(sessionTenantId, hasSession);
+  return context.applySupabaseTenantScope;
+}
+
+function createTenantContext(sessionTenantId, hasSession) {
   const payload = sessionTenantId ? { app_metadata: { sppg_id: sessionTenantId } } : {};
   const token = 'header.' + Buffer.from(JSON.stringify(payload)).toString('base64url') + '.signature';
   const context = {
-    window: { SPAS1_SUPABASE_SESSION: sessionTenantId === null ? '' : token },
+    window: { SPAS1_SUPABASE_SESSION: hasSession === false ? '' : token },
     TextDecoder,
     Uint8Array,
     atob
   };
-  vm.runInNewContext(helperSource, context);
-  return context.applySupabaseTenantScope;
+  vm.runInNewContext(helperSource + storageSource, context);
+  return context;
 }
 
 test('tenant-scoped reads are filtered by the authenticated SPPG without mutating caller options', function() {
@@ -64,11 +78,49 @@ test('tenant-scoped requests reject caller-supplied cross-SPPG filters or rows',
   }, /SPPG lain/);
 });
 
-test('legacy sessions without a tenant claim retain current request behavior', function() {
-  const scope = createScope(null);
+test('legacy authenticated sessions without a tenant claim stay on the original SPPG', function() {
+  const scope = createScope(null, true);
+  const options = { query: { select: '*' } };
+  const scoped = scope('SPAS1_SETTINGS', options);
+
+  assert.equal(scoped.query.sppg_id, 'eq.' + legacyTenantId);
+});
+
+test('anonymous requests are not assigned an authenticated tenant', function() {
+  const scope = createScope(null, false);
   const options = { query: { select: '*' } };
 
   assert.equal(scope('SPAS1_SETTINGS', options), options);
+});
+
+test('Storage paths use the active SPPG prefix and reject another tenant path', function() {
+  const context = createTenantContext(tenantId, true);
+
+  assert.equal(context.getSupabaseTenantStorageFolder(), tenantId);
+  assert.equal(
+    context.isSupabaseTenantStoragePath(tenantId + '/lpdh/2026-11-22/receipt.pdf', 'lpdh/2026-11-22/'),
+    true
+  );
+  assert.equal(
+    context.isSupabaseTenantStoragePath('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa/lpdh/2026-11-22/receipt.pdf', 'lpdh/2026-11-22/'),
+    false
+  );
+});
+
+test('stock receipt validation accepts only the active SPPG folder and expected path shape', function() {
+  const context = createTenantContext(tenantId, true);
+
+  assert.equal(context.isSupabaseStockReceiptPath(tenantId + '/stok-logistik/2026/11/22-Senin/receipt.webp'), true);
+  assert.equal(context.isSupabaseStockReceiptPath('spas1/stok-logistik/2026/11/22-Senin/receipt.webp'), false);
+  assert.equal(context.isSupabaseStockReceiptPath(tenantId + '/stok-logistik/2026/11/22-Senin/nested/receipt.webp'), false);
+});
+
+test('legacy SPPG retains its existing Storage prefix', function() {
+  const context = createTenantContext(null, true);
+
+  assert.equal(context.getSupabaseTenantStorageFolder(), 'spas1');
+  assert.equal(context.isSupabaseTenantStoragePath('spas1/lpdh/2026-11-22/receipt.pdf', 'lpdh/2026-11-22/'), true);
+  assert.equal(context.isSupabaseStockReceiptPath('spas1/stok-logistik/2026/11/22-Senin/receipt.webp'), true);
 });
 
 test('admin data reads use the shared authenticated Supabase request path', function() {

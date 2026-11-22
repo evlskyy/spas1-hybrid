@@ -1023,8 +1023,10 @@ body.app-light-mode #btnProjectInfo.home-project-info-button:active {
 .home-footer-powered a[href*="github.com"]:not([href*="features/copilot"]) img { filter: brightness(0) invert(1); }
 body.app-light-mode .home-footer-powered a[href*="github.com"]:not([href*="features/copilot"]) img { filter: none; }
 @media (min-width: 641px) {
-  .home-footer-layout { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-areas: "admin admin admin news news news" "project project about about trakteer trakteer" "crafted crafted social social powered powered"; row-gap: 12px; }
-  .home-footer-admin { display: contents; }
+  .home-footer-layout { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-areas: "admin admin admin news news news" "project project register register about about" "live live trakteer trakteer sponsor sponsor" "crafted crafted social social powered powered"; row-gap: 12px; column-gap: 12px; }
+  .home-footer-admin,
+  .home-footer-left-actions,
+  .home-footer-trakteer { display: contents; }
   #btnSuperAdminLogin.home-admin-login-launcher,
   .home-footer-layout > .home-news-launcher {
     grid-column-start: span 3;
@@ -1068,12 +1070,19 @@ body.app-light-mode .home-footer-powered a[href*="github.com"]:not([href*="featu
   .home-utility-description { color: #94A3B8; font-size: 11px; font-weight: 400; line-height: 1.45; }
   .home-admin-card-arrow { margin-left: auto; color: currentColor; }
   #btnSuperAdminLogin.home-admin-card { grid-area: admin; }
-  .home-footer-layout > .home-footer-left-actions { grid-area: project; justify-self: center; }
-  .home-footer-layout > .home-footer-left-actions > #btnProjectInfo, .home-footer-layout > .home-footer-left-actions > .home-live-demo-button { width: 180px; height: 42px; min-height: 42px; box-sizing: border-box; padding: 0 10px !important; font-size: 12px !important; gap: 6px !important; }
-  .home-footer-layout > .home-footer-trakteer { grid-area: trakteer; justify-self: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-  .home-footer-layout > .home-footer-trakteer > .trakteer-link { justify-self: center; width: 180px; min-width: 180px; height: 42px; padding: 0 10px; font-size: 12px; }
-  .home-footer-layout > .home-about-button { grid-area: about; justify-self: center; width: 180px; min-width: 180px; height: 42px; padding: 0 10px; font-size: 13px; }
-  .home-footer-layout > .home-footer-trakteer > .home-sponsor-button { width: 180px; min-width: 180px; height: 42px; padding: 0 10px; font-size: 12px; }
+  .home-footer-layout #btnProjectInfo { grid-column: 1 / span 2; grid-row: 2; justify-self: center; }
+  .home-footer-layout #btnApplySppg { grid-column: 3 / span 2; grid-row: 2; justify-self: center; }
+  .home-footer-layout .home-about-button { grid-column: 5 / span 2; grid-row: 2; justify-self: center; }
+  .home-footer-layout .home-live-demo-button { grid-column: 1 / span 2; grid-row: 3; justify-self: center; }
+  .home-footer-layout .trakteer-link { grid-column: 3 / span 2; grid-row: 3; justify-self: center; }
+  .home-footer-layout #btnSponsor { grid-column: 5 / span 2; grid-row: 3; justify-self: center; }
+  .home-footer-layout > .home-footer-left-actions > #btnProjectInfo,
+  .home-footer-layout > .home-footer-left-actions > #btnApplySppg,
+  .home-footer-layout > .home-footer-left-actions > .home-live-demo-button { width: 180px; height: 42px; min-height: 42px; box-sizing: border-box; padding: 0 10px !important; font-size: 12px !important; gap: 6px !important; }
+  .home-footer-layout > .trakteer-link { grid-area: trakteer; justify-self: center; }
+  .home-footer-layout .trakteer-link { width: 180px !important; min-width: 180px !important; height: 42px !important; padding: 0 10px; font-size: 12px; }
+  .home-footer-layout .home-about-button { width: 180px !important; min-width: 180px !important; height: 42px; padding: 0 10px; font-size: 13px; }
+  .home-footer-layout #btnSponsor { width: 180px !important; min-width: 180px !important; height: 42px; padding: 0 10px; font-size: 12px; }
   .home-footer-social { grid-area: social; justify-self: center; }
   .home-footer-copyright { display: contents; }
   .home-footer-copyright > a { grid-area: crafted; justify-self: start; align-self: center; }
@@ -1643,11 +1652,26 @@ body.app-light-mode #view-admin .site-settings-heading .site-settings-icon { col
     outline: none !important;
     -webkit-tap-highlight-color: transparent;
   }
-  .home-footer-layout { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-areas: "admin admin admin" "news news news" "project about about" "live-demo trakteer sponsor" "social social social" "copyright copyright copyright"; column-gap: 6px; row-gap: 10px; overflow-x: hidden; align-items: start; }
+  .home-footer-layout { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-areas: "admin admin admin" "news news news" "project register about" "live-demo trakteer sponsor" "social social social" "copyright copyright copyright"; column-gap: 6px; row-gap: 10px; overflow-x: hidden; align-items: start; }
   .home-footer-left-actions { display: contents; }
   .home-footer-layout > .home-footer-left-actions > #btnProjectInfo { grid-area: project; }
-  .home-footer-layout > .home-footer-left-actions > .home-live-demo-button { grid-area: sponsor; }
-  .home-footer-layout > .home-footer-left-actions > #btnProjectInfo, .home-footer-layout > .home-footer-left-actions > .home-live-demo-button { width: 100%; min-width: 0; height: 42px; min-height: 42px; box-sizing: border-box; padding: 0 4px !important; font-size: 8px !important; gap: 3px !important; white-space: nowrap; overflow: hidden; }
+  .home-footer-layout > .home-footer-left-actions > #btnApplySppg { grid-area: register; }
+  .home-footer-layout > .home-footer-left-actions > .home-live-demo-button { grid-area: live-demo; }
+  .home-footer-layout > .home-footer-left-actions > #btnProjectInfo,
+  .home-footer-layout > .home-footer-left-actions > #btnApplySppg,
+  .home-footer-layout > .home-footer-left-actions > .home-live-demo-button {
+    justify-self: stretch;
+    width: 100%;
+    min-width: 0;
+    height: 42px;
+    min-height: 42px;
+    box-sizing: border-box;
+    padding: 0 4px !important;
+    font-size: 8px !important;
+    gap: 3px !important;
+    white-space: nowrap;
+    overflow: hidden;
+  }
   .home-footer-layout > .home-about-button {
     grid-area: about;
     justify-self: stretch;
@@ -1748,7 +1772,7 @@ body.app-light-mode #view-admin .site-settings-heading .site-settings-icon { col
   .home-footer-layout > .home-footer-trakteer > .home-about-button { grid-area: about; justify-self: stretch; width: 100%; min-width: 0; height: 46px; padding: 0 4px; font-size: 10px; gap: 4px; }
   .home-footer-layout > .home-footer-trakteer > .home-about-button i { font-size: 10px; }
   .home-footer-layout > .home-footer-trakteer > .trakteer-link { display: inline-flex; justify-self: stretch; }
-  .home-footer-layout > .home-footer-trakteer > .home-sponsor-button { grid-area: live-demo; justify-self: stretch; width: 100%; min-width: 0; height: 42px; box-sizing: border-box; padding: 0 4px; font-size: 8px; gap: 4px; overflow: hidden; }
+  .home-footer-layout > .home-footer-trakteer > .home-sponsor-button { grid-area: sponsor; justify-self: stretch; width: 100%; min-width: 0; height: 42px; box-sizing: border-box; padding: 0 4px; font-size: 8px; gap: 4px; overflow: hidden; }
   .home-footer-layout > .home-footer-trakteer > .home-sponsor-button,
   .home-footer-layout > .home-footer-trakteer > .home-sponsor-button:hover,
   .home-footer-layout > .home-footer-trakteer > .home-sponsor-button:focus,
@@ -3205,6 +3229,9 @@ gtag('config', 'G-4933FEDV2TW');
 <button id="btnProjectInfo" type="button" onclick="bukaInfoProyek()" class="home-project-info-button px-3 py-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition shadow-lg whitespace-nowrap">
 <i class="fa-solid fa-book-open"></i><span>Read Info Project</span><i class="fa-solid fa-arrow-right text-xs"></i>
 </button>
+<button id="btnApplySppg" type="button" onclick="openSppgApplication()" class="home-project-info-button px-3 py-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition shadow-lg whitespace-nowrap">
+<i class="fa-solid fa-building-circle-check" aria-hidden="true"></i><span>Daftarkan SPPG</span>
+</button>
 <a href="demo.html" target="_blank" rel="noopener noreferrer" class="home-live-demo-button"><i class="fa-solid fa-display" aria-hidden="true"></i><span>Live Demo Aplikasi</span></a>
 </div>
 <div class="home-footer-social social-media-container">
@@ -3239,6 +3266,27 @@ gtag('config', 'G-4933FEDV2TW');
  <div class="home-footer-copyright"><a href="mailto:hallosky@spas1.my.id" aria-label="Email CraftedSkyy">©2026-CraftedSkyy.With ❤️ for Sungai Pasir 1 Meral</a><span class="home-footer-powered"><span class="home-footer-powered-label">Powered :</span><a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer" aria-label="Visual Studio Code"><img src="assets/powered/visualstudiocode.svg" alt="Visual Studio Code"></a><a href="https://supabase.com/" target="_blank" rel="noopener noreferrer" aria-label="Supabase"><img src="assets/powered/supabase.svg" alt="Supabase"></a><a href="https://www.gatsbyjs.com/" target="_blank" rel="noopener noreferrer" aria-label="Gatsby"><img src="assets/powered/gatsby.svg" alt="Gatsby"></a><a href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="assets/powered/github.svg" alt="GitHub"></a><a href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer" aria-label="GitHub Copilot"><img src="assets/powered/copilot.svg" alt="GitHub Copilot"></a><a href="https://pages.cloudflare.com/" target="_blank" rel="noopener noreferrer" aria-label="Cloudflare Pages"><img src="assets/cloudflare.svg" alt="Cloudflare Pages"></a></span></div>
  </div>
  </div>
+  </div>
+  </div>
+  <div id="sppgApplicationOverlay" class="fixed inset-0 z-[120] hidden overflow-y-auto bg-slate-950/80 p-4" role="dialog" aria-modal="true" aria-labelledby="sppgApplicationTitle">
+  <div class="mx-auto my-6 w-full max-w-xl rounded-2xl border border-slate-700 bg-slate-900 p-5 text-white shadow-2xl sm:p-7">
+  <div class="flex items-start justify-between gap-4">
+  <div><h2 id="sppgApplicationTitle" class="text-xl font-black">Daftarkan SPPG</h2><p class="mt-1 text-xs leading-5 text-slate-300">Pengajuan akan diperiksa admin platform. Jika disetujui, undangan untuk membuat akses admin dikirim ke email pemohon.</p></div>
+  <button type="button" onclick="closeSppgApplication()" class="rounded-lg p-2 text-slate-300 hover:bg-slate-800" aria-label="Tutup formulir"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <form id="sppgApplicationForm" class="mt-5 space-y-3" onsubmit="event.preventDefault(); submitSppgApplication();">
+  <label class="block text-xs font-semibold">Nama SPPG<input id="sppgApplicationName" type="text" minlength="3" maxlength="120" required autocomplete="organization" class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm" placeholder="Contoh: SPPG Kecamatan Utara"></label>
+  <label class="block text-xs font-semibold">Alamat SPPG (slug)<input id="sppgApplicationSlug" type="text" minlength="3" maxlength="63" pattern="[a-z0-9]+(-[a-z0-9]+)*" required class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm" placeholder="contoh-sppg-utara" aria-describedby="sppgApplicationSlugHelp"><span id="sppgApplicationSlugHelp" class="mt-1 block font-normal text-slate-400">Gunakan huruf kecil, angka, dan tanda hubung saja.</span></label>
+  <label class="block text-xs font-semibold">Nama pemohon<input id="sppgApplicationContactName" type="text" minlength="2" maxlength="150" required autocomplete="name" class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm"></label>
+  <label class="block text-xs font-semibold">Email untuk undangan admin<input id="sppgApplicationEmail" type="email" maxlength="254" required autocomplete="email" class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm" placeholder="nama@email.com"></label>
+  <label class="block text-xs font-semibold">Nomor HP<input id="sppgApplicationPhone" type="tel" minlength="5" maxlength="40" required autocomplete="tel" class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm"></label>
+  <div id="sppgApplicationTurnstile" class="min-h-[65px]" aria-label="Verifikasi keamanan Cloudflare"></div>
+  <p id="sppgApplicationMessage" class="hidden rounded-xl border px-3 py-2 text-xs leading-5" role="status" aria-live="polite"></p>
+  <div class="flex flex-wrap justify-end gap-2 pt-2">
+  <button type="button" onclick="closeSppgApplication()" class="rounded-lg border border-slate-600 px-4 py-2 text-xs font-bold text-slate-200 hover:bg-slate-800">Batal</button>
+  <button id="btnSubmitSppgApplication" type="submit" class="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-bold text-white hover:bg-indigo-500"><i class="fa-solid fa-paper-plane mr-1"></i> Kirim Pengajuan</button>
+  </div>
+  </form>
   </div>
   </div>
   <div id="view-news-archive" class="hidden flex-grow flex flex-col items-center p-3 sm:p-5 lg:p-8">
@@ -4099,6 +4147,7 @@ gtag('config', 'G-4933FEDV2TW');
 <button id="nav-tab-laporan" onclick="switchAdminTab('tab-laporan', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-clipboard-user w-5"></i> <span>Laporan</span></button>
 <button id="nav-tab-karyawan" onclick="switchAdminTab('tab-karyawan', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-users-gear w-5"></i> <span>Relawan</span></button>
 <button id="nav-tab-registrations" onclick="switchAdminTab('tab-registrations', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-user-clock w-5"></i> <span>Registrasi</span><span id="volunteerRegistrationBadge" class="hidden min-w-5 rounded-full bg-rose-600 px-1.5 py-0.5 text-center text-[10px] font-black leading-4 text-white" aria-label="Permohonan menunggu">0</span></button>
+<button id="nav-tab-organization-requests" class="hidden sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap" onclick="switchAdminTab('tab-organization-requests', this)"><i class="fa-solid fa-building-circle-check w-5"></i><span>Permohonan SPPG</span></button>
 </div>
 </div>
 <div id="akuntanGroup" class="sidebar-settings-group order-6 md:order-5">
@@ -4500,6 +4549,13 @@ gtag('config', 'G-4933FEDV2TW');
 </div>
 <div id="volunteerRegistrationList" class="space-y-3" aria-live="polite"><div class="light-card rounded-2xl p-4 text-sm text-gray-500">Memuat permohonan...</div></div>
 </section>
+<section id="tab-organization-requests" class="admin-tab space-y-4 hidden">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Permohonan SPPG</h2><p class="mt-1 text-xs text-gray-500">Hanya admin platform yang dapat menyetujui. Persetujuan mengaktifkan tenant dan mengirim undangan admin pertama melalui email.</p></div>
+<button type="button" onclick="loadOrganizationRequests(this)" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold flex items-center gap-2 shadow"><i class="fa-solid fa-rotate"></i> Muat Ulang</button>
+</div>
+<div id="organizationRequestList" class="space-y-3" aria-live="polite"><div class="light-card rounded-2xl p-4 text-sm text-gray-500">Permohonan dimuat setelah admin platform membuka tab ini.</div></div>
+</section>
 <section id="tab-gizi" class="admin-tab space-y-4 hidden">
 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 <div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Kalkulator AKG per Porsi</h2><p class="mt-1 text-xs text-gray-500">Masukkan berat bahan per porsi dan nilai zat gizi pada setiap 100 g bahan.</p></div>
@@ -4733,23 +4789,14 @@ let accountingReportFolderLoadSequence = 0;
 window.SPAS1_BLIND_XSS_WORKER_URL = '';
 window.SPAS1_TURNSTILE_SITE_KEY = '0x4AAAAAAF3sAYF7x9jLCvP4';
 let volunteerTurnstileWidgetId = null;
-let volunteerTurnstileLoadPromise = null;
+let organizationTurnstileWidgetId = null;
+let turnstileLoadPromise = null;
 
-function initializeVolunteerTurnstile() {
-const container = document.getElementById('volunteerRegistrationTurnstile');
-if (!container || !window.SPAS1_TURNSTILE_SITE_KEY) return Promise.resolve(false);
-if (window.turnstile) {
-if (volunteerTurnstileWidgetId === null) {
-volunteerTurnstileWidgetId = window.turnstile.render(container, {
-sitekey: window.SPAS1_TURNSTILE_SITE_KEY,
-callback: function() {},
-'expired-callback': function() {}
-});
-}
-return Promise.resolve(true);
-}
-if (!volunteerTurnstileLoadPromise) {
-volunteerTurnstileLoadPromise = new Promise(function(resolve, reject) {
+function ensureTurnstileLoaded() {
+if (window.turnstile) return Promise.resolve(true);
+if (!window.SPAS1_TURNSTILE_SITE_KEY) return Promise.resolve(false);
+if (!turnstileLoadPromise) {
+turnstileLoadPromise = new Promise(function(resolve, reject) {
 const script = document.createElement('script');
 script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
 script.async = true;
@@ -4759,7 +4806,7 @@ if (!window.turnstile) {
 reject(new Error('Cloudflare Turnstile tidak dapat dimuat.'));
 return;
 }
-initializeVolunteerTurnstile().then(resolve, reject);
+resolve(true);
 };
 script.onerror = function() {
 reject(new Error('Gagal memuat verifikasi keamanan Cloudflare.'));
@@ -4767,7 +4814,35 @@ reject(new Error('Gagal memuat verifikasi keamanan Cloudflare.'));
 document.head.appendChild(script);
 });
 }
-return volunteerTurnstileLoadPromise;
+return turnstileLoadPromise;
+}
+
+function initializeVolunteerTurnstile() {
+const container = document.getElementById('volunteerRegistrationTurnstile');
+if (!container || !window.SPAS1_TURNSTILE_SITE_KEY) return Promise.resolve(false);
+return ensureTurnstileLoaded().then(function(ready) {
+if (!ready || volunteerTurnstileWidgetId !== null) return ready;
+volunteerTurnstileWidgetId = window.turnstile.render(container, {
+sitekey: window.SPAS1_TURNSTILE_SITE_KEY,
+callback: function() {},
+'expired-callback': function() {}
+});
+return true;
+});
+}
+
+function initializeOrganizationTurnstile() {
+const container = document.getElementById('sppgApplicationTurnstile');
+if (!container || !window.SPAS1_TURNSTILE_SITE_KEY) return Promise.resolve(false);
+return ensureTurnstileLoaded().then(function(ready) {
+if (!ready || organizationTurnstileWidgetId !== null) return ready;
+organizationTurnstileWidgetId = window.turnstile.render(container, {
+sitekey: window.SPAS1_TURNSTILE_SITE_KEY,
+callback: function() {},
+'expired-callback': function() {}
+});
+return true;
+});
 }
 
 function supabaseSelect(table, query) {
@@ -4846,6 +4921,8 @@ const SPAS1_TENANT_SCOPED_TABLES = new Set([
 'spas1_lpj_reports'
 ]);
 
+const SPAS1_LEGACY_SPPG_ID = '00000000-0000-4000-8000-000000000001';
+
 function getSupabaseTenantId() {
 const token = window.SPAS1_SUPABASE_SESSION || '';
 if (!token) return '';
@@ -4856,11 +4933,33 @@ const binary = atob(base64 + '='.repeat((4 - base64.length % 4) % 4));
 const bytes = Uint8Array.from(binary, function(character) { return character.charCodeAt(0); });
 const payload = JSON.parse(new TextDecoder().decode(bytes));
 const tenantId = payload && payload.app_metadata && payload.app_metadata.sppg_id;
-if (!tenantId) return '';
+if (!tenantId) return SPAS1_LEGACY_SPPG_ID;
 if (typeof tenantId !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(tenantId)) {
 throw new Error('Identitas SPPG pada sesi Supabase tidak valid.');
 }
 return tenantId.toLowerCase();
+}
+
+function hasPlatformAdminClaim() {
+if (window.SPAS1_AUTH_ROLE !== 'admin') return false;
+const token = window.SPAS1_SUPABASE_SESSION || '';
+const payloadPart = token.split('.')[1];
+if (!payloadPart) return false;
+try {
+const base64 = payloadPart.replace(/-/g, '+').replace(/_/g, '/');
+const binary = atob(base64 + '='.repeat((4 - base64.length % 4) % 4));
+const bytes = Uint8Array.from(binary, function(character) { return character.charCodeAt(0); });
+const payload = JSON.parse(new TextDecoder().decode(bytes));
+return payload && payload.app_metadata && payload.app_metadata.platform_admin === true;
+} catch (error) {
+console.error('Klaim admin platform tidak dapat dibaca:', error);
+return false;
+}
+}
+
+function updatePlatformAdminControls() {
+const navButton = document.getElementById('nav-tab-organization-requests');
+if (navButton) navButton.classList.toggle('hidden', !hasPlatformAdminClaim());
 }
 
 function applySupabaseTenantScope(table, options) {
@@ -4914,6 +5013,7 @@ window.SPAS1_SUPABASE_SESSION = '';
 window.SPAS1_SUPABASE_REFRESH_TOKEN = '';
 window.SPAS1_AUTH_TOKEN = '';
 window.SPAS1_AUTH_ROLE = '';
+updatePlatformAdminControls();
 }
 
 async function refreshSupabaseSession() {
@@ -5050,14 +5150,36 @@ for (let index = 0; index < binary.length; index++) bytes[index] = binary.charCo
 return new Blob([bytes], { type: match[1].toLowerCase() });
 }
 
+function getSupabaseTenantStorageFolder() {
+const tenantId = getSupabaseTenantId();
+if (!tenantId) throw new Error('Sesi SPPG tidak aktif. Silakan login kembali.');
+return tenantId === SPAS1_LEGACY_SPPG_ID ? 'spas1' : tenantId;
+}
+
+function isSupabaseTenantStoragePath(filePath, relativePrefix) {
+const path = String(filePath || '').replace(/^\/+/, '');
+const prefix = getSupabaseTenantStorageFolder() + '/' + String(relativePrefix || '');
+return path.startsWith(prefix) &&
+path.split('/').every(function(segment) { return segment && segment !== '.' && segment !== '..'; });
+}
+
+function isSupabaseStockReceiptPath(filePath) {
+if (!isSupabaseTenantStoragePath(filePath, 'stok-logistik/')) return false;
+const relativePath = String(filePath).replace(/^\/+/, '').slice(getSupabaseTenantStorageFolder().length + 1);
+return /^stok-logistik\/\d{4}\/\d{2}\/\d{2}-[A-Za-z]+\/[^/]+\.(?:jpeg|png|webp)$/i.test(relativePath);
+}
+
 async function uploadSupabaseMedia(payload) {
+requireSupabaseSession();
 const blob = imageDataUrlToBlob(payload.dataUrl);
 const extension = (blob.type.split('/')[1] || 'jpg').replace(/[^a-z0-9]/gi, '').toLowerCase();
 const folder = String(payload.folder || 'spas1').replace(/\/+$/, '');
 if (!folder.startsWith('spas1/') && folder !== 'spas1' || folder.split('/').some(function(segment) { return !segment || segment === '.' || segment === '..'; })) {
 throw new Error('Folder Supabase Storage tidak valid.');
 }
-const path = folder + '/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + extension;
+const relativeFolder = folder === 'spas1' ? '' : folder.slice('spas1/'.length);
+const storageFolder = getSupabaseTenantStorageFolder() + (relativeFolder ? '/' + relativeFolder : '');
+const path = storageFolder + '/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + extension;
 const response = await supabaseStorageRequest('/storage/v1/object/spas1-media/' + path.split('/').map(encodeURIComponent).join('/'), {
 method: 'POST',
 headers: {
@@ -5073,7 +5195,7 @@ return { path: path, url: url, data: { id: path, fileId: path, url: url } };
 
 async function deleteSupabaseMedia(filePath) {
 const path = String(filePath || '').replace(/^\/+/, '');
-if (!path.startsWith('spas1/') || path.split('/').some(function(segment) { return !segment || segment === '.' || segment === '..'; })) {
+if (!isSupabaseTenantStoragePath(path, '')) {
 throw new Error('Lokasi file Supabase Storage tidak valid.');
 }
 const url = new URL('/storage/v1/object/spas1-media/' + path.split('/').map(encodeURIComponent).join('/'), window.SPAS1_SUPABASE_URL);
@@ -5082,7 +5204,12 @@ await supabaseStorageRequest(url.pathname, { method: 'DELETE' });
 
 function supabasePublicMediaUrl(filePath) {
 const path = String(filePath || '').replace(/^\/+/, '');
-if (!path.startsWith('spas1/') || path.split('/').some(function(segment) { return !segment || segment === '.' || segment === '..'; })) return '';
+const segments = path.split('/');
+const tenantFolder = segments[0];
+const isLegacyFolder = tenantFolder === 'spas1';
+const isTenantFolder = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(tenantFolder);
+if ((!isLegacyFolder && !isTenantFolder) || segments.length < 2 ||
+segments.some(function(segment) { return !segment || segment === '.' || segment === '..'; })) return '';
 return window.SPAS1_SUPABASE_URL + '/storage/v1/object/public/spas1-media/' +
 path.split('/').map(encodeURIComponent).join('/');
 }
@@ -5318,6 +5445,7 @@ switch (action) {
 case 'verifyAdminLogin': {
 const auth = await supabaseLogin(payload.username, payload.password, '@admin.spas1.local');
 window.SPAS1_AUTH_ROLE = 'admin';
+updatePlatformAdminControls();
 return { status: 'success', sessionToken: auth.access_token, role: 'admin', message: 'Login admin berhasil.' };
 }
 case 'verifyModuleLogin': {
@@ -5693,8 +5821,7 @@ item.unit_price == null || item.unit_price === '' || !Number.isSafeInteger(unitP
 receiptNumber.length > 80 || supplier.length > 200 || receiptName.length > 180) {
 throw new Error('Periksa kategori, uraian, tanggal, volume, satuan, dan harga pada transaksi nomor ' + (index + 1) + '.');
 }
-if (receiptPath && (!receiptPath.startsWith('spas1/lpdh/' + date + '/') || receiptPath.length > 500 ||
-receiptPath.split('/').some(function(segment) { return !segment || segment === '.' || segment === '..'; }) ||
+if (receiptPath && (!isSupabaseTenantStoragePath(receiptPath, 'lpdh/' + date + '/') || receiptPath.length > 500 ||
 !allowedReceiptTypes.includes(receiptMime))) {
 throw new Error('Lokasi atau jenis bukti transaksi nomor ' + (index + 1) + ' tidak valid.');
 }
@@ -5934,7 +6061,7 @@ if (!itemId || itemId.length > 40 || !['Masuk', 'Keluar'].includes(type) || !Num
 (type === 'Keluar' && !Number.isFinite(smallQuantity) && smallUnit) ||
 (type === 'Keluar' && quantity + (smallUnit && conversionFactor ? smallQuantity / conversionFactor : 0) <= 0) ||
 !['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'].includes(weekday) || !location || location.length > 300 ||
-!/^spas1\/stok-logistik\/\d{4}\/\d{2}\/\d{2}-[A-Za-z]+\/[^/]+\.(?:jpeg|png|webp)$/i.test(photoPath) ||
+!isSupabaseStockReceiptPath(photoPath) ||
 (price !== null && (!Number.isSafeInteger(price) || price < 0))) {
 throw new Error('Lengkapi jenis, jumlah, hari operasional Senin–Jumat, lokasi, dan foto transaksi yang valid.');
 }
@@ -5964,7 +6091,7 @@ const location = String(purchase.location || '').trim();
 const photoPath = String(purchase.photoPath || '');
 if (!Array.isArray(items) || items.length < 1 || items.length > 100 ||
 !location || location.length > 300 ||
-!/^spas1\/stok-logistik\/\d{4}\/\d{2}\/\d{2}-[A-Za-z]+\/[^/]+\.(?:jpeg|png|webp)$/i.test(photoPath)) {
+!isSupabaseStockReceiptPath(photoPath)) {
 throw new Error('Lengkapi minimal satu bahan, lokasi, dan foto nota yang valid.');
 }
 const normalizedItems = items.map(function(item) {
@@ -6261,6 +6388,12 @@ return await callSupabaseFunction('volunteer-registration', { action: 'list' });
 }
 case 'submitVolunteerRegistration':
 return await callSupabaseFunction('volunteer-registration', Object.assign({ action: 'submit' }, payload));
+case 'submitOrganizationRequest':
+return await callSupabaseFunction('volunteer-registration', Object.assign({ action: 'submitOrganizationRequest' }, payload));
+case 'fetchOrganizationRequests':
+return await callSupabaseFunction('volunteer-registration', { action: 'listOrganizationRequests' });
+case 'reviewOrganizationRequest':
+return await callSupabaseFunction('volunteer-registration', Object.assign({ action: 'reviewOrganizationRequest' }, payload));
 case 'reviewVolunteerRegistration':
 return await callSupabaseFunction('volunteer-registration', Object.assign({ action: 'review' }, payload));
 case 'updateVolunteerRegistration':
@@ -6380,11 +6513,11 @@ return { id: row.ID, role: row.Jabatan, position: row.Jabatan, name: row.Nama, t
 case 'saveAdminAboutData':
 case 'saveAdminAboutDraft': {
 await Promise.all((payload.beneficiaries || []).map(function(row) {
-return supabaseRequest('SPAS1_BENEFICIARIES', { method: 'POST', prefer: 'resolution=merge-duplicates,return=minimal', body: { ID: row.id || 'BEN-' + Date.now(), Kategori: row.category, 'Nama Satuan': row.name, Jumlah: row.count, Catatan: row.notes, Diperbarui: new Date().toISOString() } });
+return supabaseRequest('SPAS1_BENEFICIARIES', { method: 'POST', query: { on_conflict: 'ID' }, prefer: 'resolution=merge-duplicates,return=minimal', body: { ID: row.id || 'BEN-' + Date.now(), Kategori: row.category, 'Nama Satuan': row.name, Jumlah: row.count, Catatan: row.notes, Diperbarui: new Date().toISOString() } });
 }));
 await Promise.all((payload.team || []).map(function(row) {
 if (!String(row.name || '').trim()) return Promise.resolve();
-return supabaseRequest('SPAS1_TEAM', { method: 'POST', prefer: 'resolution=merge-duplicates,return=minimal', body: {
+return supabaseRequest('SPAS1_TEAM', { method: 'POST', query: { on_conflict: 'ID' }, prefer: 'resolution=merge-duplicates,return=minimal', body: {
 ID: row.id || 'TEAM-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
 Jabatan: row.position || row.role || '',
 Nama: row.name || '',
@@ -6429,8 +6562,8 @@ return { status: 'success', data: settings };
 case 'saveSiteSettings':
 {
 const settings = Object.assign({}, payload.settings || payload);
-if ('logoFileId' in settings && (!settings.logoFileId || String(settings.logoFileId).startsWith('spas1/'))) settings.logoUrl = supabasePublicMediaUrl(settings.logoFileId);
-if ('markFileId' in settings && (!settings.markFileId || String(settings.markFileId).startsWith('spas1/'))) settings.markUrl = supabasePublicMediaUrl(settings.markFileId);
+if ('logoFileId' in settings && (!settings.logoFileId || supabasePublicMediaUrl(settings.logoFileId))) settings.logoUrl = supabasePublicMediaUrl(settings.logoFileId);
+if ('markFileId' in settings && (!settings.markFileId || supabasePublicMediaUrl(settings.markFileId))) settings.markUrl = supabasePublicMediaUrl(settings.markFileId);
 for (const key of Object.keys(settings)) {
 await supabaseRequest('SPAS1_SETTINGS', { method: 'POST', query: { on_conflict: 'Pengaturan' }, prefer: 'resolution=merge-duplicates,return=minimal', body: { Pengaturan: key, Nilai: typeof settings[key] === 'string' ? settings[key] : JSON.stringify(settings[key]), Diperbarui: new Date().toISOString() } });
 }
@@ -6759,6 +6892,7 @@ btn.disabled = false;
 if (res && res.status === 'success' && res.sessionToken) {
 window.SPAS1_AUTH_TOKEN = res.sessionToken;
 window.SPAS1_AUTH_ROLE = 'admin';
+updatePlatformAdminControls();
 adminAboutLoaded = false;
 tutupAdminLogin();
 pendingSuperAdminWelcomeMessage = res.message;
@@ -6782,6 +6916,7 @@ if (token) callSupabaseAction('logout', { authToken: token }, function(res) {
 });
 window.SPAS1_AUTH_TOKEN = '';
 window.SPAS1_AUTH_ROLE = '';
+updatePlatformAdminControls();
 volunteerRegistrationPendingCount = null;
 updateVolunteerRegistrationBadge(0);
 adminAboutLoaded = false;
@@ -7000,6 +7135,10 @@ dateInput.value = date;
 switchAdminTab(config.tabId, navButton);
 }
 function switchAdminTab(tabId, btn) {
+if (tabId === 'tab-organization-requests' && !hasPlatformAdminClaim()) {
+alert('Tab permohonan SPPG hanya tersedia untuk admin platform.');
+return;
+}
 document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
 document.querySelectorAll('.sidebar-link').forEach(b => { b.classList.remove('active'); b.style.backgroundColor = ''; b.style.color = ''; });
 document.getElementById(tabId).classList.remove('hidden');
@@ -7008,7 +7147,7 @@ const settingsTab = ['tab-settings', 'tab-about', 'tab-news'].indexOf(tabId) !==
 const settingsToggle = document.getElementById('nav-settings-toggle');
 if (settingsToggle) settingsToggle.classList.toggle('is-current', settingsTab);
 if (settingsTab) toggleAdminSettingsMenu(true);
-const superAksesTab = ['tab-content', 'tab-laporan', 'tab-karyawan', 'tab-registrations'].indexOf(tabId) !== -1;
+const superAksesTab = ['tab-content', 'tab-laporan', 'tab-karyawan', 'tab-registrations', 'tab-organization-requests'].indexOf(tabId) !== -1;
 const superAksesToggle = document.getElementById('nav-super-akses-toggle');
 if (superAksesToggle) superAksesToggle.classList.toggle('is-current', superAksesTab);
 if (superAksesTab) toggleSuperAksesMenu(true);
@@ -7028,6 +7167,7 @@ if (tabId === 'tab-settings') loadAdminSiteSettings();
 if (tabId === 'tab-about') loadAdminAboutData();
 if (tabId === 'tab-content') loadAdminSiteContent();
 if (tabId === 'tab-registrations') loadVolunteerRegistrationRequests();
+if (tabId === 'tab-organization-requests') loadOrganizationRequests();
 if (tabId === 'tab-audit') { initializeStockAuditDate(); loadStockMovements(); }
 if (tabId === 'tab-accounting-folders') loadAccountingReportFolders();
 if (tabId === 'tab-lpdh') {
@@ -7193,6 +7333,105 @@ function formatVolunteerRegistrationDate(value) {
 if (!value) return 'Tidak tersedia';
 const date = new Date(value);
 return Number.isNaN(date.getTime()) ? 'Tidak tersedia' : date.toLocaleString('id-ID');
+}
+function renderOrganizationRequests(requests) {
+const list = document.getElementById('organizationRequestList');
+if (!list) return;
+list.replaceChildren();
+if (!requests.length) {
+const empty = document.createElement('div');
+empty.className = 'light-card rounded-2xl p-4 text-sm text-gray-500';
+empty.textContent = 'Tidak ada permohonan SPPG yang menunggu persetujuan.';
+list.appendChild(empty);
+return;
+}
+requests.forEach(function(item) {
+const card = document.createElement('article');
+card.className = 'light-card rounded-2xl border border-gray-200 p-4 shadow-sm';
+const details = document.createElement('div');
+details.className = 'flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between';
+const info = document.createElement('div');
+info.className = 'min-w-0 space-y-1 text-xs text-gray-600';
+const name = document.createElement('h3');
+name.className = 'text-sm font-bold text-gray-900';
+name.textContent = item.name || 'Tanpa nama';
+const slug = document.createElement('p');
+slug.textContent = 'Alamat SPPG: ' + (item.slug || '-');
+const contact = document.createElement('p');
+contact.textContent = 'Pemohon: ' + (item.contact_name || '-');
+const email = document.createElement('p');
+email.className = 'break-all';
+email.textContent = 'Email admin pertama: ' + (item.contact_email || '-');
+const phone = document.createElement('p');
+phone.textContent = 'Nomor HP: ' + (item.contact_phone || '-');
+const submitted = document.createElement('p');
+submitted.textContent = 'Dikirim: ' + formatVolunteerRegistrationDate(item.created_at);
+info.append(name, slug, contact, email, phone, submitted);
+const controls = document.createElement('div');
+controls.className = 'flex shrink-0 gap-2';
+const approve = document.createElement('button');
+approve.type = 'button';
+approve.className = 'rounded-lg bg-emerald-600 px-3 py-2 text-[11px] font-bold text-white hover:bg-emerald-700';
+approve.textContent = 'Setujui & Undang';
+const reject = document.createElement('button');
+reject.type = 'button';
+reject.className = 'rounded-lg bg-rose-600 px-3 py-2 text-[11px] font-bold text-white hover:bg-rose-700';
+reject.textContent = 'Tolak';
+approve.addEventListener('click', function() { reviewOrganizationRequest(item.id, 'approve', approve, reject); });
+reject.addEventListener('click', function() { reviewOrganizationRequest(item.id, 'reject', approve, reject); });
+controls.append(approve, reject);
+details.append(info, controls);
+card.appendChild(details);
+list.appendChild(card);
+});
+}
+function loadOrganizationRequests(btn) {
+if (!hasPlatformAdminClaim()) {
+alert('Aksi hanya tersedia untuk admin platform.');
+return;
+}
+if (btn) {
+btn.disabled = true;
+btn.dataset.originalLabel = btn.innerHTML;
+btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memuat...';
+}
+callSupabaseAction('fetchOrganizationRequests', {}, function(res) {
+if (btn) {
+btn.disabled = false;
+btn.innerHTML = btn.dataset.originalLabel || '<i class="fa-solid fa-rotate"></i> Muat Ulang';
+}
+if (!res || res.status !== 'success' || !Array.isArray(res.requests)) {
+alert('Gagal memuat permohonan SPPG: ' + (res && res.message ? res.message : 'Respons server tidak valid.'));
+return;
+}
+renderOrganizationRequests(res.requests);
+}, function(error) {
+if (btn) {
+btn.disabled = false;
+btn.innerHTML = btn.dataset.originalLabel || '<i class="fa-solid fa-rotate"></i> Muat Ulang';
+}
+alert('Gagal memuat permohonan SPPG: ' + error.message);
+});
+}
+function reviewOrganizationRequest(requestId, decision, approveButton, rejectButton) {
+const decisionText = decision === 'approve' ? 'menyetujui dan mengundang admin pertama untuk' : 'menolak';
+if (!confirm('Yakin ingin ' + decisionText + ' permohonan SPPG ini?')) return;
+approveButton.disabled = true;
+rejectButton.disabled = true;
+callSupabaseAction('reviewOrganizationRequest', { requestId: requestId, decision: decision }, function(res) {
+if (!res || res.status !== 'success') {
+approveButton.disabled = false;
+rejectButton.disabled = false;
+alert('Keputusan gagal disimpan: ' + (res && res.message ? res.message : 'Respons server tidak valid.'));
+return;
+}
+showToast(res.message || 'Keputusan permohonan SPPG berhasil disimpan.');
+loadOrganizationRequests();
+}, function(error) {
+approveButton.disabled = false;
+rejectButton.disabled = false;
+alert('Keputusan gagal disimpan: ' + error.message);
+});
 }
 function createRegistrationSelect(label, choices, current) {
 const select = document.createElement('select');
@@ -9556,7 +9795,7 @@ throw new Error('Bukti nota harus berupa PDF, JPEG, PNG, atau WebP.');
 }
 if (file.size > 10485760) throw new Error('Ukuran bukti nota maksimal 10 MB.');
 const safeName = (file.name || 'bukti').replace(/[^A-Za-z0-9._-]/g, '_').replace(/^\.+/, '').slice(-100) || 'bukti';
-const path = 'spas1/lpdh/' + date + '/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '-' + safeName;
+const path = getSupabaseTenantStorageFolder() + '/lpdh/' + date + '/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '-' + safeName;
 await supabaseStorageRequest('/storage/v1/object/spas1-lpdh/' + path.split('/').map(encodeURIComponent).join('/'), {
 method: 'POST',
 headers: { 'Content-Type': file.type, 'x-upsert': 'false' },
@@ -9566,7 +9805,7 @@ return { path: path, name: file.name, mime: file.type };
 }
 async function openLpdhReceipt(button) {
 const path = String(button.dataset.receiptPath || '');
-if (!path.startsWith('spas1/lpdh/') || path.split('/').some(function(segment) { return !segment || segment === '.' || segment === '..'; })) {
+if (!isSupabaseTenantStoragePath(path, 'lpdh/')) {
 showToast('❌ Lokasi bukti LPDH tidak valid.');
 return;
 }
@@ -10159,6 +10398,68 @@ button.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Kirim Registrasi';
 message.textContent = 'Gagal mengirim permohonan: ' + err.message;
 message.className = 'rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs leading-5 text-rose-200';
 if (window.turnstile && volunteerTurnstileWidgetId !== null) window.turnstile.reset(volunteerTurnstileWidgetId);
+});
+}
+function openSppgApplication() {
+const overlay = document.getElementById('sppgApplicationOverlay');
+if (!overlay) return;
+overlay.classList.remove('hidden');
+document.body.classList.add('overflow-hidden');
+initializeOrganizationTurnstile().catch(function(error) {
+const message = document.getElementById('sppgApplicationMessage');
+message.textContent = error.message;
+message.className = 'rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs leading-5 text-rose-200';
+});
+document.getElementById('sppgApplicationName').focus();
+}
+function closeSppgApplication() {
+const overlay = document.getElementById('sppgApplicationOverlay');
+if (overlay) overlay.classList.add('hidden');
+document.body.classList.remove('overflow-hidden');
+if (window.turnstile && organizationTurnstileWidgetId !== null) window.turnstile.reset(organizationTurnstileWidgetId);
+}
+function submitSppgApplication() {
+const form = document.getElementById('sppgApplicationForm');
+if (!form.reportValidity()) return;
+const button = document.getElementById('btnSubmitSppgApplication');
+const message = document.getElementById('sppgApplicationMessage');
+const turnstileToken = window.turnstile && organizationTurnstileWidgetId !== null
+? window.turnstile.getResponse(organizationTurnstileWidgetId)
+: '';
+if (!window.SPAS1_TURNSTILE_SITE_KEY || !turnstileToken) {
+message.textContent = 'Selesaikan verifikasi Cloudflare sebelum mengirim pengajuan.';
+message.className = 'rounded-xl border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs leading-5 text-amber-200';
+return;
+}
+button.disabled = true;
+button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Mengirim...';
+message.classList.add('hidden');
+callSupabaseAction('submitOrganizationRequest', {
+name: document.getElementById('sppgApplicationName').value.trim(),
+slug: document.getElementById('sppgApplicationSlug').value.trim().toLowerCase(),
+contactName: document.getElementById('sppgApplicationContactName').value.trim(),
+contactEmail: document.getElementById('sppgApplicationEmail').value.trim(),
+contactPhone: document.getElementById('sppgApplicationPhone').value.trim(),
+turnstileToken: turnstileToken
+}, function(res) {
+button.disabled = false;
+button.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i> Kirim Pengajuan';
+message.textContent = res && res.message ? res.message : 'Pengajuan belum dapat dikirim.';
+message.className = 'rounded-xl border px-3 py-2 text-xs leading-5 ' +
+(res && res.status === 'success'
+? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200'
+: 'border-rose-500/40 bg-rose-500/10 text-rose-200');
+if (res && res.status === 'success') {
+form.reset();
+if (window.turnstile && organizationTurnstileWidgetId !== null) window.turnstile.reset(organizationTurnstileWidgetId);
+showToast('Pengajuan SPPG berhasil dikirim.');
+}
+}, function(error) {
+button.disabled = false;
+button.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i> Kirim Pengajuan';
+message.textContent = 'Gagal mengirim pengajuan: ' + error.message;
+message.className = 'rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs leading-5 text-rose-200';
+if (window.turnstile && organizationTurnstileWidgetId !== null) window.turnstile.reset(organizationTurnstileWidgetId);
 });
 }
 function prosesLoginKaryawan() { const inputNik = document.getElementById('inputNikLogin').value.trim(); const pin = document.getElementById('inputEmployeePin').value; const btn = document.getElementById('btnLoginKaryawan'); if(!inputNik || !pin) { alert('Masukkan ID relawan dan PIN Anda!'); return; } btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Mengecek Database...</span>'; btn.disabled = true; callSupabaseAction('verifyEmployeeLogin', { nik: inputNik, pin: pin }, function(res) { btn.innerHTML = '<span>Verifikasi & Masuk</span> <i class="fa-solid fa-arrow-right"></i>'; btn.disabled = false; if (res.status === 'success' && res.sessionToken) { window.SPAS1_AUTH_TOKEN = res.sessionToken; window.SPAS1_AUTH_ROLE = 'employee'; activeUserData = res; setModuleLoginBackground(false); document.getElementById('userIdDisplay').innerText = 'ID: #' + res.idKaryawan + ' | ' + res.divisi; document.getElementById('userNameDisplay').innerText = res.nama; document.getElementById('userInitial').innerText = res.nama.charAt(0).toUpperCase(); document.getElementById('screen-login-nik').classList.add('hidden'); document.getElementById('screen-menu-absen').classList.remove('hidden'); showToast('Selamat Datang, ' + res.nama); } else { alert(res.message || 'Login gagal.'); } }, function(err) { btn.innerHTML = '<span>Verifikasi & Masuk</span>'; btn.disabled = false; alert('Gagal memverifikasi: ' + err.message); }); }
@@ -13644,6 +13945,7 @@ callSupabaseAction('verifyAdminLogin', { username: user, password: pass }, funct
 if (res && res.status === 'success' && res.sessionToken) {
 window.SPAS1_AUTH_TOKEN = res.sessionToken;
 window.SPAS1_AUTH_ROLE = 'admin';
+updatePlatformAdminControls();
 document.body.classList.remove('home-screen-active');
 setModuleLoginBackground(false);
 alert('✅ ' + res.message);
