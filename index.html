@@ -32,7 +32,7 @@ tanpa izin tertulis dari pemilik hak cipta, kecuali jika diizinkan hukum.
 ::selection { color: #172033; background: #FACC15; }
 ::-moz-selection { color: #172033; background: #FACC15; }
 </style>
-<title>SPAS1 Version 2.1.2 Release App | Aplikasi Operasional MBG SPPG Sungai Pasir 1 Meral</title>
+<title>SPAS1 Version 2.2.2 Hybrid | Aplikasi Operasional MBG SPPG Sungai Pasir 1 Meral</title>
 <link rel="canonical" href="https://spas1.my.id/">
 <link rel="icon" type="image/png" href="assets/spas1-mark.png">
 <link rel="apple-touch-icon" href="assets/spas1-mark.png">
@@ -45,7 +45,7 @@ tanpa izin tertulis dari pemilik hak cipta, kecuali jika diizinkan hukum.
       "@id": "https://spas1.my.id/#website",
       "url": "https://spas1.my.id/",
       "name": "SPAS1",
-      "alternateName": "SPAS1 Version 2.1.2 Release App",
+      "alternateName": "SPAS1 Version 2.2.2 Hybrid",
       "description": "Aplikasi operasional dapur Makan Bergizi Gratis di SPPG Sungai Pasir 1 Meral, Karimun, menggunakan Supabase untuk backend dan Cloudflare Pages untuk publikasi frontend.",
       "inLanguage": "id-ID",
       "publisher": {"@id": "https://spas1.my.id/#organization"}
@@ -60,14 +60,14 @@ tanpa izin tertulis dari pemilik hak cipta, kecuali jika diizinkan hukum.
     {
       "@type": "SoftwareApplication",
       "@id": "https://spas1.my.id/#software",
-      "name": "SPAS1 Version 2.1.2 Release App",
+      "name": "SPAS1 Version 2.2.2 Hybrid",
       "alternateName": "Sistem Administrasi Sungai Pasir 1",
       "url": "https://spas1.my.id/",
       "description": "Aplikasi web untuk mengelola operasional dan distribusi harian MBG. Supabase menyediakan autentikasi, database, dan penyimpanan media; frontend dipublikasikan melalui Cloudflare Pages.",
       "applicationCategory": "BusinessApplication",
       "applicationSubCategory": "Operational management for MBG nutrition programs",
       "operatingSystem": "Web",
-      "softwareVersion": "2.1.2",
+      "softwareVersion": "2.2.2",
       "inLanguage": "id-ID",
       "image": "https://spas1.my.id/assets/spas1-mark.png",
       "featureList": [
@@ -129,7 +129,7 @@ tanpa izin tertulis dari pemilik hak cipta, kecuali jika diizinkan hukum.
 <script src="./lpj.js" defer></script>
 <script src="./super-gizi.js" defer></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 /* ============================================= */
 /* ✅ PERBAIKAN PRINT - HANYA MODUL AKTIF YANG TERCETAK */
@@ -307,7 +307,7 @@ color: #000000 !important;
 }
 }
 * { box-sizing: border-box; }
-body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0B132B; color: #E0E1DD; margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s; overflow-x: hidden; }
+body { font-family: 'Roboto', sans-serif; background-color: #0B132B; color: #E0E1DD; margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s; overflow-x: hidden; }
 .dark-card { background-color: #1C2541; border: 1px solid #3A506B; transition: background-color 0.3s, border-color 0.3s, color 0.3s; }
 .light-card { background-color: #FFFFFF; color: #1F2937; border: 1px solid #E5E7EB; }
 .sidebar-link.active { background-color: #4F46E5; color: white !important; }
@@ -411,6 +411,19 @@ body.app-light-mode #modal-admin-login .dark-card { background-color: #FFFFFF !i
 body.app-light-mode #modal-admin-login h3 { color: #111827 !important; }
 body.app-light-mode #modal-admin-login input { background-color: #F9FAFB !important; color: #111827 !important; border-color: #D1D5DB !important; }
 body.app-light-mode #modal-admin-login .text-gray-400 { color: #6B7280 !important; }
+body.app-light-mode #sppgApplicationOverlay { background-color: rgba(243, 244, 246, 0.42) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+body.app-light-mode #sppgApplicationOverlay > div { background-color: #FFFFFF !important; border-color: #D1D5DB !important; color: #111827 !important; box-shadow: 0 20px 60px rgba(0,0,0,0.1) !important; }
+body.app-light-mode #sppgApplicationOverlay h2,
+body.app-light-mode #sppgApplicationOverlay label { color: #111827 !important; }
+body.app-light-mode #sppgApplicationOverlay p.text-slate-300 { color: #4B5563 !important; }
+body.app-light-mode #sppgApplicationOverlay #sppgApplicationSlugHelp { color: #6B7280 !important; }
+body.app-light-mode #sppgApplicationOverlay input { background-color: #F9FAFB !important; color: #111827 !important; border-color: #D1D5DB !important; }
+body.app-light-mode #sppgApplicationOverlay input::placeholder { color: #6B7280 !important; opacity: 1; }
+body.app-light-mode #sppgApplicationOverlay button.text-slate-300,
+body.app-light-mode #sppgApplicationOverlay button.text-slate-200 { color: #374151 !important; }
+body.app-light-mode #sppgApplicationOverlay button.text-slate-300:hover,
+body.app-light-mode #sppgApplicationOverlay button.text-slate-200:hover { background-color: #F3F4F6 !important; }
+body.app-light-mode #sppgApplicationOverlay #btnSubmitSppgApplication { color: #FFFFFF !important; }
 body.app-light-mode #loginPortal { background-color: rgba(243, 244, 246, 0.42) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 body.app-light-mode #loginPortal .modal-card { background-color: #FFFFFF !important; border-color: #D1D5DB !important; box-shadow: 0 20px 60px rgba(0,0,0,0.1) !important; }
 body.app-light-mode #loginPortal h2 { color: #0F172A !important; }
@@ -957,16 +970,14 @@ body.app-light-mode #btnProjectInfo.home-project-info-button:active {
 .home-about-button-logo { width: 24px; height: 24px; flex: 0 0 24px; border-radius: 50%; object-fit: cover; }
 .home-about-button-mark { border-radius: 4px; object-fit: contain; }
 .home-about-button-emoji { display: inline-flex; width: 22px; height: 22px; flex: 0 0 22px; align-items: center; justify-content: center; font-size: 18px; line-height: 1; }
-@font-face { font-family: "Pixelify Sans"; src: url("assets/fonts/PixelifySans[wght].ttf") format("truetype"); font-style: normal; font-weight: 400 700; font-display: swap; }
 .sponsor-page { width: min(100%, 1100px); min-height: 520px; padding: 28px; border: 0; border-radius: 24px; background: transparent; box-shadow: none; }
 .sponsor-404 { min-height: 430px; display: grid; place-items: center; text-align: center; }
-.sponsor-404-panel { position: relative; width: min(528px, 92%); padding: 40px 32px 38px; border: 1px solid rgba(34, 211, 238, 0.48); border-radius: 4px; background: rgba(15, 23, 42, 0.62); box-shadow: 0 0 28px rgba(34, 211, 238, 0.22), inset 0 0 24px rgba(34, 211, 238, 0.05); font-family: Arial, Helvetica, sans-serif; }
+.sponsor-404-panel { position: relative; width: min(640px, 92%); padding: 40px 32px 38px; border: 1px solid rgba(34, 211, 238, 0.48); border-radius: 4px; background: rgba(15, 23, 42, 0.62); box-shadow: 0 0 28px rgba(34, 211, 238, 0.22), inset 0 0 24px rgba(34, 211, 238, 0.05); font-family: inherit; }
 .sponsor-404-close { position: absolute; top: -18px; right: -18px; width: 36px; height: 36px; border: 1px solid rgba(34, 211, 238, 0.7); border-radius: 50%; background: #020617; color: #22D3EE; display: grid; place-items: center; cursor: pointer; box-shadow: 0 0 14px rgba(34, 211, 238, 0.32); transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease; }
 .sponsor-404-close:hover, .sponsor-404-close:focus-visible { transform: rotate(90deg); background: #22D3EE; color: #020617; outline: none; }
 .sponsor-404-image { display: block; width: 190px; height: 190px; margin: 0 auto 34px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.8)); }
-.sponsor-404-code { margin: 0 0 30px; color: #22D3EE; font-family: "Pixelify Sans", sans-serif; font-size: clamp(42px, 6vw, 72px); font-weight: 700; letter-spacing: 0.1em; line-height: 1; text-shadow: 0 0 12px rgba(34, 211, 238, 0.9), 0 0 28px rgba(34, 211, 238, 0.45); }
-.sponsor-404-status { margin: 0 0 28px; color: #22D3EE; font-family: "Pixelify Sans", sans-serif; font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: 0.12em; line-height: 1.2; text-shadow: 0 0 12px rgba(34, 211, 238, 0.8); }
-.sponsor-404-message { margin: 0; color: #22D3EE; font-size: clamp(15px, 2vw, 18px); line-height: 1.9; text-shadow: 0 0 8px rgba(34, 211, 238, 0.45); }
+.sponsor-404-code { margin: 0 0 30px; color: #22D3EE; font-family: inherit; font-size: 0; font-weight: 700; line-height: 1; text-shadow: 0 0 12px rgba(34, 211, 238, 0.9), 0 0 28px rgba(34, 211, 238, 0.45); }
+.sponsor-404-ascii { display: block; margin: 0; overflow-x: auto; color: inherit; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: clamp(4px, 1.25vw, 9.2px); font-weight: 700; letter-spacing: 0; line-height: 1.2; text-shadow: inherit; white-space: pre; }
 .sponsor-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 42px; }
 .sponsor-nav a { color: #22D3EE; font-size: 20px; font-weight: 800; text-decoration: none; }
 .sponsor-nav-links { display: flex; gap: 24px; font-size: 14px; color: #94A3B8; }
@@ -1806,8 +1817,6 @@ body.app-light-mode #view-admin .site-settings-heading .site-settings-icon { col
   .sponsor-404-close { top: -16px; right: -16px; }
   .sponsor-404-image { width: 160px; height: 160px; margin-bottom: 26px; }
   .sponsor-404-code { margin-bottom: 24px; font-size: clamp(36px, 10vw, 50px); }
-  .sponsor-404-status { margin-bottom: 24px; font-size: clamp(21px, 6vw, 26px); }
-  .sponsor-404-message { font-size: clamp(15px, 4vw, 17px); }
   .about-admin-beneficiary-row { grid-template-columns: 1fr 1fr; }
   .about-admin-beneficiary-row > *:nth-child(4) { grid-column: 1 / -1; }
   .about-admin-table { display: block; min-width: 0; }
@@ -1875,7 +1884,7 @@ body { font-size: 14px; }
 .sl-ai-food-icon { font-size: 36px !important; }
 .sl-ai-orbit-ring { width: 55px !important; height: 55px !important; }
 }
-#spas1-webapp-root { --bg: #030712; --card-bg: #0f172a; --card-inner: #1e293b; --text-main: #f8fafc; --text-muted: #94a3b8; --border: #334155; --emerald: #10b981; --emerald-dark: #064e3b; --emerald-light: #6ee7b7; --amber: #f59e0b; --purple: #a855f7; --sky: #0ea5e9; --rose: #f43f5e; --shadow: 0 4px 14px rgba(0,0,0,0.25); background: var(--bg); color: var(--text-main); min-height: 100vh; padding: 14px; padding-bottom: 70px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; width: 100%; position: relative; }
+#spas1-webapp-root { --bg: #030712; --card-bg: #0f172a; --card-inner: #1e293b; --text-main: #f8fafc; --text-muted: #94a3b8; --border: #334155; --emerald: #10b981; --emerald-dark: #064e3b; --emerald-light: #6ee7b7; --amber: #f59e0b; --purple: #a855f7; --sky: #0ea5e9; --rose: #f43f5e; --shadow: 0 4px 14px rgba(0,0,0,0.25); background: var(--bg); color: var(--text-main); min-height: 100vh; padding: 14px; padding-bottom: 70px; font-family: 'Roboto', sans-serif; box-sizing: border-box; width: 100%; position: relative; }
 #spas1-webapp-root.light-mode { --bg: #f8fafc; --card-bg: #ffffff; --card-inner: #f1f5f9; --text-main: #0f172a; --text-muted: #64748b; --border: #cbd5e1; --emerald: #059669; --emerald-dark: #d1fae5; --emerald-light: #047857; --amber: #d97706; --purple: #7e22ce; --sky: #0284c7; --rose: #e11d48; --shadow: 0 4px 14px rgba(0,0,0,0.06); }
 #spas1-webapp-root.ocean-theme { --bg: #0f172a; --card-bg: #1e293b; --card-inner: #334155; --text-main: #f8fafc; --text-muted: #94a3b8; --border: #475569; --emerald: #0ea5e9; }
 #spas1-webapp-root.royal-theme { --bg: #09090b; --card-bg: #18181b; --card-inner: #27272a; --text-main: #fafafa; --text-muted: #a1a1aa; --border: #3f3f46; --emerald: #a855f7; }
@@ -1928,7 +1937,7 @@ box-shadow: 0 0 16px rgba(16, 185, 129, 0.8), 0 0 32px rgba(16, 185, 129, 0.5), 
 #spas1-webapp-root .btn-danger { background: rgba(244,63,94,0.15); border: 1px solid var(--rose); color: var(--rose); }
 #spas1-webapp-root .btn-danger:hover { background: var(--rose); color: white; }
 #spas1-webapp-root .clock-row { display: flex; justify-content: space-between; align-items: center; background: var(--card-inner); padding: 9px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; margin-top: 12px; border: 1px solid var(--border); }
-#spas1-webapp-root .clock { color: var(--emerald); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 14px; font-weight: bold; }
+#spas1-webapp-root .clock { color: var(--emerald); font-family: inherit; font-size: 14px; font-weight: bold; }
 #spas1-webapp-root .progress-bar-container { width: 100%; height: 12px; background: var(--card-inner); border-radius: 8px; overflow: hidden; margin: 10px 0; border: 1px solid var(--border); box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); }
 #spas1-webapp-root .progress-bar { height: 100%; background: linear-gradient(90deg, #10b981, #34d399, #6ee7b7, #10b981); background-size: 300% 100%; animation: spas1ShimmerProgress 3s infinite linear; width: 0%; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 8px; box-shadow: 0 0 12px rgba(16, 185, 129, 0.5); }
 @keyframes spas1ShimmerProgress { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
@@ -2982,10 +2991,10 @@ gtag('config', 'G-4933FEDV2TW');
 <body class="min-h-screen flex flex-col justify-between home-screen-active">
 <noscript>
   <main>
-    <h1>SPAS1 Version 2.1.2 Release App - Aplikasi Operasional MBG</h1>
+    <h1>SPAS1 Version 2.2.2 Hybrid - Aplikasi Operasional MBG</h1>
     <p>SPAS1 adalah aplikasi web komprehensif yang dirancang dan dikembangkan oleh iamsky (evlskyy) untuk membantu pengelolaan operasional, produksi, dan distribusi harian Makan Bergizi Gratis di SPPG Sungai Pasir 1 Meral, Karimun.</p>
     <p>SPAS1 berada di bawah naungan Yayasan Bidadari Indonesia Gemilang. Instagram pengembang: <a href="https://instagram.com/evlskyy">@evlskyy</a>.</p>
-    <h2>Modul dan fitur SPAS1 Version 2.1.2 Release App</h2>
+    <h2>Modul dan fitur SPAS1 Version 2.2.2 Hybrid</h2>
     <ul>
       <li>Absensi PIN relawan dengan pengelolaan akun dan data kehadiran.</li>
       <li>Bank Menu dan Gizi untuk mengelola paket menu standar MBG.</li>
@@ -3002,7 +3011,7 @@ gtag('config', 'G-4933FEDV2TW');
 <div class="version-welcome-overlay" id="versionWelcomeOverlay" role="dialog" aria-modal="true" aria-labelledby="versionWelcomeTitle" aria-hidden="true" tabindex="-1">
   <div class="version-welcome-card">
     <div class="version-welcome-icon" aria-hidden="true"><img src="assets/spas1-mark.png" alt=""></div>
-    <h2 id="versionWelcomeTitle">SPAS1 Version 2.1.2</h2>
+    <h2 id="versionWelcomeTitle">SPAS1 Version 2.2.2 Hybrid</h2>
     <p>Aplikasi operasional harian dapur Makan Bergizi Gratis untuk SPPG Sungai Pasir 1, Meral, Karimun. Crafted Sky with ❤️</p>
     <div class="version-welcome-actions" aria-label="Tautan aplikasi">
       <a class="version-welcome-link" href="https://spas1.my.id/" target="_blank" rel="noopener noreferrer">
@@ -3036,7 +3045,7 @@ gtag('config', 'G-4933FEDV2TW');
   const overlay = document.getElementById('versionWelcomeOverlay');
   const button = document.getElementById('versionWelcomeButton');
   if (!overlay || !button) return;
-  const welcomeStorageKey = 'spas1-version-welcome-2.1.2-seen';
+  const welcomeStorageKey = 'spas1-version-welcome-2.2.2-hybrid-seen';
 
   function closeVersionWelcome() {
     overlay.classList.remove('show');
@@ -3188,7 +3197,7 @@ gtag('config', 'G-4933FEDV2TW');
 <p id="homeBrandSppg" data-brand-field="sppg" class="text-xs font-semibold text-emerald-400 tracking-wider">SPPG SUNGAI PASIR 1 MERAL, KARIMUN</p>
 <div class="inline-flex items-center gap-2 mt-1 px-3 py-0.5 rounded-full bg-emerald-600/20 border border-emerald-500/40 text-[10px] font-bold">
 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-<span class="text-emerald-300">SPAS1 Version 2.1.2 Release App</span>
+<span class="text-emerald-300">SPAS1 Version 2.2.2 Hybrid</span>
 </div>
 </div>
 </div>
@@ -3315,11 +3324,11 @@ gtag('config', 'G-4933FEDV2TW');
 <div class="project-info-page-inner space-y-4">
 <div class="w-full mb-3 flex justify-start"><button type="button" onclick="kembaliKeHome()" class="btn-kembali-animated px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl text-xs font-semibold flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Kembali ke Menu Utama</button></div>
 <div class="home-project-info-content">
-<div class="home-project-info-heading"><img data-spas1-logo="true" src="assets/spas1-mark.png" alt="Logo SPAS1" class="home-project-info-mark"><h2 id="projectInfoTitle" data-content-key="projectTitle">SPAS1 Version 2.1.2 Release App</h2></div>
-<p id="projectInfoSummary" data-content-key="projectSummary">Aplikasi operasional MBG untuk SPPG Sungai Pasir 1 Meral, Karimun, dengan Supabase sebagai backend dan Cloudflare Pages untuk publikasi frontend.</p>
+<div class="home-project-info-heading"><img data-spas1-logo="true" src="assets/spas1-mark.png" alt="Logo SPAS1" class="home-project-info-mark"><h2 id="projectInfoTitle" data-content-key="projectTitle">SPAS1 Version 2.2.2 Hybrid</h2></div>
+<p id="projectInfoSummary" data-content-key="projectSummary">SPAS1 Hybrid adalah jalur pengembangan terpisah dari SPAS1 v2, dengan frontend Cloudflare Pages serta Supabase untuk autentikasi dan data operasional.</p>
 <section class="home-project-info-section" aria-labelledby="projectOverviewTitle">
 <h3 id="projectOverviewTitle"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Tentang Project</h3>
-<p><strong>SPAS1 Version 2.1.2 Release App</strong> membantu mengelola menu, stok logistik, absensi relawan, persiapan, distribusi, dan informasi SPPG. Alur backend telah bermigrasi dari Apps Script dan Spreadsheet ke Supabase.</p>
+<p><strong>SPAS1 Version 2.2.2 Hybrid</strong> membantu mengelola menu, stok logistik, absensi relawan, persiapan, distribusi, dan informasi SPPG. Project Hybrid dikembangkan terpisah dari SPAS1 v2, dengan frontend Cloudflare Pages serta Supabase untuk autentikasi dan data operasional.</p>
 <p><strong>Supabase</strong> menjadi backend aplikasi untuk autentikasi, PostgreSQL, kebijakan akses, dan penyimpanan media. Tombol Sinkronisasi Database dan Tarik dari Database menggunakan adapter Supabase pada modul yang terhubung, mengikuti sesi login dan kebijakan akses tiap tabel.</p>
 <p><strong>Cloudflare Pages</strong> menyajikan frontend statis. Kode sumber dapat dikelola di GitHub dan diterbitkan melalui integrasi deployment yang dikonfigurasi untuk repository tersebut. Cloudflare Workers hanya digunakan untuk fungsi edge bila memang dikonfigurasi; Worker bukan pengganti database Supabase.</p>
 <ul class="home-project-info-features">
@@ -3328,10 +3337,10 @@ gtag('config', 'G-4933FEDV2TW');
 </ul>
 </section>
 <section class="home-project-info-section" aria-labelledby="projectChangelogTitle">
-<h3 id="projectChangelogTitle"><i class="fa-solid fa-code-branch" aria-hidden="true"></i> <span id="projectUpdateTitle" data-content-key="projectUpdateTitle">Pembaruan Versi 2.1.2 · RELEASE APP</span></h3>
-<p id="projectUpdateSummary" data-content-key="projectUpdateSummary">Rilis ini menyelaraskan identitas versi aplikasi, menyempurnakan tampilan modul dan panduan penggunaan di ponsel, serta memperbarui pengalaman halaman pemeliharaan. Fitur operasional yang sudah tersedia tetap dipertahankan; halaman LIVE DEMO tidak diubah.</p>
+<h3 id="projectChangelogTitle"><i class="fa-solid fa-code-branch" aria-hidden="true"></i> <span id="projectUpdateTitle" data-content-key="projectUpdateTitle">Pembaruan Versi 2.2.2 Hybrid</span></h3>
+<p id="projectUpdateSummary" data-content-key="projectUpdateSummary">Identitas aplikasi diperbarui menjadi SPAS1 Version 2.2.2 Hybrid dan diselaraskan pada Read Info Project, halaman pembuka, halaman pemeliharaan, serta modul operasional. Fitur yang sudah tersedia tetap dipertahankan; Live Demo tidak diubah.</p>
 <ul class="home-project-info-features">
-<li><i class="fa-solid fa-tags" aria-hidden="true"></i><span><strong>Rilis aplikasi 2.1.2:</strong> Versi ini sudah sepenuhnya mendukung untuk Android Aplikasi, untuk iOS belum didukung untuk file IPA,(Alternatif menggunakan Safari Browser).</span></li>
+<li><i class="fa-solid fa-tags" aria-hidden="true"></i><span><strong>SPAS1 Version 2.2.2 Hybrid:</strong> label versi terbaru digunakan secara konsisten pada aplikasi utama dan modul operasional.</span></li>
 <li><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i><span><strong>Panduan yang lebih nyaman di ponsel:</strong> Tutorial Penggunaan Aplikasi diperbarui agar lebih mudah dibaca pada layar kecil dan memuat alur modul serta fitur aplikasi terkini.</span></li>
 <li><i class="fa-solid fa-palette" aria-hidden="true"></i><span><strong>Penyempurnaan tampilan modul:</strong> kartu pada mode terang diselaraskan dan ikon Modul 1 mempertahankan blok biru solid saat diarahkan kursor.</span></li>
 <li><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i><span><strong>Halaman pemeliharaan:</strong> halaman status pemeliharaan Cloudflare menampilkan informasi yang jelas dan tautan WhatsApp untuk menghubungi admin.</span></li>
@@ -3436,8 +3445,9 @@ gtag('config', 'G-4933FEDV2TW');
 <h4 style="margin: 12px 0 6px; color: inherit; font-size: 11px; font-weight: 800;">Supported Versions</h4>
 <p>Update to the latest version!</p>
 <ul class="home-project-versions">
-<li><span>5.1</span><span class="home-project-version-status home-project-version-unsupported">Belum didukung ❌</span></li>
+<li><span>2.2.2 Hybrid</span><span class="home-project-version-status home-project-version-supported">Didukung ✅</span></li>
 <li><span>2.1.2</span><span class="home-project-version-status home-project-version-supported">Didukung ✅</span></li>
+<li><span>2.1.1</span><span class="home-project-version-status home-project-version-unsupported">Tidak lagi didukung ❌</span></li>
 <li><span>2.0</span><span class="home-project-version-status home-project-version-unsupported">Tidak lagi didukung ❌</span></li>
 <li><span>&lt; 1.0</span><span class="home-project-version-status home-project-version-unsupported">Tidak lagi didukung ❌</span></li>
 </ul>
@@ -3454,7 +3464,7 @@ gtag('config', 'G-4933FEDV2TW');
 <div class="w-full mb-3 flex justify-start"><button type="button" onclick="bukaInfoProyek()" class="btn-kembali-animated project-tutorial-back px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl text-xs font-semibold flex items-center gap-2"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke Read Info Project</button></div>
 <article class="home-project-info-content">
 <div class="home-project-info-heading"><img data-spas1-logo="true" src="assets/spas1-mark.png" alt="Logo SPAS1" class="home-project-info-mark"><h2>Tutorial Penggunaan Aplikasi</h2></div>
-<p>Panduan SPAS1 Version 2.1.2 Release App ini dirancang agar nyaman dibaca di ponsel maupun komputer. Menu dan tindakan yang tersedia dapat berbeda sesuai akun, hak akses, koneksi, serta konfigurasi database.</p>
+<p>Panduan SPAS1 Version 2.2.2 Hybrid ini dirancang agar nyaman dibaca di ponsel maupun komputer. Menu dan tindakan yang tersedia dapat berbeda sesuai akun, hak akses, koneksi, serta konfigurasi database.</p>
 <section class="home-project-info-section" aria-labelledby="tutorialStartTitle">
 <h3 id="tutorialStartTitle"><i class="fa-solid fa-circle-play" aria-hidden="true"></i> 1. Mulai menggunakan aplikasi</h3>
 <ol class="project-tutorial-list">
@@ -3549,9 +3559,26 @@ gtag('config', 'G-4933FEDV2TW');
 <div class="sponsor-404-panel">
 <button type="button" class="sponsor-404-close" onclick="kembaliKeHome()" aria-label="Tutup halaman Sponsor" title="Tutup"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
 <img class="sponsor-404-image" src="assets/sponsor-error-404-robot-cyan.png" alt="Ilustrasi robot pixel dari gambar Sponsor">
-<h1 class="sponsor-404-code">ERROR 404</h1>
-<p class="sponsor-404-status">NOT FOUND</p>
-<p class="sponsor-404-message">Halaman Ini Sedang Dalam Pencarian.! 😜</p>
+<h1 class="sponsor-404-code" aria-label="ERROR 404 NOT FOUND"><span class="sponsor-404-ascii" aria-hidden="true">                                                        $$\   $$\  $$$$$$\  $$\   $$\
+                                                        $$ |  $$ |$$$ __$$\ $$ |  $$ |
+ $$$$$$\   $$$$$$\   $$$$$$\   $$$$$$\   $$$$$$\        $$ |  $$ |$$$$\ $$ |$$ |  $$ |
+$$  __$$\ $$  __$$\ $$  __$$\ $$  __$$\ $$  __$$\       $$$$$$$$ |$$\$$\$$ |$$$$$$$$ |
+$$$$$$$$ |$$ |  \__|$$ |  \__|$$ /  $$ |$$ |  \__|      \_____$$ |$$ \$$$$ |\_____$$ |
+$$   ____|$$ |      $$ |      $$ |  $$ |$$ |                  $$ |$$ |\$$$ |      $$ |
+\$$$$$$$\ $$ |      $$ |      \$$$$$$  |$$ |                  $$ |\$$$$$$  /      $$ |
+ \_______|\__|      \__|       \______/ \__|                  \__| \______/       \__|
+
+
+
+                     $$\            $$$$$$\                                     $$\
+                     $$ |          $$  __$$\                                    $$ |
+$$$$$$$\   $$$$$$\ $$$$$$\         $$ /  \__|$$$$$$\  $$\   $$\ $$$$$$$\   $$$$$$$ |
+$$  __$$\ $$  __$$\\_$$  _|        $$$$\    $$  __$$\ $$ |  $$ |$$  __$$\ $$  __$$ |
+$$ |  $$ |$$ /  $$ | $$ |          $$  _|   $$ /  $$ |$$ |  $$ |$$ |  $$ |$$ /  $$ |
+$$ |  $$ |$$ |  $$ | $$ |$$\       $$ |     $$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |
+$$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$$$ |
+\__|  \__| \______/   \____/       \__|      \______/  \______/ \__|  \__| \_______|
+</span></h1>
 </div>
 </div>
 </main>
@@ -3842,7 +3869,7 @@ gtag('config', 'G-4933FEDV2TW');
 <span class="food-orbit-item food-4" title="Buah-buahan">🍇</span>
 <span class="food-orbit-item food-5" title="Susu">🍼</span>
 </div>
-<h2 style="font-size: 18px; font-weight: 900; margin-bottom: 4px; color: var(--text-main);">SPAS1 V2.1.2 RELEASE APP LOGIN</h2>
+<h2 style="font-size: 18px; font-weight: 900; margin-bottom: 4px; color: var(--text-main);">SPAS1 V2.2.2 HYBRID LOGIN</h2>
 <div style="color: var(--text-muted); font-size: 11px; font-weight: 700; margin-bottom: 16px;"><span data-brand-field="sppg">SPPG Sungai Pasir 1 Meral</span> • Karimun</div>
 <div class="form-group" style="text-align: left;"><label class="form-label">Username</label><input class="input-field" id="loginUsername" onkeydown="if(event.key==='Enter') handleLogin()" placeholder="Masukkan Username Brayy..." type="text" /></div>
 <div class="form-group" style="text-align: left;"><label class="form-label">Kata Sandi Portal</label><input class="input-field" id="loginPassword" onkeydown="if(event.key==='Enter') handleLogin()" placeholder="Masukkan Sandi Brayy..." type="password" /></div>
@@ -3859,7 +3886,7 @@ gtag('config', 'G-4933FEDV2TW');
 <button class="btn btn-emerald" onclick="syncToSupabase(event)" style="font-size: 11px; padding: 4px 8px;">🔁 Sinkronisasi Database</button>
 <button class="btn btn-outline" onclick="fetchFromSupabase(event)" style="font-size: 11px; padding: 4px 8px;">📥 Tarik dari Database</button>
 <button class="btn btn-outline" onclick="handleLogout()" style="font-size: 11px; padding: 4px 8px;">🔒Lock Portal</button>
-<button class="btn btn-emerald" onclick="downloadCurrentHtml()">Unduh SPAS1 2.1.2 Release App HTML ➜</button>
+<button class="btn btn-emerald" onclick="downloadCurrentHtml()">Unduh SPAS1 2.2.2 Hybrid HTML ➜</button>
 </div>
 </div>
 <div class="card">
@@ -3869,7 +3896,7 @@ gtag('config', 'G-4933FEDV2TW');
 <div class="logo-badge" id="logoBadgeContainer" onclick="openLogoModal()" title="Klik jika ingin memilih foto logo"><img alt="Logo" id="brandLogoImg" data-brand-logo="true" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJYzPk2Xea4JAccvonUAeQSs-3E69THE8bVeyXD7m-yyTN78e60a09u-TS_v99dJcbPCtfJNJ9vNMPflbA1sx3jSi0T-BYBSP-_vDNefVbO-z2FVazjn6fktuCFRfZhOodqLqQRSaJIZS0dG1xkP3kbD4NmWbMuIvDSDKL3HdBP1XLgjS3aagtRyK88cHu/s1600/image.png" style="display: block;" /></div>
 <div class="module-mark-badge"><img data-spas1-logo="true" src="assets/spas1-mark.png" alt="Logo SPAS1"></div>
 </div>
-<div class="title-box"><h1 data-brand-field="sppg">SPPG SUNGAI PASIR 1 MERAL</h1><div class="sub-title" data-brand-field="foundation">YAYASAN BIDADARI INDONESIA GEMILANG</div><div class="badge badge-emerald" style="margin-top: 3px;">SPAS1 Version 2.1.2 Release App</div></div>
+<div class="title-box"><h1 data-brand-field="sppg">SPPG SUNGAI PASIR 1 MERAL</h1><div class="sub-title" data-brand-field="foundation">YAYASAN BIDADARI INDONESIA GEMILANG</div><div class="badge badge-emerald" style="margin-top: 3px;">SPAS1 Version 2.2.2 Hybrid</div></div>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 6px;"><button class="btn btn-outline" onclick="openLogoModal()">🎨 Ubah Logo</button></div>
 </div>
@@ -4001,7 +4028,7 @@ gtag('config', 'G-4933FEDV2TW');
 <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px;"><button type="button" class="btn btn-outline" onclick="closeAkgDetailModal()">Batal</button><button id="akgEditSaveButton" type="button" class="btn btn-emerald" onclick="saveAkgEditModal()">Simpan Perubahan</button></div>
 </div>
 </div>
-<div class="footer"><div><strong>SPAS1 Version 2.1.2 Release App · Realtime Cloud Edition</strong> - <span data-brand-field="foundation">Yayasan Bidadari Indonesia Gemilang</span></div><div>Sistem Operasional Dapur MBG <span data-brand-field="sppg">SPPG Sungai Pasir 1 Meral</span> • Karimun, Kepulauan Riau</div><div style="margin-top: 6px; opacity: 0.7;">2026©/CraftedSkyy.With ❤️ Using Tailwind CSS + HTML 5 + Javascript</div></div>
+<div class="footer"><div><strong>SPAS1 Version 2.2.2 Hybrid · Realtime Cloud Edition</strong> - <span data-brand-field="foundation">Yayasan Bidadari Indonesia Gemilang</span></div><div>Sistem Operasional Dapur MBG <span data-brand-field="sppg">SPPG Sungai Pasir 1 Meral</span> • Karimun, Kepulauan Riau</div><div style="margin-top: 6px; opacity: 0.7;">2026©/CraftedSkyy.With ❤️ Using Tailwind CSS + HTML 5 + Javascript</div></div>
 </div>
 <div id="menuModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="menuModalTitle" onclick="if(event.target===this) closeMenuModal()">
 <div class="modal-card">
@@ -4488,11 +4515,11 @@ gtag('config', 'G-4933FEDV2TW');
 <label for="contentTeamNote">Keterangan nama/foto personel<textarea id="contentTeamNote" maxlength="500" required></textarea></label>
 </div>
 <div class="light-card admin-news-form p-4 rounded-2xl shadow-sm">
-<h3 class="text-sm font-bold text-gray-900">READ INFO PROJECT · Version 2.1.2 Release App</h3>
+<h3 class="text-sm font-bold text-gray-900">READ INFO PROJECT · Version 2.2.2 Hybrid</h3>
 <label for="contentProjectTitle">Judul proyek<input id="contentProjectTitle" type="text" maxlength="120" required></label>
 <label for="contentProjectSummary">Deskripsi proyek<textarea id="contentProjectSummary" maxlength="1200" required></textarea></label>
 <label for="contentProjectUpdateTitle">Judul pembaruan (label TERUPDATE dapat diubah)<input id="contentProjectUpdateTitle" type="text" maxlength="160" required></label>
-<label for="contentProjectUpdateSummary">Ringkasan pembaruan versi 2.1.2<textarea id="contentProjectUpdateSummary" maxlength="2000" required></textarea></label>
+<label for="contentProjectUpdateSummary">Ringkasan pembaruan versi 2.2.2 Hybrid<textarea id="contentProjectUpdateSummary" maxlength="2000" required></textarea></label>
 </div>
 <div class="light-card p-4 rounded-2xl shadow-sm space-y-3">
 <h3 class="text-sm font-bold text-gray-900">Tautan Media Sosial</h3>
@@ -4838,6 +4865,7 @@ return ensureTurnstileLoaded().then(function(ready) {
 if (!ready || organizationTurnstileWidgetId !== null) return ready;
 organizationTurnstileWidgetId = window.turnstile.render(container, {
 sitekey: window.SPAS1_TURNSTILE_SITE_KEY,
+theme: document.body.classList.contains('app-light-mode') ? 'light' : 'dark',
 callback: function() {},
 'expired-callback': function() {}
 });
@@ -12556,7 +12584,7 @@ backupNode.textContent = JSON.stringify(backup).replace(/</g, '\\u003c');
 html.querySelector('head').appendChild(backupNode);
 const persisted = saveAppDataToCloud();
 const blob = new Blob(['<!DOCTYPE html>\n' + html.outerHTML], { type: 'text/html;charset=utf-8' });
-downloadBlob(blob, 'SPAS1_v2.1.2_Release_App_SPPG_Sungai_Pasir_AutoLock.html');
+downloadBlob(blob, 'SPAS1_v2.2.2_Hybrid_SPPG_Sungai_Pasir_AutoLock.html');
 if (persisted) showToast('✅ HTML berhasil diunduh dengan snapshot data Modul 4.');
 else alert('⚠️ HTML berhasil diunduh dengan snapshot data, tetapi penyimpanan lokal browser gagal.');
 } catch(error) {
@@ -13154,10 +13182,10 @@ beneficiariesTitle: 'Rincian Penerima Manfaat',
 beneficiariesNote: 'Jumlah per sekolah dan Posyandu hanya ditampilkan setelah diisi dan diverifikasi oleh admin.',
 teamTitle: 'Manajemen SPPG Sungai Pasir 1 Meral',
 teamNote: 'Nama dan foto personel hanya ditampilkan jika admin telah menyatakan memperoleh persetujuan publikasi.',
-projectTitle: 'SPAS1 Version 2.1.2 Release App',
-projectSummary: 'Aplikasi operasional MBG untuk SPPG Sungai Pasir 1 Meral, Karimun, dengan Supabase sebagai backend dan Cloudflare Pages untuk publikasi frontend.',
-projectUpdateTitle: 'Pembaruan Versi 2.1.2 · RELEASE APP',
-projectUpdateSummary: 'Rilis ini menyelaraskan identitas versi aplikasi, menyempurnakan tampilan modul dan panduan penggunaan di ponsel, serta memperbarui pengalaman halaman pemeliharaan. Fitur operasional yang sudah tersedia tetap dipertahankan; halaman LIVE DEMO tidak diubah.',
+projectTitle: 'SPAS1 Version 2.2.2 Hybrid',
+projectSummary: 'SPAS1 Hybrid adalah jalur pengembangan terpisah dari SPAS1 v2, dengan frontend Cloudflare Pages serta Supabase untuk autentikasi dan data operasional.',
+projectUpdateTitle: 'Pembaruan Versi 2.2.2 Hybrid',
+projectUpdateSummary: 'Identitas aplikasi diperbarui menjadi SPAS1 Version 2.2.2 Hybrid dan diselaraskan pada Read Info Project, halaman pembuka, halaman pemeliharaan, serta modul operasional. Fitur yang sudah tersedia tetap dipertahankan; Live Demo tidak diubah.',
 whatsappEnabled: true,
 whatsappPhone: '6281378004808',
 socials: [
@@ -13173,9 +13201,10 @@ socials: [
 ]
 };
 const previousProjectContentPatterns = {
-projectTitle: /^SPAS1 Version \d+\.\d+\.\d+$/,
-projectUpdateTitle: /^Pembaruan Versi \d+\.\d+\.\d+ · Kalkulasi Pagu PO, LPDH, LPJ & AKG$/,
-projectUpdateSummary: /^Pembaruan kalkulasi Pagu Anggaran PO, ringkasan LPDH, serapan LPJ, dan perhitungan zat gizi per porsi pada Kalkulator AKG\.$/
+projectTitle: /^SPAS1 Version (?:\d+\.\d+\.\d+|2\.1\.2 Release App)$/,
+projectSummary: /^Aplikasi operasional MBG untuk SPPG Sungai Pasir 1 Meral, Karimun, dengan Supabase sebagai backend dan Cloudflare Pages untuk publikasi frontend\.$/,
+projectUpdateTitle: /^(?:Pembaruan Versi \d+\.\d+\.\d+ · Kalkulasi Pagu PO, LPDH, LPJ & AKG|Pembaruan Versi 2\.1\.2 · RELEASE APP)$/,
+projectUpdateSummary: /^(?:Pembaruan kalkulasi Pagu Anggaran PO, ringkasan LPDH, serapan LPJ, dan perhitungan zat gizi per porsi pada Kalkulator AKG\.|Rilis ini menyelaraskan identitas versi aplikasi, menyempurnakan tampilan modul dan panduan penggunaan di ponsel, serta memperbarui pengalaman halaman pemeliharaan\. Fitur operasional yang sudah tersedia tetap dipertahankan; halaman LIVE DEMO tidak diubah\.)$/
 };
 let currentSiteContent = JSON.parse(JSON.stringify(defaultSiteContent));
 const defaultSocialIcons = new WeakMap();
@@ -13729,7 +13758,7 @@ element.textContent = currentSiteSettings.foundationName;
 document.querySelectorAll('[data-brand-field="sppg"]').forEach(function(element) {
 element.textContent = currentSiteSettings.sppgName;
 });
-document.title = 'SPAS1 Version 2.1.2 Release App - ' + currentSiteSettings.foundationName;
+document.title = 'SPAS1 Version 2.2.2 Hybrid - ' + currentSiteSettings.foundationName;
 const globalLogoUrl = currentSiteSettings.logoUrl || DEFAULT_SITE_LOGO_URL;
 document.querySelectorAll('[data-brand-logo="true"]').forEach(function(image) {
 image.src = globalLogoUrl;
@@ -14137,4 +14166,17 @@ console.log('✅ Modul Sinkronisasi Lengkap (Admin, Bank Menu, Stok, Modul 4) be
 </script>
 <script src="https://xss.spas1.my.id" defer></script>
 </body>
+<!--
+                                          $$\         $$\                 $$\                 $$\       $$\
+                                        $$$$ |        $$ |                $$ |                \__|      $$ |
+ $$$$$$$\  $$$$$$\   $$$$$$\   $$$$$$$\ \_$$ |        $$$$$$$\  $$\   $$\ $$$$$$$\   $$$$$$\  $$\  $$$$$$$ |
+$$  _____|$$  __$$\  \____$$\ $$  _____|  $$ |$$$$$$\ $$  __$$\ $$ |  $$ |$$  __$$\ $$  __$$\ $$ |$$  __$$ |
+\$$$$$$\  $$ /  $$ | $$$$$$$ |\$$$$$$\    $$ |\______|$$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |  \__|$$ |$$ /  $$ |
+ \____$$\ $$ |  $$ |$$  __$$ | \____$$\   $$ |        $$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |      $$ |$$ |  $$ |
+$$$$$$$  |$$$$$$$  |\$$$$$$$ |$$$$$$$  |$$$$$$\       $$ |  $$ |\$$$$$$$ |$$$$$$$  |$$ |      $$ |\$$$$$$$ |
+\_______/ $$  ____/  \_______|\_______/ \______|      \__|  \__| \____$$ |\_______/ \__|      \__| \_______|
+          $$ |                                                  $$\   $$ |
+          $$ |                                                  \$$$$$$  |
+          \__|                                                   \______/
+-->
 </html>
