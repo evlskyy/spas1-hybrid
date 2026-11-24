@@ -3913,7 +3913,6 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <button class="btn btn-emerald" onclick="syncToSupabase(event)" style="font-size: 11px; padding: 4px 8px;">🔁 Sinkronisasi Database</button>
 <button class="btn btn-outline" onclick="fetchFromSupabase(event)" style="font-size: 11px; padding: 4px 8px;">📥 Tarik dari Database</button>
 <button class="btn btn-outline" onclick="handleLogout()" style="font-size: 11px; padding: 4px 8px;">🔒Lock Portal</button>
-<button class="btn btn-emerald" onclick="downloadCurrentHtml()">Unduh SPAS1 2.2.2 Hybrid HTML ➜</button>
 </div>
 </div>
 <div class="card">
@@ -12749,27 +12748,6 @@ window.printBudgetOnly = function() {
   }
 };
 
-window.downloadCurrentHtml = function() {
-try {
-const backup = validateBackupData(getCurrentBackupData());
-const html = document.documentElement.cloneNode(true);
-let backupNode = html.querySelector('#spas1-embedded-backup');
-if (!backupNode) {
-backupNode = document.createElement('script');
-backupNode.id = 'spas1-embedded-backup';
-backupNode.type = 'application/json';
-}
-backupNode.textContent = JSON.stringify(backup).replace(/</g, '\\u003c');
-html.querySelector('head').appendChild(backupNode);
-const persisted = saveAppDataToCloud();
-const blob = new Blob(['<!DOCTYPE html>\n' + html.outerHTML], { type: 'text/html;charset=utf-8' });
-downloadBlob(blob, 'SPAS1_v2.2.2_Hybrid_SPPG_Sungai_Pasir_AutoLock.html');
-if (persisted) showToast('✅ HTML berhasil diunduh dengan snapshot data Modul 4.');
-else alert('⚠️ HTML berhasil diunduh dengan snapshot data, tetapi penyimpanan lokal browser gagal.');
-} catch(error) {
-alert('❌ Gagal mengunduh HTML: ' + error.message);
-}
-};
 function updateClock() { const now = new Date(); const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; const dateEl = document.getElementById('currentDate'); const clockEl = document.getElementById('currentClock'); if (dateEl) dateEl.textContent = now.toLocaleDateString('id-ID', options); if (clockEl) clockEl.textContent = now.toTimeString().split(' ')[0] + ' WIB'; }
 setInterval(updateClock, 1000);
 function saveHaccpCheck() { haccpChecks = { cold: document.getElementById('haccpCold').checked, organo: document.getElementById('haccpOrgano').checked, sanitasi: document.getElementById('haccpSanitasi').checked, label: document.getElementById('haccpLabel').checked }; saveAppDataToCloud(); }
