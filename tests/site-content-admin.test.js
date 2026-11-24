@@ -38,6 +38,9 @@ test('WhatsApp editor appears in Pengaturan, not in a site content tab', functio
   assert.match(settingsSection, /id="siteWhatsappSettingsForm"/);
   assert.match(settingsSection, /id="settingsWhatsappEnabled"/);
   assert.match(settingsSection, /id="settingsWhatsappPhone"/);
+  assert.match(settingsSection, /<label class="admin-checkbox-label[^"]*"><input id="settingsWhatsappEnabled" type="checkbox">/);
+  assert.match(html, /\.admin-news-form label\.admin-checkbox-label \{ display: flex;/);
+  assert.match(html, /\.admin-news-form label\.admin-checkbox-label input\[type="checkbox"\] \{ width: 16px; height: 16px;/);
   assert.doesNotMatch(html, /id="contentWhatsappEnabled"|id="contentWhatsappPhone"/);
 });
 

@@ -1180,6 +1180,8 @@ body.app-light-mode .home-footer-powered a[href*="github.com"]:not([href*="featu
 .admin-news-form { display: grid; gap: 10px; }
 .admin-news-form label { display: grid; gap: 5px; color: #374151; font-size: 11px; font-weight: 700; }
 .admin-news-form input, .admin-news-form select, .admin-news-form textarea { width: 100%; padding: 9px 10px; border: 1px solid #D1D5DB; border-radius: 9px; color: #111827; font: inherit; font-size: 12px; }
+.admin-news-form label.admin-checkbox-label { display: flex; align-items: center; gap: 8px; }
+.admin-news-form label.admin-checkbox-label input[type="checkbox"] { width: 16px; height: 16px; flex: 0 0 16px; margin: 0; padding: 0; border-radius: 4px; accent-color: #4F46E5; }
 .admin-news-form textarea { min-height: 110px; resize: vertical; }
 .admin-about-label { display: grid; gap: 6px; color: #374151; font-size: 11px; font-weight: 700; }
 .admin-about-label input { width: 100%; border: 1px solid #D1D5DB; border-radius: 9px; background: #FFFFFF; padding: 10px; color: #111827; font: inherit; }
@@ -1910,11 +1912,8 @@ body { font-size: 14px; }
 #spas1-webapp-root .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 18px; box-shadow: var(--shadow); width: 100%; }
 #spas1-webapp-root .header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 #spas1-webapp-root .brand { display: flex; align-items: center; gap: 12px; }
-#spas1-webapp-root .logo-badge { width: 60px; height: 60px; border-radius: 14px; background: transparent; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; position: relative; overflow: hidden; transition: transform 0.2s; border: 1px dashed var(--border); color: var(--text-muted); }
-#spas1-webapp-root .logo-badge:hover { transform: scale(1.05); border-color: var(--emerald); }
+#spas1-webapp-root .logo-badge { width: 60px; height: 60px; border-radius: 14px; background: transparent; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; border: 1px solid var(--border); color: var(--text-muted); }
 #spas1-webapp-root .logo-badge img { width: 100%; height: 100%; object-fit: cover; border-radius: 13px; display: block; }
-#spas1-webapp-root .logo-badge::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.6); color: white; display: flex; align-items: center; justify-content: center; font-size: 16px; opacity: 0; transition: opacity 0.2s; z-index: 10; pointer-events: none; }
-#spas1-webapp-root .logo-badge:hover::after { opacity: 1; }
 #spas1-webapp-root .title-box h1 { font-size: 21px; font-weight: 900; letter-spacing: 0.5px; line-height: 1.2; margin: 0; }
 #spas1-webapp-root .sub-title { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
 #spas1-webapp-root .badge { display: inline-block; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; }
@@ -3926,12 +3925,11 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="header">
 <div class="brand">
 <div class="brand-logo-group">
-<div class="logo-badge" id="logoBadgeContainer" onclick="openLogoModal()" title="Klik jika ingin memilih foto logo"><img alt="Logo" id="brandLogoImg" data-brand-logo="true" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJYzPk2Xea4JAccvonUAeQSs-3E69THE8bVeyXD7m-yyTN78e60a09u-TS_v99dJcbPCtfJNJ9vNMPflbA1sx3jSi0T-BYBSP-_vDNefVbO-z2FVazjn6fktuCFRfZhOodqLqQRSaJIZS0dG1xkP3kbD4NmWbMuIvDSDKL3HdBP1XLgjS3aagtRyK88cHu/s1600/image.png" style="display: block;" /></div>
+<div class="logo-badge"><img alt="Logo Yayasan" id="brandLogoImg" data-brand-logo="true" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJYzPk2Xea4JAccvonUAeQSs-3E69THE8bVeyXD7m-yyTN78e60a09u-TS_v99dJcbPCtfJNJ9vNMPflbA1sx3jSi0T-BYBSP-_vDNefVbO-z2FVazjn6fktuCFRfZhOodqLqQRSaJIZS0dG1xkP3kbD4NmWbMuIvDSDKL3HdBP1XLgjS3aagtRyK88cHu/s1600/image.png" style="display: block;" /></div>
 <div class="module-mark-badge"><img data-spas1-logo="true" src="assets/spas1-mark.png" alt="Logo SPAS1"></div>
 </div>
 <div class="title-box"><h1 data-brand-field="sppg">SPPG SUNGAI PASIR 1 MERAL</h1><div class="sub-title" data-brand-field="foundation">YAYASAN BIDADARI INDONESIA GEMILANG</div><div class="badge badge-emerald" style="margin-top: 3px;">SPAS1 Version 2.2.2 Hybrid</div></div>
 </div>
-<div style="display: flex; flex-wrap: wrap; gap: 6px;"><button class="btn btn-outline" onclick="openLogoModal()">🎨 Ubah Logo</button></div>
 </div>
 <div class="clock-row"><span id="currentDate">Sabtu, 24 Oktober 2026</span><span class="clock" id="currentClock">00:00:00 WIB</span></div>
 <div class="nav-tabs-bar" style="margin-top: 12px;">
@@ -4501,7 +4499,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <form id="siteWhatsappSettingsForm" class="light-card admin-news-form p-4 sm:p-5 rounded-2xl shadow-sm space-y-3" onsubmit="event.preventDefault(); saveAdminWhatsappSettings();">
 <div><h3 class="text-sm font-bold text-gray-900">Pengaturan Tombol WhatsApp</h3><p class="mt-1 text-[11px] text-gray-500">Atur tombol WhatsApp mengambang yang tampil pada situs.</p></div>
 <div id="adminWhatsappSettingsMessage" class="hidden rounded-lg border px-3 py-2 text-xs" role="status" aria-live="polite"></div>
-<label class="flex items-start gap-2 text-xs font-semibold text-gray-700"><input id="settingsWhatsappEnabled" type="checkbox"> Tampilkan tombol WhatsApp mengambang</label>
+<label class="admin-checkbox-label text-xs font-semibold text-gray-700"><input id="settingsWhatsappEnabled" type="checkbox"><span>Tampilkan tombol WhatsApp mengambang</span></label>
 <label for="settingsWhatsappPhone" class="admin-about-label">Nomor WhatsApp (kode negara, angka saja; contoh 6281234567890)<input id="settingsWhatsappPhone" type="tel" inputmode="numeric" pattern="[0-9]{8,15}" maxlength="15" required></label>
 <div class="flex justify-end"><button id="siteWhatsappSettingsSubmit" type="submit" disabled class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold disabled:cursor-not-allowed disabled:opacity-50"><i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan WhatsApp</button></div>
 </form>
@@ -4761,7 +4759,6 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <script>
 window.SPAS1_AUTH_TOKEN = '';
 window.SPAS1_AUTH_ROLE = '';
-window.SPAS1_MODULE_LOGO_OVERRIDE = '';
 function initializePasswordVisibilityToggles() {
 document.querySelectorAll('input[type="password"]').forEach(function(input) {
 if (input.dataset.passwordToggleInitialized === 'true' || !input.parentNode) return;
@@ -11297,7 +11294,7 @@ function checkPortalAuth() { const isAuthed = ['admin', 'persiapan'].indexOf(win
 document.addEventListener('visibilitychange', function() { if (document.visibilityState === 'visible') checkPortalAuth(); });
 let currentMainView = 'dashboard'; let pendingTargetView = null; let selectedDay = 'Senin'; let selectedRecipeDay = 'Senin'; let selectedBudgetDay = 'Senin'; let globalTargetPorsi = 2547; let recipeBankMenuLoadPending = false; let menuModalBankSelections = [];
 let porsiBesar = 1277;
-let porsiKecil = 1270; let appLogoBase64 = ''; let haccpChecks = {"cold":false,"organo":false,"sanitasi":false,"label":false}; let akgPosters = [];
+let porsiKecil = 1270; let haccpChecks = {"cold":false,"organo":false,"sanitasi":false,"label":false}; let akgPosters = [];
 const MAX_BUDGET_LIMIT = 20000000;
 let defaultBudgetBackup = null;
 let defaultMenus = { "Senin": { "jamKirim": "07:45 WIB | 08:40 WIB | 10:00 WIB", "menuList": "26 OKTOBER 2026 :\n🍚 Nasi\n🍗 Oseng Ayam Taichan\n🫘 Tahu Goreng\n🥦 Acar Timun & Wortel\n🍊 Jeruk", "recipeDetail": "🍗 STANDAR RESEP & PANDUAN PENGOLAHAN :\n1. NASI :\n- Beras dicuci bersih, steamer kapasitas 24 tray. Split Shift Koki : Ivan, Doni, Dendi, Ega" }, "Selasa": { "jamKirim": "07:45 WIB | 08:40 WIB | 10:00 WIB", "menuList": "SELASA, 27 OKTOBER 2026 :\n🍚 Nasi\n🍗 Ayam Goreng Lengkuas\n🫘 Tempe Bacem\n🥣 Sup Buncis Bakso\n🍌 Pisang", "recipeDetail": "🍗 STANDAR RESEP & PANDUAN PENGOLAHAN:\n1. AYAM GORENG LENGKUAS:\n- Ungkep ayam dengan bumbu halus dan parutan lengkuas kaya rempah hingga meresap.\n- Goreng dalam minyak panas hingga keemasan." }, "Rabu": { "jamKirim": "07:45 WIB | 08:40 WIB | 10:00 WIB", "menuList": "RABU, 28 OKTOBER 2026 :\n🍚 Nasi\n🐟 Ikan Fillet Asam Manis\n🥔 Perkedel Kentang\n🥦 Sayur Bayam Jagung Manis\n🍎 Apel", "recipeDetail": "🐟 STANDAR RESEP & PANDUAN PENGOLAHAN:\n1. IKAN FILLET ASAM MANIS:\n- Goreng fillet ikan tepung, siram dengan saus asam manis nanas dan paprika." }, "Kamis": { "jamKirim": "07:45 WIB | 08:40 WIB | 10:00 WIB", "menuList": "KAMIS, 29 OKTOBER 2026 :\n🍚 Nasi\n🥩 Semur Daging Sapi & Kentang\n🫘 Tahu Goreng Kunyit\n🥦 Tumis Kangkung & Taoge\n🍊 Jeruk", "recipeDetail": "🥩 STANDAR RESEP & PANDUAN PENGOLAHAN:\n1. SEMUR DAGING SAPI:\n- Rebus daging hingga empuk, masak dengan bumbu semur, kecap manis, dan rempah." }, "Jumat": { "jamKirim": "07:45 WIB | 08:40 WIB | 10:00 WIB", "menuList": "JUMAT, 30 OKTOBER 2026 :\n🍚 Nasi\n🍗 Ayam Suwir Bumbu Bali\n🫘 Tempe Goreng Tepung\n🥦 Sup Oyong Soun\n🍌 Pepaya", "recipeDetail": "🍳 STANDAR RESEP & PANDUAN PENGOLAHAN:\n1. AYAM SUWIR BUMBU BALI:\n- Rebus ayam, suwir halus, tumis dengan bumbu Bali merah harum." } };
@@ -11322,10 +11319,8 @@ defaultMenus = {};
 defaultBudget = {};
 defaultTasks = [];
 defaultBudgetBackup = null;
-appLogoBase64 = '';
 haccpChecks = {"cold":false,"organo":false,"sanitasi":false,"label":false};
 akgPosters = [];
-window.SPAS1_MODULE_LOGO_OVERRIDE = '';
 if (typeof renderDayTabs === 'function') renderDayTabs();
 if (typeof renderRecipeView === 'function') renderRecipeView();
 if (typeof renderBudgetTable === 'function') renderBudgetTable();
@@ -11333,7 +11328,7 @@ if (typeof renderAkgPosters === 'function') renderAkgPosters();
 if (typeof renderTasks === 'function') renderTasks();
 }
 function saveAppDataToCloud() {
-const data = { globalTargetPorsi, porsiBesar, porsiKecil, defaultTasks, defaultMenus, defaultBudget, defaultBudgetBackup, appLogoBase64, haccpChecks, akgPosters };
+const data = { globalTargetPorsi, porsiBesar, porsiKecil, defaultTasks, defaultMenus, defaultBudget, defaultBudgetBackup, haccpChecks, akgPosters };
 let key = '';
 try {
 key = module4StorageKey(getSupabaseTenantId());
@@ -11410,10 +11405,6 @@ return;
 if (!saved) return;
 try {
 const stored = JSON.parse(saved);
-if (stored && typeof stored === 'object' && typeof stored.appLogoBase64 === 'string' && stored.appLogoBase64 && !safeImageDataUrl(stored.appLogoBase64)) {
-console.warn('Ignoring an unsupported locally stored logo.');
-stored.appLogoBase64 = '';
-}
 const data = validateBackupData(stored);
 applyBackupData(data);
 } catch(error) {
@@ -11430,15 +11421,6 @@ if (data.defaultMenus) defaultMenus = data.defaultMenus;
 if (data.defaultBudget) defaultBudget = data.defaultBudget;
 if (Object.prototype.hasOwnProperty.call(data, 'defaultBudgetBackup')) defaultBudgetBackup = data.defaultBudgetBackup;
 if (data.akgPosters) akgPosters = data.akgPosters;
-if (data.appLogoBase64 !== undefined) {
-appLogoBase64 = data.appLogoBase64;
-window.SPAS1_MODULE_LOGO_OVERRIDE = appLogoBase64;
-const img = document.getElementById('brandLogoImg');
-if (img) {
-img.src = appLogoBase64 || currentSiteSettings.logoUrl || DEFAULT_SITE_LOGO_URL;
-img.style.display = 'block';
-}
-}
 if (data.haccpChecks) {
 haccpChecks = data.haccpChecks;
 [['cold', 'haccpCold'], ['organo', 'haccpOrgano'], ['sanitasi', 'haccpSanitasi'], ['label', 'haccpLabel']].forEach(function(pair) {
@@ -12460,10 +12442,6 @@ else if (action === 'delete') window.deleteTask(id);
 }
 window.toggleTask = function(id) { const t = defaultTasks.find(x => String(x.id) === String(id)); if (t) { if (t.statusDetail === 'Selesai') { t.statusDetail = 'Belum Dimulai'; t.done = false; } else { t.statusDetail = 'Selesai'; t.done = true; } renderTasks(); persistModule4JoblistChanges('Status tugas berhasil disimpan ke Supabase.'); } };
 window.markAllDone = function() { defaultTasks.forEach(t => { t.statusDetail = 'Selesai'; t.done = true; }); renderTasks(); persistModule4JoblistChanges('Semua tugas berhasil disimpan ke Supabase.'); };
-window.openLogoModal = function() { document.getElementById('logoModal').style.display = 'flex'; };
-window.closeLogoModal = function() { document.getElementById('logoModal').style.display = 'none'; };
-window.saveLogoModal = function() { const fileInput = document.getElementById('logoInputFile'); if (fileInput.files && fileInput.files[0]) { readImageFile(fileInput.files[0], function(image) { appLogoBase64 = image; window.SPAS1_MODULE_LOGO_OVERRIDE = image; const img = document.getElementById('brandLogoImg'); img.src = appLogoBase64; img.style.display = 'block'; closeLogoModal(); saveAppDataToCloud(); }); } else { alert('Pilih file gambar terlebih dahulu.'); } };
-window.resetLogoToDefault = function() { appLogoBase64 = ''; window.SPAS1_MODULE_LOGO_OVERRIDE = ''; const img = document.getElementById('brandLogoImg'); img.src = currentSiteSettings.logoUrl || DEFAULT_SITE_LOGO_URL; img.style.display = 'block'; closeLogoModal(); saveAppDataToCloud(); };
 window.updateTargetPorsiTotal = function() {
 const large = Number(document.getElementById('targetPorsiLargeInput').value) || 0;
 const small = Number(document.getElementById('targetPorsiSmallInput').value) || 0;
@@ -12942,7 +12920,6 @@ defaultTasks: defaultTasks,
 defaultMenus: defaultMenus,
 defaultBudget: defaultBudget,
 defaultBudgetBackup: defaultBudgetBackup,
-appLogoBase64: appLogoBase64,
 haccpChecks: haccpChecks,
 akgPosters: akgPosters.map(function(poster) {
 const backupPoster = {
@@ -13106,11 +13083,6 @@ else {
 const normalizedBackup = validateBackupData({ defaultBudget: data.defaultBudgetBackup });
 result.defaultBudgetBackup = normalizedBackup.defaultBudget;
 }
-}
-if (Object.prototype.hasOwnProperty.call(data, 'appLogoBase64')) {
-const logo = data.appLogoBase64;
-if (logo !== '' && !safeImageDataUrl(logo)) throw new Error('Format logo tidak valid.');
-result.appLogoBase64 = logo;
 }
 if (Object.prototype.hasOwnProperty.call(data, 'haccpChecks')) {
 if (!isRecord(data.haccpChecks) || ['cold', 'organo', 'sanitasi', 'label'].some(key => typeof data.haccpChecks[key] !== 'boolean')) throw new Error('Status pemeriksaan HACCP tidak valid.');
@@ -14410,10 +14382,6 @@ image.src = DEFAULT_SPAS1_MARK_URL;
 });
 applyModuleLoginLogo('mnLoginLogo', 'mn_logo_custom', DEFAULT_SPAS1_MARK_URL);
 applyModuleLoginLogo('slLoginLogo', 'sl_logo_custom', DEFAULT_SPAS1_MARK_URL);
-if (window.SPAS1_MODULE_LOGO_OVERRIDE) {
-const moduleLogo = document.getElementById('brandLogoImg');
-if (moduleLogo) moduleLogo.src = window.SPAS1_MODULE_LOGO_OVERRIDE;
-}
 const preview = document.getElementById('siteLogoPreview');
 if (preview) preview.src = globalLogoUrl;
 }

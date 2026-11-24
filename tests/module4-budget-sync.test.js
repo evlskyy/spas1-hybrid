@@ -4,6 +4,7 @@ const path = require('node:path');
 const test = require('node:test');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const deployedHtml = fs.readFileSync(path.join(__dirname, '..', 'dist', 'index.html'), 'utf8');
 
 test('saving Module 4 budget uses local normalization instead of undefined backup validation', function() {
   assert.match(html, /case 'saveModule4Budget':/);
@@ -19,4 +20,12 @@ test('Module 4 state save can recover from missing replica identity', function()
   assert.match(html, /550001\|cannot update table\|replica identity/);
   assert.match(html, /method: 'DELETE',[\s\S]*?AppKey: 'eq\.app-state'/);
   assert.match(html, /method: 'POST',[\s\S]*?prefer: 'return=minimal'/);
+});
+
+test('Module 4 uses global branding without a logo edit override', function() {
+  for (const appHtml of [html, deployedHtml]) {
+    assert.match(appHtml, /id="brandLogoImg" data-brand-logo="true"/);
+    assert.match(appHtml, /data-spas1-logo="true"/);
+    assert.doesNotMatch(appHtml, /Ubah Logo|openLogoModal|saveLogoModal|resetLogoToDefault|appLogoBase64|SPAS1_MODULE_LOGO_OVERRIDE/);
+  }
 });
