@@ -84,6 +84,20 @@ test('same-origin region proxy returns normalized child regions and rejects mism
   assert.equal(invalidHierarchy.status, 502);
 });
 
+test('same-origin region proxy reports upstream HTTP status without exposing its response body', async function() {
+  const onRequestGet = loadRegionsRoute(async function() {
+    return new Response('upstream details must remain private', { status: 403 });
+  });
+  const response = await onRequestGet({
+    request: new Request('https://spas1-hybrid.pages.dev/api/regions?level=provinces')
+  });
+  assert.equal(response.status, 502);
+  assert.deepEqual(await response.json(), {
+    error: 'Sumber data wilayah sementara tidak tersedia.',
+    upstreamStatus: 403
+  });
+});
+
 test('Edge Function validates and stores regions privately for the SPPG and its request', function() {
   for (const column of [
     'province_code', 'province_name', 'regency_code', 'regency_name', 'district_code', 'district_name'

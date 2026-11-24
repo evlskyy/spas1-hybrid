@@ -78,7 +78,10 @@ export async function onRequestGet({ request }) {
   }
   if (!upstreamResponse.ok) {
     console.error("Wilayah source returned HTTP", upstreamResponse.status);
-    return jsonResponse({ error: "Sumber data wilayah sementara tidak tersedia." }, 502);
+    return jsonResponse({
+      error: "Sumber data wilayah sementara tidak tersedia.",
+      upstreamStatus: upstreamResponse.status
+    }, 502);
   }
 
   let payload;
