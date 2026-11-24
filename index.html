@@ -4536,29 +4536,14 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </form>
 </section>
 <section id="tab-content" class="admin-tab space-y-4 hidden">
-<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Konten dan Tautan Situs</h2><p class="mt-1 text-xs text-gray-500">Ubah teks publik Tentang Kami dan READ INFO PROJECT, tautan sosial, serta tombol WhatsApp. Ikon tiap platform tetap mengikuti desain aplikasi.</p></div>
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Konten dan Tautan Situs</h2><p class="mt-1 text-xs text-gray-500">Kelola rincian penerima manfaat, keterangan struktur/tim, dan tombol WhatsApp. Teks Tentang Kami, READ INFO PROJECT, serta tautan sosial tetap tampil tetapi tidak dapat diubah dari panel ini.</p></div>
 <div id="adminSiteContentMessage" class="hidden rounded-lg border px-3 py-2 text-xs" role="status" aria-live="polite"></div>
 <form id="siteContentForm" class="space-y-4" onsubmit="event.preventDefault(); saveAdminSiteContent();">
 <div class="light-card admin-news-form p-4 rounded-2xl shadow-sm">
-<h3 class="text-sm font-bold text-gray-900">Teks Halaman Tentang Kami</h3>
-<label for="contentAboutTitle">Judul halaman<input id="contentAboutTitle" type="text" maxlength="100" required></label>
-<label for="contentAboutDescription">Deskripsi singkat<textarea id="contentAboutDescription" maxlength="1200" required></textarea></label>
 <label for="contentBeneficiariesTitle">Judul rincian penerima manfaat<input id="contentBeneficiariesTitle" type="text" maxlength="120" required></label>
 <label for="contentBeneficiariesNote">Keterangan rincian<textarea id="contentBeneficiariesNote" maxlength="500" required></textarea></label>
 <label for="contentTeamTitle">Judul struktur/tim<input id="contentTeamTitle" type="text" maxlength="120" required></label>
 <label for="contentTeamNote">Keterangan nama/foto personel<textarea id="contentTeamNote" maxlength="500" required></textarea></label>
-</div>
-<div class="light-card admin-news-form p-4 rounded-2xl shadow-sm">
-<h3 class="text-sm font-bold text-gray-900">READ INFO PROJECT · Version 2.2.2 Hybrid</h3>
-<label for="contentProjectTitle">Judul proyek<input id="contentProjectTitle" type="text" maxlength="120" required></label>
-<label for="contentProjectSummary">Deskripsi proyek<textarea id="contentProjectSummary" maxlength="1200" required></textarea></label>
-<label for="contentProjectUpdateTitle">Judul pembaruan (label TERUPDATE dapat diubah)<input id="contentProjectUpdateTitle" type="text" maxlength="160" required></label>
-<label for="contentProjectUpdateSummary">Ringkasan pembaruan versi 2.2.2 Hybrid<textarea id="contentProjectUpdateSummary" maxlength="2000" required></textarea></label>
-</div>
-<div class="light-card p-4 rounded-2xl shadow-sm space-y-3">
-<h3 class="text-sm font-bold text-gray-900">Tautan Media Sosial</h3>
-<p class="text-[11px] text-gray-500">Ubah label/tautan atau sembunyikan ikon. URL ikon opsional harus HTTPS dan dapat diakses publik.</p>
-<div class="overflow-x-auto rounded-xl border border-gray-200"><table class="w-full min-w-[820px] text-left text-[11px]"><thead class="bg-gray-50 text-gray-600"><tr><th class="p-2">Platform</th><th class="p-2">Label</th><th class="p-2">URL Tautan</th><th class="p-2">URL Ikon</th><th class="p-2">Tampil</th></tr></thead><tbody id="adminSocialLinks"></tbody></table></div>
 </div>
 <div class="light-card p-4 rounded-2xl shadow-sm space-y-3">
 <h3 class="text-sm font-bold text-gray-900">Tombol WhatsApp</h3>
@@ -14053,42 +14038,21 @@ return;
 }
 applySiteContent(res.data);
 const fields = {
-contentAboutTitle: 'aboutTitle',
-contentAboutDescription: 'aboutDescription',
 contentBeneficiariesTitle: 'beneficiariesTitle',
 contentBeneficiariesNote: 'beneficiariesNote',
 contentTeamTitle: 'teamTitle',
-contentTeamNote: 'teamNote',
-contentProjectTitle: 'projectTitle',
-contentProjectSummary: 'projectSummary',
-contentProjectUpdateTitle: 'projectUpdateTitle',
-contentProjectUpdateSummary: 'projectUpdateSummary'
+contentTeamNote: 'teamNote'
 };
 Object.keys(fields).forEach(function(id) {
 document.getElementById(id).value = String(currentSiteContent[fields[id]] || '');
 });
 document.getElementById('contentWhatsappEnabled').checked = currentSiteContent.whatsappEnabled === true;
 document.getElementById('contentWhatsappPhone').value = String(currentSiteContent.whatsappPhone || '');
-renderAdminSocialLinks(currentSiteContent.socials || []);
 adminSiteContentLoaded = true;
 button.disabled = false;
-showAdminSiteContentMessage('Teks dan tautan termuat. Ikon merek platform mengikuti desain aplikasi.', false);
+showAdminSiteContentMessage('Konten publik termuat. Panel ini hanya mengelola rincian, struktur/tim, dan WhatsApp.', false);
 }, function(error) {
 showAdminSiteContentMessage('Konten situs gagal dimuat: ' + error.message, true);
-});
-}
-function renderAdminSocialLinks(items) {
-const tbody = document.getElementById('adminSocialLinks');
-tbody.replaceChildren();
-items.forEach(function(item) {
-const row = document.createElement('tr');
-row.dataset.socialKey = String(item.key || '');
-row.innerHTML = '<td class="p-2 font-semibold">' + escapeHtml(item.label || item.key) + '</td>' +
-'<td class="p-2"><input data-social-field="label" type="text" maxlength="50" value="' + escapeHtml(item.label || '') + '" class="w-full rounded-lg border border-gray-300 p-2 text-[11px]"></td>' +
-'<td class="p-2"><input data-social-field="url" type="text" inputmode="url" maxlength="300" value="' + escapeHtml(item.url || '') + '" placeholder="https://... atau mailto:..." class="w-full rounded-lg border border-gray-300 p-2 text-[11px]"></td>' +
-'<td class="p-2"><input data-social-field="iconUrl" type="url" maxlength="500" value="' + escapeHtml(item.iconUrl || '') + '" placeholder="https://.../icon.png (opsional)" class="w-full rounded-lg border border-gray-300 p-2 text-[11px]"></td>' +
-'<td class="p-2"><input data-social-field="enabled" type="checkbox"' + (item.enabled === true ? ' checked' : '') + ' aria-label="Tampilkan ' + escapeHtml(item.label || item.key) + '"></td>';
-tbody.appendChild(row);
 });
 }
 function saveAdminSiteContent() {
@@ -14098,29 +14062,14 @@ return;
 }
 const button = document.getElementById('siteContentSubmit');
 if (button.disabled) return;
-const payload = {
-aboutTitle: document.getElementById('contentAboutTitle').value.trim(),
-aboutDescription: document.getElementById('contentAboutDescription').value.trim(),
+const payload = Object.assign({}, currentSiteContent, {
 beneficiariesTitle: document.getElementById('contentBeneficiariesTitle').value.trim(),
 beneficiariesNote: document.getElementById('contentBeneficiariesNote').value.trim(),
 teamTitle: document.getElementById('contentTeamTitle').value.trim(),
 teamNote: document.getElementById('contentTeamNote').value.trim(),
-projectTitle: document.getElementById('contentProjectTitle').value.trim(),
-projectSummary: document.getElementById('contentProjectSummary').value.trim(),
-projectUpdateTitle: document.getElementById('contentProjectUpdateTitle').value.trim(),
-projectUpdateSummary: document.getElementById('contentProjectUpdateSummary').value.trim(),
 whatsappEnabled: document.getElementById('contentWhatsappEnabled').checked,
-whatsappPhone: document.getElementById('contentWhatsappPhone').value.trim(),
-socials: Array.from(document.querySelectorAll('#adminSocialLinks tr[data-social-key]')).map(function(row) {
-return {
-key: row.dataset.socialKey,
-label: row.querySelector('[data-social-field="label"]').value.trim(),
-url: row.querySelector('[data-social-field="url"]').value.trim(),
-iconUrl: row.querySelector('[data-social-field="iconUrl"]').value.trim(),
-enabled: row.querySelector('[data-social-field="enabled"]').checked
-};
-})
-};
+whatsappPhone: document.getElementById('contentWhatsappPhone').value.trim()
+});
 button.disabled = true;
 button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
 callSupabaseAction('saveSiteContent', payload, function(res) {
