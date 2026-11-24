@@ -5,7 +5,7 @@ function jsonResponse(body, status, extraHeaders) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
-      "Cache-Control": cacheControl,
+      "Cache-Control": status >= 200 && status < 300 ? cacheControl : "no-store",
       "Content-Type": "application/json; charset=utf-8",
       ...extraHeaders
     }
@@ -66,7 +66,7 @@ export async function onRequestGet({ request }) {
   try {
     upstreamResponse = await fetch(regionRequest.url, {
       headers: { Accept: "application/json" },
-      redirect: "error",
+      redirect: "manual",
       signal: controller.signal
     });
   } catch (error) {

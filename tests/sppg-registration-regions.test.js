@@ -85,16 +85,23 @@ test('same-origin region proxy returns normalized child regions and rejects mism
 });
 
 test('same-origin region proxy reports upstream HTTP status without exposing its response body', async function() {
-  const onRequestGet = loadRegionsRoute(async function() {
-    return new Response('upstream details must remain private', { status: 403 });
+  let fetchOptions;
+  const onRequestGet = loadRegionsRoute(async function(url, options) {
+    fetchOptions = options;
+    return new Response('upstream details must remain private', {
+      status: 302,
+      headers: { Location: 'https://wilayah.id/redirected' }
+    });
   });
   const response = await onRequestGet({
     request: new Request('https://spas1-hybrid.pages.dev/api/regions?level=provinces')
   });
   assert.equal(response.status, 502);
+  assert.equal(fetchOptions.redirect, 'manual');
+  assert.equal(response.headers.get('Cache-Control'), 'no-store');
   assert.deepEqual(await response.json(), {
     error: 'Sumber data wilayah sementara tidak tersedia.',
-    upstreamStatus: 403
+    upstreamStatus: 302
   });
 });
 
