@@ -17,6 +17,10 @@ tanpa izin tertulis dari pemilik hak cipta, kecuali jika diizinkan hukum.
  <meta name="author" content="iamsky (evlskyy)">
  <meta name="robots" content="index, follow">
  <meta name="theme-color" content="#172033">
+ <meta name="mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+ <meta name="apple-mobile-web-app-title" content="SPAS1">
  <meta property="og:type" content="website">
  <meta property="og:locale" content="id_ID">
  <meta property="og:site_name" content="SPAS1">
@@ -33,9 +37,19 @@ tanpa izin tertulis dari pemilik hak cipta, kecuali jika diizinkan hukum.
 ::-moz-selection { color: #172033; background: #FACC15; }
 </style>
 <title>SPAS1 Version 2.2.2 Hybrid | Aplikasi Operasional Multi-SPPG</title>
+<link rel="manifest" href="/manifest.webmanifest">
 <link rel="canonical" href="https://spas1.my.id/">
 <link rel="icon" type="image/png" href="assets/spas1-mark.png">
-<link rel="apple-touch-icon" href="assets/spas1-mark.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/assets/pwa-icon-192.png">
+<script>
+window.addEventListener('load', function() {
+if (!('serviceWorker' in navigator)) return;
+navigator.serviceWorker.register('/service-worker.js', { scope: '/', updateViaCache: 'none' })
+.catch(function(error) {
+console.error('PWA service worker registration failed:', error);
+});
+});
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

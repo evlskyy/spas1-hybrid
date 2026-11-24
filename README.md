@@ -42,6 +42,12 @@ SPAS1 menyatukan alur menu dan gizi, stok logistik, absensi relawan, persiapan, 
 
 Frontend merupakan situs statis yang disajikan melalui Cloudflare Pages. Supabase menyediakan autentikasi, database, penyimpanan, dan Edge Function untuk registrasi relawan. Backend Apps Script dan Spreadsheet versi sebelumnya tidak digunakan.
 
+### PWA dan penggunaan offline
+
+Setelah perubahan PWA dipublikasikan di host HTTPS, pengguna dapat memasang SPAS1 Hybrid dari browser. Di Android, gunakan menu browser **Install app** atau **Add to Home screen**. Di iPhone/iPad, buka menu **Bagikan** di Safari lalu pilih **Add to Home Screen**. PWA ini adalah aplikasi web yang dapat dipasang, bukan APK/IPA native.
+
+Service worker hanya menyimpan halaman informasi offline, manifest, dan ikon. Halaman aplikasi, sesi login, data Supabase, dan API tidak disimpan untuk penggunaan offline; koneksi internet tetap diperlukan untuk membuka modul dan menyinkronkan data.
+
 ## Deployment dan konfigurasi
 
 - Nama project Cloudflare Pages yang direncanakan: `spas1-hybrid`.
