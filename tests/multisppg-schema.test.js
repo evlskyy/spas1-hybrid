@@ -10,6 +10,7 @@ const stockMigration = fs.readFileSync(path.join(root, 'supabase_migration.sql')
 const stockConversionMigration = fs.readFileSync(path.join(root, 'supabase_stock_conversion_migration.sql'), 'utf8');
 const volunteerFunction = fs.readFileSync(path.join(root, 'supabase/functions/volunteer-registration/index.ts'), 'utf8');
 const emptyTenantMigration = fs.readFileSync(path.join(root, 'supabase/tenant_empty_defaults_migration.sql'), 'utf8');
+const onboardingPermissionsMigration = fs.readFileSync(path.join(root, 'supabase/sppg_onboarding_permissions_migration.sql'), 'utf8');
 
 function quotedNames(source) {
   return Array.from(source.matchAll(/'([^']+)'/g), function(match) { return match[1]; });
@@ -92,7 +93,7 @@ test('volunteer Edge Function authorizes and scopes service-role actions by acti
   assert.doesNotMatch(volunteerFunction, /legacySppgId/);
 });
 
-test('new SPPG registrations activate the organization and invite its first admin automatically', function() {
+test('SPPG invite and recovery links open the password setup form', function() {
   assert.match(volunteerFunction, /submitOrganizationRequest[\s\S]*?reviewOrganizationRequest\([\s\S]*?decision: "approve"[\s\S]*?null,/);
   assert.match(volunteerFunction, /inviteUserByEmail\(/);
   assert.match(volunteerFunction, /member_role: "admin",\s+status: "active"/);
@@ -100,7 +101,23 @@ test('new SPPG registrations activate the organization and invite its first admi
   assert.match(html, /SPPG akan langsung diaktifkan setelah verifikasi/);
   assert.match(html, /Pilih SPPG tempat Anda bertugas/);
   assert.match(html, /sppgId: document\.getElementById\('registrationSppgId'\)\.value/);
-  assert.match(html, /function initializeInvitePasswordSetup\(\)[\s\S]*?type'\) !== 'invite'[\s\S]*?function saveInvitePassword\(\)[\s\S]*?\/auth\/v1\/user/);
+  assert.match(html, /const isInvite = type === 'invite';\s+const isRecovery = type === 'recovery';/);
+  assert.match(html, /function initializeInvitePasswordSetup\(\)[\s\S]*?if \(!isInvite && !isRecovery && !linkError\) return;[\s\S]*?function saveInvitePassword\(\)[\s\S]*?\/auth\/v1\/user/);
+  assert.match(html, /passwordSetupType === 'recovery'/);
+});
+
+test('SPPG onboarding grants database access only to the server role', function() {
+  for (const table of [
+    'spas1_organizations',
+    'spas1_memberships',
+    'spas1_organization_requests',
+    'spas1_organization_regions'
+  ]) {
+    assert.match(onboardingPermissionsMigration, new RegExp(
+      'grant select, insert, update, delete on public\\.' + table + ' to service_role;', 'i'
+    ));
+  }
+  assert.doesNotMatch(onboardingPermissionsMigration, /to\s+(?:public|anon|authenticated)\b/i);
 });
 
 test('new tenant starts empty and local module data is isolated by authenticated SPPG', function() {

@@ -10691,14 +10691,29 @@ throw error;
 }
 function initializeInvitePasswordSetup() {
 const invitation = new URLSearchParams(window.location.hash.replace(/^#/, ''));
-if (invitation.get('type') !== 'invite') return;
+const type = invitation.get('type');
+const isInvite = type === 'invite';
+const isRecovery = type === 'recovery';
+const linkError = invitation.get('error_description') || invitation.get('error_code');
+if (!isInvite && !isRecovery && !linkError) return;
 const accessToken = invitation.get('access_token') || '';
 const refreshToken = invitation.get('refresh_token') || '';
 const overlay = document.getElementById('invitePasswordOverlay');
 const form = document.getElementById('invitePasswordForm');
 const message = document.getElementById('invitePasswordMessage');
+const title = document.getElementById('invitePasswordTitle');
+const description = overlay.querySelector('p');
+if (isRecovery) {
+title.textContent = 'Atur Ulang Password Admin';
+description.textContent = 'Tautan pemulihan terverifikasi. Buat password baru untuk akun admin.';
+} else if (linkError) {
+title.textContent = 'Tautan Email Tidak Valid';
+description.textContent = 'Tautan sudah kedaluwarsa atau pernah digunakan. Minta email baru.';
+}
 if (!accessToken) {
-message.textContent = 'Tautan undangan tidak valid atau sudah kedaluwarsa. Minta admin platform mengirim ulang undangan.';
+message.textContent = linkError
+? 'Tautan email tidak valid atau sudah kedaluwarsa. Minta email pemulihan baru.'
+: 'Tautan undangan tidak valid atau sudah kedaluwarsa. Minta admin platform mengirim ulang undangan.';
 message.className = 'mt-4 rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs leading-5 text-rose-200';
 form.classList.add('hidden');
 } else {
@@ -10706,6 +10721,7 @@ window.SPAS1_SUPABASE_SESSION = accessToken;
 window.SPAS1_SUPABASE_REFRESH_TOKEN = refreshToken;
 window.SPAS1_AUTH_TOKEN = accessToken;
 window.SPAS1_AUTH_ROLE = 'admin';
+window.SPAS1_PASSWORD_SETUP_TYPE = type;
 window.SPAS1_RELOAD_TENANT_LOCAL_STATE();
 }
 overlay.classList.remove('hidden');
@@ -10748,8 +10764,12 @@ if (!response.ok) throw new Error(result.msg || result.message || 'Password belu
 document.getElementById('adminUser').value = result.email || '';
 document.getElementById('invitePasswordOverlay').classList.add('hidden');
 clearSupabaseSession();
+const passwordSetupType = window.SPAS1_PASSWORD_SETUP_TYPE;
+window.SPAS1_PASSWORD_SETUP_TYPE = '';
 form.reset();
-showToast('Password admin berhasil dibuat. Silakan masuk dengan email undangan.');
+showToast(passwordSetupType === 'recovery'
+? 'Password admin berhasil diperbarui. Silakan masuk kembali.'
+: 'Password admin berhasil dibuat. Silakan masuk dengan email undangan.');
 tampilkanAdminLogin();
 } catch(error) {
 message.textContent = error.message;

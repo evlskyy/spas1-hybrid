@@ -61,6 +61,9 @@ using (user_id = auth.uid());
 grant select on public.spas1_organizations to anon, authenticated;
 grant select on public.spas1_memberships to authenticated;
 revoke all on public.spas1_organization_requests from public, anon, authenticated;
+grant select, insert, update, delete on public.spas1_organizations to service_role;
+grant select, insert, update, delete on public.spas1_memberships to service_role;
+grant select, insert, update, delete on public.spas1_organization_requests to service_role;
 
 create or replace function public.spas1_current_sppg_id()
 returns uuid
