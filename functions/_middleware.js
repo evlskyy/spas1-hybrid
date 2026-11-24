@@ -7,8 +7,8 @@ const contentSecurityPolicy = [
   "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://challenges.cloudflare.com https://xss.spas1.my.id",
   "style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://fonts.googleapis.com",
   "font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com",
-  "img-src 'self' data: blob: https://ysvxtbupzhubxkbvtzmo.supabase.co https://blogger.googleusercontent.com https://edge-cdn.trakteer.id https://www.google-analytics.com https://stats.g.doubleclick.net",
-  "connect-src 'self' https://ysvxtbupzhubxkbvtzmo.supabase.co https://challenges.cloudflare.com https://xss.spas1.my.id https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net",
+  "img-src 'self' data: blob: https://kgmmbjcpztioelowwdra.supabase.co https://blogger.googleusercontent.com https://edge-cdn.trakteer.id https://www.google-analytics.com https://stats.g.doubleclick.net",
+  "connect-src 'self' https://kgmmbjcpztioelowwdra.supabase.co https://challenges.cloudflare.com https://xss.spas1.my.id https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net",
   "frame-src 'self' https://challenges.cloudflare.com",
   "upgrade-insecure-requests"
 ].join("; ");
@@ -41,7 +41,9 @@ const maintenanceAssets = new Set([
 function isSpas1Hostname(hostname) {
   return hostname === "spas1.my.id" ||
     hostname === "spas1.pages.dev" ||
-    hostname.endsWith(".spas1.pages.dev");
+    hostname.endsWith(".spas1.pages.dev") ||
+    hostname === "spas1-hybrid.pages.dev" ||
+    hostname.endsWith(".spas1-hybrid.pages.dev");
 }
 
 function addSecurityHeaders(response) {

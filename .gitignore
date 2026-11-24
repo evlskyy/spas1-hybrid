@@ -5,6 +5,7 @@
 .wrangler/
 node_modules/
 supabase/.temp/
+/supabase/base-schema-review.sql
 *.dump
 *.backup
 *.sql.gz

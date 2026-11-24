@@ -82,7 +82,7 @@ test('AboutSky archive uses Supabase without Apps Script CSP access', async func
 
   async function getPolicy(pathname) {
     const response = await context.onRequest({
-      request: new Request('https://spas1.my.id' + pathname),
+      request: new Request('https://spas1-hybrid.pages.dev' + pathname),
       env: { MAINTENANCE_MODE: 'false' },
       next: async () => new Response('ok')
     });
@@ -91,7 +91,7 @@ test('AboutSky archive uses Supabase without Apps Script CSP access', async func
 
   const aboutPolicy = await getPolicy('/aboutsky.html');
   const appPolicy = await getPolicy('/index.html');
-  assert.ok(aboutPolicy.includes('https://ysvxtbupzhubxkbvtzmo.supabase.co'));
+  assert.ok(aboutPolicy.includes('https://kgmmbjcpztioelowwdra.supabase.co'));
   assert.ok(!aboutPolicy.includes('https://script.google.com'));
   assert.ok(!aboutPolicy.includes('https://script.googleusercontent.com'));
   assert.ok(!appPolicy.includes('https://script.google.com'));
@@ -194,7 +194,7 @@ test('archive rendering treats file metadata as text and rejects external links'
   const context = {
     URL,
     document,
-    ABOUTSKY_SUPABASE_URL: 'https://ysvxtbupzhubxkbvtzmo.supabase.co'
+    ABOUTSKY_SUPABASE_URL: 'https://kgmmbjcpztioelowwdra.supabase.co'
   };
   vm.runInNewContext(source, context);
   context.renderArchive({
@@ -213,8 +213,8 @@ test('archive rendering treats file metadata as text and rejects external links'
         type: 'pdf',
         desc: 'Private file',
         size: '2 KB',
-        link: 'https://ysvxtbupzhubxkbvtzmo.supabase.co/storage/v1/object/sign/archive?token=abc',
-        downloadLink: 'https://ysvxtbupzhubxkbvtzmo.supabase.co/storage/v1/object/sign/archive?token=def&download=true'
+        link: 'https://kgmmbjcpztioelowwdra.supabase.co/storage/v1/object/sign/archive?token=abc',
+        downloadLink: 'https://kgmmbjcpztioelowwdra.supabase.co/storage/v1/object/sign/archive?token=def&download=true'
       }
     ]
   });
@@ -231,7 +231,7 @@ test('archive rendering treats file metadata as text and rejects external links'
   assert.ok(!descendants.some((element) => ['img', 'script', 'svg'].includes(element.tagName)));
   const links = descendants.filter((element) => element.tagName === 'a');
   assert.equal(links.length, 2);
-  assert.ok(links.every((link) => link.href.startsWith('https://ysvxtbupzhubxkbvtzmo.supabase.co/')));
+  assert.ok(links.every((link) => link.href.startsWith('https://kgmmbjcpztioelowwdra.supabase.co/')));
 });
 
 test('archive importer accepts only supported file types and the Storage size limit', function() {

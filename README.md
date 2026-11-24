@@ -55,8 +55,11 @@ Frontend merupakan situs statis yang disajikan melalui Cloudflare Pages. Supabas
 
 - Draf isolasi tenant ada di `supabase_multisppg_migration.sql`. Fungsi stok pada `supabase_migration.sql` bergantung pada helper yang dibuat oleh migrasi tersebut, jadi kedua migrasi harus dirilis sebagai satu perubahan terkoordinasi setelah semua tes dan backend siap.
 - `supabase_stock_conversion_migration.sql` juga memerlukan helper tenant tersebut; jangan jalankan sendiri pada database lama.
-- Migrasi database dan Edge Function belum dijalankan/deploy ke Supabase produksi. Fitur multi-SPPG dan deployment publik belum siap; jangan hubungkan domain baru atau jalankan SQL dulu.
-- Project Cloudflare sebelumnya dibuat sebagai Worker dan build-nya gagal. Buat project **Pages** terpisah sebelum deployment; repo dan domain lama tetap dipertahankan.
+- `supabase/staging_schema_baseline.sql` adalah snapshot skema `public` tanpa baris data, disiapkan untuk project uji `SPAS1-Hybrid` yang masih kosong. Jangan jalankan file ini pada `SPAS1-Database` atau project produksi.
+- Bootstrap staging `SPAS1-Hybrid` sudah selesai: baseline, migrasi tenant, operasional, stok, dan AboutSky telah diterapkan; tiga Edge Functions juga telah dideploy. `supabase/staging_verify.sql` memeriksa tabel tenant, RLS, helper, dan bucket secara read-only.
+- Konfigurasi frontend staging kini menunjuk ke project baru. Turnstile, konfigurasi Auth, dan uji end-to-end masih harus diselesaikan sebelum mengalihkan domain produksi. Project Supabase lama dan domain `spas1.my.id` tidak diubah.
+- Untuk uji staging, urutannya: baseline, `supabase_multisppg_migration.sql`, `supabase_migration.sql`, `supabase_stock_conversion_migration.sql`, lalu `supabase/aboutsky_migration.sql`. Jangan jalankan `supabase_bank_menu_sppg_import.sql` sebagai bagian bootstrap karena file tersebut mengimpor data.
+- Gunakan `spas1-hybrid.pages.dev` untuk deployment dan uji staging. Set `MAINTENANCE_MODE=false` pada environment Cloudflare Pages ketika siap diuji. Jangan alihkan domain produksi sebelum semua pengujian staging lulus.
 
 ### AboutSky
 
