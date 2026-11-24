@@ -98,7 +98,8 @@ test('SPPG invite and recovery links open the password setup form', function() {
   assert.match(volunteerFunction, /inviteUserByEmail\(/);
   assert.match(volunteerFunction, /member_role: "admin",\s+status: "active"/);
   assert.match(volunteerFunction, /SPPG berhasil diaktifkan/);
-  assert.match(html, /SPPG akan langsung diaktifkan setelah verifikasi/);
+  assert.match(html, /SPPG langsung disiapkan setelah formulir dikirim/);
+  assert.match(html, /Akun Admin SPPG masih menunggu verifikasi email dan pembuatan password/);
   assert.match(html, /Pilih SPPG tempat Anda bertugas/);
   assert.match(html, /sppgId: document\.getElementById\('registrationSppgId'\)\.value/);
   assert.match(html, /const isInvite = type === 'invite';\s+const isRecovery = type === 'recovery';/);

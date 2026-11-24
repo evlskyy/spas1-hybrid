@@ -3297,7 +3297,7 @@ gtag('config', 'G-4933FEDV2TW');
   <div id="sppgApplicationOverlay" class="fixed inset-0 z-[120] hidden overflow-y-auto bg-slate-950/80 p-4" role="dialog" aria-modal="true" aria-labelledby="sppgApplicationTitle">
   <div class="mx-auto my-6 w-full max-w-xl rounded-2xl border border-slate-700 bg-slate-900 p-5 text-white shadow-2xl sm:p-7">
   <div class="flex items-start justify-between gap-4">
-  <div><h2 id="sppgApplicationTitle" class="text-xl font-black">Daftarkan SPPG</h2><p class="mt-1 text-xs leading-5 text-slate-300">SPPG akan langsung diaktifkan setelah verifikasi. Undangan untuk membuat password admin dikirim ke email pemohon.</p></div>
+  <div><h2 id="sppgApplicationTitle" class="text-xl font-black">Daftarkan SPPG</h2><p class="mt-1 text-xs leading-5 text-slate-300">SPPG langsung disiapkan setelah formulir dikirim. Akun Admin dapat digunakan setelah pemohon membuka tautan undangan dan membuat password.</p></div>
   <button type="button" onclick="closeSppgApplication()" class="rounded-lg p-2 text-slate-300 hover:bg-slate-800" aria-label="Tutup formulir"><i class="fa-solid fa-xmark"></i></button>
   </div>
   <form id="sppgApplicationForm" class="mt-5 space-y-3" onsubmit="event.preventDefault(); submitSppgApplication();">
@@ -10825,16 +10825,19 @@ turnstileToken: turnstileToken
 }, function(res) {
 button.disabled = false;
 button.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i> Buat SPPG &amp; Kirim Undangan';
-message.textContent = res && res.message ? res.message : 'Pendaftaran SPPG belum dapat diproses.';
+const submitted = res && res.status === 'success';
+message.textContent = submitted
+? 'Permohonan diterima. SPPG sudah disiapkan. Akun Admin SPPG masih menunggu verifikasi email dan pembuatan password. Cek Inbox atau Spam email pemohon.'
+: res && res.message ? res.message : 'Pendaftaran SPPG belum dapat diproses.';
 message.className = 'rounded-xl border px-3 py-2 text-xs leading-5 ' +
-(res && res.status === 'success'
+(submitted
 ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200'
 : 'border-rose-500/40 bg-rose-500/10 text-rose-200');
-if (res && res.status === 'success') {
+if (submitted) {
 form.reset();
 resetSppgRegionSelections();
 if (window.turnstile && organizationTurnstileWidgetId !== null) window.turnstile.reset(organizationTurnstileWidgetId);
-showToast('SPPG berhasil diaktifkan.');
+showToast('Pendaftaran diterima. Cek email untuk mengaktifkan akun Admin.');
 }
 }, function(error) {
 button.disabled = false;
