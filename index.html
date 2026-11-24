@@ -3386,7 +3386,7 @@ gtag('config', 'G-4933FEDV2TW');
 <li><i class="fa-solid fa-gauge-high" aria-hidden="true"></i><span><strong>Penyempurnaan proses login:</strong> autentikasi menggunakan Supabase Auth; kecepatan login dapat dipengaruhi koneksi internet dan waktu respons layanan.</span></li>
 <li><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i><span><strong>Penyempurnaan lintas perangkat:</strong> panel info, form admin, dan navigasi dibuat responsif agar tetap nyaman digunakan di layar desktop maupun ponsel.</span></li>
 <li><i class="fa-solid fa-heart" aria-hidden="true"></i><span><strong>Identitas dan dukungan:</strong> tombol Trakteer ditambahkan pada halaman utama dan READ INFO PROJECT.</span></li>
-<li><i class="fa-solid fa-layer-group" aria-hidden="true"></i><span><strong>Menu SUPER AKSES dan Akuntan:</strong> Konten &amp; Tautan Situs, Laporan, Relawan, dan Registrasi dikelompokkan di SUPER AKSES. Menu Akuntan memiliki submenu Audit &amp; Riwayat Transaksi Stok, Stok &amp; Nota, Folder LPDH &amp; LPJ, LPDH Harian, dan LPJ.</span></li>
+<li><i class="fa-solid fa-layer-group" aria-hidden="true"></i><span><strong>Menu SUPER AKSES dan Akuntan:</strong> Laporan, Relawan, dan Registrasi dikelompokkan di SUPER AKSES. Menu Akuntan memiliki submenu Audit &amp; Riwayat Transaksi Stok, Stok &amp; Nota, Folder LPDH &amp; LPJ, LPDH Harian, dan LPJ.</span></li>
 <li><i class="fa-solid fa-apple-whole" aria-hidden="true"></i><span><strong>SUPER GIZI — Kalkulator AKG:</strong> hitung otomatis zat gizi per porsi dari gramasi dan data per 100 g yang dimasukkan. Ringkasan visual menampilkan donat kontribusi energi, kartu makronutrien, batang capaian target, dan tiga kontribusi tertinggi. Data tersimpan di browser perangkat ini, serta dapat diekspor ke CSV atau dicetak.</span></li>
 <li><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i><span><strong>Audit dan pencatatan stok:</strong> admin dapat meninjau riwayat stok masuk/keluar dan mengelola Stok &amp; Nota untuk pencatatan pembelian, penggunaan, bukti foto timemark, serta lokasi.</span></li>
 <li><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i><span><strong>LPDH Harian:</strong> pencatatan porsi penerima manfaat, belanja pangan beserta bukti nota, biaya operasional dapur, saldo awal/akhir dan top-up kas. Tersedia ekspor Excel, CSV, PDF, cetak, serta kolom tanda tangan visual Kepala SPPG dan Akuntan.</span></li>
@@ -3421,7 +3421,7 @@ gtag('config', 'G-4933FEDV2TW');
 <li><strong>Frontend</strong>HTML, Tailwind CSS, dan JavaScript (single-page application).</li>
 <li><strong>Backend dan autentikasi</strong>Supabase Auth dan REST API.</li>
 <li><strong>Database dan Penyimpanan Media</strong>Supabase PostgreSQL dengan Row Level Security (RLS) serta Supabase Storage untuk file media aplikasi.</li>
-<li><strong>Keamanan</strong>Serverless Blind XSS digunakan sebagai komponen pendukung pemantauan keamanan aplikasi web.</li>
+<li><strong>Keamanan</strong>RLS membatasi data operasional berdasarkan keanggotaan SPPG aktif. Kunci service_role disimpan di sisi server dan tidak disertakan pada frontend.</li>
 </ul>
 </section>
 <section class="home-project-info-section" aria-labelledby="projectModulesTitle">
@@ -3554,8 +3554,8 @@ gtag('config', 'G-4933FEDV2TW');
 <h3 id="tutorialAdminTitle"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> 6. SUPER ADMIN dan SUPER AKSES ( HAK AKSES TERBATAS )</h3>
 <ol class="project-tutorial-list">
 <li>Dari halaman utama pilih <strong>SUPER ADMIN</strong>, masukkan kredensial admin, lalu tekan tombol login. Pada login pertama di browser, layar <strong>Welcome to SUPER SPAS1</strong> menampilkan pertanyaan sambutan; jawabannya hanya hiburan dan tidak mengubah hak akses. Setelah masuk, menu admin muncul di sidebar. Tekan <strong>Logout Admin</strong> setelah selesai.</li>
-<li><strong>Pengaturan</strong> memuat pengelolaan identitas aplikasi, Tentang Kami, dan Info SPPG. Simpan perubahan dengan tombol aksi pada halaman terkait.</li>
-<li>Grup <strong>SUPER AKSES</strong> pada sidebar berisi <strong>Konten &amp; Tautan Situs</strong>, <strong>Laporan</strong>, <strong>Relawan</strong>, dan <strong>Registrasi</strong>. Gunakan Konten &amp; Tautan Situs untuk mengubah teks Tentang Kami/Read Info Project, tautan media sosial, dan tombol WhatsApp, lalu simpan perubahan. Laporan menyediakan sinkronisasi/ekspor data absensi; Relawan untuk mengelola akun; Registrasi untuk meninjau dan menyetujui atau menolak permohonan.</li>
+<li><strong>Pengaturan</strong> memuat identitas aplikasi dan pengaturan tombol WhatsApp. Tentang Kami dan Info SPPG tersedia melalui submenu terkait. Simpan perubahan dengan tombol aksi pada halaman masing-masing.</li>
+<li>Grup <strong>SUPER AKSES</strong> pada sidebar berisi <strong>Laporan</strong>, <strong>Relawan</strong>, dan <strong>Registrasi</strong>. Laporan menyediakan sinkronisasi/ekspor data absensi; Relawan untuk mengelola akun; Registrasi untuk meninjau dan menyetujui atau menolak permohonan.</li>
 <li><strong>SUPER GIZI → Kalkulator AKG:</strong> isi nama/kategori bahan, berat bahan dalam satu porsi, serta data gizi per 100 g dari sumber yang sudah diverifikasi. Kalkulator memperbarui donat energi, kartu makronutrien, batang capaian target, dan tiga kontribusi tertinggi secara otomatis. Isi target AKG yang sesuai penerima; target energi awal 2.150 kkal hanya ilustrasi dari contoh. Data tersimpan lokal di browser yang sama, dapat diekspor sebagai CSV atau dicetak.</li>
 <li>Perubahan hanya dapat dilakukan sesuai hak admin. Periksa kembali data sebelum menyimpan atau memublikasikan, terutama nama/foto personel dan informasi yang dilihat publik.</li>
 </ol>
@@ -4204,9 +4204,9 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <i class="fa-solid fa-shield-halved w-5"></i><span>SUPER AKSES</span><i id="superAksesChevron" class="fa-solid fa-chevron-down ml-auto text-[10px] transition-transform"></i>
 </button>
 <div id="superAksesSubnav" class="admin-settings-subnav hidden" aria-label="Menu SUPER AKSES">
-<button id="nav-tab-content" onclick="switchAdminTab('tab-content', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-link w-5"></i> <span>Konten &amp; Tautan Situs</span></button>
 <button id="nav-tab-laporan" onclick="switchAdminTab('tab-laporan', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-clipboard-user w-5"></i> <span>Laporan</span></button>
 <button id="nav-tab-karyawan" onclick="switchAdminTab('tab-karyawan', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-users-gear w-5"></i> <span>Relawan</span></button>
+<button id="nav-tab-module-access" onclick="switchAdminTab('tab-module-access', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-key w-5"></i> <span>Akun &amp; Akses Modul</span></button>
 <button id="nav-tab-registrations" onclick="switchAdminTab('tab-registrations', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-user-clock w-5"></i> <span>Registrasi</span><span id="volunteerRegistrationBadge" class="hidden min-w-5 rounded-full bg-rose-600 px-1.5 py-0.5 text-center text-[10px] font-black leading-4 text-white" aria-label="Permohonan menunggu">0</span></button>
 <button id="nav-tab-organization-requests" class="hidden sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap" onclick="switchAdminTab('tab-organization-requests', this)"><i class="fa-solid fa-building-circle-check w-5"></i><span>Permohonan SPPG</span></button>
 </div>
@@ -4498,6 +4498,13 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </div>
 <div><button id="siteSettingsSubmit" type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold"><i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan</button></div>
 </form>
+<form id="siteWhatsappSettingsForm" class="light-card admin-news-form p-4 sm:p-5 rounded-2xl shadow-sm space-y-3" onsubmit="event.preventDefault(); saveAdminWhatsappSettings();">
+<div><h3 class="text-sm font-bold text-gray-900">Pengaturan Tombol WhatsApp</h3><p class="mt-1 text-[11px] text-gray-500">Atur tombol WhatsApp mengambang yang tampil pada situs.</p></div>
+<div id="adminWhatsappSettingsMessage" class="hidden rounded-lg border px-3 py-2 text-xs" role="status" aria-live="polite"></div>
+<label class="flex items-start gap-2 text-xs font-semibold text-gray-700"><input id="settingsWhatsappEnabled" type="checkbox"> Tampilkan tombol WhatsApp mengambang</label>
+<label for="settingsWhatsappPhone" class="admin-about-label">Nomor WhatsApp (kode negara, angka saja; contoh 6281234567890)<input id="settingsWhatsappPhone" type="tel" inputmode="numeric" pattern="[0-9]{8,15}" maxlength="15" required></label>
+<div class="flex justify-end"><button id="siteWhatsappSettingsSubmit" type="submit" disabled class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold disabled:cursor-not-allowed disabled:opacity-50"><i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan WhatsApp</button></div>
+</form>
 </section>
 <section id="tab-about" class="admin-tab space-y-4 hidden">
 <div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Pengelolaan Tentang Kami</h2><p class="mt-1 text-xs text-gray-500">Atur statistik penerima manfaat, rincian sekolah/Posyandu, struktur jabatan, tugas, nama, dan foto personel.</p></div>
@@ -4523,39 +4530,6 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </div>
 </div>
 <div class="flex flex-wrap justify-end gap-2"><button id="adminAboutDraftSubmit" type="button" data-about-action="draft" onclick="saveAdminAboutDraft()" disabled class="px-4 py-2.5 bg-slate-600 hover:bg-slate-700 text-white rounded-lg text-xs font-bold disabled:cursor-not-allowed disabled:opacity-50"><i class="fa-solid fa-floppy-disk"></i> Simpan Draf</button><button id="adminAboutSubmit" type="button" data-about-action="publish" onclick="saveAdminAboutData()" disabled class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold disabled:cursor-not-allowed disabled:opacity-50"><i class="fa-solid fa-paper-plane"></i> Terbitkan</button></div>
-</form>
-</section>
-<section id="tab-content" class="admin-tab space-y-4 hidden">
-<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Konten dan Tautan Situs</h2><p class="mt-1 text-xs text-gray-500">Kelola teks Tentang Kami, READ INFO PROJECT, tautan sosial, rincian penerima manfaat, struktur/tim, dan tombol WhatsApp.</p></div>
-<div id="adminSiteContentMessage" class="hidden rounded-lg border px-3 py-2 text-xs" role="status" aria-live="polite"></div>
-<form id="siteContentForm" class="space-y-4" onsubmit="event.preventDefault(); saveAdminSiteContent();">
-<div class="light-card admin-news-form p-4 rounded-2xl shadow-sm">
-<h3 class="text-sm font-bold text-gray-900">Teks Halaman Tentang Kami</h3>
-<label for="contentAboutTitle">Judul halaman<input id="contentAboutTitle" type="text" maxlength="100" required></label>
-<label for="contentAboutDescription">Deskripsi singkat<textarea id="contentAboutDescription" maxlength="1200" required></textarea></label>
-<label for="contentBeneficiariesTitle">Judul rincian penerima manfaat<input id="contentBeneficiariesTitle" type="text" maxlength="120" required></label>
-<label for="contentBeneficiariesNote">Keterangan rincian<textarea id="contentBeneficiariesNote" maxlength="500" required></textarea></label>
-<label for="contentTeamTitle">Judul struktur/tim<input id="contentTeamTitle" type="text" maxlength="120" required></label>
-<label for="contentTeamNote">Keterangan nama/foto personel<textarea id="contentTeamNote" maxlength="500" required></textarea></label>
-</div>
-<div class="light-card admin-news-form p-4 rounded-2xl shadow-sm">
-<h3 class="text-sm font-bold text-gray-900">READ INFO PROJECT · Version 2.2.2 Hybrid</h3>
-<label for="contentProjectTitle">Judul proyek<input id="contentProjectTitle" type="text" maxlength="120" required></label>
-<label for="contentProjectSummary">Deskripsi proyek<textarea id="contentProjectSummary" maxlength="1200" required></textarea></label>
-<label for="contentProjectUpdateTitle">Judul pembaruan (label TERUPDATE dapat diubah)<input id="contentProjectUpdateTitle" type="text" maxlength="160" required></label>
-<label for="contentProjectUpdateSummary">Ringkasan pembaruan versi 2.2.2 Hybrid<textarea id="contentProjectUpdateSummary" maxlength="2000" required></textarea></label>
-</div>
-<div class="light-card p-4 rounded-2xl shadow-sm space-y-3">
-<h3 class="text-sm font-bold text-gray-900">Tautan Media Sosial</h3>
-<p class="text-[11px] text-gray-500">Ubah label/tautan atau sembunyikan ikon. URL ikon opsional harus HTTPS dan dapat diakses publik.</p>
-<div class="overflow-x-auto rounded-xl border border-gray-200"><table class="w-full min-w-[820px] text-left text-[11px]"><thead class="bg-gray-50 text-gray-600"><tr><th class="p-2">Platform</th><th class="p-2">Label</th><th class="p-2">URL Tautan</th><th class="p-2">URL Ikon</th><th class="p-2">Tampil</th></tr></thead><tbody id="adminSocialLinks"></tbody></table></div>
-</div>
-<div class="light-card p-4 rounded-2xl shadow-sm space-y-3">
-<h3 class="text-sm font-bold text-gray-900">Tombol WhatsApp</h3>
-<label class="flex items-start gap-2 text-xs font-semibold text-gray-700"><input id="contentWhatsappEnabled" type="checkbox"> Tampilkan tombol WhatsApp mengambang</label>
-<label for="contentWhatsappPhone" class="admin-about-label">Nomor WhatsApp (kode negara, angka saja; contoh 6281234567890)<input id="contentWhatsappPhone" type="tel" inputmode="numeric" pattern="[0-9]{8,15}" maxlength="15" required></label>
-</div>
-<div class="flex justify-end"><button id="siteContentSubmit" type="submit" disabled class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold disabled:cursor-not-allowed disabled:opacity-50"><i class="fa-solid fa-floppy-disk"></i> Simpan Konten Situs</button></div>
 </form>
 </section>
 <section id="tab-laporan" class="admin-tab space-y-4 hidden">
@@ -4590,6 +4564,49 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <table class="w-full text-left text-xs whitespace-nowrap min-w-[650px]" id="tableKaryawan">
 <thead class="bg-gray-50 uppercase font-bold border-b text-gray-600"><tr><th class="p-3">ID Relawan</th><th class="p-3">Nama Lengkap</th><th class="p-3">Role</th><th class="p-3">Divisi</th><th class="p-3">Status Biometrik</th><th class="p-3">Status Akun</th><th class="p-3 print:hidden">Aksi</th></tr></thead>
 <tbody id="tbodyDataKaryawan" class="divide-y divide-gray-100"></tbody>
+</table>
+</div>
+</section>
+<section id="tab-module-access" class="admin-tab space-y-4 hidden">
+<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Akun &amp; Akses Modul</h2><p class="mt-1 text-xs text-gray-500">Buat akun login individual untuk relawan, lalu pilih modul yang boleh dibuka oleh akun tersebut.</p></div>
+<button type="button" onclick="loadModuleAccountsAdmin(this)" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold flex items-center gap-2 shadow"><i class="fa-solid fa-rotate"></i> Muat Ulang</button>
+</div>
+<div class="rounded-xl border border-amber-300 bg-amber-50 p-3 text-xs text-amber-900"><strong>Keamanan password:</strong> password hanya dikirim saat dibuat atau direset dan diproses oleh Supabase Auth. Password tidak ditampilkan kembali atau disimpan sebagai teks biasa. Nonaktifkan juga akun relawan di tab Relawan untuk mencabut akses terkait.</div>
+<div class="light-card rounded-2xl p-4 shadow-sm">
+<form id="moduleAccountForm" class="space-y-4" onsubmit="saveModuleAccountAdmin(event)">
+<input id="moduleAccountEditing" type="hidden" value="false">
+<div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+<label class="text-xs font-semibold">Relawan
+<select id="moduleAccountEmployee" required class="mt-1 w-full rounded-lg border border-gray-300 p-2.5 text-sm"><option value="">Pilih relawan</option></select>
+</label>
+<label class="text-xs font-semibold">Username akun modul
+<div class="mt-1 flex items-center"><input id="moduleAccountUsername" required maxlength="48" pattern="[A-Za-z0-9._-]{3,48}" autocomplete="off" class="w-full rounded-l-lg border border-gray-300 p-2.5 text-sm" placeholder="contoh: nama.staf"><span class="rounded-r-lg border border-l-0 border-gray-300 bg-gray-50 px-2.5 py-2.5 text-[11px] text-gray-500">@module.spas1.local</span></div>
+</label>
+<label class="text-xs font-semibold sm:col-span-2">Password awal / password baru
+<input id="moduleAccountPassword" type="password" required minlength="8" maxlength="128" autocomplete="new-password" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5 text-sm" placeholder="Minimal 8 karakter; kosongkan saat mengubah akses saja">
+</label>
+</div>
+<fieldset class="rounded-lg border border-gray-200 p-3">
+<legend class="px-1 text-xs font-bold text-gray-700">Modul yang boleh diakses</legend>
+<div class="grid grid-cols-1 gap-2 sm:grid-cols-3">
+<label class="flex items-center gap-2 text-xs"><input type="checkbox" name="moduleAccountPermission" value="stok"> Modul Stok</label>
+<label class="flex items-center gap-2 text-xs"><input type="checkbox" name="moduleAccountPermission" value="bank_menu"> Modul Bank Menu</label>
+<label class="flex items-center gap-2 text-xs"><input type="checkbox" name="moduleAccountPermission" value="persiapan"> Persiapan &amp; Distribusi</label>
+</div>
+</fieldset>
+<label class="flex items-center gap-2 text-xs font-semibold"><input id="moduleAccountActive" type="checkbox" checked> Akun aktif</label>
+<div class="flex flex-wrap gap-2">
+<button id="moduleAccountSaveButton" type="submit" class="rounded-lg bg-indigo-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-indigo-700">Buat akun modul</button>
+<button type="button" onclick="resetModuleAccountForm()" class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-bold text-gray-700 hover:bg-gray-50">Bersihkan</button>
+<span id="moduleAccountFormMessage" class="self-center text-xs text-gray-500" aria-live="polite"></span>
+</div>
+</form>
+</div>
+<div class="light-card overflow-x-auto rounded-2xl p-3 shadow-sm sm:p-4">
+<table class="w-full min-w-[720px] text-left text-xs">
+<thead class="border-b bg-gray-50 font-bold uppercase text-gray-600"><tr><th class="p-3">Relawan</th><th class="p-3">Username</th><th class="p-3">Akses</th><th class="p-3">Status</th><th class="p-3">Aksi</th></tr></thead>
+<tbody id="moduleAccountRows" class="divide-y divide-gray-100"><tr><td colspan="5" class="p-4 text-center text-gray-500">Buka tab ini untuk memuat akun modul.</td></tr></tbody>
 </table>
 </div>
 </section>
@@ -5417,7 +5434,7 @@ let fileId = String(item.fileId || '');
 let imageUrl = String(item.imageUrl || '');
 const legacyImage = safeImageDataUrl(item.image);
 if (!fileId && legacyImage) {
-const uploaded = await uploadSupabaseMedia({ dataUrl: legacyImage });
+const uploaded = await uploadSupabaseMedia({ dataUrl: legacyImage, folder: 'spas1/persiapan' });
 fileId = uploaded.data.fileId;
 imageUrl = uploaded.url;
 }
@@ -5448,6 +5465,9 @@ return normalized;
 
 async function saveOperationalState(payload, replaceAkgPosters) {
 requireSupabaseSession();
+if (['admin', 'persiapan'].indexOf(window.SPAS1_AUTH_ROLE) === -1) {
+throw new Error('Akses Persiapan/Distribusi atau SUPER ADMIN diperlukan untuk menyimpan data modul ini.');
+}
 const timestamp = new Date().toISOString();
 const state = {
 globalTargetPorsi: Number(payload.globalTargetPorsi) || 0,
@@ -5502,9 +5522,17 @@ updatePlatformAdminControls();
 return { status: 'success', sessionToken: auth.access_token, role: 'admin', message: 'Login admin berhasil.' };
 }
 case 'verifyModuleLogin': {
+const module = String(payload.module || '');
+if (['stok', 'bank_menu', 'persiapan'].indexOf(module) === -1) throw new Error('Modul yang diminta tidak valid.');
 const auth = await supabaseLogin(payload.username, payload.password, '@module.spas1.local');
-window.SPAS1_AUTH_ROLE = payload.module || 'module';
-return { status: 'success', sessionToken: auth.access_token, module: payload.module, role: payload.module || 'module' };
+try {
+await callSupabaseFunction('module-account-admin', { action: 'verifyLogin', module: module });
+} catch (error) {
+clearSupabaseSession();
+throw error;
+}
+window.SPAS1_AUTH_ROLE = module;
+return { status: 'success', sessionToken: auth.access_token, module: module, role: module };
 }
 case 'verifySyncPassword':
 case 'verifyEmployeeLogin': {
@@ -5512,6 +5540,21 @@ const domain = action === 'verifyEmployeeLogin' ? '@relawan.spas1.local' : paylo
 const identity = payload.nik || payload.username || payload.user;
 const password = payload.pin || payload.password;
 const auth = await supabaseLogin(identity, password, domain);
+if (action === 'verifySyncPassword') {
+const requestedModule = String(payload.module || '');
+const verificationModule = requestedModule === 'admin' ? 'stok' : requestedModule;
+if (['stok', 'bank_menu', 'persiapan'].indexOf(verificationModule) === -1) {
+clearSupabaseSession();
+throw new Error('Modul yang diminta tidak valid.');
+}
+try {
+await callSupabaseFunction('module-account-admin', { action: 'verifyLogin', module: verificationModule });
+} catch (error) {
+clearSupabaseSession();
+throw error;
+}
+window.SPAS1_AUTH_ROLE = requestedModule;
+}
 if (action === 'verifyEmployeeLogin') {
 const rows = await supabaseRequest('MODUL1_DataRelawan', { query: { select: '"ID Relawan","Nama Lengkap",Divisi,Role,"Status Akun","Auth User ID"', '"ID Relawan"': 'eq.' + identity, '"Auth User ID"': 'eq.' + auth.user.id, limit: '1' } });
 const employee = rows[0];
@@ -5749,7 +5792,7 @@ return { status: 'success', data: rows };
 }
 case 'fetchStockMovements': {
 requireSupabaseSession();
-if (window.SPAS1_AUTH_ROLE !== 'admin') throw new Error('Audit transaksi stok hanya dapat dibuka oleh SUPER ADMIN.');
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Audit transaksi stok hanya dapat dibuka oleh Modul Stok atau SUPER ADMIN.');
 const date = String(payload.date || '');
 if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error('Tanggal audit tidak valid.');
 const canonicalDate = new Date(date + 'T00:00:00Z');
@@ -6028,7 +6071,7 @@ return { status: 'success', data: rows };
 }
 case 'fetchDailyPurchaseFolder': {
 requireSupabaseSession();
-if (window.SPAS1_AUTH_ROLE !== 'admin') throw new Error('Folder laporan belanja harian hanya dapat dibuka oleh SUPER ADMIN.');
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Folder laporan belanja harian hanya dapat dibuka oleh SUPER ADMIN atau staf Modul Stok.');
 const date = String(payload.date || '');
 if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error('Tanggal folder belanja tidak valid.');
 const canonicalDate = new Date(date + 'T00:00:00Z');
@@ -6092,7 +6135,7 @@ return { status: 'success', movements: movements, usage: usage };
 }
 case 'recordStockMovement': {
 requireSupabaseSession();
-if (window.SPAS1_AUTH_ROLE !== 'admin') throw new Error('Nota pembelian dan stok keluar gudang hanya dapat dicatat oleh SUPER ADMIN.');
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Nota pembelian dan stok keluar gudang hanya dapat dicatat oleh SUPER ADMIN atau staf Modul Stok.');
 const movement = payload.movement;
 if (!movement || typeof movement !== 'object' || Array.isArray(movement)) throw new Error('Data transaksi stok tidak valid.');
 const itemId = String(movement.itemId || '').trim();
@@ -6135,7 +6178,7 @@ return { status: 'success', data: result, message: type === 'Masuk' ? 'Stok masu
 }
 case 'recordDailyStockPurchase': {
 requireSupabaseSession();
-if (window.SPAS1_AUTH_ROLE !== 'admin') throw new Error('Laporan belanja harian hanya dapat dicatat oleh SUPER ADMIN.');
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Laporan belanja harian hanya dapat dicatat oleh SUPER ADMIN atau staf Modul Stok.');
 const purchase = payload.purchase;
 const categories = ['Bahan Baku', 'Bumbu', 'Rempah', 'Sayur', 'Buah', 'Lainnya'];
 if (!purchase || typeof purchase !== 'object' || Array.isArray(purchase)) throw new Error('Data laporan belanja tidak valid.');
@@ -6199,7 +6242,7 @@ return { status: 'success', data: result.usage, message: 'Pemakaian harian berha
 }
 case 'returnKitchenUsageRemainder': {
 requireSupabaseSession();
-if (window.SPAS1_AUTH_ROLE !== 'admin') throw new Error('Hanya SUPER ADMIN yang dapat mengembalikan sisa ke gudang.');
+if (!['admin', 'persiapan'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Pengembalian sisa hanya tersedia untuk Persiapan/Distribusi atau SUPER ADMIN.');
 const movementId = String(payload.movementId || '');
 if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(movementId)) {
 throw new Error('ID transaksi stok keluar tidak valid.');
@@ -6212,7 +6255,7 @@ return { status: 'success', data: result, message: 'Sisa pemakaian dicatat sebag
 }
 case 'voidStockMovement': {
 requireSupabaseSession();
-if (window.SPAS1_AUTH_ROLE !== 'admin') throw new Error('Hanya SUPER ADMIN yang dapat membatalkan transaksi stok.');
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Pembatalan transaksi hanya tersedia untuk Modul Stok atau SUPER ADMIN.');
 const movementId = String(payload.movementId || '');
 const reason = String(payload.reason || '').trim();
 if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(movementId) ||
@@ -6334,7 +6377,7 @@ requireSupabaseSession();
 const poster = Object.assign({}, payload.poster || {});
 if (!poster.id) throw new Error('ID poster AKG tidak valid.');
 if (payload.dataUrl) {
-const uploaded = await uploadSupabaseMedia({ dataUrl: payload.dataUrl });
+const uploaded = await uploadSupabaseMedia({ dataUrl: payload.dataUrl, folder: 'spas1/persiapan' });
 poster.fileId = uploaded.data.fileId;
 poster.imageUrl = uploaded.url;
 }
@@ -6350,21 +6393,25 @@ const appKey = 'poster:' + String(payload.id || '');
 const rows = await supabaseRequest('MODUL4_PosterAKG', { query: { select: 'AppKey,Data', AppKey: 'eq.' + appKey, limit: '1' } });
 if (rows[0]) {
 const poster = parseModuleData(rows[0].Data, 'MODUL4_PosterAKG');
-if (poster.fileId) await deleteSupabaseMedia(poster.fileId);
+const posterPath = String(poster.fileId || '').split('/');
+if (poster.fileId && (window.SPAS1_AUTH_ROLE === 'admin' || posterPath[1] === 'persiapan')) await deleteSupabaseMedia(poster.fileId);
 }
 await supabaseRequest('MODUL4_PosterAKG', { method: 'DELETE', query: { AppKey: 'eq.' + appKey }, prefer: 'return=minimal' });
 return { status: 'success', message: 'Poster AKG berhasil dihapus dari Supabase.' };
 }
 case 'syncAllModules':
 case 'syncAllDataToCloud': {
+const role = window.SPAS1_AUTH_ROLE;
+if (action === 'syncAllModules' && role !== 'admin') throw new Error('Hanya SUPER ADMIN yang dapat menyinkronkan semua modul.');
+if (action === 'syncAllDataToCloud' && ['admin', 'persiapan'].indexOf(role) === -1) throw new Error('Akses Persiapan/Distribusi atau SUPER ADMIN diperlukan.');
 await saveOperationalState(payload);
 const updates = [];
 const syncedModules = ['Modul 4'];
-if (Array.isArray(payload.MN_MENU_DATA) && payload.MN_MENU_DATA.length) {
+if (role === 'admin' && Array.isArray(payload.MN_MENU_DATA) && payload.MN_MENU_DATA.length) {
 updates.push(syncSupabaseRows('modul2_bank_menu', payload.MN_MENU_DATA.map(toSupabaseMenuRow)));
 syncedModules.push('Modul 2');
 }
-if (Array.isArray(payload.SL_STOK_DATA) && payload.SL_STOK_DATA.length) {
+if (role === 'admin' && Array.isArray(payload.SL_STOK_DATA) && payload.SL_STOK_DATA.length) {
 updates.push(syncSupabaseRows('modul3_stok_logistik', payload.SL_STOK_DATA.map(toSupabaseStockRow)));
 syncedModules.push('Modul 3');
 }
@@ -6378,14 +6425,16 @@ const skippedMessage = skippedModules.length
 return { status: 'success', message: 'Data ' + syncedModules.join(', ') + ' berhasil disinkronkan ke Supabase.' + skippedMessage };
 }
 case 'restoreModule4': {
+if (['admin', 'persiapan'].indexOf(window.SPAS1_AUTH_ROLE) === -1) throw new Error('Akses Persiapan/Distribusi atau SUPER ADMIN diperlukan.');
 const state = await saveOperationalState(payload, true);
 return { status: 'success', state: state, message: 'Backup Modul 4 berhasil dipulihkan ke Supabase.' };
 }
 case 'fetchDashboardData': {
 requireSupabaseSession();
+if (['admin', 'persiapan'].indexOf(window.SPAS1_AUTH_ROLE) === -1) throw new Error('Akses Persiapan/Distribusi atau SUPER ADMIN diperlukan.');
 const [settingRows, bankMenuRows, stockRows, cloudSyncRows, jobRows, recipeRows, budgetRows, haccpRows, scheduleRows, targetRows, posterRows] = await Promise.all([
 supabaseRequest('SPAS1_SETTINGS', { query: { select: 'Nilai', Pengaturan: 'eq.operationalAppData', limit: '1' } }),
-supabaseRequest('modul2_bank_menu'),
+window.SPAS1_AUTH_ROLE === 'admin' ? supabaseRequest('modul2_bank_menu') : Promise.resolve([]),
 supabaseRequest('modul3_stok_logistik'),
 supabaseRequest('MODUL4_CloudSync', { query: { select: 'Data', AppKey: 'eq.app-state', limit: '1' } }),
 supabaseRequest('MODUL4_Joblist', { query: { select: 'Data', AppKey: 'eq.app-state', limit: '1' } }),
@@ -6439,6 +6488,10 @@ return Object.assign({ status: 'success', bankMenuRows: bankMenuRows, stockRows:
 case 'fetchVolunteerRegistrations': {
 return await callSupabaseFunction('volunteer-registration', { action: 'list' });
 }
+case 'fetchModuleAccounts':
+return await callSupabaseFunction('module-account-admin', { action: 'list' });
+case 'saveModuleAccount':
+return await callSupabaseFunction('module-account-admin', Object.assign({ action: 'save' }, payload));
 case 'submitVolunteerRegistration':
 return await callSupabaseFunction('volunteer-registration', Object.assign({ action: 'submit' }, payload));
 case 'submitOrganizationRequest':
@@ -6662,7 +6715,8 @@ let budgetStockLoadPromise = null;
 let adminAboutTeam = [];
 let adminAboutBeneficiaries = [];
 let adminAboutLoaded = false;
-let adminSiteContentLoaded = false;
+let adminWhatsappSettingsLoaded = false;
+let adminWhatsappSettingsLoading = false;
 function bukaInfoProyek() {
 document.body.classList.remove('home-screen-active');
 document.getElementById('view-home').classList.add('hidden');
@@ -6977,7 +7031,8 @@ updatePlatformAdminControls();
 volunteerRegistrationPendingCount = null;
 updateVolunteerRegistrationBadge(0);
 adminAboutLoaded = false;
-adminSiteContentLoaded = false;
+adminWhatsappSettingsLoaded = false;
+adminWhatsappSettingsLoading = false;
 document.getElementById('view-admin').classList.add('hidden');
 document.getElementById('view-home').classList.remove('hidden');
 document.body.classList.add('home-screen-active');
@@ -7204,7 +7259,7 @@ const settingsTab = ['tab-settings', 'tab-about', 'tab-news'].indexOf(tabId) !==
 const settingsToggle = document.getElementById('nav-settings-toggle');
 if (settingsToggle) settingsToggle.classList.toggle('is-current', settingsTab);
 if (settingsTab) toggleAdminSettingsMenu(true);
-const superAksesTab = ['tab-content', 'tab-laporan', 'tab-karyawan', 'tab-registrations', 'tab-organization-requests'].indexOf(tabId) !== -1;
+const superAksesTab = ['tab-laporan', 'tab-karyawan', 'tab-module-access', 'tab-registrations', 'tab-organization-requests'].indexOf(tabId) !== -1;
 const superAksesToggle = document.getElementById('nav-super-akses-toggle');
 if (superAksesToggle) superAksesToggle.classList.toggle('is-current', superAksesTab);
 if (superAksesTab) toggleSuperAksesMenu(true);
@@ -7222,7 +7277,7 @@ if (window.SuperGizi) window.SuperGizi.init();
 if (tabId === 'tab-news') { loadAdminAnnouncements(); loadAdminMedia(); }
 if (tabId === 'tab-settings') loadAdminSiteSettings();
 if (tabId === 'tab-about') loadAdminAboutData();
-if (tabId === 'tab-content') loadAdminSiteContent();
+if (tabId === 'tab-module-access') loadModuleAccountsAdmin();
 if (tabId === 'tab-registrations') loadVolunteerRegistrationRequests();
 if (tabId === 'tab-organization-requests') loadOrganizationRequests();
 if (tabId === 'tab-audit') { initializeStockAuditDate(); loadStockMovements(); }
@@ -7602,6 +7657,184 @@ button.textContent = 'Hapus';
 alert('Gagal menghapus permohonan: ' + error.message);
 });
 }
+let moduleAccountEmployees = [];
+let moduleAccountEntries = [];
+const moduleAccountModuleLabels = {
+stok: 'Modul Stok',
+bank_menu: 'Modul Bank Menu',
+persiapan: 'Persiapan & Distribusi'
+};
+
+function renderModuleAccountsAdmin() {
+const select = document.getElementById('moduleAccountEmployee');
+const rows = document.getElementById('moduleAccountRows');
+if (!select || !rows) return;
+const accountByEmployee = new Map(moduleAccountEntries.map(function(account) {
+return [String(account.employee_id), account];
+}));
+select.innerHTML = '<option value="">Pilih relawan</option>' + moduleAccountEmployees.map(function(employee) {
+const id = String(employee['ID Relawan'] || '');
+const name = String(employee['Nama Lengkap'] || 'Tanpa nama');
+const active = employee['Status Akun'] === 'Aktif';
+const disabled = !active && !accountByEmployee.has(id) ? ' disabled' : '';
+return '<option value="' + escapeHtml(id) + '"' + disabled + '>' + escapeHtml(id + ' — ' + name) + (active ? '' : ' (Nonaktif)') + '</option>';
+}).join('');
+if (!moduleAccountEntries.length) {
+rows.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-500">Belum ada akun modul.</td></tr>';
+return;
+}
+rows.innerHTML = moduleAccountEntries.map(function(account) {
+const employeeId = String(account.employee_id || '');
+const employee = moduleAccountEmployees.find(function(entry) {
+return String(entry['ID Relawan'] || '') === employeeId;
+});
+const name = employee ? String(employee['Nama Lengkap'] || 'Tanpa nama') : 'Relawan tidak ditemukan';
+const modules = Array.isArray(account.module_access) ? account.module_access : [];
+const moduleLabels = modules.map(function(module) {
+return moduleAccountModuleLabels[module] || '';
+}).filter(Boolean);
+const active = account.status === 'active' && !!employee && employee['Status Akun'] === 'Aktif';
+return '<tr><td class="p-3"><strong>' + escapeHtml(name) + '</strong><br><span class="text-gray-500">' + escapeHtml(employeeId) + '</span></td>' +
+'<td class="p-3">' + escapeHtml(account.username || '') + '@module.spas1.local</td>' +
+'<td class="p-3">' + escapeHtml(moduleLabels.join(', ') || 'Tidak ada') + '</td>' +
+'<td class="p-3"><span class="rounded-full px-2 py-1 text-[10px] font-bold ' + (active ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-600') + '">' + (active ? 'Aktif' : 'Nonaktif') + '</span></td>' +
+'<td class="p-3"><button type="button" class="rounded-lg border border-indigo-200 px-2.5 py-1.5 font-bold text-indigo-700 hover:bg-indigo-50" data-employee-id="' + escapeHtml(employeeId) + '" onclick="editModuleAccountAdmin(this.dataset.employeeId)">Kelola</button></td></tr>';
+}).join('');
+}
+
+function loadModuleAccountsAdmin(btn) {
+if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_SUPABASE_SESSION) {
+if (btn) alert('Sesi SUPER ADMIN tidak aktif. Silakan login kembali.');
+return;
+}
+if (btn) {
+btn.disabled = true;
+btn.dataset.originalLabel = btn.innerHTML;
+btn.innerHTML = '⏳ Memuat...';
+}
+const message = document.getElementById('moduleAccountFormMessage');
+callSupabaseAction('fetchModuleAccounts', {}, function(result) {
+if (btn) {
+btn.disabled = false;
+btn.innerHTML = btn.dataset.originalLabel || 'Muat Ulang';
+}
+moduleAccountEmployees = Array.isArray(result && result.employees) ? result.employees : [];
+moduleAccountEntries = Array.isArray(result && result.accounts) ? result.accounts : [];
+renderModuleAccountsAdmin();
+if (message) message.textContent = '';
+}, function(error) {
+if (btn) {
+btn.disabled = false;
+btn.innerHTML = btn.dataset.originalLabel || 'Muat Ulang';
+}
+if (message) message.textContent = error.message;
+});
+}
+
+function resetModuleAccountForm() {
+const form = document.getElementById('moduleAccountForm');
+if (form) form.reset();
+const editing = document.getElementById('moduleAccountEditing');
+const username = document.getElementById('moduleAccountUsername');
+const password = document.getElementById('moduleAccountPassword');
+const button = document.getElementById('moduleAccountSaveButton');
+const message = document.getElementById('moduleAccountFormMessage');
+if (editing) editing.value = 'false';
+if (username) {
+username.readOnly = false;
+username.value = '';
+}
+if (password) {
+password.required = true;
+password.value = '';
+password.placeholder = 'Minimal 8 karakter; kosongkan saat mengubah akses saja';
+}
+if (button) button.textContent = 'Buat akun modul';
+if (message) message.textContent = '';
+}
+
+function editModuleAccountAdmin(employeeId) {
+const account = moduleAccountEntries.find(function(entry) {
+return String(entry.employee_id) === String(employeeId);
+});
+if (!account) return;
+const select = document.getElementById('moduleAccountEmployee');
+const editing = document.getElementById('moduleAccountEditing');
+const username = document.getElementById('moduleAccountUsername');
+const password = document.getElementById('moduleAccountPassword');
+const active = document.getElementById('moduleAccountActive');
+const button = document.getElementById('moduleAccountSaveButton');
+if (select) select.value = String(account.employee_id);
+if (editing) editing.value = 'true';
+if (username) {
+username.value = account.username || '';
+username.readOnly = true;
+}
+if (password) {
+password.value = '';
+password.required = false;
+password.placeholder = 'Biarkan kosong jika tidak ingin mengganti password';
+}
+const employeeRecord = moduleAccountEmployees.find(function(entry) {
+return String(entry['ID Relawan'] || '') === String(account.employee_id);
+});
+if (active) active.checked = account.status === 'active' && !!employeeRecord && employeeRecord['Status Akun'] === 'Aktif';
+document.querySelectorAll('input[name="moduleAccountPermission"]').forEach(function(input) {
+input.checked = Array.isArray(account.module_access) && account.module_access.indexOf(input.value) !== -1;
+});
+if (button) button.textContent = 'Simpan perubahan';
+const message = document.getElementById('moduleAccountFormMessage');
+if (message) message.textContent = 'Password saat ini tidak dapat dilihat.';
+document.getElementById('moduleAccountForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function saveModuleAccountAdmin(event) {
+if (event) event.preventDefault();
+const employee = document.getElementById('moduleAccountEmployee');
+const username = document.getElementById('moduleAccountUsername');
+const password = document.getElementById('moduleAccountPassword');
+const editing = document.getElementById('moduleAccountEditing');
+const active = document.getElementById('moduleAccountActive');
+const button = document.getElementById('moduleAccountSaveButton');
+const message = document.getElementById('moduleAccountFormMessage');
+if (!employee || !username || !password || !editing || !active || !button || !message) return;
+const isEditing = editing.value === 'true';
+const moduleAccess = Array.from(document.querySelectorAll('input[name="moduleAccountPermission"]:checked')).map(function(input) {
+return input.value;
+});
+if (!employee.value || !/^[A-Za-z0-9._-]{3,48}$/.test(username.value.trim()) ||
+(!isEditing && password.value.length < 8) || (password.value && password.value.length < 8) ||
+(active.checked && moduleAccess.length === 0)) {
+message.textContent = 'Periksa relawan, username, password minimal 8 karakter, dan pilih setidaknya satu modul untuk akun aktif.';
+return;
+}
+button.disabled = true;
+button.textContent = '⏳ Menyimpan...';
+message.textContent = '';
+callSupabaseAction('saveModuleAccount', {
+employeeId: employee.value,
+username: username.value.trim(),
+password: password.value,
+moduleAccess: moduleAccess,
+active: active.checked,
+isNewAccount: !isEditing
+}, function(result) {
+button.disabled = false;
+button.textContent = isEditing ? 'Simpan perubahan' : 'Buat akun modul';
+if (!result || result.status !== 'success') {
+message.textContent = result && result.message ? result.message : 'Akun modul gagal disimpan.';
+return;
+}
+showToast('✅ ' + result.message);
+resetModuleAccountForm();
+loadModuleAccountsAdmin();
+}, function(error) {
+button.disabled = false;
+button.textContent = isEditing ? 'Simpan perubahan' : 'Buat akun modul';
+message.textContent = error.message;
+});
+}
+
 function loadVolunteerRegistrationRequests(btn, options) {
 const settings = options || {};
 if (btn) {
@@ -9042,7 +9275,7 @@ const smallUnit = String(row['Satuan Pecahan'] || '');
 const conversionFactor = Number(row['Faktor Konversi']) || null;
 const returnedAt = saved && saved['Dikembalikan Pada'];
 const id = escapeHtml(String(row.ID));
-const canReturn = window.SPAS1_AUTH_ROLE === 'admin';
+const canReturn = ['admin', 'persiapan'].includes(window.SPAS1_AUTH_ROLE);
 const primaryInput = '<input type="number" class="sl-kitchen-used-input sl-kitchen-used-primary" min="0" max="' + issued + '" step="0.001" value="' + (primaryUsed === null ? '' : primaryUsed) + '" aria-label="Jumlah ' + escapeHtml(row['Nama Item']) + ' yang dipakai dalam ' + escapeHtml(row.Satuan || 'satuan utama') + '" oninput="updateKitchenUsageRemainder(this)"' + (returnedAt ? ' disabled' : '') + '>';
 const smallInput = smallUnit
 ? '<input type="number" class="sl-kitchen-used-input sl-kitchen-used-small" min="0" step="0.001" value="' + smallUsed + '" aria-label="Jumlah ' + escapeHtml(row['Nama Item']) + ' yang dipakai dalam ' + escapeHtml(smallUnit) + '" oninput="updateKitchenUsageRemainder(this)"' + (returnedAt ? ' disabled' : '') + '>'
@@ -9118,8 +9351,8 @@ button.disabled = false;
 }
 }
 async function returnKitchenUsageRemainder(button) {
-if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_SUPABASE_SESSION) {
-showToast('❌ Hanya SUPER ADMIN yang dapat mengembalikan sisa ke gudang.');
+if (!['admin', 'persiapan'].includes(window.SPAS1_AUTH_ROLE) || !window.SPAS1_SUPABASE_SESSION) {
+showToast('❌ Pengembalian sisa hanya tersedia untuk Persiapan/Distribusi atau SUPER ADMIN.');
 return;
 }
 const row = button.closest('tr');
@@ -9283,8 +9516,8 @@ return Number.isFinite(quantity) && quantity > 0 && Number.isSafeInteger(unitPri
 document.getElementById('slPurchaseTotal').textContent = 'Rp ' + Math.round(total).toLocaleString('id-ID');
 }
 function openStockMovementModal(type, itemId) {
-if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_SUPABASE_SESSION) {
-showToast('❌ Nota pembelian dan stok keluar gudang hanya dapat dicatat oleh SUPER ADMIN.');
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE) || !window.SPAS1_SUPABASE_SESSION) {
+showToast('❌ Nota pembelian dan stok keluar gudang hanya dapat dicatat oleh Modul Stok atau SUPER ADMIN.');
 return;
 }
 switchAdminTab('tab-stok', document.getElementById('nav-tab-stok'));
@@ -9484,7 +9717,7 @@ const cancellationInfo = cancelled
 ? '<strong>DIBATALKAN</strong><br><small>' + escapeHtml(row['Alasan Pembatalan'] || 'Alasan tidak tersedia') + '</small>' +
 (row['Dibatalkan Pada'] ? '<br><small>' + escapeHtml(new Intl.DateTimeFormat('id-ID', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Asia/Jakarta' }).format(new Date(row['Dibatalkan Pada']))) + '</small>' : '')
 : 'Aktif';
-const canCancel = !cancelled && window.SPAS1_AUTH_ROLE === 'admin';
+const canCancel = !cancelled && ['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE);
 const action = canCancel
 ? '<button type="button" class="sl-btn-export" data-movement-id="' + escapeHtml(String(row.ID)) + '" onclick="cancelStockMovementFromRow(this)">' +
 (row['ID Belanja'] ? 'Batalkan Nota' : 'Batalkan') + '</button>'
@@ -9935,8 +10168,8 @@ saveButton.disabled = false;
 }
 }
 async function cancelStockMovementFromRow(button) {
-if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_SUPABASE_SESSION) {
-showToast('❌ Hanya SUPER ADMIN yang dapat membatalkan transaksi stok.');
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE) || !window.SPAS1_SUPABASE_SESSION) {
+showToast('❌ Pembatalan transaksi hanya tersedia untuk Modul Stok atau SUPER ADMIN.');
 return;
 }
 const movementId = button.dataset.movementId;
@@ -14019,119 +14252,71 @@ publishButton.innerHTML = isBusy && activeButton === publishButton
 ? '<i class="fa-solid fa-spinner fa-spin"></i> Menerbitkan...'
  : '<i class="fa-solid fa-paper-plane"></i> Terbitkan';
 }
-function showAdminSiteContentMessage(text, isError) {
-const message = document.getElementById('adminSiteContentMessage');
+function showAdminWhatsappSettingsMessage(text, state) {
+const message = document.getElementById('adminWhatsappSettingsMessage');
 if (!message) return;
-message.className = isError
+message.className = state === 'error'
 ? 'rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900'
+: state === 'loading'
+? 'rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2 text-xs text-indigo-800'
 : 'rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-800';
 message.textContent = text;
 }
-function renderAdminSocialLinks() {
-const tbody = document.getElementById('adminSocialLinks');
-if (!tbody) return;
-const socials = Array.isArray(currentSiteContent.socials) ? currentSiteContent.socials : [];
-tbody.innerHTML = socials.map(function(item, index) {
-const key = escapeHtml(item.key || String(index));
-return '<tr data-social-index="' + index + '" class="border-t border-gray-100">' +
-'<td class="p-2 font-semibold">' + key + '</td>' +
-'<td class="p-2"><input data-social-field="label" type="text" maxlength="80" aria-label="Label ' + key + '" value="' + escapeHtml(item.label || '') + '"></td>' +
-'<td class="p-2"><input data-social-field="url" type="text" maxlength="500" aria-label="URL ' + key + '" value="' + escapeHtml(item.url || '') + '"></td>' +
-'<td class="p-2"><input data-social-field="iconUrl" type="url" maxlength="500" aria-label="URL ikon ' + key + '" value="' + escapeHtml(item.iconUrl || '') + '"></td>' +
-'<td class="p-2 text-center"><input data-social-field="enabled" type="checkbox" aria-label="Tampilkan ' + key + '"' + (item.enabled === true ? ' checked' : '') + '></td>' +
-'</tr>';
-}).join('');
-}
-function loadAdminSiteContent() {
-if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_AUTH_TOKEN || adminSiteContentLoaded) return;
-const button = document.getElementById('siteContentSubmit');
-button.disabled = true;
-showAdminSiteContentMessage('Memuat konten publik...', false);
+function loadAdminWhatsappSettings() {
+if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_AUTH_TOKEN || adminWhatsappSettingsLoaded || adminWhatsappSettingsLoading) return;
+adminWhatsappSettingsLoading = true;
+const whatsappButton = document.getElementById('siteWhatsappSettingsSubmit');
+whatsappButton.disabled = true;
+showAdminWhatsappSettingsMessage('Memuat pengaturan WhatsApp...', 'loading');
 callSupabaseAction('fetchAdminSiteContent', {}, function(res) {
 if (!res || res.status !== 'success' || !res.data) {
+adminWhatsappSettingsLoading = false;
 const detail = res && res.message ? res.message : 'respons server tidak valid.';
-showAdminSiteContentMessage('Konten situs gagal dimuat dari Supabase: ' + detail, true);
+showAdminWhatsappSettingsMessage('Pengaturan WhatsApp gagal dimuat: ' + detail, 'error');
 return;
 }
 applySiteContent(res.data);
-const fields = {
-contentAboutTitle: 'aboutTitle',
-contentAboutDescription: 'aboutDescription',
-contentBeneficiariesTitle: 'beneficiariesTitle',
-contentBeneficiariesNote: 'beneficiariesNote',
-contentTeamTitle: 'teamTitle',
-contentTeamNote: 'teamNote',
-contentProjectTitle: 'projectTitle',
-contentProjectSummary: 'projectSummary',
-contentProjectUpdateTitle: 'projectUpdateTitle',
-contentProjectUpdateSummary: 'projectUpdateSummary'
-};
-Object.keys(fields).forEach(function(id) {
-document.getElementById(id).value = String(currentSiteContent[fields[id]] || '');
-});
-renderAdminSocialLinks();
-document.getElementById('contentWhatsappEnabled').checked = currentSiteContent.whatsappEnabled === true;
-document.getElementById('contentWhatsappPhone').value = String(currentSiteContent.whatsappPhone || '');
-adminSiteContentLoaded = true;
-button.disabled = false;
-showAdminSiteContentMessage('Konten dan tautan publik termuat.', false);
+document.getElementById('settingsWhatsappEnabled').checked = currentSiteContent.whatsappEnabled === true;
+document.getElementById('settingsWhatsappPhone').value = String(currentSiteContent.whatsappPhone || '');
+adminWhatsappSettingsLoaded = true;
+adminWhatsappSettingsLoading = false;
+whatsappButton.disabled = false;
+showAdminWhatsappSettingsMessage('Pengaturan WhatsApp termuat.', 'success');
 }, function(error) {
-showAdminSiteContentMessage('Konten situs gagal dimuat: ' + error.message, true);
+adminWhatsappSettingsLoading = false;
+showAdminWhatsappSettingsMessage('Pengaturan WhatsApp gagal dimuat: ' + error.message, 'error');
 });
 }
-function saveAdminSiteContent() {
+function saveAdminWhatsappSettings() {
 if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_AUTH_TOKEN) {
 alert('Sesi admin tidak valid. Silakan login kembali.');
 return;
 }
-const button = document.getElementById('siteContentSubmit');
-if (button.disabled) return;
-const socials = (Array.isArray(currentSiteContent.socials) ? currentSiteContent.socials : []).map(function(item, index) {
-const field = function(name) {
-return document.querySelector('#adminSocialLinks [data-social-index="' + index + '"][data-social-field="' + name + '"]');
-};
-const label = field('label');
-const url = field('url');
-const iconUrl = field('iconUrl');
-const enabled = field('enabled');
-return Object.assign({}, item, {
-label: label ? label.value.trim() : String(item.label || ''),
-url: url ? url.value.trim() : String(item.url || ''),
-iconUrl: iconUrl ? iconUrl.value.trim() : String(item.iconUrl || ''),
-enabled: enabled ? enabled.checked : item.enabled === true
-});
-});
+const form = document.getElementById('siteWhatsappSettingsForm');
+if (!form.reportValidity()) return;
+const button = document.getElementById('siteWhatsappSettingsSubmit');
+if (button.disabled || !adminWhatsappSettingsLoaded) return;
 const payload = Object.assign({}, currentSiteContent, {
-aboutTitle: document.getElementById('contentAboutTitle').value.trim(),
-aboutDescription: document.getElementById('contentAboutDescription').value.trim(),
-beneficiariesTitle: document.getElementById('contentBeneficiariesTitle').value.trim(),
-beneficiariesNote: document.getElementById('contentBeneficiariesNote').value.trim(),
-teamTitle: document.getElementById('contentTeamTitle').value.trim(),
-teamNote: document.getElementById('contentTeamNote').value.trim(),
-projectTitle: document.getElementById('contentProjectTitle').value.trim(),
-projectSummary: document.getElementById('contentProjectSummary').value.trim(),
-projectUpdateTitle: document.getElementById('contentProjectUpdateTitle').value.trim(),
-projectUpdateSummary: document.getElementById('contentProjectUpdateSummary').value.trim(),
-socials: socials,
-whatsappEnabled: document.getElementById('contentWhatsappEnabled').checked,
-whatsappPhone: document.getElementById('contentWhatsappPhone').value.trim()
+whatsappEnabled: document.getElementById('settingsWhatsappEnabled').checked,
+whatsappPhone: document.getElementById('settingsWhatsappPhone').value.trim()
 });
+const buttonLabel = '<i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan WhatsApp';
 button.disabled = true;
 button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
 callSupabaseAction('saveSiteContent', payload, function(res) {
 button.disabled = false;
-button.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Konten Situs';
+button.innerHTML = buttonLabel;
 if (!res || res.status !== 'success') {
-showAdminSiteContentMessage('Gagal menyimpan: ' + (res && res.message ? res.message : 'respons server tidak valid.'), true);
+showAdminWhatsappSettingsMessage('Gagal menyimpan: ' + (res && res.message ? res.message : 'respons server tidak valid.'), 'error');
 return;
 }
 currentSiteContent = payload;
 applySiteContent(payload);
-showAdminSiteContentMessage(res.message || 'Konten publik berhasil disimpan.', false);
+showAdminWhatsappSettingsMessage(res.message || 'Pengaturan WhatsApp berhasil disimpan.', 'success');
 }, function(error) {
 button.disabled = false;
-button.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Konten Situs';
-showAdminSiteContentMessage('Gagal menyimpan: ' + error.message, true);
+button.innerHTML = buttonLabel;
+showAdminWhatsappSettingsMessage('Gagal menyimpan: ' + error.message, 'error');
 });
 }
 let currentSiteSettings = {
@@ -14198,6 +14383,7 @@ console.error('Gagal memuat pengaturan identitas publik:', error);
 }
 function loadAdminSiteSettings() {
 if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_AUTH_TOKEN) return;
+loadAdminWhatsappSettings();
 const message = document.getElementById('adminSettingsMessage');
 if (message) {
 message.className = 'rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2 text-xs text-indigo-800';

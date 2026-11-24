@@ -6,119 +6,113 @@ const test = require('node:test');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 
-test('site content admin exposes About, project, social, beneficiary, team, and WhatsApp controls', function() {
-  const start = html.indexOf('<section id="tab-content"');
-  const end = html.indexOf('</section>', start);
-  const section = html.slice(start, end);
-
-  for (const id of [
-    'contentAboutTitle',
-    'contentAboutDescription',
-    'contentProjectTitle',
-    'contentProjectSummary',
-    'contentProjectUpdateTitle',
-    'contentProjectUpdateSummary',
-    'adminSocialLinks',
-    'contentBeneficiariesTitle',
-    'contentBeneficiariesNote',
-    'contentTeamTitle',
-    'contentTeamNote',
-    'contentWhatsappEnabled',
-    'contentWhatsappPhone'
+test('SUPER ADMIN site content editor is removed without deleting public content', function() {
+  for (const fragment of [
+    'id="nav-tab-content"',
+    'id="tab-content"',
+    'id="siteContentForm"',
+    'saveAdminSiteContent',
+    'renderAdminSocialLinks',
+    'id="adminSocialLinks"'
   ]) {
-    assert.match(section, new RegExp('id="' + id + '"'));
+    assert.doesNotMatch(html, new RegExp(fragment));
   }
+  assert.match(html, /function applySiteContent\(content\)/);
+  assert.match(html, /case 'fetchPublicSiteContent'/);
+
+  const start = html.indexOf("const ABOUTSKY_PUBLIC_URL =");
+  const end = html.indexOf('\nconst previousProjectContentPatterns', start);
+  const defaultsSource = html.slice(start, end);
+  const context = {};
+  vm.runInNewContext(defaultsSource + '\nthis.publicDefaults = defaultSiteContent;', context);
+
+  assert.ok(context.publicDefaults.aboutTitle);
+  assert.ok(context.publicDefaults.projectTitle);
+  assert.ok(context.publicDefaults.socials.length > 0);
 });
 
-test('saving site content persists restored editors and retains other public fields', function() {
-  const start = html.indexOf('function saveAdminSiteContent()');
+test('WhatsApp editor appears in Pengaturan, not in a site content tab', function() {
+  const start = html.indexOf('<section id="tab-settings"');
+  const end = html.indexOf('</section>', start);
+  const settingsSection = html.slice(start, end);
+  assert.match(settingsSection, /id="siteWhatsappSettingsForm"/);
+  assert.match(settingsSection, /id="settingsWhatsappEnabled"/);
+  assert.match(settingsSection, /id="settingsWhatsappPhone"/);
+  assert.doesNotMatch(html, /id="contentWhatsappEnabled"|id="contentWhatsappPhone"/);
+});
+
+test('loading WhatsApp settings only populates its Pengaturan controls', function() {
+  const start = html.indexOf('function loadAdminWhatsappSettings()');
+  const end = html.indexOf('\nfunction saveAdminWhatsappSettings()', start);
+  const source = html.slice(start, end);
+  const nodes = {
+    siteWhatsappSettingsSubmit: { disabled: false },
+    settingsWhatsappEnabled: { checked: false },
+    settingsWhatsappPhone: { value: '' }
+  };
+  const context = {
+    window: { SPAS1_AUTH_ROLE: 'admin', SPAS1_AUTH_TOKEN: 'session' },
+    adminWhatsappSettingsLoaded: false,
+    adminWhatsappSettingsLoading: false,
+    document: { getElementById: function(id) { return nodes[id] || null; } },
+    currentSiteContent: {},
+    applySiteContent: function(content) { context.currentSiteContent = content; },
+    callSupabaseAction: function(action, payload, onSuccess) {
+      assert.equal(action, 'fetchAdminSiteContent');
+      onSuccess({
+        status: 'success',
+        data: { aboutTitle: 'Tentang Kami', whatsappEnabled: true, whatsappPhone: '6281378004808' }
+      });
+    },
+    showAdminWhatsappSettingsMessage: function() {}
+  };
+  vm.runInNewContext(source + '\nthis.run = loadAdminWhatsappSettings;', context);
+
+  context.run();
+
+  assert.equal(nodes.settingsWhatsappEnabled.checked, true);
+  assert.equal(nodes.settingsWhatsappPhone.value, '6281378004808');
+  assert.equal(nodes.siteWhatsappSettingsSubmit.disabled, false);
+  assert.equal(context.currentSiteContent.aboutTitle, 'Tentang Kami');
+  assert.equal(context.adminWhatsappSettingsLoaded, true);
+});
+
+test('saving WhatsApp settings preserves other site content', function() {
+  const start = html.indexOf('function saveAdminWhatsappSettings()');
   const end = html.indexOf('\nlet currentSiteSettings', start);
   const source = html.slice(start, end);
   const nodes = {
-    siteContentSubmit: { disabled: false, innerHTML: '' },
-    contentAboutTitle: { value: 'Tentang Yayasan Baru' },
-    contentAboutDescription: { value: 'Deskripsi baru' },
-    contentBeneficiariesTitle: { value: 'Rincian Baru' },
-    contentBeneficiariesNote: { value: 'Catatan baru' },
-    contentTeamTitle: { value: 'Tim Baru' },
-    contentTeamNote: { value: 'Persetujuan foto' },
-    contentProjectTitle: { value: 'Proyek Baru' },
-    contentProjectSummary: { value: 'Ringkasan baru' },
-    contentProjectUpdateTitle: { value: 'Pembaruan Baru' },
-    contentProjectUpdateSummary: { value: 'Detail baru' },
-    contentWhatsappEnabled: { checked: true },
-    contentWhatsappPhone: { value: '6281234567890' }
-  };
-  const socialFields = {
-    label: { value: 'Email baru' },
-    url: { value: 'mailto:baru@example.com' },
-    iconUrl: { value: '' },
-    enabled: { checked: true }
+    siteWhatsappSettingsForm: { reportValidity: function() { return true; } },
+    siteWhatsappSettingsSubmit: { disabled: false, innerHTML: '' },
+    settingsWhatsappEnabled: { checked: false },
+    settingsWhatsappPhone: { value: '6281234567890' }
   };
   const existingContent = {
-    aboutTitle: 'Tentang Kami Lama',
-    projectTitle: 'Proyek Lama',
-    beneficiaries: [{ name: 'Sekolah lama' }],
-    socials: [{ key: 'email', label: 'Email lama', url: 'mailto:info@example.com', enabled: false }]
+    aboutTitle: 'Tentang Kami',
+    socials: [{ key: 'email', url: 'mailto:info@example.com' }]
   };
   let savedPayload;
   const context = {
     window: { SPAS1_AUTH_ROLE: 'admin', SPAS1_AUTH_TOKEN: 'session' },
-    document: {
-      getElementById: function(id) { return nodes[id]; },
-      querySelector: function(selector) {
-        const match = selector.match(/data-social-field="([^"]+)"/);
-        return match ? socialFields[match[1]] : null;
-      }
-    },
+    document: { getElementById: function(id) { return nodes[id]; } },
     currentSiteContent: existingContent,
+    adminWhatsappSettingsLoaded: true,
     callSupabaseAction: function(action, payload, onSuccess) {
       assert.equal(action, 'saveSiteContent');
       savedPayload = payload;
       onSuccess({ status: 'success' });
     },
     applySiteContent: function() {},
-    showAdminSiteContentMessage: function() {}
+    showAdminWhatsappSettingsMessage: function() {}
   };
-  vm.runInNewContext(source + '\nthis.run = saveAdminSiteContent;', context);
+  vm.runInNewContext(source + '\nthis.run = saveAdminWhatsappSettings;', context);
 
   context.run();
 
-  assert.equal(savedPayload.aboutTitle, 'Tentang Yayasan Baru');
-  assert.equal(savedPayload.aboutDescription, 'Deskripsi baru');
-  assert.equal(savedPayload.projectTitle, 'Proyek Baru');
-  assert.equal(savedPayload.projectSummary, 'Ringkasan baru');
+  assert.equal(savedPayload.whatsappEnabled, false);
   assert.equal(savedPayload.whatsappPhone, '6281234567890');
-  assert.deepEqual(savedPayload.beneficiaries, existingContent.beneficiaries);
-  assert.equal(savedPayload.socials[0].label, 'Email baru');
-  assert.equal(savedPayload.socials[0].url, 'mailto:baru@example.com');
-  assert.equal(savedPayload.socials[0].enabled, true);
-});
-
-test('social link editor safely renders its editable fields', function() {
-  const start = html.indexOf('function renderAdminSocialLinks()');
-  const end = html.indexOf('\nfunction loadAdminSiteContent()', start);
-  const source = html.slice(start, end);
-  const tbody = { innerHTML: '' };
-  const context = {
-    currentSiteContent: {
-      socials: [{ key: 'email', label: '<b>Email</b>', url: 'mailto:info@example.com', iconUrl: '', enabled: true }]
-    },
-    document: { getElementById: function() { return tbody; } },
-    escapeHtml: function(value) {
-      return String(value).replace(/[&<>"']/g, function(char) {
-        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char];
-      });
-    }
-  };
-  vm.runInNewContext(source + '\nthis.run = renderAdminSocialLinks;', context);
-
-  context.run();
-
-  assert.match(tbody.innerHTML, /<td class="p-2 font-semibold">email<\/td>/);
-  assert.match(tbody.innerHTML, /data-social-field="url"/);
-  assert.match(tbody.innerHTML, /&lt;b&gt;Email&lt;\/b&gt;/);
-  assert.doesNotMatch(tbody.innerHTML, /<b>Email<\/b>/);
+  assert.equal(savedPayload.aboutTitle, 'Tentang Kami');
+  assert.equal(savedPayload.socials[0].url, 'mailto:info@example.com');
 });
 
 test('global identity editor only exposes Yayasan branding and keeps SPAS1 mark fixed', function() {
@@ -147,8 +141,7 @@ test('global identity editor only exposes Yayasan branding and keeps SPAS1 mark 
       },
       getElementById: function() { return null; }
     },
-    applyModuleLoginLogo: function() {},
-    state: null
+    applyModuleLoginLogo: function() {}
   };
   vm.runInNewContext(source + '\nthis.run = applySiteSettings; this.getState = () => currentSiteSettings;', context);
   context.run({
