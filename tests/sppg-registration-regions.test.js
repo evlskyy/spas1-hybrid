@@ -36,6 +36,7 @@ test('SPPG form offers required cascading administrative regions and a generated
   assert.match(html, /id="sppgApplicationDistrict" required/);
   assert.match(html, /function updateSppgApplicationSlug\(\)/);
   assert.match(html, /sppgApplicationSlugEdited = true/);
+  assert.match(html, /submittedSlug\.slice\(0, 63\)/);
   assert.match(html, /provinceCode: province\.value/);
   assert.match(html, /districtName: district\.selectedOptions\[0\]\.textContent\.trim\(\)/);
 });

@@ -10772,6 +10772,12 @@ return;
 }
 const button = document.getElementById('btnSubmitSppgApplication');
 const message = document.getElementById('sppgApplicationMessage');
+const slugInput = document.getElementById('sppgApplicationSlug');
+let submittedSlug = slugInput.value.trim().toLowerCase();
+if (submittedSlug.length > 63) {
+submittedSlug = submittedSlug.slice(0, 63).replace(/-+$/g, '');
+slugInput.value = submittedSlug;
+}
 const turnstileToken = window.turnstile && organizationTurnstileWidgetId !== null
 ? window.turnstile.getResponse(organizationTurnstileWidgetId)
 : '';
@@ -10785,7 +10791,7 @@ button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Mengaktifka
 message.classList.add('hidden');
 callSupabaseAction('submitOrganizationRequest', {
 name: document.getElementById('sppgApplicationName').value.trim(),
-slug: document.getElementById('sppgApplicationSlug').value.trim().toLowerCase(),
+slug: submittedSlug,
 provinceCode: province.value,
 provinceName: province.selectedOptions[0].textContent.trim(),
 regencyCode: regency.value,
