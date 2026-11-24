@@ -431,7 +431,10 @@ body.app-light-mode #sppgApplicationOverlay h2,
 body.app-light-mode #sppgApplicationOverlay label { color: #111827 !important; }
 body.app-light-mode #sppgApplicationOverlay p.text-slate-300 { color: #4B5563 !important; }
 body.app-light-mode #sppgApplicationOverlay #sppgApplicationSlugHelp { color: #6B7280 !important; }
-body.app-light-mode #sppgApplicationOverlay input { background-color: #F9FAFB !important; color: #111827 !important; border-color: #D1D5DB !important; }
+body.app-light-mode #sppgApplicationOverlay #sppgApplicationRegionMessage { color: #6B7280 !important; }
+body.app-light-mode #sppgApplicationOverlay #sppgApplicationRegionMessage.text-rose-300 { color: #B91C1C !important; }
+body.app-light-mode #sppgApplicationOverlay input,
+body.app-light-mode #sppgApplicationOverlay select { background-color: #F9FAFB !important; color: #111827 !important; border-color: #D1D5DB !important; }
 body.app-light-mode #sppgApplicationOverlay input::placeholder { color: #6B7280 !important; opacity: 1; }
 body.app-light-mode #sppgApplicationOverlay button.text-slate-300,
 body.app-light-mode #sppgApplicationOverlay button.text-slate-200 { color: #374151 !important; }
@@ -3299,7 +3302,11 @@ gtag('config', 'G-4933FEDV2TW');
   </div>
   <form id="sppgApplicationForm" class="mt-5 space-y-3" onsubmit="event.preventDefault(); submitSppgApplication();">
   <label class="block text-xs font-semibold">Nama SPPG<input id="sppgApplicationName" type="text" minlength="3" maxlength="120" required autocomplete="organization" class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm" placeholder="Contoh: SPPG Kecamatan Utara"></label>
-  <label class="block text-xs font-semibold">Alamat SPPG (slug)<input id="sppgApplicationSlug" type="text" minlength="3" maxlength="63" pattern="[a-z0-9]+(-[a-z0-9]+)*" required class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm" placeholder="contoh-sppg-utara" aria-describedby="sppgApplicationSlugHelp"><span id="sppgApplicationSlugHelp" class="mt-1 block font-normal text-slate-400">Gunakan huruf kecil, angka, dan tanda hubung saja.</span></label>
+  <label class="block text-xs font-semibold">Provinsi<select id="sppgApplicationProvince" required disabled class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm"><option value="">Memuat daftar provinsi...</option></select></label>
+  <label class="block text-xs font-semibold">Kabupaten/Kota<select id="sppgApplicationRegency" required disabled class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm"><option value="">Pilih provinsi terlebih dahulu</option></select></label>
+  <label class="block text-xs font-semibold">Kecamatan<select id="sppgApplicationDistrict" required disabled class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm"><option value="">Pilih kabupaten/kota terlebih dahulu</option></select></label>
+  <p id="sppgApplicationRegionMessage" class="text-xs leading-5 text-slate-400" role="status" aria-live="polite">Pilih wilayah untuk membuat alamat SPPG.</p>
+  <label class="block text-xs font-semibold">Slug SPPG (otomatis, bisa diedit)<input id="sppgApplicationSlug" type="text" minlength="3" maxlength="63" pattern="[a-z0-9]+(-[a-z0-9]+)*" required class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm" placeholder="slug-sppg-wilayah" aria-describedby="sppgApplicationSlugHelp"><span id="sppgApplicationSlugHelp" class="mt-1 block font-normal text-slate-400">Slug dibuat dari nama dan wilayah; gunakan huruf kecil, angka, dan tanda hubung saja. Maksimal 63 karakter.</span></label>
   <label class="block text-xs font-semibold">Nama pemohon<input id="sppgApplicationContactName" type="text" minlength="2" maxlength="150" required autocomplete="name" class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm"></label>
   <label class="block text-xs font-semibold">Email untuk undangan admin<input id="sppgApplicationEmail" type="email" maxlength="254" required autocomplete="email" class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm" placeholder="nama@email.com"></label>
   <label class="block text-xs font-semibold">Nomor HP<input id="sppgApplicationPhone" type="tel" minlength="5" maxlength="40" required autocomplete="tel" class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm"></label>
@@ -10494,6 +10501,10 @@ const overlay = document.getElementById('sppgApplicationOverlay');
 if (!overlay) return;
 overlay.classList.remove('hidden');
 document.body.classList.add('overflow-hidden');
+initializeSppgRegionControls().catch(function(error) {
+console.error('Gagal memuat daftar wilayah SPPG:', error);
+setSppgRegionMessage(error.message, true);
+});
 initializeOrganizationTurnstile().catch(function(error) {
 const message = document.getElementById('sppgApplicationMessage');
 message.textContent = error.message;
@@ -10506,6 +10517,177 @@ const overlay = document.getElementById('sppgApplicationOverlay');
 if (overlay) overlay.classList.add('hidden');
 document.body.classList.remove('overflow-hidden');
 if (window.turnstile && organizationTurnstileWidgetId !== null) window.turnstile.reset(organizationTurnstileWidgetId);
+}
+const sppgRegionOptionCache = new Map();
+let sppgProvinceOptionsLoaded = false;
+let sppgRegionHandlersReady = false;
+let sppgApplicationSlugEdited = false;
+let sppgProvinceRequestSequence = 0;
+let sppgRegencyRequestSequence = 0;
+async function fetchSppgRegionOptions(level, parentCode) {
+const cacheKey = level + ':' + (parentCode || '');
+if (sppgRegionOptionCache.has(cacheKey)) return sppgRegionOptionCache.get(cacheKey);
+const params = new URLSearchParams({ level: level });
+if (parentCode) params.set('parentCode', parentCode);
+const response = await fetch('/api/regions?' + params.toString(), { headers: { Accept: 'application/json' } });
+if (!response.ok) throw new Error('Daftar wilayah tidak dapat dimuat (HTTP ' + response.status + ').');
+const result = await response.json();
+if (!result || !Array.isArray(result.data) ||
+!result.data.every(function(region) {
+return region && typeof region.code === 'string' && typeof region.name === 'string';
+})) {
+throw new Error('Format data wilayah tidak valid.');
+}
+const normalized = {
+data: result.data.map(function(region) {
+return { code: region.code.trim(), name: region.name.trim() };
+}),
+updatedAt: typeof result.updatedAt === 'string' ? result.updatedAt : '',
+source: typeof result.source === 'string' ? result.source : ''
+};
+sppgRegionOptionCache.set(cacheKey, normalized);
+return normalized;
+}
+function getSppgRegionDataMessage(result, fallback) {
+if (result.updatedAt) return 'Data wilayah dari ' + (result.source || 'wilayah.id') + ', diperbarui ' + result.updatedAt + '.';
+return result.source ? 'Data wilayah dari ' + result.source + '.' : fallback;
+}
+function setSppgRegionOptions(select, placeholder, regions) {
+select.replaceChildren(new Option(placeholder, ''));
+(regions || []).forEach(function(region) {
+const option = document.createElement('option');
+option.value = region.code;
+option.textContent = region.name;
+select.appendChild(option);
+});
+select.disabled = !regions || regions.length === 0;
+}
+function setSppgRegionMessage(text, isError) {
+const message = document.getElementById('sppgApplicationRegionMessage');
+if (!message) return;
+message.textContent = text;
+message.className = 'text-xs leading-5 ' + (isError ? 'text-rose-300' : 'text-slate-400');
+}
+function slugifySppgValue(value) {
+return String(value || '')
+.normalize('NFD')
+.replace(/[\u0300-\u036f]/g, '')
+.toLowerCase()
+.replace(/[^a-z0-9]+/g, '-')
+.replace(/^-+|-+$/g, '');
+}
+function updateSppgApplicationSlug() {
+if (sppgApplicationSlugEdited) return;
+const name = document.getElementById('sppgApplicationName').value;
+const province = document.getElementById('sppgApplicationProvince');
+const regency = document.getElementById('sppgApplicationRegency');
+const district = document.getElementById('sppgApplicationDistrict');
+const slugInput = document.getElementById('sppgApplicationSlug');
+const regionNames = [district, regency, province].map(function(select) {
+return select.selectedOptions[0] ? select.selectedOptions[0].textContent.trim() : '';
+});
+if (!name.trim() || !province.value || !regency.value || !district.value || regionNames.some(function(value) { return !value; })) {
+slugInput.value = '';
+return;
+}
+let slug = slugifySppgValue([name].concat(regionNames).join('-'));
+if (slug.length > 63) {
+const regionCode = district.value.replace(/[^0-9]/g, '');
+const suffix = regionCode ? '-' + regionCode : '';
+slug = slug.slice(0, 63 - suffix.length).replace(/-+$/g, '') + suffix;
+}
+slugInput.value = slug;
+}
+function resetSppgRegionSelections() {
+const province = document.getElementById('sppgApplicationProvince');
+const regency = document.getElementById('sppgApplicationRegency');
+const district = document.getElementById('sppgApplicationDistrict');
+if (!province || !regency || !district) return;
+province.value = '';
+setSppgRegionOptions(regency, 'Pilih provinsi terlebih dahulu', []);
+setSppgRegionOptions(district, 'Pilih kabupaten/kota terlebih dahulu', []);
+sppgApplicationSlugEdited = false;
+updateSppgApplicationSlug();
+setSppgRegionMessage('Pilih wilayah untuk membuat alamat SPPG.', false);
+}
+async function initializeSppgRegionControls() {
+const province = document.getElementById('sppgApplicationProvince');
+const regency = document.getElementById('sppgApplicationRegency');
+const district = document.getElementById('sppgApplicationDistrict');
+if (!province || !regency || !district) return;
+if (!sppgRegionHandlersReady) {
+province.addEventListener('change', async function() {
+const requestSequence = ++sppgProvinceRequestSequence;
+++sppgRegencyRequestSequence;
+setSppgRegionOptions(regency, 'Memuat kabupaten/kota...', []);
+setSppgRegionOptions(district, 'Pilih kabupaten/kota terlebih dahulu', []);
+updateSppgApplicationSlug();
+if (!province.value) {
+setSppgRegionMessage('Pilih provinsi untuk memuat kabupaten/kota.', false);
+return;
+}
+const selectedProvince = province.value;
+setSppgRegionMessage('Memuat daftar kabupaten/kota...', false);
+try {
+const result = await fetchSppgRegionOptions('regencies', selectedProvince);
+if (requestSequence !== sppgProvinceRequestSequence || province.value !== selectedProvince) return;
+setSppgRegionOptions(regency, 'Pilih kabupaten/kota', result.data);
+setSppgRegionMessage(getSppgRegionDataMessage(result, 'Pilih kabupaten/kota.'), false);
+} catch (error) {
+if (requestSequence !== sppgProvinceRequestSequence) return;
+setSppgRegionOptions(regency, 'Daftar kabupaten/kota gagal dimuat', []);
+setSppgRegionMessage(error.message, true);
+}
+});
+regency.addEventListener('change', async function() {
+const requestSequence = ++sppgRegencyRequestSequence;
+setSppgRegionOptions(district, 'Memuat kecamatan...', []);
+updateSppgApplicationSlug();
+if (!regency.value) {
+setSppgRegionMessage('Pilih kabupaten/kota untuk memuat kecamatan.', false);
+return;
+}
+const selectedRegency = regency.value;
+setSppgRegionMessage('Memuat daftar kecamatan...', false);
+try {
+const result = await fetchSppgRegionOptions('districts', selectedRegency);
+if (requestSequence !== sppgRegencyRequestSequence || regency.value !== selectedRegency) return;
+setSppgRegionOptions(district, 'Pilih kecamatan', result.data);
+setSppgRegionMessage(getSppgRegionDataMessage(result, 'Pilih kecamatan.'), false);
+} catch (error) {
+if (requestSequence !== sppgRegencyRequestSequence) return;
+setSppgRegionOptions(district, 'Daftar kecamatan gagal dimuat', []);
+setSppgRegionMessage(error.message, true);
+}
+});
+district.addEventListener('change', function() {
+updateSppgApplicationSlug();
+if (district.value) {
+const districtName = district.selectedOptions[0].textContent.trim();
+const regencyName = regency.selectedOptions[0].textContent.trim();
+const provinceName = province.selectedOptions[0].textContent.trim();
+setSppgRegionMessage('Alamat SPPG: Kecamatan ' + districtName + ', ' + regencyName + ', ' + provinceName + '.', false);
+}
+});
+document.getElementById('sppgApplicationName').addEventListener('input', updateSppgApplicationSlug);
+document.getElementById('sppgApplicationSlug').addEventListener('input', function() {
+sppgApplicationSlugEdited = true;
+});
+sppgRegionHandlersReady = true;
+}
+if (sppgProvinceOptionsLoaded) return;
+province.disabled = true;
+setSppgRegionMessage('Memuat daftar provinsi Indonesia...', false);
+try {
+const result = await fetchSppgRegionOptions('provinces', '');
+setSppgRegionOptions(province, 'Pilih provinsi', result.data);
+sppgProvinceOptionsLoaded = true;
+setSppgRegionMessage(getSppgRegionDataMessage(result, 'Pilih provinsi.'), false);
+} catch (error) {
+setSppgRegionOptions(province, 'Daftar provinsi gagal dimuat', []);
+setSppgRegionMessage('Daftar wilayah gagal dimuat. Tutup lalu buka kembali formulir untuk mencoba lagi.', true);
+throw error;
+}
 }
 function initializeInvitePasswordSetup() {
 const invitation = new URLSearchParams(window.location.hash.replace(/^#/, ''));
@@ -10581,6 +10763,13 @@ button.textContent = 'Simpan Password';
 function submitSppgApplication() {
 const form = document.getElementById('sppgApplicationForm');
 if (!form.reportValidity()) return;
+const province = document.getElementById('sppgApplicationProvince');
+const regency = document.getElementById('sppgApplicationRegency');
+const district = document.getElementById('sppgApplicationDistrict');
+if (!province.value || !regency.value || !district.value) {
+setSppgRegionMessage('Pilih provinsi, kabupaten/kota, dan kecamatan sebelum mengirim pendaftaran.', true);
+return;
+}
 const button = document.getElementById('btnSubmitSppgApplication');
 const message = document.getElementById('sppgApplicationMessage');
 const turnstileToken = window.turnstile && organizationTurnstileWidgetId !== null
@@ -10597,6 +10786,12 @@ message.classList.add('hidden');
 callSupabaseAction('submitOrganizationRequest', {
 name: document.getElementById('sppgApplicationName').value.trim(),
 slug: document.getElementById('sppgApplicationSlug').value.trim().toLowerCase(),
+provinceCode: province.value,
+provinceName: province.selectedOptions[0].textContent.trim(),
+regencyCode: regency.value,
+regencyName: regency.selectedOptions[0].textContent.trim(),
+districtCode: district.value,
+districtName: district.selectedOptions[0].textContent.trim(),
 contactName: document.getElementById('sppgApplicationContactName').value.trim(),
 contactEmail: document.getElementById('sppgApplicationEmail').value.trim(),
 contactPhone: document.getElementById('sppgApplicationPhone').value.trim(),
@@ -10611,6 +10806,7 @@ message.className = 'rounded-xl border px-3 py-2 text-xs leading-5 ' +
 : 'border-rose-500/40 bg-rose-500/10 text-rose-200');
 if (res && res.status === 'success') {
 form.reset();
+resetSppgRegionSelections();
 if (window.turnstile && organizationTurnstileWidgetId !== null) window.turnstile.reset(organizationTurnstileWidgetId);
 showToast('SPPG berhasil diaktifkan.');
 }

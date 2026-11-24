@@ -73,6 +73,66 @@ select
   ) as legacy_sppg_removed,
   to_regprocedure('public.spas1_current_storage_folder()') is not null as tenant_storage_helper_exists;
 
+with required_region_columns(table_name, column_name) as (
+  values
+    ('spas1_organization_requests', 'province_code'),
+    ('spas1_organization_requests', 'province_name'),
+    ('spas1_organization_requests', 'regency_code'),
+    ('spas1_organization_requests', 'regency_name'),
+    ('spas1_organization_requests', 'district_code'),
+    ('spas1_organization_requests', 'district_name'),
+    ('spas1_organization_regions', 'province_code'),
+    ('spas1_organization_regions', 'province_name'),
+    ('spas1_organization_regions', 'regency_code'),
+    ('spas1_organization_regions', 'regency_name'),
+    ('spas1_organization_regions', 'district_code'),
+    ('spas1_organization_regions', 'district_name')
+),
+region_column_checks as (
+  select required.table_name, required.column_name,
+    exists (
+      select 1
+      from information_schema.columns as column_info
+      where column_info.table_schema = 'public'
+        and column_info.table_name = required.table_name
+        and column_info.column_name = required.column_name
+    ) as column_exists
+  from required_region_columns as required
+)
+select
+  count(*) as expected_region_columns,
+  count(*) filter (where column_exists) as region_columns_found,
+  count(*) = count(*) filter (where column_exists) as all_region_columns_present
+from region_column_checks;
+
+select
+  to_regclass('public.spas1_organization_regions') is not null as region_table_exists,
+  coalesce((
+    select relrowsecurity
+    from pg_class
+    where oid = to_regclass('public.spas1_organization_regions')
+  ), false) as region_rls_enabled,
+  case
+    when to_regclass('public.spas1_organization_regions') is null then false
+    else not has_table_privilege('anon', 'public.spas1_organization_regions', 'select')
+  end as anonymous_region_read_blocked,
+  case
+    when to_regclass('public.spas1_organization_regions') is null then false
+    else has_table_privilege('authenticated', 'public.spas1_organization_regions', 'select')
+  end as authenticated_region_read_granted,
+  case
+    when to_regclass('public.spas1_organization_regions') is null then false
+    else has_table_privilege('service_role', 'public.spas1_organization_regions', 'insert')
+  end as edge_function_region_write_granted,
+  exists (
+    select 1
+    from pg_policies
+    where schemaname = 'public'
+      and tablename = 'spas1_organization_regions'
+      and policyname = 'SPPG admins and platform admins read regions'
+      and cmd = 'SELECT'
+  ) as private_region_policy_exists;
+
 select
   count(*) filter (
     where position(

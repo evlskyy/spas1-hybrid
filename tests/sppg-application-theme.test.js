@@ -12,7 +12,7 @@ test('home background does not render the children illustration', function() {
 
 test('SPPG application overlay has light-theme styles for its card and fields', function() {
   assert.match(html, /body\.app-light-mode #sppgApplicationOverlay > div \{[^}]*background-color: #FFFFFF !important;[^}]*color: #111827 !important;/);
-  assert.match(html, /body\.app-light-mode #sppgApplicationOverlay input \{[^}]*background-color: #F9FAFB !important;[^}]*color: #111827 !important;/);
+  assert.match(html, /body\.app-light-mode #sppgApplicationOverlay input,\s*body\.app-light-mode #sppgApplicationOverlay select \{[^}]*background-color: #F9FAFB !important;[^}]*color: #111827 !important;/);
   assert.match(html, /body\.app-light-mode #sppgApplicationOverlay p\.text-slate-300 \{[^}]*color: #4B5563 !important;/);
 });
 

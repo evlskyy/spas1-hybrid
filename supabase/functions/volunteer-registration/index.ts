@@ -306,11 +306,25 @@ async function submitOrganizationRequest(
   const contactName = String(input.contactName || "").trim();
   const contactEmail = String(input.contactEmail || "").trim().toLowerCase();
   const contactPhone = String(input.contactPhone || "").trim();
+  const provinceCode = String(input.provinceCode || "").trim();
+  const provinceName = String(input.provinceName || "").trim();
+  const regencyCode = String(input.regencyCode || "").trim();
+  const regencyName = String(input.regencyName || "").trim();
+  const districtCode = String(input.districtCode || "").trim();
+  const districtName = String(input.districtName || "").trim();
+  const validRegion = /^\d{2}$/.test(provinceCode) &&
+    /^\d{2}\.\d{2}$/.test(regencyCode) &&
+    regencyCode.startsWith(`${provinceCode}.`) &&
+    /^\d{2}\.\d{2}\.\d{2}$/.test(districtCode) &&
+    districtCode.startsWith(`${regencyCode}.`) &&
+    [provinceName, regencyName, districtName].every((regionName) =>
+      regionName.length >= 1 && regionName.length <= 120 && !/[\u0000-\u001f\u007f]/.test(regionName)
+    );
   if (name.length < 3 || name.length > 120 || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ||
       slug.length > 63 || contactName.length < 2 || contactName.length > 150 ||
       contactEmail.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail) ||
-      contactPhone.length < 5 || contactPhone.length > 40) {
-    return jsonResponse({ error: "Periksa nama SPPG, alamat slug, nama pemohon, email, dan nomor HP." }, 400, origin);
+      contactPhone.length < 5 || contactPhone.length > 40 || !validRegion) {
+    return jsonResponse({ error: "Periksa nama SPPG, wilayah, slug, nama pemohon, email, dan nomor HP." }, 400, origin);
   }
   const verificationError = await verifyTurnstileToken(String(input.turnstileToken || ""), request, origin);
   if (verificationError) return jsonResponse({ error: verificationError.error }, verificationError.status, origin);
@@ -323,6 +337,12 @@ async function submitOrganizationRequest(
       contact_name: contactName,
       contact_email: contactEmail,
       contact_phone: contactPhone,
+      province_code: provinceCode,
+      province_name: provinceName,
+      regency_code: regencyCode,
+      regency_name: regencyName,
+      district_code: districtCode,
+      district_name: districtName,
     })
     .select("id")
     .maybeSingle();
@@ -397,7 +417,7 @@ async function reviewOrganizationRequest(
     .update({ status: "processing" })
     .eq("id", requestId)
     .eq("status", "pending")
-    .select("id,slug,name,contact_name,contact_email")
+    .select("id,slug,name,contact_name,contact_email,province_code,province_name,regency_code,regency_name,district_code,district_name")
     .maybeSingle();
   if (claimError) throw claimError;
   if (!requestRow) return jsonResponse({ error: "Permohonan tidak ditemukan atau sudah diproses." }, 409, origin);
@@ -422,6 +442,17 @@ async function reviewOrganizationRequest(
     });
     if (organizationError) throw organizationError;
     organizationCreated = true;
+
+    const { error: regionError } = await adminClient.from("spas1_organization_regions").insert({
+      organization_id: organizationId,
+      province_code: requestRow.province_code,
+      province_name: requestRow.province_name,
+      regency_code: requestRow.regency_code,
+      regency_name: requestRow.regency_name,
+      district_code: requestRow.district_code,
+      district_name: requestRow.district_name,
+    });
+    if (regionError) throw regionError;
 
     const { data: invitation, error: invitationError } = await adminClient.auth.admin.inviteUserByEmail(
       requestRow.contact_email,

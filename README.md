@@ -33,6 +33,7 @@ SPAS1 menyatukan alur menu dan gizi, stok logistik, absensi relawan, persiapan, 
 
 - Perencanaan menu harian dan Bank Menu.
 - Registrasi relawan, persetujuan admin, login, dan pencatatan absensi.
+- Pendaftaran SPPG dengan pilihan wilayah berantai Provinsi → Kabupaten/Kota → Kecamatan.
 - Pengelolaan logistik dapur dan stok.
 - Modul persiapan, distribusi, anggaran, HACCP, serta poster AKG.
 - Pengelolaan konten publik dan media situs.
@@ -63,6 +64,7 @@ Service worker hanya menyimpan halaman informasi offline, manifest, dan ikon. Ha
 - `supabase_stock_conversion_migration.sql` juga memerlukan helper tenant tersebut; jangan jalankan sendiri pada database lama.
 - `supabase/staging_schema_baseline.sql` adalah snapshot skema `public` tanpa baris data, disiapkan untuk project uji `SPAS1-Hybrid`. Jangan jalankan file ini pada `SPAS1-Database` atau project produksi.
 - Bootstrap staging `SPAS1-Hybrid` sudah selesai: baseline, migrasi tenant, operasional, stok, dan AboutSky telah diterapkan; tiga Edge Functions juga telah dideploy. `supabase/staging_verify.sql` memeriksa tabel tenant, RLS, helper, dan bucket secara read-only.
+- `functions/api/regions.js` menyediakan proxy same-origin terbatas ke `wilayah.id` untuk pilihan wilayah pada pendaftaran SPPG. Kode dan nama wilayah disimpan terpisah dari direktori SPPG publik; RLS membatasi tabel wilayah ke admin SPPG terkait dan admin platform. Sebelum merilis form dan Edge Function yang diperbarui, tinjau dan terapkan `supabase/sppg_region_migration.sql` hanya ke project `SPAS1-Hybrid`, lalu jalankan `supabase/staging_verify.sql` untuk memeriksa kolom dan kebijakan akses.
 - Konfigurasi frontend staging kini menunjuk ke project baru. Turnstile dan Auth sudah disetel untuk Pages staging; alur onboarding multi-SPPG baru tetap harus diuji sebelum rilis. Project Supabase lama dan domain `spas1.my.id` tidak diubah.
 - Untuk uji staging, urutannya: baseline, `supabase_multisppg_migration.sql`, `supabase_migration.sql`, `supabase_stock_conversion_migration.sql`, `supabase/aboutsky_migration.sql`, lalu `supabase/tenant_empty_defaults_migration.sql`. Migrasi terakhir memeriksa membership, data operasional, dan file Storage tenant lama; migrasi berhenti tanpa menghapus tenant lama jika masih ada yang harus dipindahkan. Jangan jalankan `supabase_bank_menu_sppg_import.sql` sebagai bagian bootstrap karena file tersebut mengimpor data.
 - Gunakan `spas1-hybrid.pages.dev` untuk deployment dan uji staging. Set `MAINTENANCE_MODE=false` pada environment Cloudflare Pages ketika siap diuji. Jangan alihkan domain produksi sebelum semua pengujian staging lulus.
