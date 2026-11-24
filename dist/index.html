@@ -6928,7 +6928,7 @@ document.getElementById('view-home').classList.add('hidden');
 document.getElementById('view-tutorial').classList.add('hidden');
 document.getElementById('view-admin').classList.remove('hidden');
 document.body.classList.remove('home-screen-active');
-switchAdminTab('tab-audit', document.getElementById('nav-tab-audit'));
+resetAdminNavigationState();
 window.requestAnimationFrame(function() {
 setTimeout(function() { tarikDataSupabaseAdmin(); }, 50);
 setTimeout(function() { loadVolunteerRegistrationRequests(null, { notify: true, quiet: true }); }, 350);
@@ -7275,6 +7275,22 @@ const open = typeof forceOpen === 'boolean' ? forceOpen : submenu.classList.cont
 submenu.classList.toggle('hidden', !open);
 toggle.setAttribute('aria-expanded', String(open));
 if (chevron) chevron.classList.toggle('rotate-180', open);
+}
+function resetAdminNavigationState() {
+document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.add('hidden'));
+document.querySelectorAll('.sidebar-link').forEach(button => {
+button.classList.remove('active');
+button.style.backgroundColor = '';
+button.style.color = '';
+});
+toggleAdminSettingsMenu(false);
+toggleSuperAksesMenu(false);
+toggleAkuntanMenu(false);
+toggleSuperGiziMenu(false);
+['nav-settings-toggle', 'nav-super-akses-toggle', 'nav-akuntan-toggle', 'nav-super-gizi-toggle'].forEach(id => {
+const toggle = document.getElementById(id);
+if (toggle) toggle.classList.remove('is-current');
+});
 }
 function renderAdminTextRows(tbody, records, fields) {
 const renderId = (adminTableRenderIds.get(tbody) || 0) + 1;
