@@ -4476,7 +4476,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <section id="tab-settings" class="admin-tab space-y-4 hidden">
 <div class="site-settings-heading flex items-start gap-3 rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4">
 <span class="site-settings-icon grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-600 text-white"><i class="fa-solid fa-sliders"></i></span>
-<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Pengaturan Identitas Aplikasi</h2><p class="mt-1 text-xs text-gray-500">Kelola nama yayasan, nama SPPG, dan logo global. Perubahan identitas diterapkan ke halaman utama dan area lintas modul.</p></div>
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Pengaturan Identitas Aplikasi</h2><p class="mt-1 text-xs text-gray-500">Kelola nama Yayasan, nama SPPG, dan logo Yayasan secara global. Logo SPAS1 tetap menggunakan logo bawaan.</p></div>
 </div>
 <div id="adminSettingsMessage" class="hidden rounded-lg border px-3 py-2 text-xs" role="status" aria-live="polite"></div>
 <form id="siteSettingsForm" class="light-card admin-news-form p-4 sm:p-5 rounded-2xl shadow-sm" onsubmit="event.preventDefault(); saveAdminSiteSettings();">
@@ -4486,24 +4486,14 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <label for="sppgNameInput">Nama SPPG
 <input id="sppgNameInput" type="text" maxlength="120" required>
 </label>
-<label for="siteLogoInput">Logo global (PNG, JPG, WebP; maksimal 10 MB)
+<label for="siteLogoInput">Logo Yayasan (PNG, JPG, WebP; maksimal 10 MB)
 <input id="siteLogoInput" type="file" accept="image/png,image/jpeg,image/webp">
 </label>
 <div class="site-logo-controls flex flex-wrap items-center gap-3 rounded-xl border border-gray-200 bg-gray-50/80 p-3">
-<div class="site-logo-preview-shell"><img id="siteLogoPreview" alt="Pratinjau logo global" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJYzPk2Xea4JAccvonUAeQSs-3E69THE8bVeyXD7m-yyTN78e60a09u-TS_v99dJcbPCtfJNJ9vNMPflbA1sx3jSi0T-BYBSP-_vDNefVbO-z2FVazjn6fktuCFRfZhOodqLqQRSaJIZS0dG1xkP3kbD4NmWbMuIvDSDKL3HdBP1XLgjS3aagtRyK88cHu/s1600/image.png"></div>
+<div class="site-logo-preview-shell"><img id="siteLogoPreview" alt="Pratinjau logo Yayasan" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJYzPk2Xea4JAccvonUAeQSs-3E69THE8bVeyXD7m-yyTN78e60a09u-TS_v99dJcbPCtfJNJ9vNMPflbA1sx3jSi0T-BYBSP-_vDNefVbO-z2FVazjn6fktuCFRfZhOodqLqQRSaJIZS0dG1xkP3kbD4NmWbMuIvDSDKL3HdBP1XLgjS3aagtRyK88cHu/s1600/image.png"></div>
 <div class="flex flex-wrap gap-2">
-<button id="siteLogoUpload" type="button" onclick="uploadSiteLogo()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo</button>
-<button type="button" onclick="resetSiteLogo()" class="px-3 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-bold"><i class="fa-solid fa-rotate-left"></i> Pakai logo bawaan</button>
-</div>
-</div>
-<label for="siteMarkInput">Logo SPAS1 (PNG, JPG, WebP; maksimal 10 MB)
-<input id="siteMarkInput" type="file" accept="image/png,image/jpeg,image/webp">
-</label>
-<div class="site-logo-controls flex flex-wrap items-center gap-3 rounded-xl border border-gray-200 bg-gray-50/80 p-3">
-<div class="site-logo-preview-shell"><img id="siteMarkPreview" alt="Pratinjau logo SPAS1" src="assets/spas1-mark.png"></div>
-<div class="flex flex-wrap gap-2">
-<button id="siteMarkUpload" type="button" onclick="uploadSiteMark()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo SPAS1</button>
-<button type="button" onclick="resetSiteMark()" class="px-3 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-bold"><i class="fa-solid fa-rotate-left"></i> Logo SPAS1 bawaan</button>
+<button id="siteLogoUpload" type="button" onclick="uploadSiteLogo()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo Yayasan</button>
+<button type="button" onclick="resetSiteLogo()" class="px-3 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-bold"><i class="fa-solid fa-rotate-left"></i> Pakai logo Yayasan bawaan</button>
 </div>
 </div>
 <div><button id="siteSettingsSubmit" type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold"><i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan</button></div>
@@ -4536,14 +4526,29 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </form>
 </section>
 <section id="tab-content" class="admin-tab space-y-4 hidden">
-<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Konten dan Tautan Situs</h2><p class="mt-1 text-xs text-gray-500">Kelola rincian penerima manfaat, keterangan struktur/tim, dan tombol WhatsApp. Teks Tentang Kami, READ INFO PROJECT, serta tautan sosial tetap tampil tetapi tidak dapat diubah dari panel ini.</p></div>
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Konten dan Tautan Situs</h2><p class="mt-1 text-xs text-gray-500">Kelola teks Tentang Kami, READ INFO PROJECT, tautan sosial, rincian penerima manfaat, struktur/tim, dan tombol WhatsApp.</p></div>
 <div id="adminSiteContentMessage" class="hidden rounded-lg border px-3 py-2 text-xs" role="status" aria-live="polite"></div>
 <form id="siteContentForm" class="space-y-4" onsubmit="event.preventDefault(); saveAdminSiteContent();">
 <div class="light-card admin-news-form p-4 rounded-2xl shadow-sm">
+<h3 class="text-sm font-bold text-gray-900">Teks Halaman Tentang Kami</h3>
+<label for="contentAboutTitle">Judul halaman<input id="contentAboutTitle" type="text" maxlength="100" required></label>
+<label for="contentAboutDescription">Deskripsi singkat<textarea id="contentAboutDescription" maxlength="1200" required></textarea></label>
 <label for="contentBeneficiariesTitle">Judul rincian penerima manfaat<input id="contentBeneficiariesTitle" type="text" maxlength="120" required></label>
 <label for="contentBeneficiariesNote">Keterangan rincian<textarea id="contentBeneficiariesNote" maxlength="500" required></textarea></label>
 <label for="contentTeamTitle">Judul struktur/tim<input id="contentTeamTitle" type="text" maxlength="120" required></label>
 <label for="contentTeamNote">Keterangan nama/foto personel<textarea id="contentTeamNote" maxlength="500" required></textarea></label>
+</div>
+<div class="light-card admin-news-form p-4 rounded-2xl shadow-sm">
+<h3 class="text-sm font-bold text-gray-900">READ INFO PROJECT · Version 2.2.2 Hybrid</h3>
+<label for="contentProjectTitle">Judul proyek<input id="contentProjectTitle" type="text" maxlength="120" required></label>
+<label for="contentProjectSummary">Deskripsi proyek<textarea id="contentProjectSummary" maxlength="1200" required></textarea></label>
+<label for="contentProjectUpdateTitle">Judul pembaruan (label TERUPDATE dapat diubah)<input id="contentProjectUpdateTitle" type="text" maxlength="160" required></label>
+<label for="contentProjectUpdateSummary">Ringkasan pembaruan versi 2.2.2 Hybrid<textarea id="contentProjectUpdateSummary" maxlength="2000" required></textarea></label>
+</div>
+<div class="light-card p-4 rounded-2xl shadow-sm space-y-3">
+<h3 class="text-sm font-bold text-gray-900">Tautan Media Sosial</h3>
+<p class="text-[11px] text-gray-500">Ubah label/tautan atau sembunyikan ikon. URL ikon opsional harus HTTPS dan dapat diakses publik.</p>
+<div class="overflow-x-auto rounded-xl border border-gray-200"><table class="w-full min-w-[820px] text-left text-[11px]"><thead class="bg-gray-50 text-gray-600"><tr><th class="p-2">Platform</th><th class="p-2">Label</th><th class="p-2">URL Tautan</th><th class="p-2">URL Ikon</th><th class="p-2">Tampil</th></tr></thead><tbody id="adminSocialLinks"></tbody></table></div>
 </div>
 <div class="light-card p-4 rounded-2xl shadow-sm space-y-3">
 <h3 class="text-sm font-bold text-gray-900">Tombol WhatsApp</h3>
@@ -6609,9 +6614,13 @@ return { status: 'success', data: settings };
 }
 case 'saveSiteSettings':
 {
-const settings = Object.assign({}, payload.settings || payload);
-if ('logoFileId' in settings && (!settings.logoFileId || supabasePublicMediaUrl(settings.logoFileId))) settings.logoUrl = supabasePublicMediaUrl(settings.logoFileId);
-if ('markFileId' in settings && (!settings.markFileId || supabasePublicMediaUrl(settings.markFileId))) settings.markUrl = supabasePublicMediaUrl(settings.markFileId);
+const submitted = payload.settings || payload;
+const settings = {
+foundationName: String(submitted.foundationName || '').trim(),
+sppgName: String(submitted.sppgName || '').trim(),
+logoFileId: String(submitted.logoFileId || '')
+};
+if (!settings.logoFileId || supabasePublicMediaUrl(settings.logoFileId)) settings.logoUrl = supabasePublicMediaUrl(settings.logoFileId);
 for (const key of Object.keys(settings)) {
 await supabaseRequest('SPAS1_SETTINGS', { method: 'POST', query: { on_conflict: 'Pengaturan' }, prefer: 'resolution=merge-duplicates,return=minimal', body: { Pengaturan: key, Nilai: typeof settings[key] === 'string' ? settings[key] : JSON.stringify(settings[key]), Diperbarui: new Date().toISOString() } });
 }
@@ -13607,13 +13616,6 @@ normalizedContent[key] = defaultSiteContent[key];
 }
 });
 currentSiteContent = Object.assign({}, currentSiteContent, normalizedContent);
-if (Array.isArray(currentSiteContent.socials)) {
-currentSiteContent.socials = currentSiteContent.socials.map(function(item) {
-return item && item.key === 'aboutskyy'
-? Object.assign({}, item, { url: ABOUTSKY_PUBLIC_URL })
-: item;
-});
-}
 document.querySelectorAll('[data-content-key]').forEach(function(element) {
 const value = currentSiteContent[element.dataset.contentKey];
 if (typeof value === 'string') element.textContent = value;
@@ -14025,6 +14027,21 @@ message.className = isError
 : 'rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-800';
 message.textContent = text;
 }
+function renderAdminSocialLinks() {
+const tbody = document.getElementById('adminSocialLinks');
+if (!tbody) return;
+const socials = Array.isArray(currentSiteContent.socials) ? currentSiteContent.socials : [];
+tbody.innerHTML = socials.map(function(item, index) {
+const key = escapeHtml(item.key || String(index));
+return '<tr data-social-index="' + index + '" class="border-t border-gray-100">' +
+'<td class="p-2 font-semibold">' + key + '</td>' +
+'<td class="p-2"><input data-social-field="label" type="text" maxlength="80" aria-label="Label ' + key + '" value="' + escapeHtml(item.label || '') + '"></td>' +
+'<td class="p-2"><input data-social-field="url" type="text" maxlength="500" aria-label="URL ' + key + '" value="' + escapeHtml(item.url || '') + '"></td>' +
+'<td class="p-2"><input data-social-field="iconUrl" type="url" maxlength="500" aria-label="URL ikon ' + key + '" value="' + escapeHtml(item.iconUrl || '') + '"></td>' +
+'<td class="p-2 text-center"><input data-social-field="enabled" type="checkbox" aria-label="Tampilkan ' + key + '"' + (item.enabled === true ? ' checked' : '') + '></td>' +
+'</tr>';
+}).join('');
+}
 function loadAdminSiteContent() {
 if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_AUTH_TOKEN || adminSiteContentLoaded) return;
 const button = document.getElementById('siteContentSubmit');
@@ -14038,19 +14055,26 @@ return;
 }
 applySiteContent(res.data);
 const fields = {
+contentAboutTitle: 'aboutTitle',
+contentAboutDescription: 'aboutDescription',
 contentBeneficiariesTitle: 'beneficiariesTitle',
 contentBeneficiariesNote: 'beneficiariesNote',
 contentTeamTitle: 'teamTitle',
-contentTeamNote: 'teamNote'
+contentTeamNote: 'teamNote',
+contentProjectTitle: 'projectTitle',
+contentProjectSummary: 'projectSummary',
+contentProjectUpdateTitle: 'projectUpdateTitle',
+contentProjectUpdateSummary: 'projectUpdateSummary'
 };
 Object.keys(fields).forEach(function(id) {
 document.getElementById(id).value = String(currentSiteContent[fields[id]] || '');
 });
+renderAdminSocialLinks();
 document.getElementById('contentWhatsappEnabled').checked = currentSiteContent.whatsappEnabled === true;
 document.getElementById('contentWhatsappPhone').value = String(currentSiteContent.whatsappPhone || '');
 adminSiteContentLoaded = true;
 button.disabled = false;
-showAdminSiteContentMessage('Konten publik termuat. Panel ini hanya mengelola rincian, struktur/tim, dan WhatsApp.', false);
+showAdminSiteContentMessage('Konten dan tautan publik termuat.', false);
 }, function(error) {
 showAdminSiteContentMessage('Konten situs gagal dimuat: ' + error.message, true);
 });
@@ -14062,11 +14086,33 @@ return;
 }
 const button = document.getElementById('siteContentSubmit');
 if (button.disabled) return;
+const socials = (Array.isArray(currentSiteContent.socials) ? currentSiteContent.socials : []).map(function(item, index) {
+const field = function(name) {
+return document.querySelector('#adminSocialLinks [data-social-index="' + index + '"][data-social-field="' + name + '"]');
+};
+const label = field('label');
+const url = field('url');
+const iconUrl = field('iconUrl');
+const enabled = field('enabled');
+return Object.assign({}, item, {
+label: label ? label.value.trim() : String(item.label || ''),
+url: url ? url.value.trim() : String(item.url || ''),
+iconUrl: iconUrl ? iconUrl.value.trim() : String(item.iconUrl || ''),
+enabled: enabled ? enabled.checked : item.enabled === true
+});
+});
 const payload = Object.assign({}, currentSiteContent, {
+aboutTitle: document.getElementById('contentAboutTitle').value.trim(),
+aboutDescription: document.getElementById('contentAboutDescription').value.trim(),
 beneficiariesTitle: document.getElementById('contentBeneficiariesTitle').value.trim(),
 beneficiariesNote: document.getElementById('contentBeneficiariesNote').value.trim(),
 teamTitle: document.getElementById('contentTeamTitle').value.trim(),
 teamNote: document.getElementById('contentTeamNote').value.trim(),
+projectTitle: document.getElementById('contentProjectTitle').value.trim(),
+projectSummary: document.getElementById('contentProjectSummary').value.trim(),
+projectUpdateTitle: document.getElementById('contentProjectUpdateTitle').value.trim(),
+projectUpdateSummary: document.getElementById('contentProjectUpdateSummary').value.trim(),
+socials: socials,
 whatsappEnabled: document.getElementById('contentWhatsappEnabled').checked,
 whatsappPhone: document.getElementById('contentWhatsappPhone').value.trim()
 });
@@ -14092,16 +14138,15 @@ let currentSiteSettings = {
 foundationName: 'Nama Yayasan belum diatur',
 sppgName: 'Nama SPPG belum diatur',
 logoFileId: '',
-logoUrl: '',
-markFileId: '',
-markUrl: ''
+logoUrl: ''
 };
+const DEFAULT_SPAS1_MARK_URL = 'assets/spas1-mark.png';
 const DEFAULT_SITE_LOGO_URL = 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJYzPk2Xea4JAccvonUAeQSs-3E69THE8bVeyXD7m-yyTN78e60a09u-TS_v99dJcbPCtfJNJ9vNMPflbA1sx3jSi0T-BYBSP-_vDNefVbO-z2FVazjn6fktuCFRfZhOodqLqQRSaJIZS0dG1xkP3kbD4NmWbMuIvDSDKL3HdBP1XLgjS3aagtRyK88cHu/s1600/image.png';
 function applySiteSettings(settings) {
 if (!settings || typeof settings !== 'object') return;
 Object.keys(settings).forEach(function(key) {
 const value = settings[key];
-if (value !== null && value !== undefined && (String(value).trim() !== '' || ['logoFileId', 'logoUrl', 'markFileId', 'markUrl'].indexOf(key) !== -1)) {
+if (['foundationName', 'sppgName', 'logoFileId', 'logoUrl'].indexOf(key) !== -1 && value !== null && value !== undefined && (String(value).trim() !== '' || ['logoFileId', 'logoUrl'].indexOf(key) !== -1)) {
 currentSiteSettings[key] = value;
 }
 });
@@ -14116,12 +14161,11 @@ const globalLogoUrl = currentSiteSettings.logoUrl || DEFAULT_SITE_LOGO_URL;
 document.querySelectorAll('[data-brand-logo="true"]').forEach(function(image) {
 image.src = globalLogoUrl;
 });
-const globalMarkUrl = currentSiteSettings.markUrl || 'assets/spas1-mark.png';
 document.querySelectorAll('[data-spas1-logo="true"]').forEach(function(image) {
-image.src = globalMarkUrl;
+image.src = DEFAULT_SPAS1_MARK_URL;
 });
-applyModuleLoginLogo('mnLoginLogo', 'mn_logo_custom', globalMarkUrl);
-applyModuleLoginLogo('slLoginLogo', 'sl_logo_custom', globalMarkUrl);
+applyModuleLoginLogo('mnLoginLogo', 'mn_logo_custom', DEFAULT_SPAS1_MARK_URL);
+applyModuleLoginLogo('slLoginLogo', 'sl_logo_custom', DEFAULT_SPAS1_MARK_URL);
 if (window.SPAS1_MODULE_LOGO_OVERRIDE) {
 const moduleLogo = document.getElementById('brandLogoImg');
 if (moduleLogo) moduleLogo.src = window.SPAS1_MODULE_LOGO_OVERRIDE;
@@ -14168,8 +14212,6 @@ applySiteSettings(res.data);
 document.getElementById('foundationNameInput').value = res.data.foundationName;
 document.getElementById('sppgNameInput').value = res.data.sppgName;
 siteSettingsLogoFileId = res.data.logoFileId || '';
-siteSettingsMarkFileId = res.data.markFileId || '';
-document.getElementById('siteMarkPreview').src = res.data.markUrl || 'assets/spas1-mark.png';
 if (message) message.classList.add('hidden');
 }, function(error) {
 showAdminSettingsLoadError(error.message);
@@ -14182,7 +14224,6 @@ message.className = 'rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 te
 message.textContent = 'Pengaturan gagal dimuat dari Supabase: ' + errorMessage;
 }
 let siteSettingsLogoFileId = '';
-let siteSettingsMarkFileId = '';
 function uploadSiteLogo() {
 if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_AUTH_TOKEN) {
 alert('Sesi admin tidak valid. Silakan login kembali.');
@@ -14191,18 +14232,18 @@ return;
 const file = document.getElementById('siteLogoInput').files[0];
 const button = document.getElementById('siteLogoUpload');
 if (!file) { alert('Pilih file logo terlebih dahulu.'); return; }
-setFormButtonBusy(button, true, '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo', 'Mengunggah...');
+setFormButtonBusy(button, true, '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo Yayasan', 'Mengunggah...');
 prepareAdminImage(file).then(function(dataUrl) {
 callSupabaseAction('uploadAdminMedia', {
 mode: 'logo',
 category: 'Logo Yayasan',
-title: 'Logo Global',
-description: 'Logo identitas aplikasi',
+title: 'Logo Yayasan',
+description: 'Logo identitas yayasan',
 date: localDateInputValue(),
 fileName: file.name,
 dataUrl: dataUrl
 }, function(res) {
-setFormButtonBusy(button, false, '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo', '');
+setFormButtonBusy(button, false, '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo Yayasan', '');
 if (!res || res.status !== 'success' || !res.data) {
 alert('Gagal mengunggah logo: ' + (res && res.message ? res.message : 'respons server tidak valid.'));
 return;
@@ -14211,11 +14252,11 @@ siteSettingsLogoFileId = res.data.fileId;
 document.getElementById('siteLogoPreview').src = res.data.url;
 showToast('Logo berhasil diunggah. Klik Simpan Pengaturan untuk menerapkan.');
 }, function(error) {
-setFormButtonBusy(button, false, '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo', '');
+setFormButtonBusy(button, false, '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo Yayasan', '');
 alert('Gagal mengunggah logo: ' + error.message);
 });
 }).catch(function(error) {
-setFormButtonBusy(button, false, '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo', '');
+setFormButtonBusy(button, false, '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo Yayasan', '');
 alert('Gagal memproses logo: ' + error.message);
 });
 }
@@ -14223,47 +14264,6 @@ function resetSiteLogo() {
 siteSettingsLogoFileId = '';
 document.getElementById('siteLogoInput').value = '';
 document.getElementById('siteLogoPreview').src = DEFAULT_SITE_LOGO_URL;
-}
-function uploadSiteMark() {
-if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_AUTH_TOKEN) {
-alert('Sesi admin tidak valid. Silakan login kembali.');
-return;
-}
-const file = document.getElementById('siteMarkInput').files[0];
-const button = document.getElementById('siteMarkUpload');
-if (!file) { alert('Pilih file logo SPAS1 terlebih dahulu.'); return; }
-setFormButtonBusy(button, true, '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo SPAS1', 'Mengunggah...');
-prepareAdminImage(file).then(function(dataUrl) {
-callSupabaseAction('uploadAdminMedia', {
-mode: 'logo',
-category: 'Logo SPAS1',
-title: 'Logo SPAS1',
-description: 'Logo identitas SPAS1',
-date: localDateInputValue(),
-fileName: file.name,
-dataUrl: dataUrl
-}, function(res) {
-setFormButtonBusy(button, false, '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo SPAS1', '');
-if (!res || res.status !== 'success' || !res.data) {
-alert('Gagal mengunggah logo SPAS1: ' + (res && res.message ? res.message : 'respons server tidak valid.'));
-return;
-}
-siteSettingsMarkFileId = res.data.fileId;
-document.getElementById('siteMarkPreview').src = res.data.url;
-showToast('Logo SPAS1 berhasil diunggah. Klik Simpan Pengaturan untuk menerapkan.');
-}, function(error) {
-setFormButtonBusy(button, false, '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo SPAS1', '');
-alert('Gagal mengunggah logo SPAS1: ' + error.message);
-});
-}).catch(function(error) {
-setFormButtonBusy(button, false, '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo SPAS1', '');
-alert('Gagal memproses logo SPAS1: ' + error.message);
-});
-}
-function resetSiteMark() {
-siteSettingsMarkFileId = '';
-document.getElementById('siteMarkInput').value = '';
-document.getElementById('siteMarkPreview').src = 'assets/spas1-mark.png';
 }
 function saveAdminSiteSettings() {
 if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_AUTH_TOKEN) {
@@ -14275,8 +14275,7 @@ if (button.disabled) return;
 const payload = {
 foundationName: document.getElementById('foundationNameInput').value.trim(),
 sppgName: document.getElementById('sppgNameInput').value.trim(),
-logoFileId: siteSettingsLogoFileId,
-markFileId: siteSettingsMarkFileId
+logoFileId: siteSettingsLogoFileId
 };
 setFormButtonBusy(button, true, '<i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan', 'Menyimpan...');
 callSupabaseAction('saveSiteSettings', payload, function(res) {
@@ -14286,8 +14285,7 @@ alert('Gagal menyimpan pengaturan: ' + (res && res.message ? res.message : 'resp
 return;
 }
 currentSiteSettings = Object.assign({}, payload, {
-logoUrl: payload.logoFileId ? (supabasePublicMediaUrl(payload.logoFileId) || currentSiteSettings.logoUrl) : '',
-markUrl: payload.markFileId ? (supabasePublicMediaUrl(payload.markFileId) || currentSiteSettings.markUrl) : ''
+logoUrl: payload.logoFileId ? (supabasePublicMediaUrl(payload.logoFileId) || currentSiteSettings.logoUrl) : ''
 });
 applySiteSettings(currentSiteSettings);
 showToast(res.message || 'Pengaturan berhasil disimpan.');
