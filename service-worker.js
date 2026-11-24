@@ -1,5 +1,5 @@
 const CACHE_NAME = 'spas1-hybrid-pwa-v1';
-const OFFLINE_URL = '/offline.html';
+const OFFLINE_URL = '/offline';
 const STATIC_ASSETS = [
   OFFLINE_URL,
   '/manifest.webmanifest',

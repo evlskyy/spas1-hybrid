@@ -41,6 +41,7 @@ test('manifest icons have the required dimensions and maskable safe area', funct
 });
 
 test('service worker caches only static shell assets and uses an offline navigation fallback', function() {
+  assert.match(serviceWorker, /const OFFLINE_URL = '\/offline';/);
   assert.match(serviceWorker, /const STATIC_ASSETS = \[[\s\S]*?OFFLINE_URL[\s\S]*?manifest\.webmanifest[\s\S]*?pwa-icon/);
   assert.match(serviceWorker, /if \(request\.mode === 'navigate'\)[\s\S]*?fetch\(request\)\.catch[\s\S]*?caches\.match\(OFFLINE_URL\)/);
   assert.match(serviceWorker, /if \(!STATIC_ASSETS\.includes\(requestUrl\.pathname\)\) return/);
