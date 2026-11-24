@@ -12,7 +12,7 @@ tanpa izin tertulis dari pemilik hak cipta, kecuali jika diizinkan hukum.
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
- <meta name="description" content="SPAS1 adalah aplikasi operasional MBG SPPG Sungai Pasir 1 Meral, Karimun. Frontend dipublikasikan melalui Cloudflare Pages; autentikasi, database, sinkronisasi, dan media dikelola melalui Supabase.">
+ <meta name="description" content="SPAS1 Hybrid adalah aplikasi operasional multi-SPPG untuk mengelola menu, stok, relawan, persiapan, distribusi, dan administrasi.">
  <meta name="keywords" content="SPAS1, aplikasi MBG, Supabase, Cloudflare Pages, SPPG Sungai Pasir 1 Meral, Yayasan Bidadari Indonesia Gemilang, absensi relawan MBG, bank menu gizi, stok logistik, persiapan distribusi">
  <meta name="author" content="iamsky (evlskyy)">
  <meta name="robots" content="index, follow">
@@ -21,7 +21,7 @@ tanpa izin tertulis dari pemilik hak cipta, kecuali jika diizinkan hukum.
  <meta property="og:locale" content="id_ID">
  <meta property="og:site_name" content="SPAS1">
  <meta property="og:title" content="SPAS1 - Aplikasi Operasional MBG | Supabase & Cloudflare Pages">
- <meta property="og:description" content="Aplikasi operasional SPPG Sungai Pasir 1 Meral dengan Supabase sebagai backend dan Cloudflare Pages untuk publikasi frontend.">
+ <meta property="og:description" content="Aplikasi operasional multi-SPPG dengan Supabase sebagai backend dan Cloudflare Pages untuk publikasi frontend.">
  <meta property="og:url" content="https://spas1.my.id/">
  <meta property="og:image" content="https://spas1.my.id/assets/spas1-mark.png">
  <meta name="twitter:card" content="summary">
@@ -32,7 +32,7 @@ tanpa izin tertulis dari pemilik hak cipta, kecuali jika diizinkan hukum.
 ::selection { color: #172033; background: #FACC15; }
 ::-moz-selection { color: #172033; background: #FACC15; }
 </style>
-<title>SPAS1 Version 2.2.2 Hybrid | Aplikasi Operasional MBG SPPG Sungai Pasir 1 Meral</title>
+<title>SPAS1 Version 2.2.2 Hybrid | Aplikasi Operasional Multi-SPPG</title>
 <link rel="canonical" href="https://spas1.my.id/">
 <link rel="icon" type="image/png" href="assets/spas1-mark.png">
 <link rel="apple-touch-icon" href="assets/spas1-mark.png">
@@ -3212,13 +3212,13 @@ gtag('config', 'G-4933FEDV2TW');
 <div onclick="bukaModul('modul-menu')" class="dark-card p-5 rounded-2xl hover:border-emerald-500 cursor-pointer transition transform hover:-translate-y-1 shadow-lg group">
 <div class="flex items-center space-x-4">
 <div class="w-12 h-12 bg-emerald-600/20 text-emerald-400 rounded-xl flex items-center justify-center text-2xl group-hover:bg-emerald-600 group-hover:text-white transition"><i class="fa-solid fa-utensils"></i></div>
-<div><span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">MODUL 2</span><h3 class="font-bold text-sm text-white group-hover:text-emerald-300 transition">Bank Menu & Gizi</h3><p class="text-[11px] text-gray-400 mt-0.5">500 Paket Menu Standar MBG</p></div>
+<div><span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">MODUL 2</span><h3 class="font-bold text-sm text-white group-hover:text-emerald-300 transition">Bank Menu & Gizi</h3><p class="text-[11px] text-gray-400 mt-0.5">Kelola menu dan gizi SPPG</p></div>
 </div>
 </div>
 <div onclick="bukaModul('modul-stok')" class="dark-card p-5 rounded-2xl hover:border-amber-500 cursor-pointer transition transform hover:-translate-y-1 shadow-lg group">
 <div class="flex items-center space-x-4">
 <div class="w-12 h-12 bg-amber-600/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl group-hover:bg-amber-600 group-hover:text-white transition"><i class="fa-solid fa-boxes-packing"></i></div>
-<div><span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider">MODUL 3</span><h3 class="font-bold text-sm text-white group-hover:text-amber-300 transition">Stok Logistik</h3><p class="text-[11px] text-gray-400 mt-0.5">600 Item Bahan Baku & Bumbu</p></div>
+<div><span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider">MODUL 3</span><h3 class="font-bold text-sm text-white group-hover:text-amber-300 transition">Stok Logistik</h3><p class="text-[11px] text-gray-400 mt-0.5">Kelola persediaan SPPG</p></div>
 </div>
 </div>
 <div onclick="bukaModul('modul-joblist')" class="dark-card p-5 rounded-2xl hover:border-purple-500 cursor-pointer transition transform hover:-translate-y-1 shadow-lg group">
@@ -3280,7 +3280,7 @@ gtag('config', 'G-4933FEDV2TW');
   <div id="sppgApplicationOverlay" class="fixed inset-0 z-[120] hidden overflow-y-auto bg-slate-950/80 p-4" role="dialog" aria-modal="true" aria-labelledby="sppgApplicationTitle">
   <div class="mx-auto my-6 w-full max-w-xl rounded-2xl border border-slate-700 bg-slate-900 p-5 text-white shadow-2xl sm:p-7">
   <div class="flex items-start justify-between gap-4">
-  <div><h2 id="sppgApplicationTitle" class="text-xl font-black">Daftarkan SPPG</h2><p class="mt-1 text-xs leading-5 text-slate-300">Pengajuan akan diperiksa admin platform. Jika disetujui, undangan untuk membuat akses admin dikirim ke email pemohon.</p></div>
+  <div><h2 id="sppgApplicationTitle" class="text-xl font-black">Daftarkan SPPG</h2><p class="mt-1 text-xs leading-5 text-slate-300">SPPG akan langsung diaktifkan setelah verifikasi. Undangan untuk membuat password admin dikirim ke email pemohon.</p></div>
   <button type="button" onclick="closeSppgApplication()" class="rounded-lg p-2 text-slate-300 hover:bg-slate-800" aria-label="Tutup formulir"><i class="fa-solid fa-xmark"></i></button>
   </div>
   <form id="sppgApplicationForm" class="mt-5 space-y-3" onsubmit="event.preventDefault(); submitSppgApplication();">
@@ -3293,8 +3293,20 @@ gtag('config', 'G-4933FEDV2TW');
   <p id="sppgApplicationMessage" class="hidden rounded-xl border px-3 py-2 text-xs leading-5" role="status" aria-live="polite"></p>
   <div class="flex flex-wrap justify-end gap-2 pt-2">
   <button type="button" onclick="closeSppgApplication()" class="rounded-lg border border-slate-600 px-4 py-2 text-xs font-bold text-slate-200 hover:bg-slate-800">Batal</button>
-  <button id="btnSubmitSppgApplication" type="submit" class="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-bold text-white hover:bg-indigo-500"><i class="fa-solid fa-paper-plane mr-1"></i> Kirim Pengajuan</button>
+  <button id="btnSubmitSppgApplication" type="submit" class="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-bold text-white hover:bg-indigo-500"><i class="fa-solid fa-paper-plane mr-1"></i> Buat SPPG &amp; Kirim Undangan</button>
   </div>
+  </form>
+  </div>
+  </div>
+  <div id="invitePasswordOverlay" class="fixed inset-0 z-[130] hidden overflow-y-auto bg-slate-950/90 p-4" role="dialog" aria-modal="true" aria-labelledby="invitePasswordTitle">
+  <div class="mx-auto my-12 w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900 p-5 text-white shadow-2xl sm:p-7">
+  <h2 id="invitePasswordTitle" class="text-xl font-black">Buat Password Admin</h2>
+  <p class="mt-2 text-xs leading-5 text-slate-300">Undangan SPPG terverifikasi. Buat password untuk mengaktifkan akses admin.</p>
+  <form id="invitePasswordForm" class="mt-5 space-y-3" onsubmit="event.preventDefault(); saveInvitePassword();">
+  <label class="block text-xs font-semibold">Password baru<input id="invitePassword" type="password" minlength="8" maxlength="128" autocomplete="new-password" required class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm"></label>
+  <label class="block text-xs font-semibold">Ulangi password<input id="invitePasswordConfirm" type="password" minlength="8" maxlength="128" autocomplete="new-password" required class="mt-1 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-2.5 text-sm"></label>
+  <p id="invitePasswordMessage" class="hidden rounded-xl border px-3 py-2 text-xs leading-5" role="status" aria-live="polite"></p>
+  <button id="btnSaveInvitePassword" type="submit" class="w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-xs font-bold hover:bg-indigo-500">Simpan Password</button>
   </form>
   </div>
   </div>
@@ -3635,9 +3647,10 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="text-center">
 <div class="w-14 h-14 bg-indigo-600/20 text-indigo-400 rounded-2xl mx-auto flex items-center justify-center text-2xl border border-indigo-500/30"><i class="fa-solid fa-user-plus"></i></div>
 <h2 class="mt-4 text-xl font-bold tracking-wide text-center">Registrasi Relawan</h2>
-<p class="mt-1 text-xs text-gray-400 text-center">Isi data sekali. SUPER ADMIN akan memeriksa data dan email Anda sebelum menyetujui aktivasi akun.</p>
+<p class="mt-1 text-xs text-gray-400 text-center">Pilih SPPG tempat Anda bertugas. Admin SPPG akan memeriksa dan mengaktifkan akun relawan.</p>
 </div>
 <form id="volunteerRegistrationForm" class="space-y-4" onsubmit="event.preventDefault(); kirimRegistrasiRelawan();">
+<div><label for="registrationSppgId" class="block text-xs font-semibold text-gray-300 mb-1">SPPG</label><select id="registrationSppgId" name="sppgId" required class="w-full px-4 py-3 bg-[#0B132B] border border-[#3A506B] rounded-xl text-sm focus:outline-none focus:border-indigo-500 text-white"><option value="">Memuat daftar SPPG...</option></select></div>
 <div><label for="registrationFullName" class="block text-xs font-semibold text-gray-300 mb-1">Nama Lengkap</label><input id="registrationFullName" name="name" type="text" autocomplete="name" minlength="2" maxlength="150" required placeholder="Masukkan nama lengkap" class="w-full px-4 py-3 bg-[#0B132B] border border-[#3A506B] rounded-xl text-sm focus:outline-none focus:border-indigo-500 text-white"></div>
 <div><label for="registrationVolunteerId" class="block text-xs font-semibold text-gray-300 mb-1">ID Relawan untuk Login</label><input id="registrationVolunteerId" name="id-relawan" type="text" autocomplete="username" minlength="3" maxlength="80" required placeholder="Contoh: ID1212" class="w-full px-4 py-3 bg-[#0B132B] border border-[#3A506B] rounded-xl text-sm focus:outline-none focus:border-indigo-500 text-white"></div>
 <div><label for="registrationEmail" class="block text-xs font-semibold text-gray-300 mb-1">Email Aktif</label><input id="registrationEmail" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="nama@email.com" class="w-full px-4 py-3 bg-[#0B132B] border border-[#3A506B] rounded-xl text-sm focus:outline-none focus:border-indigo-500 text-white"></div>
@@ -3704,7 +3717,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <span id="mnLogoDefault">🍽️</span>
 </div>
 <input type="file" id="mnLogoInput" class="logo-custom-input" accept="image/*" onchange="handleMnLogoUpload(event)">
-<div><h2 class="text-xl sm:text-2xl font-black text-white">Bank Menu <span data-brand-field="sppg">SPPG Sungai Pasir 1 Meral</span></h2><p class="text-xs text-gray-400 mt-1">Kategori: Menu <span data-brand-field="sppg">SPPG Sungai Pasir 1 Meral</span> | 500 Paket Menu Standar MBG (Makan Bergizi Gratis) - Lengkap dengan Komposisi Gizi (AKG)</p></div>
+<div><h2 class="text-xl sm:text-2xl font-black text-white">Bank Menu <span data-brand-field="sppg">SPPG Sungai Pasir 1 Meral</span></h2><p class="text-xs text-gray-400 mt-1">Kelola menu dan komposisi gizi SPPG sesuai kebutuhan.</p></div>
 <div class="cloud-sync-indicator" id="mnCloudSync"><span class="cloud-sync-dot"></span><span>Cloud Sync Active</span></div>
 </div>
 <div class="mn-stat-grid">
@@ -3723,7 +3736,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="mn-filter-bar">
 <input type="text" id="mnSearchInput" class="mn-search-input" placeholder=" Cari menu (nama, karbohidrat, protein...)..." oninput="renderMenuNusantara()">
 <select id="mnFilterHari" class="mn-select" onchange="renderMenuNusantara()"><option value="all">Semua Hari</option><option value="Senin">Senin</option><option value="Selasa">Selasa</option><option value="Rabu">Rabu</option><option value="Kamis">Kamis</option><option value="Jumat">Jumat</option></select>
-<select id="mnFilterKategori" class="mn-select" onchange="renderMenuNusantara()"><option value="all">Semua Kategori</option><option value="Tradisional Jawa">Tradisional Jawa</option><option value="Tradisional Sunda">Tradisional Sunda</option><option value="Tradisional Sumatra">Tradisional Sumatra</option><option value="Tradisional Bali">Tradisional Bali</option><option value="Tradisional Kalimantan">Tradisional Kalimantan</option><option value="Tradisional Sulawesi">Tradisional Sulawesi</option><option value="Tradisional Papua">Tradisional Papua</option><option value="SPPG Sungai Pasir1 Meral">SPPG Sungai Pasir1 Meral</option></select>
+<select id="mnFilterKategori" class="mn-select" onchange="renderMenuNusantara()"><option value="all">Semua Kategori</option><option value="Tradisional Jawa">Tradisional Jawa</option><option value="Tradisional Sunda">Tradisional Sunda</option><option value="Tradisional Sumatra">Tradisional Sumatra</option><option value="Tradisional Bali">Tradisional Bali</option><option value="Tradisional Kalimantan">Tradisional Kalimantan</option><option value="Tradisional Sulawesi">Tradisional Sulawesi</option><option value="Tradisional Papua">Tradisional Papua</option><option value="Menu SPPG">Menu SPPG</option></select>
 <button onclick="fetchBankMenuFromCloud(event)" class="mn-btn-export" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED);"><i class="fa-solid fa-cloud-arrow-down"></i> Tarik dari Database</button>
 <button onclick="printMenuNusantara()" class="mn-btn-export" style="background:linear-gradient(135deg,#3B82F6,#2563EB);"><i class="fa-solid fa-print"></i> Print</button>
 <button onclick="syncMenuToCloud(event)" class="mn-btn-export" style="background:linear-gradient(135deg,#10B981,#059669);"><i class="fa-solid fa-cloud-arrow-up"></i> Sync Database</button>
@@ -3757,7 +3770,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <input type="hidden" id="mnEditPeriodId">
 <div class="mn-edit-field"><label>Nama Menu</label><input type="text" id="mnEditNama" placeholder="Contoh: Nasi Putih + Ayam Goreng..."></div>
 <div class="mn-edit-field"><label>Hari</label><select id="mnEditHari"><option value="Senin">Senin</option><option value="Selasa">Selasa</option><option value="Rabu">Rabu</option><option value="Kamis">Kamis</option><option value="Jumat">Jumat</option></select><small id="mnEditHariHelp" style="display:none;">Untuk memindahkan menu, hapus salinan ini lalu tambahkan kembali pada hari tujuan.</small></div>
-<div class="mn-edit-field"><label>Kategori Daerah</label><select id="mnEditKategori"><option value="Tradisional Jawa">Tradisional Jawa</option><option value="Tradisional Sunda">Tradisional Sunda</option><option value="Tradisional Sumatra">Tradisional Sumatra</option><option value="Tradisional Bali">Tradisional Bali</option><option value="Tradisional Kalimantan">Tradisional Kalimantan</option><option value="Tradisional Sulawesi">Tradisional Sulawesi</option><option value="Tradisional Papua">Tradisional Papua</option><option value="SPPG Sungai Pasir1 Meral">SPPG Sungai Pasir1 Meral</option></select></div>
+<div class="mn-edit-field"><label>Kategori Daerah</label><select id="mnEditKategori"><option value="Tradisional Jawa">Tradisional Jawa</option><option value="Tradisional Sunda">Tradisional Sunda</option><option value="Tradisional Sumatra">Tradisional Sumatra</option><option value="Tradisional Bali">Tradisional Bali</option><option value="Tradisional Kalimantan">Tradisional Kalimantan</option><option value="Tradisional Sulawesi">Tradisional Sulawesi</option><option value="Tradisional Papua">Tradisional Papua</option><option value="Menu SPPG">Menu SPPG</option></select></div>
 <div class="mn-edit-field"><label>Karbohidrat (Nama | Gram)</label><input type="text" id="mnEditKarbo" placeholder="Contoh: Nasi Putih | 150"></div>
 <div class="mn-edit-field"><label>Protein Hewani (Nama | Gram)</label><input type="text" id="mnEditProteinH" placeholder="Contoh: Ayam Goreng | 80"></div>
 <div class="mn-edit-field"><label>Protein Nabati (Nama | Gram)</label><input type="text" id="mnEditProteinN" placeholder="Contoh: Tahu | 40"></div>
@@ -4949,8 +4962,6 @@ const SPAS1_TENANT_SCOPED_TABLES = new Set([
 'spas1_lpj_reports'
 ]);
 
-const SPAS1_LEGACY_SPPG_ID = '00000000-0000-4000-8000-000000000001';
-
 function getSupabaseTenantId() {
 const token = window.SPAS1_SUPABASE_SESSION || '';
 if (!token) return '';
@@ -4961,7 +4972,7 @@ const binary = atob(base64 + '='.repeat((4 - base64.length % 4) % 4));
 const bytes = Uint8Array.from(binary, function(character) { return character.charCodeAt(0); });
 const payload = JSON.parse(new TextDecoder().decode(bytes));
 const tenantId = payload && payload.app_metadata && payload.app_metadata.sppg_id;
-if (!tenantId) return SPAS1_LEGACY_SPPG_ID;
+if (!tenantId) throw new Error('Akun ini belum terhubung ke SPPG aktif.');
 if (typeof tenantId !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(tenantId)) {
 throw new Error('Identitas SPPG pada sesi Supabase tidak valid.');
 }
@@ -5042,6 +5053,7 @@ window.SPAS1_SUPABASE_REFRESH_TOKEN = '';
 window.SPAS1_AUTH_TOKEN = '';
 window.SPAS1_AUTH_ROLE = '';
 updatePlatformAdminControls();
+if (typeof window.SPAS1_RELOAD_TENANT_LOCAL_STATE === 'function') window.SPAS1_RELOAD_TENANT_LOCAL_STATE();
 }
 
 async function refreshSupabaseSession() {
@@ -5073,6 +5085,7 @@ throw new Error(data.msg || data.error_description || 'Sesi Supabase tidak dapat
 window.SPAS1_SUPABASE_SESSION = data.access_token;
 window.SPAS1_SUPABASE_REFRESH_TOKEN = data.refresh_token;
 window.SPAS1_AUTH_TOKEN = data.access_token;
+if (typeof window.SPAS1_RELOAD_TENANT_LOCAL_STATE === 'function') window.SPAS1_RELOAD_TENANT_LOCAL_STATE();
 return data.access_token;
 })();
 try {
@@ -5166,6 +5179,7 @@ if (!response.ok) throw new Error(data.msg || data.error_description || 'Login g
 window.SPAS1_SUPABASE_SESSION = data.access_token;
 window.SPAS1_SUPABASE_REFRESH_TOKEN = data.refresh_token || '';
 window.SPAS1_AUTH_TOKEN = data.access_token;
+if (typeof window.SPAS1_RELOAD_TENANT_LOCAL_STATE === 'function') window.SPAS1_RELOAD_TENANT_LOCAL_STATE();
 return data;
 }
 
@@ -5181,7 +5195,7 @@ return new Blob([bytes], { type: match[1].toLowerCase() });
 function getSupabaseTenantStorageFolder() {
 const tenantId = getSupabaseTenantId();
 if (!tenantId) throw new Error('Sesi SPPG tidak aktif. Silakan login kembali.');
-return tenantId === SPAS1_LEGACY_SPPG_ID ? 'spas1' : tenantId;
+return tenantId;
 }
 
 function isSupabaseTenantStoragePath(filePath, relativePrefix) {
@@ -6613,7 +6627,7 @@ if (onError) onError(error);
 else alert('Gagal terhubung ke Supabase. Cek console untuk detail.');
 });
 }
-const MN_KATEGORI = ['Tradisional Jawa', 'Tradisional Sunda', 'Tradisional Sumatra', 'Tradisional Bali', 'Tradisional Kalimantan', 'Tradisional Sulawesi', 'Tradisional Papua', 'SPPG Sungai Pasir1 Meral'];
+const MN_KATEGORI = ['Tradisional Jawa', 'Tradisional Sunda', 'Tradisional Sumatra', 'Tradisional Bali', 'Tradisional Kalimantan', 'Tradisional Sulawesi', 'Tradisional Papua', 'Menu SPPG'];
 const MN_HARI = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
 const MN_KARBO = ['Nasi Putih', 'Nasi Merah', 'Nasi Jagung', 'Lontong', 'Ketupat', 'Nasi Uduk', 'Nasi Kuning', 'Nasi Liwet', 'Bubur Nasi', 'Mie Goreng', 'Bihun Goreng', 'Kentang Rebus', 'Ubi Rebus', 'Singkong Rebus', 'Jagung Rebus'];
 const MN_PROTEIN_HEWANI = ['Ayam Goreng', 'Ayam Bakar', 'Ayam Geprek', 'Ayam Rica-Rica', 'Ayam Woku', 'Ayam Bumbu Rujak', 'Ayam Pop', 'Ayam Taliwang', 'Ayam Betutu', 'Daging Sapi Rendang', 'Daging Sapi Semur', 'Daging Sapi Opor', 'Daging Sapi Balado', 'Ikan Goreng', 'Ikan Bakar', 'Ikan Asam Pedas', 'Ikan Gulai', 'Ikan Pepes', 'Ikan Woku', 'Telur Dadar', 'Telur Balado', 'Telur Pindang', 'Udang Goreng', 'Udang Balado', 'Lele Goreng', 'Lele Penyet', 'Bakso Sapi', 'Sosis Sapi', 'Nugget Ayam'];
@@ -7325,7 +7339,7 @@ status.className = 'rounded-full px-2.5 py-1 text-[10px] font-bold ' +
 item.status === 'Ditolak' ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-700');
 status.textContent = item.status || 'Status tidak diketahui';
 controls.appendChild(status);
-if (item.status === 'Menunggu Persetujuan SUPER ADMIN' || item.status === 'Menunggu Verifikasi SUPER ADMIN') {
+if (item.status === 'Menunggu Persetujuan Admin SPPG' || item.status === 'Menunggu Persetujuan SUPER ADMIN' || item.status === 'Menunggu Verifikasi SUPER ADMIN') {
 const actions = document.createElement('div');
 actions.className = 'flex gap-2';
 const approve = document.createElement('button');
@@ -8560,7 +8574,7 @@ const selectedCategory = document.getElementById('mnFilterKategori').value;
 const selectedDay = document.getElementById('mnFilterHari').value;
 document.getElementById('mnEditNama').value = '';
 document.getElementById('mnEditHari').value = MN_HARI.includes(selectedDay) ? selectedDay : 'Senin';
-document.getElementById('mnEditKategori').value = MN_KATEGORI.includes(selectedCategory) ? selectedCategory : 'SPPG Sungai Pasir1 Meral';
+document.getElementById('mnEditKategori').value = MN_KATEGORI.includes(selectedCategory) ? selectedCategory : 'Menu SPPG';
 ['mnEditKarbo', 'mnEditProteinH', 'mnEditProteinN', 'mnEditSayur', 'mnEditBuah', 'mnEditKalori', 'mnEditProtein', 'mnEditLemak', 'mnEditAkgKarbo', 'mnEditSerat', 'mnEditVitA', 'mnEditVitC', 'mnEditKalsium', 'mnEditZatBesi'].forEach(function(id) {
 document.getElementById(id).value = '';
 });
@@ -10355,11 +10369,43 @@ showToast('✅ Export CSV ' + filename + ' berhasil!');
 }
 let activeAbsenType = 'Masuk'; let activeUserData = null; let cameraStream = null; let faceTrackInterval = null; let capturedFaceFileBase64 = '';
 setInterval(() => { const now = new Date(); document.getElementById('digitalClock').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }); }, 1000);
+async function loadVolunteerSppgDirectory() {
+const select = document.getElementById('registrationSppgId');
+const button = document.getElementById('btnSubmitVolunteerRegistration');
+select.disabled = true;
+select.innerHTML = '<option value="">Memuat daftar SPPG...</option>';
+try {
+const organizations = await supabaseRequest('spas1_organizations', {
+query: { select: 'id,name', status: 'eq.active', order: 'name.asc' }
+});
+select.innerHTML = '<option value="">Pilih SPPG tempat Anda bertugas</option>';
+organizations.forEach(function(organization) {
+const option = document.createElement('option');
+option.value = organization.id;
+option.textContent = organization.name;
+select.appendChild(option);
+});
+select.disabled = organizations.length === 0;
+button.disabled = organizations.length === 0;
+if (!organizations.length) {
+select.innerHTML = '<option value="">Belum ada SPPG aktif</option>';
+}
+} catch(error) {
+console.error('Gagal memuat daftar SPPG untuk pendaftaran relawan:', error);
+select.innerHTML = '<option value="">Daftar SPPG gagal dimuat</option>';
+select.disabled = true;
+button.disabled = true;
+const message = document.getElementById('registrationFormMessage');
+message.textContent = 'Daftar SPPG gagal dimuat. Muat ulang halaman lalu coba kembali.';
+message.className = 'rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs leading-5 text-rose-200';
+}
+}
 function bukaFormRegistrasiRelawan() {
 document.getElementById('screen-login-nik').classList.add('hidden');
 document.getElementById('screen-register-volunteer').classList.remove('hidden');
 document.getElementById('btnBackVolunteerLogin').classList.remove('hidden');
 document.getElementById('registrationFormMessage').classList.add('hidden');
+loadVolunteerSppgDirectory();
 initializeVolunteerTurnstile().catch(function(error) {
 const message = document.getElementById('registrationFormMessage');
 message.textContent = error.message;
@@ -10398,6 +10444,7 @@ button.disabled = true;
 button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim...';
 message.classList.add('hidden');
 callSupabaseAction('submitVolunteerRegistration', {
+sppgId: document.getElementById('registrationSppgId').value,
 nama: document.getElementById('registrationFullName').value.trim(),
 idRelawan: document.getElementById('registrationVolunteerId').value.trim(),
 email: document.getElementById('registrationEmail').value.trim(),
@@ -10446,6 +10493,77 @@ if (overlay) overlay.classList.add('hidden');
 document.body.classList.remove('overflow-hidden');
 if (window.turnstile && organizationTurnstileWidgetId !== null) window.turnstile.reset(organizationTurnstileWidgetId);
 }
+function initializeInvitePasswordSetup() {
+const invitation = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+if (invitation.get('type') !== 'invite') return;
+const accessToken = invitation.get('access_token') || '';
+const refreshToken = invitation.get('refresh_token') || '';
+const overlay = document.getElementById('invitePasswordOverlay');
+const form = document.getElementById('invitePasswordForm');
+const message = document.getElementById('invitePasswordMessage');
+if (!accessToken) {
+message.textContent = 'Tautan undangan tidak valid atau sudah kedaluwarsa. Minta admin platform mengirim ulang undangan.';
+message.className = 'mt-4 rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs leading-5 text-rose-200';
+form.classList.add('hidden');
+} else {
+window.SPAS1_SUPABASE_SESSION = accessToken;
+window.SPAS1_SUPABASE_REFRESH_TOKEN = refreshToken;
+window.SPAS1_AUTH_TOKEN = accessToken;
+window.SPAS1_AUTH_ROLE = 'admin';
+window.SPAS1_RELOAD_TENANT_LOCAL_STATE();
+}
+overlay.classList.remove('hidden');
+history.replaceState(null, document.title, window.location.pathname + window.location.search);
+if (accessToken) document.getElementById('invitePassword').focus();
+}
+async function saveInvitePassword() {
+const form = document.getElementById('invitePasswordForm');
+if (!form.reportValidity()) return;
+const password = document.getElementById('invitePassword').value;
+const confirmation = document.getElementById('invitePasswordConfirm').value;
+const message = document.getElementById('invitePasswordMessage');
+const button = document.getElementById('btnSaveInvitePassword');
+if (password !== confirmation) {
+message.textContent = 'Password dan konfirmasi password tidak sama.';
+message.className = 'rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs leading-5 text-rose-200';
+message.classList.remove('hidden');
+document.getElementById('invitePasswordConfirm').focus();
+return;
+}
+button.disabled = true;
+button.textContent = 'Menyimpan...';
+try {
+const response = await fetch(window.SPAS1_SUPABASE_URL + '/auth/v1/user', {
+method: 'PUT',
+headers: {
+'apikey': window.SPAS1_SUPABASE_ANON_KEY,
+'Authorization': 'Bearer ' + window.SPAS1_SUPABASE_SESSION,
+'Content-Type': 'application/json'
+},
+body: JSON.stringify({ password: password })
+});
+let result = {};
+try {
+result = await response.json();
+} catch(error) {
+if (response.ok) throw new Error('Respons penyimpanan password tidak valid: ' + error.message);
+}
+if (!response.ok) throw new Error(result.msg || result.message || 'Password belum dapat disimpan. Periksa tautan undangan dan coba lagi.');
+document.getElementById('adminUser').value = result.email || '';
+document.getElementById('invitePasswordOverlay').classList.add('hidden');
+clearSupabaseSession();
+form.reset();
+showToast('Password admin berhasil dibuat. Silakan masuk dengan email undangan.');
+tampilkanAdminLogin();
+} catch(error) {
+message.textContent = error.message;
+message.className = 'rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs leading-5 text-rose-200';
+message.classList.remove('hidden');
+} finally {
+button.disabled = false;
+button.textContent = 'Simpan Password';
+}
+}
 function submitSppgApplication() {
 const form = document.getElementById('sppgApplicationForm');
 if (!form.reportValidity()) return;
@@ -10455,12 +10573,12 @@ const turnstileToken = window.turnstile && organizationTurnstileWidgetId !== nul
 ? window.turnstile.getResponse(organizationTurnstileWidgetId)
 : '';
 if (!window.SPAS1_TURNSTILE_SITE_KEY || !turnstileToken) {
-message.textContent = 'Selesaikan verifikasi Cloudflare sebelum mengirim pengajuan.';
+message.textContent = 'Selesaikan verifikasi Cloudflare sebelum mengaktifkan SPPG.';
 message.className = 'rounded-xl border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs leading-5 text-amber-200';
 return;
 }
 button.disabled = true;
-button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Mengirim...';
+button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Mengaktifkan...';
 message.classList.add('hidden');
 callSupabaseAction('submitOrganizationRequest', {
 name: document.getElementById('sppgApplicationName').value.trim(),
@@ -10471,8 +10589,8 @@ contactPhone: document.getElementById('sppgApplicationPhone').value.trim(),
 turnstileToken: turnstileToken
 }, function(res) {
 button.disabled = false;
-button.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i> Kirim Pengajuan';
-message.textContent = res && res.message ? res.message : 'Pengajuan belum dapat dikirim.';
+button.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i> Buat SPPG &amp; Kirim Undangan';
+message.textContent = res && res.message ? res.message : 'Pendaftaran SPPG belum dapat diproses.';
 message.className = 'rounded-xl border px-3 py-2 text-xs leading-5 ' +
 (res && res.status === 'success'
 ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200'
@@ -10480,11 +10598,11 @@ message.className = 'rounded-xl border px-3 py-2 text-xs leading-5 ' +
 if (res && res.status === 'success') {
 form.reset();
 if (window.turnstile && organizationTurnstileWidgetId !== null) window.turnstile.reset(organizationTurnstileWidgetId);
-showToast('Pengajuan SPPG berhasil dikirim.');
+showToast('SPPG berhasil diaktifkan.');
 }
 }, function(error) {
 button.disabled = false;
-button.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i> Kirim Pengajuan';
+button.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i> Buat SPPG &amp; Kirim Undangan';
 message.textContent = 'Gagal mengirim pengajuan: ' + error.message;
 message.className = 'rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs leading-5 text-rose-200';
 if (window.turnstile && organizationTurnstileWidgetId !== null) window.turnstile.reset(organizationTurnstileWidgetId);
@@ -10650,10 +10768,46 @@ let defaultBudgetBackup = null;
 let defaultMenus = { "Senin": { "jamKirim": "07:45 WIB | 08:40 WIB | 10:00 WIB", "menuList": "26 OKTOBER 2026 :\n🍚 Nasi\n🍗 Oseng Ayam Taichan\n🫘 Tahu Goreng\n🥦 Acar Timun & Wortel\n🍊 Jeruk", "recipeDetail": "🍗 STANDAR RESEP & PANDUAN PENGOLAHAN :\n1. NASI :\n- Beras dicuci bersih, steamer kapasitas 24 tray. Split Shift Koki : Ivan, Doni, Dendi, Ega" }, "Selasa": { "jamKirim": "07:45 WIB | 08:40 WIB | 10:00 WIB", "menuList": "SELASA, 27 OKTOBER 2026 :\n🍚 Nasi\n🍗 Ayam Goreng Lengkuas\n🫘 Tempe Bacem\n🥣 Sup Buncis Bakso\n🍌 Pisang", "recipeDetail": "🍗 STANDAR RESEP & PANDUAN PENGOLAHAN:\n1. AYAM GORENG LENGKUAS:\n- Ungkep ayam dengan bumbu halus dan parutan lengkuas kaya rempah hingga meresap.\n- Goreng dalam minyak panas hingga keemasan." }, "Rabu": { "jamKirim": "07:45 WIB | 08:40 WIB | 10:00 WIB", "menuList": "RABU, 28 OKTOBER 2026 :\n🍚 Nasi\n🐟 Ikan Fillet Asam Manis\n🥔 Perkedel Kentang\n🥦 Sayur Bayam Jagung Manis\n🍎 Apel", "recipeDetail": "🐟 STANDAR RESEP & PANDUAN PENGOLAHAN:\n1. IKAN FILLET ASAM MANIS:\n- Goreng fillet ikan tepung, siram dengan saus asam manis nanas dan paprika." }, "Kamis": { "jamKirim": "07:45 WIB | 08:40 WIB | 10:00 WIB", "menuList": "KAMIS, 29 OKTOBER 2026 :\n🍚 Nasi\n🥩 Semur Daging Sapi & Kentang\n🫘 Tahu Goreng Kunyit\n🥦 Tumis Kangkung & Taoge\n🍊 Jeruk", "recipeDetail": "🥩 STANDAR RESEP & PANDUAN PENGOLAHAN:\n1. SEMUR DAGING SAPI:\n- Rebus daging hingga empuk, masak dengan bumbu semur, kecap manis, dan rempah." }, "Jumat": { "jamKirim": "07:45 WIB | 08:40 WIB | 10:00 WIB", "menuList": "JUMAT, 30 OKTOBER 2026 :\n🍚 Nasi\n🍗 Ayam Suwir Bumbu Bali\n🫘 Tempe Goreng Tepung\n🥦 Sup Oyong Soun\n🍌 Pepaya", "recipeDetail": "🍳 STANDAR RESEP & PANDUAN PENGOLAHAN:\n1. AYAM SUWIR BUMBU BALI:\n- Rebus ayam, suwir halus, tumis dengan bumbu Bali merah harum." } };
 let defaultBudget = { "Senin": [{ "cat": "Karbohidrat", "name": "Beras Rumah Padang (Nasi Putih)", "amount": 46.0048, "unit": "gram", "price": 110000, "priceUnit": "gram" }, { "cat": "Protein Hewani", "name": "Ayam Dada Fillet (Ayam Taichan)", "amount": 72.0096, "unit": "gram", "price": 46000, "priceUnit": "gram" }, { "cat": "Protein Nabati", "name": "Tahu Putih", "amount": 40, "unit": "gram", "price": 16000, "priceUnit": "gram" }, { "cat": "Sayuran", "name": "Timun", "amount": 18.0144, "unit": "gram", "price": 9500, "priceUnit": "gram" }, { "cat": "Sayuran", "name": "Wortel", "amount": 18.0503, "unit": "gram", "price": 9500, "priceUnit": "gram" }, { "cat": "Buah-Buahan / Pelengkap", "name": "Jeruk Medan", "amount": 80, "unit": "gram", "price": 18000, "priceUnit": "gram" }], "Selasa": [{ "cat": "Karbohidrat", "name": "Beras Premium (Nasi)", "amount": 150, "unit": "gram", "price": 13500, "priceUnit": "kg" }, { "cat": "Protein Hewani", "name": "Ayam Potong Segar", "amount": 90, "unit": "gram", "price": 36000, "priceUnit": "kg" }, { "cat": "Protein Nabati", "name": "Tempe Segar", "amount": 45, "unit": "gram", "price": 12000, "priceUnit": "kg" }, { "cat": "Sayuran", "name": "Buncis & Bakso", "amount": 60, "unit": "gram", "price": 14000, "priceUnit": "kg" }, { "cat": "Buah-Buahan / Pelengkap", "name": "Pisang Cavendish", "amount": 1, "unit": "buah", "price": 1500, "priceUnit": "buah" }], "Rabu": [{ "cat": "Karbohidrat", "name": "Beras Premium (Nasi)", "amount": 150, "unit": "gram", "price": 13500, "priceUnit": "kg" }, { "cat": "Protein Hewani", "name": "Ikan Fillet Kakap/Tenggiri", "amount": 85, "unit": "gram", "price": 45000, "priceUnit": "kg" }, { "cat": "Protein Nabati", "name": "Kentang (Perkedel)", "amount": 50, "unit": "gram", "price": 16000, "priceUnit": "kg" }, { "cat": "Sayuran", "name": "Bayam & Jagung Manis", "amount": 60, "unit": "gram", "price": 9000, "priceUnit": "kg" }, { "cat": "Buah-Buahan / Pelengkap", "name": "Buah Apel", "amount": 1, "unit": "buah", "price": 3000, "priceUnit": "buah" }], "Kamis": [{ "cat": "Karbohidrat", "name": "Beras Premium (Nasi)", "amount": 150, "unit": "gram", "price": 13500, "priceUnit": "kg" }, { "cat": "Protein Hewani", "name": "Daging Sapi Pilihan", "amount": 80, "unit": "gram", "price": 130000, "priceUnit": "kg" }, { "cat": "Protein Nabati", "name": "Tahu Kuning", "amount": 40, "unit": "gram", "price": 11000, "priceUnit": "kg" }, { "cat": "Sayuran", "name": "Kangkung & Taoge", "amount": 60, "unit": "gram", "price": 8000, "priceUnit": "kg" }, { "cat": "Buah-Buahan / Pelengkap", "name": "Jeruk Manis", "amount": 80, "unit": "gram", "price": 18000, "priceUnit": "kg" }], "Jumat": [{ "cat": "Karbohidrat", "name": "Beras Premium (Nasi)", "amount": 150, "unit": "gram", "price": 13500, "priceUnit": "kg" }, { "cat": "Protein Hewani", "name": "Ayam Suwir Bumbu Bali", "amount": 85, "unit": "gram", "price": 36000, "priceUnit": "kg" }, { "cat": "Protein Nabati", "name": "Tempe Goreng Tepung", "amount": 45, "unit": "gram", "price": 12000, "priceUnit": "kg" }, { "cat": "Sayuran", "name": "Oyong & Soun", "amount": 60, "unit": "gram", "price": 10000, "priceUnit": "kg" }, { "cat": "Buah-Buahan / Pelengkap", "name": "Pepaya Potong Segar", "amount": 100, "unit": "gram", "price": 7000, "priceUnit": "kg" }] };
 let defaultTasks = [{ "id": "1", "title": "🥩 Quality Receiving | Penerimaan & Sortir Bahan Baku Segar", "day": "Semua Hari", "category": "Quality & Safety Check", "priority": "Tinggi", "assignee": "Pak Rete & Fathur (16:30 WIB)", "statusDetail": "Belum Dimulai", "done": false }, { "id": "2", "title": "🥬 Pencucian, Sterilisasi & Potong Sayuran & Nabati", "day": "Semua Hari", "category": "Persiapan Bahan", "priority": "Tinggi", "assignee": "Riska & Tim (20:00 WIB)", "statusDetail": "Belum Dimulai", "done": false }, { "id": "3", "title": "🧅 Kupas Bawang, Sortir & Sterilisasi Buah Jeruk", "day": "Senin", "category": "Persiapan Bahan", "priority": "Sedang", "assignee": "Mami & Nanda (03:00 WIB)", "statusDetail": "Belum Dimulai", "done": false }, { "id": "4", "title": "🌶️ Meracik Bumbu, Tumisan, Deep Fry, Marinasi & Saos", "day": "Semua Hari", "category": "Bumbu & Racikan", "priority": "Tinggi", "assignee": "Wawan & Tim (01:00 WIB)", "statusDetail": "Belum Dimulai", "done": false }, { "id": "5", "title": "🍚 Cuci Bersih Beras, Steam Nasi Putih", "day": "Semua Hari", "category": "Persiapan Bahan", "priority": "Tinggi", "assignee": "Ivan, Doni, Dendi, Ega (01:00 WIB)", "statusDetail": "Belum Dimulai", "done": false }, { "id": "6", "title": "🍽️ Sample Food Test (Uji Sensori & Organoleptik)", "day": "Semua Hari", "category": "Quality & Safety Check", "priority": "Tinggi", "assignee": "Wawan & Tim (04:35 WIB)", "statusDetail": "Belum Dimulai", "done": false }, { "id": "7", "title": "❄️ Cek Suhu Cold Storage, Chiller | Gudang Basah & Kering", "day": "Semua Hari", "category": "Quality & Safety Check", "priority": "Tinggi", "assignee": "Pak Rete (16:30 WIB)", "statusDetail": "Belum Dimulai", "done": false }, { "id": "8", "title": "🍱 Pemorsian & Pemasangan Label Jam Batas Aman Konsumsi", "day": "Semua Hari", "category": "Packing & Distribusi Internal", "priority": "Tinggi", "assignee": "Tito & Tim Packing (07:15 WIB)", "statusDetail": "Belum Dimulai", "done": false }, { "id": "9", "title": "🧹 Cleaning & Sanitasi Keseluruhan Area Kerja Dapur", "day": "Semua Hari", "category": "Kebersihan & Sanitasi", "priority": "Sedang", "assignee": "Tim Kitchen (11:00 WIB)", "statusDetail": "Belum Dimulai", "done": false }];
+globalTargetPorsi = 0;
+porsiBesar = 0;
+porsiKecil = 0;
+defaultMenus = {};
+defaultBudget = {};
+defaultTasks = [];
+defaultBudgetBackup = null;
+let loadedModule4TenantId = '';
+function module4StorageKey(tenantId) {
+return tenantId ? STORAGE_KEY + ':' + tenantId : '';
+}
+function resetModule4TenantData() {
+globalTargetPorsi = 0;
+porsiBesar = 0;
+porsiKecil = 0;
+defaultMenus = {};
+defaultBudget = {};
+defaultTasks = [];
+defaultBudgetBackup = null;
+appLogoBase64 = '';
+haccpChecks = {"cold":false,"organo":false,"sanitasi":false,"label":false};
+akgPosters = [];
+window.SPAS1_MODULE_LOGO_OVERRIDE = '';
+if (typeof renderDayTabs === 'function') renderDayTabs();
+if (typeof renderRecipeView === 'function') renderRecipeView();
+if (typeof renderBudgetTable === 'function') renderBudgetTable();
+if (typeof renderAkgPosters === 'function') renderAkgPosters();
+if (typeof renderTasks === 'function') renderTasks();
+}
 function saveAppDataToCloud() {
 const data = { globalTargetPorsi, porsiBesar, porsiKecil, defaultTasks, defaultMenus, defaultBudget, defaultBudgetBackup, appLogoBase64, haccpChecks, akgPosters };
+let key = '';
 try {
-localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+key = module4StorageKey(getSupabaseTenantId());
+} catch(error) {
+console.error('Unable to resolve the current SPPG for local data:', error);
+}
+if (!key) return false;
+try {
+localStorage.setItem(key, JSON.stringify(data));
 return true;
 } catch(error) {
 console.error('Unable to save application data locally:', error);
@@ -10696,17 +10850,27 @@ budgetBackup: defaultBudgetBackup ? JSON.parse(JSON.stringify(defaultBudgetBacku
 }, successMessage);
 }
 function loadAppDataFromCloud() {
-let saved;
-const embeddedBackup = document.getElementById('spas1-embedded-backup');
-if (embeddedBackup) {
-saved = embeddedBackup.textContent;
-} else {
+let tenantId = '';
 try {
-saved = localStorage.getItem(STORAGE_KEY);
+tenantId = getSupabaseTenantId();
+} catch(error) {
+console.error('Unable to resolve the current SPPG for local data:', error);
+resetModule4TenantData();
+loadedModule4TenantId = '';
+return;
+}
+if (!tenantId || tenantId !== loadedModule4TenantId) {
+resetModule4TenantData();
+loadedModule4TenantId = tenantId;
+}
+if (!tenantId) return;
+let saved;
+const key = module4StorageKey(tenantId);
+try {
+saved = localStorage.getItem(key);
 } catch(error) {
 console.error('Unable to read application data from local storage:', error);
 return;
-}
 }
 if (!saved) return;
 try {
@@ -10721,6 +10885,7 @@ applyBackupData(data);
 console.error('Saved application data is invalid:', error);
 }
 }
+window.SPAS1_RELOAD_TENANT_LOCAL_STATE = loadAppDataFromCloud;
 function applyBackupData(data) {
 if (data.globalTargetPorsi !== undefined) globalTargetPorsi = data.globalTargetPorsi;
 if (data.porsiBesar !== undefined) porsiBesar = data.porsiBesar;
@@ -10939,7 +11104,7 @@ window.requestViewSwitch = function(viewName) {
 
 window.closeTabPasswordModal = function() { document.getElementById('tabPasswordModal').style.display = 'none'; pendingTargetView = null; };
 window.verifyTabPassword = function() { const target = pendingTargetView; closeTabPasswordModal(); if (target) switchMainView(target); };
-window.openResetPasswordModal = function() { if (confirm('⚠️ Reset data lokal pada perangkat ini ke awal? Data di Supabase tidak dihapus.')) { try { localStorage.removeItem(STORAGE_KEY); } catch(e) { alert('Gagal menghapus data lokal: ' + e.message); return; } location.reload(); } };
+window.openResetPasswordModal = function() { if (confirm('⚠️ Reset data lokal SPPG ini pada perangkat? Data di Supabase tidak dihapus.')) { try { const key = module4StorageKey(getSupabaseTenantId()); if (key) localStorage.removeItem(key); } catch(e) { alert('Gagal menghapus data lokal: ' + e.message); return; } location.reload(); } };
 window.switchMainView = function(viewName) { currentMainView = viewName; ['viewDashboard', 'viewRecipes', 'viewBudget', 'viewAkg'].forEach(id => { document.getElementById(id).style.display = 'none'; }); ['navBtnDashboard', 'navBtnRecipes', 'navBtnBudget', 'navBtnAkg'].forEach(id => { document.getElementById(id).classList.remove('active'); }); if (viewName === 'dashboard') { document.getElementById('viewDashboard').style.display = 'flex'; document.getElementById('navBtnDashboard').classList.add('active'); document.getElementById('dashboardActionButtons').style.display = 'flex'; renderDayTabs(); } else if (viewName === 'recipes') { document.getElementById('viewRecipes').style.display = 'flex'; document.getElementById('navBtnRecipes').classList.add('active'); document.getElementById('dashboardActionButtons').style.display = 'none'; renderRecipeView(); } else if (viewName === 'budget') { document.getElementById('viewBudget').style.display = 'flex'; document.getElementById('navBtnBudget').classList.add('active'); document.getElementById('dashboardActionButtons').style.display = 'none'; renderBudgetTabs(); renderBudgetTable(); } else if (viewName === 'akg') { document.getElementById('viewAkg').style.display = 'flex'; document.getElementById('navBtnAkg').classList.add('active'); document.getElementById('dashboardActionButtons').style.display = 'none'; renderAkgPosters(); } };
 function renderDayTabs() { const container = document.getElementById('dayTabsContainer'); container.innerHTML = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'].map(d => '<button class="day-tab ' + (selectedDay === d ? 'active' : '') + '" onclick="selectDay(\'' + d + '\')">📅 ' + d + '</button>').join(''); document.getElementById('targetPorsiText').textContent = globalTargetPorsi.toLocaleString('id-ID') + " Porsi"; const menuObj = defaultMenus[selectedDay]; if (menuObj) { document.getElementById('distributionScheduleText').textContent = menuObj.jamKirim; const bankMenuItems = Array.isArray(menuObj.bankMenuItems) ? menuObj.bankMenuItems : []; const bankMenuText = bankMenuItems.length ? formatBankMenuDailyList(selectedDay, bankMenuItems, menuObj.menuList) : ''; document.getElementById('dailyMenuList').textContent = [bankMenuText, !bankMenuItems.length ? menuObj.menuList || '' : ''].filter(Boolean).join('\n\n'); } renderTasks(); }
 window.selectDay = function(d) { selectedDay = d; renderDayTabs(); };
@@ -12594,7 +12759,7 @@ alert('❌ Gagal mengunduh HTML: ' + error.message);
 function updateClock() { const now = new Date(); const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; const dateEl = document.getElementById('currentDate'); const clockEl = document.getElementById('currentClock'); if (dateEl) dateEl.textContent = now.toLocaleDateString('id-ID', options); if (clockEl) clockEl.textContent = now.toTimeString().split(' ')[0] + ' WIB'; }
 setInterval(updateClock, 1000);
 function saveHaccpCheck() { haccpChecks = { cold: document.getElementById('haccpCold').checked, organo: document.getElementById('haccpOrgano').checked, sanitasi: document.getElementById('haccpSanitasi').checked, label: document.getElementById('haccpLabel').checked }; saveAppDataToCloud(); }
-function initApp() { initializePasswordVisibilityToggles(); loadAppDataFromCloud(); checkPortalAuth(); updateClock(); loadTheme(); let savedTheme = null; let legacyLightTheme = false; try { savedTheme = localStorage.getItem('spas1m_custom_theme'); legacyLightTheme = localStorage.getItem('spas1m_theme') === 'light'; } catch(e){} if (['emerald', 'ocean', 'royal', 'light'].indexOf(savedTheme) !== -1) changeCustomTheme(savedTheme); else if (legacyLightTheme && !savedTheme) changeCustomTheme('light'); loadPublicSiteSettings(); loadPublicSiteContent(); loadPublicAnnouncements(); loadPublicMedia(); renderDayTabs(); renderRecipeView(); renderBudgetTable(); renderAkgPosters(); }
+function initApp() { initializePasswordVisibilityToggles(); loadAppDataFromCloud(); initializeInvitePasswordSetup(); applySiteSettings(currentSiteSettings); checkPortalAuth(); updateClock(); loadTheme(); let savedTheme = null; let legacyLightTheme = false; try { savedTheme = localStorage.getItem('spas1m_custom_theme'); legacyLightTheme = localStorage.getItem('spas1m_theme') === 'light'; } catch(e){} if (['emerald', 'ocean', 'royal', 'light'].indexOf(savedTheme) !== -1) changeCustomTheme(savedTheme); else if (legacyLightTheme && !savedTheme) changeCustomTheme('light'); loadPublicSiteSettings(); loadPublicSiteContent(); loadPublicAnnouncements(); loadPublicMedia(); renderDayTabs(); renderRecipeView(); renderBudgetTable(); renderAkgPosters(); }
 if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initApp); } else { initApp(); }
 })();
 function formatAnnouncementText(value) {
@@ -13736,8 +13901,8 @@ showAdminSiteContentMessage('Gagal menyimpan: ' + error.message, true);
 });
 }
 let currentSiteSettings = {
-foundationName: 'YAYASAN BIDADARI INDONESIA GEMILANG',
-sppgName: 'SPPG SUNGAI PASIR 1 MERAL',
+foundationName: 'Nama Yayasan belum diatur',
+sppgName: 'Nama SPPG belum diatur',
 logoFileId: '',
 logoUrl: '',
 markFileId: '',

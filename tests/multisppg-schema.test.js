@@ -9,6 +9,7 @@ const migration = fs.readFileSync(path.join(root, 'supabase_multisppg_migration.
 const stockMigration = fs.readFileSync(path.join(root, 'supabase_migration.sql'), 'utf8');
 const stockConversionMigration = fs.readFileSync(path.join(root, 'supabase_stock_conversion_migration.sql'), 'utf8');
 const volunteerFunction = fs.readFileSync(path.join(root, 'supabase/functions/volunteer-registration/index.ts'), 'utf8');
+const emptyTenantMigration = fs.readFileSync(path.join(root, 'supabase/tenant_empty_defaults_migration.sql'), 'utf8');
 
 function quotedNames(source) {
   return Array.from(source.matchAll(/'([^']+)'/g), function(match) { return match[1]; });
@@ -87,6 +88,36 @@ test('volunteer Edge Function authorizes and scopes service-role actions by acti
   assert.match(volunteerFunction, /recordAttendance\(input, user\.id, sppgId, adminClient, origin\)/);
   assert.match(volunteerFunction, /\.from\("MODUL1_DataRelawan"\)[\s\S]*?\.eq\("sppg_id", sppgId\)[\s\S]*?\.eq\("Auth User ID", authUserId\)/);
   assert.match(volunteerFunction, /member_role: "employee",\s+status: "suspended"/);
+  assert.match(volunteerFunction, /const sppgId = String\(input\.sppgId \|\| ""\)/);
+  assert.doesNotMatch(volunteerFunction, /legacySppgId/);
+});
+
+test('new SPPG registrations activate the organization and invite its first admin automatically', function() {
+  assert.match(volunteerFunction, /submitOrganizationRequest[\s\S]*?reviewOrganizationRequest\([\s\S]*?decision: "approve"[\s\S]*?null,/);
+  assert.match(volunteerFunction, /inviteUserByEmail\(/);
+  assert.match(volunteerFunction, /member_role: "admin",\s+status: "active"/);
+  assert.match(volunteerFunction, /SPPG berhasil diaktifkan/);
+  assert.match(html, /SPPG akan langsung diaktifkan setelah verifikasi/);
+  assert.match(html, /Pilih SPPG tempat Anda bertugas/);
+  assert.match(html, /sppgId: document\.getElementById\('registrationSppgId'\)\.value/);
+  assert.match(html, /function initializeInvitePasswordSetup\(\)[\s\S]*?type'\) !== 'invite'[\s\S]*?function saveInvitePassword\(\)[\s\S]*?\/auth\/v1\/user/);
+});
+
+test('new tenant starts empty and local module data is isolated by authenticated SPPG', function() {
+  assert.match(html, /globalTargetPorsi = 0;\s+porsiBesar = 0;\s+porsiKecil = 0;\s+defaultMenus = \{\};\s+defaultBudget = \{\};\s+defaultTasks = \[\];/);
+  assert.match(html, /function module4StorageKey\(tenantId\)[\s\S]*?STORAGE_KEY \+ ':' \+ tenantId/);
+  assert.match(html, /function loadAppDataFromCloud\(\)[\s\S]*?if \(!tenantId\) return;[\s\S]*?localStorage\.getItem\(key\)/);
+  assert.doesNotMatch(html, /localStorage\.getItem\(STORAGE_KEY\)/);
+});
+
+test('empty-tenant migration refuses to remove legacy data and removes implicit defaults', function() {
+  assert.match(emptyTenantMigration, /Legacy SPPG has users or memberships/);
+  assert.match(emptyTenantMigration, /Legacy SPPG has operational rows/);
+  assert.match(emptyTenantMigration, /Legacy SPPG has Storage files/);
+  assert.match(emptyTenantMigration, /delete from public\.spas1_organizations/);
+  assert.match(emptyTenantMigration, /alter column sppg_id set default public\.spas1_current_sppg_id\(\)/);
+  assert.match(emptyTenantMigration, /auth\.uid\(\) is not null and sppg_id = public\.spas1_current_sppg_id\(\)/);
+  assert.match(emptyTenantMigration, /select public\.spas1_current_sppg_id\(\)::text/);
 });
 
 test('organization approval controls are platform-admin-only and invoke the review workflow', function() {

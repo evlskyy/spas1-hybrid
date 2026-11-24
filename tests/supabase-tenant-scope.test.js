@@ -20,7 +20,6 @@ const storageSource = html.slice(storageStart, storageEnd) +
   '\nthis.isSupabaseStockReceiptPath = isSupabaseStockReceiptPath;';
 
 const tenantId = '01234567-89ab-4cde-8abc-0123456789ab';
-const legacyTenantId = '00000000-0000-4000-8000-000000000001';
 
 function createScope(sessionTenantId, hasSession) {
   const context = createTenantContext(sessionTenantId, hasSession);
@@ -78,12 +77,11 @@ test('tenant-scoped requests reject caller-supplied cross-SPPG filters or rows',
   }, /SPPG lain/);
 });
 
-test('legacy authenticated sessions without a tenant claim stay on the original SPPG', function() {
+test('authenticated sessions without a tenant claim are rejected', function() {
   const scope = createScope(null, true);
-  const options = { query: { select: '*' } };
-  const scoped = scope('SPAS1_SETTINGS', options);
-
-  assert.equal(scoped.query.sppg_id, 'eq.' + legacyTenantId);
+  assert.throws(function() {
+    scope('SPAS1_SETTINGS', { query: { select: '*' } });
+  }, /belum terhubung ke SPPG aktif/);
 });
 
 test('anonymous requests are not assigned an authenticated tenant', function() {
@@ -115,12 +113,12 @@ test('stock receipt validation accepts only the active SPPG folder and expected 
   assert.equal(context.isSupabaseStockReceiptPath(tenantId + '/stok-logistik/2026/11/22-Senin/nested/receipt.webp'), false);
 });
 
-test('legacy SPPG retains its existing Storage prefix', function() {
+test('authenticated sessions without a tenant claim cannot resolve Storage paths', function() {
   const context = createTenantContext(null, true);
 
-  assert.equal(context.getSupabaseTenantStorageFolder(), 'spas1');
-  assert.equal(context.isSupabaseTenantStoragePath('spas1/lpdh/2026-11-22/receipt.pdf', 'lpdh/2026-11-22/'), true);
-  assert.equal(context.isSupabaseStockReceiptPath('spas1/stok-logistik/2026/11/22-Senin/receipt.webp'), true);
+  assert.throws(function() {
+    context.getSupabaseTenantStorageFolder();
+  }, /belum terhubung ke SPPG aktif/);
 });
 
 test('admin data reads use the shared authenticated Supabase request path', function() {

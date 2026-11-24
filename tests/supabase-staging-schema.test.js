@@ -7,6 +7,7 @@ const root = path.join(__dirname, '..');
 const baseline = fs.readFileSync(path.join(root, 'supabase/staging_schema_baseline.sql'), 'utf8');
 const verifier = fs.readFileSync(path.join(root, 'supabase/staging_verify.sql'), 'utf8');
 const tenantMigration = fs.readFileSync(path.join(root, 'supabase_multisppg_migration.sql'), 'utf8');
+const emptyTenantMigration = fs.readFileSync(path.join(root, 'supabase/tenant_empty_defaults_migration.sql'), 'utf8');
 
 function namesFrom(source, pattern) {
   return Array.from(source.matchAll(pattern), function(match) {
@@ -49,5 +50,8 @@ test('staging verification script is read-only and checks tenant isolation', fun
   assert.doesNotMatch(verifier, /^\s*(?:insert|update|delete|alter|create|drop|grant|revoke)\b/im);
   assert.match(verifier, /restrictive_tenant_policy/);
   assert.match(verifier, /spas1_current_sppg_id/);
+  assert.match(verifier, /legacy_sppg_removed/);
+  assert.match(verifier, /no_legacy_tenant_defaults/);
+  assert.match(emptyTenantMigration, /Legacy SPPG has operational rows/);
   assert.match(verifier, /spas1-lpdh/);
 });

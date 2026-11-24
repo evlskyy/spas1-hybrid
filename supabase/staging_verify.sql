@@ -66,7 +66,28 @@ from checks;
 select
   to_regprocedure('public.spas1_current_sppg_id()') is not null as current_sppg_helper_exists,
   to_regprocedure('public.spas1_enforce_tenant_scope()') is not null as tenant_guard_exists,
-  (select count(*) = 1 from public.spas1_organizations where slug = 'sungai-pasir-1') as initial_sppg_exists;
+  not exists (
+    select 1
+    from public.spas1_organizations
+    where id = '00000000-0000-4000-8000-000000000001'::uuid
+  ) as legacy_sppg_removed,
+  to_regprocedure('public.spas1_current_storage_folder()') is not null as tenant_storage_helper_exists;
+
+select
+  count(*) filter (
+    where position(
+      '00000000-0000-4000-8000-000000000001'
+      in pg_get_expr(default_value.adbin, default_value.adrelid)
+    ) > 0
+  ) = 0 as no_legacy_tenant_defaults
+from pg_attrdef as default_value
+join pg_class as relation on relation.oid = default_value.adrelid
+join pg_namespace as schema_info on schema_info.oid = relation.relnamespace
+join pg_attribute as column_info
+  on column_info.attrelid = relation.oid
+  and column_info.attnum = default_value.adnum
+where schema_info.nspname = 'public'
+  and column_info.attname = 'sppg_id';
 
 select
   required.bucket_id,

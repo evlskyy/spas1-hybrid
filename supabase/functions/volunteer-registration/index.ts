@@ -63,10 +63,10 @@ const allowedVolunteerDivisions = [
   "Security / Keamanan",
 ];
 const pendingRegistrationStatuses = [
+  "Menunggu Persetujuan Admin SPPG",
   "Menunggu Persetujuan SUPER ADMIN",
   "Menunggu Verifikasi SUPER ADMIN",
 ];
-const legacySppgId = "00000000-0000-4000-8000-000000000001";
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 async function verifyTurnstileToken(
@@ -204,7 +204,7 @@ async function submitRegistration(
   adminClient: ReturnType<typeof createClient>,
   origin: string,
 ) {
-  const sppgId = String(input.sppgId || legacySppgId);
+  const sppgId = String(input.sppgId || "");
   if (!uuidPattern.test(sppgId)) {
     return jsonResponse({ error: "Identitas SPPG tidak valid." }, 400, origin);
   }
@@ -281,7 +281,7 @@ async function submitRegistration(
     "No HP": phone,
     Role: role,
     Divisi: division,
-    Status: "Menunggu Persetujuan SUPER ADMIN",
+    Status: "Menunggu Persetujuan Admin SPPG",
     "Diajukan Pada": new Date().toISOString(),
   });
   if (insertError) {
@@ -331,10 +331,27 @@ async function submitOrganizationRequest(
   }
   if (error) throw error;
   if (!data) throw new Error("Permohonan SPPG tidak berhasil disimpan.");
-  return jsonResponse({
-    status: "success",
-    message: "Permohonan SPPG terkirim. Jika disetujui, undangan untuk admin pertama akan dikirim ke email yang dicantumkan.",
-  }, 200, origin);
+  try {
+    const activation = await reviewOrganizationRequest(
+      { requestId: data.id, decision: "approve" },
+      null,
+      adminClient,
+      origin,
+    );
+    const result = await activation.json() as { status?: string; error?: string };
+    if (activation.status !== 200 || result.status !== "success") {
+      return jsonResponse({ error: result.error || "SPPG belum dapat diaktifkan." }, activation.status, origin);
+    }
+    return jsonResponse({
+      status: "success",
+      message: "SPPG berhasil diaktifkan. Undangan untuk membuat password admin telah dikirim ke email pemohon.",
+    }, 200, origin);
+  } catch (error) {
+    console.error("Automatic SPPG activation failed:", getErrorMessage(error) || "Unknown error");
+    return jsonResponse({
+      error: "Aktivasi SPPG belum berhasil. Pastikan email admin belum terdaftar; jika masalah berlanjut, hubungi pengelola.",
+    }, 500, origin);
+  }
 }
 
 async function listOrganizationRequests(
@@ -352,7 +369,7 @@ async function listOrganizationRequests(
 
 async function reviewOrganizationRequest(
   input: Record<string, unknown>,
-  adminId: string,
+  adminId: string | null,
   adminClient: ReturnType<typeof createClient>,
   origin: string,
 ) {
@@ -408,15 +425,28 @@ async function reviewOrganizationRequest(
 
     const { data: invitation, error: invitationError } = await adminClient.auth.admin.inviteUserByEmail(
       requestRow.contact_email,
-      { data: { full_name: requestRow.contact_name } },
+      { data: { full_name: requestRow.contact_name, contact_phone: requestRow.contact_phone } },
     );
-    if (invitation.user) invitedUserId = invitation.user.id;
     if (invitationError || !invitation.user) {
       throw invitationError || new Error("Undangan email admin pertama tidak berhasil dibuat.");
     }
+    if (invitation.user.app_metadata?.platform_admin === true || invitation.user.app_metadata?.sppg_id) {
+      throw new Error("Email admin sudah terhubung ke akun platform atau SPPG lain.");
+    }
+    const { data: existingMembership, error: existingMembershipError } = await adminClient
+      .from("spas1_memberships")
+      .select("user_id")
+      .eq("user_id", invitation.user.id)
+      .maybeSingle();
+    if (existingMembershipError) throw existingMembershipError;
+    if (existingMembership) throw new Error("Email admin sudah memiliki keanggotaan SPPG.");
+    invitedUserId = invitation.user.id;
 
     const { error: metadataError } = await adminClient.auth.admin.updateUserById(invitedUserId, {
-      app_metadata: { role: "admin", sppg_id: organizationId },
+      app_metadata: Object.assign({}, invitation.user.app_metadata || {}, {
+        role: "admin",
+        sppg_id: organizationId,
+      }),
     });
     if (metadataError) throw metadataError;
 
@@ -457,7 +487,9 @@ async function reviewOrganizationRequest(
     }
     const { error: restoreError } = await adminClient
       .from("spas1_organization_requests")
-      .update({ status: "pending" })
+      .update(adminId === null
+        ? { status: "rejected", decided_at: new Date().toISOString(), decided_by: null }
+        : { status: "pending" })
       .eq("id", requestId)
       .eq("status", "processing");
     if (restoreError) cleanupErrors.push("status permohonan");
@@ -497,7 +529,7 @@ async function listRegistrations(
   return jsonResponse({
     status: "success",
     registrations,
-    pendingCount: registrations.filter((item) => item.status === "Menunggu Persetujuan SUPER ADMIN").length,
+    pendingCount: registrations.filter((item) => pendingRegistrationStatuses.includes(item.status)).length,
   }, 200, origin);
 }
 
