@@ -156,3 +156,77 @@ test('global identity editor only exposes Yayasan branding and keeps SPAS1 mark 
   assert.equal(brandImage.src, 'https://example.com/yayasan.png');
   assert.equal(context.getState().markUrl, undefined);
 });
+
+test('global identity updates branded modules and ignores invalid names', function() {
+  const start = html.indexOf('let currentSiteSettings =');
+  const end = html.indexOf('\nfunction applyModuleLoginLogo', start);
+  const source = html.slice(start, end);
+  const foundation = [{ textContent: '' }];
+  const sppg = [{ textContent: '' }, { textContent: '' }];
+  const context = {
+    window: { SPAS1_MODULE_LOGO_OVERRIDE: '' },
+    document: {
+      title: '',
+      querySelectorAll: function(selector) {
+        if (selector === '[data-brand-field="foundation"]') return foundation;
+        if (selector === '[data-brand-field="sppg"]') return sppg;
+        return [];
+      },
+      getElementById: function() { return null; }
+    },
+    applyModuleLoginLogo: function() {}
+  };
+  vm.runInNewContext(source + '\nthis.run = applySiteSettings; this.getState = () => currentSiteSettings;', context);
+
+  context.run({ foundationName: '  Yayasan Baru  ', sppgName: 'undefined' });
+  assert.equal(context.getState().foundationName, 'Yayasan Baru');
+  assert.equal(context.getState().sppgName, 'Nama SPPG belum diatur');
+  assert.deepEqual(sppg.map(function(element) { return element.textContent; }), [
+    'Nama SPPG belum diatur',
+    'Nama SPPG belum diatur'
+  ]);
+
+  context.run({ sppgName: 'SPPG Baru' });
+  assert.deepEqual(sppg.map(function(element) { return element.textContent; }), ['SPPG Baru', 'SPPG Baru']);
+  assert.match(html, /id="aboutSppgName" data-brand-field="sppg"/);
+  assert.match(html, /Manajemen <span data-brand-field="sppg">/);
+  assert.doesNotMatch(html, /id="aboutTeamTitle" data-content-key="teamTitle"/);
+});
+
+test('loading incomplete identity settings never puts undefined in the admin inputs', function() {
+  const start = html.indexOf('let currentSiteSettings =');
+  const end = html.indexOf('\nfunction deleteAnnouncement', start);
+  const source = html.slice(start, end);
+  const nodes = {
+    adminSettingsMessage: {
+      className: '',
+      textContent: '',
+      classList: { add: function() {} }
+    },
+    foundationNameInput: { value: '' },
+    sppgNameInput: { value: '' }
+  };
+  const context = {
+    window: { SPAS1_AUTH_ROLE: 'admin', SPAS1_AUTH_TOKEN: 'session' },
+    document: {
+      title: '',
+      getElementById: function(id) { return nodes[id] || null; },
+      querySelectorAll: function() { return []; }
+    },
+    loadAdminWhatsappSettings: function() {},
+    callSupabaseAction: function(action, payload, onSuccess) {
+      assert.equal(action, 'fetchAdminSettings');
+      onSuccess({
+        status: 'success',
+        data: { foundationName: undefined, sppgName: 'undefined' }
+      });
+    },
+    applyModuleLoginLogo: function() {}
+  };
+  vm.runInNewContext(source + '\nthis.run = loadAdminSiteSettings;', context);
+
+  context.run();
+
+  assert.equal(nodes.foundationNameInput.value, '');
+  assert.equal(nodes.sppgNameInput.value, '');
+});
