@@ -137,3 +137,10 @@ test('source and deployed HTML both contain the current SPPG status indicator', 
     assert.match(deployedHtml, /loadCurrentSppgAccountStatus\(\)/, relativePath);
   }
 });
+
+test('public SUPER ADMIN card uses generic access text, not an account status', function() {
+  const card = html.match(/<button id="btnSuperAdminLogin"[\s\S]*?<\/button>/);
+  assert.ok(card, 'SUPER ADMIN card should exist');
+  assert.match(card[0], /Akses khusus administrator/);
+  assert.doesNotMatch(card[0], /SPPG|email admin terverifikasi/i);
+});
