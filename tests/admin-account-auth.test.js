@@ -42,6 +42,16 @@ test('password recovery is available before login and rejects synthetic internal
   assert.doesNotMatch(html, /email \+= '@admin\.spas1\.local'/);
 });
 
+test('recovery chat opens above the admin login dialog so outside clicks do not dismiss login underneath', function() {
+  const loginModalZIndex = Number(html.match(/#modal-admin-login\s*\{\s*z-index:\s*(\d+)/)?.[1]);
+  const recoveryChatZIndex = Number(html.match(/\.recovery-chat-overlay\s*\{[^}]*z-index:\s*(\d+)/)?.[1]);
+
+  assert.ok(Number.isFinite(loginModalZIndex));
+  assert.ok(Number.isFinite(recoveryChatZIndex));
+  assert.ok(recoveryChatZIndex > loginModalZIndex);
+  assert.match(html, /id="recoveryChatOverlay"[^>]*onclick="if\(event\.target===this\) closeRecoveryChat\(\)"/);
+});
+
 test('admin username migration keeps mappings private and throttles failed login attempts', function() {
   assert.match(migration, /alter table public\.spas1_admin_usernames enable row level security/i);
   assert.match(migration, /revoke all on public\.spas1_admin_usernames from public, anon, authenticated/i);
