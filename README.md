@@ -38,6 +38,7 @@ SPAS1 menyatukan alur menu dan gizi, stok logistik, absensi relawan, persiapan, 
 - Modul persiapan, distribusi, anggaran, HACCP, serta poster AKG.
 - Pengelolaan konten publik dan media situs.
 - Tutorial penggunaan yang diperbarui untuk layar ponsel, tampilan modul yang diselaraskan, serta halaman pemeliharaan.
+- SUPER ADMIN dapat mengubah tampilan seluruh aplikasi melalui **Pengaturan → Tampilan & Font**: Candy Modern, Classic Linux, Classic Windows, font Mac OS atau Linux standar. Preferensi disimpan lokal di browser dan tidak mengubah tampilan pengguna lain.
 
 ## Arsitektur
 

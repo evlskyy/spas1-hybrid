@@ -3080,6 +3080,102 @@ display: table-header-group;
 body[class*="printing-"] tfoot {
 display: table-footer-group;
 }
+body.ui-font-macos,
+body.ui-font-macos :not(i):not([class*="fa-"]) {
+font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif !important;
+}
+body.ui-font-linux,
+body.ui-font-linux :not(i):not([class*="fa-"]) {
+font-family: system-ui, "Noto Sans", "DejaVu Sans", sans-serif !important;
+}
+body.ui-theme-candy {
+background: linear-gradient(135deg,#FFF1F7 0%,#F2F4FF 52%,#E8FBFF 100%) !important;
+color: #3F3152 !important;
+}
+body.ui-theme-candy #view-home,
+body.ui-theme-candy #view-admin { background: transparent !important; color: #3F3152 !important; }
+body.ui-theme-candy .dark-card,
+body.ui-theme-candy .light-card,
+body.ui-theme-candy #view-admin aside,
+body.ui-theme-candy .home-news-panel,
+body.ui-theme-candy .home-news-launcher,
+body.ui-theme-candy .sl-purchase-archive-card,
+body.ui-theme-candy .sl-movement-card {
+background-color: #FFFBFE !important;
+border-color: #F3C9DF !important;
+border-radius: 20px !important;
+color: #3F3152 !important;
+box-shadow: 0 12px 30px rgba(155,91,135,.12) !important;
+}
+body.ui-theme-candy button:not([class*="fa-"]) { border-radius: 14px; }
+body.ui-theme-candy #view-admin .sidebar-link.active { background: linear-gradient(135deg,#DB2777,#8B5CF6) !important; }
+body.ui-theme-candy .dark-card h1,
+body.ui-theme-candy .dark-card h2,
+body.ui-theme-candy .dark-card h3,
+body.ui-theme-candy .dark-card .text-white,
+body.ui-theme-candy .light-card .text-white,
+body.ui-theme-candy #view-admin aside .text-white { color: #3F3152 !important; }
+body.ui-theme-candy input,
+body.ui-theme-candy select,
+body.ui-theme-candy textarea { border-color: #E8B8D2 !important; border-radius: 12px !important; }
+body.ui-theme-linux { background: #C6C6C6 !important; color: #171717 !important; }
+body.ui-theme-linux #view-home,
+body.ui-theme-linux #view-admin { background: #C6C6C6 !important; color: #171717 !important; }
+body.ui-theme-linux .dark-card,
+body.ui-theme-linux .light-card,
+body.ui-theme-linux #view-admin aside,
+body.ui-theme-linux .home-news-panel,
+body.ui-theme-linux .home-news-launcher,
+body.ui-theme-linux .sl-purchase-archive-card,
+body.ui-theme-linux .sl-movement-card {
+background: linear-gradient(#F1F1F1,#D7D7D7) !important;
+border: 1px solid #777 !important;
+border-radius: 3px !important;
+color: #171717 !important;
+box-shadow: inset 1px 1px #FFF, 1px 1px 2px #777 !important;
+}
+body.ui-theme-linux button:not([class*="fa-"]) { border-radius: 3px; }
+body.ui-theme-linux #view-admin .sidebar-link.active { background: #3465A4 !important; color: #FFF !important; }
+body.ui-theme-linux .dark-card h1,
+body.ui-theme-linux .dark-card h2,
+body.ui-theme-linux .dark-card h3,
+body.ui-theme-linux .dark-card .text-white,
+body.ui-theme-linux .light-card .text-white,
+body.ui-theme-linux #view-admin aside .text-white { color: #171717 !important; }
+body.ui-theme-linux input,
+body.ui-theme-linux select,
+body.ui-theme-linux textarea { background: #FFF !important; border: 1px solid #777 !important; border-radius: 2px !important; color: #171717 !important; }
+body.ui-theme-windows {
+background: linear-gradient(135deg,#0A246A,#3A6EA5) fixed !important;
+color: #111 !important;
+}
+body.ui-theme-windows #view-home,
+body.ui-theme-windows #view-admin { background: #C0C0C0 !important; color: #111 !important; }
+body.ui-theme-windows .dark-card,
+body.ui-theme-windows .light-card,
+body.ui-theme-windows #view-admin aside,
+body.ui-theme-windows .home-news-panel,
+body.ui-theme-windows .home-news-launcher,
+body.ui-theme-windows .sl-purchase-archive-card,
+body.ui-theme-windows .sl-movement-card {
+background: #D4D0C8 !important;
+border: 2px outset #FFF !important;
+border-radius: 2px !important;
+color: #111 !important;
+box-shadow: 1px 1px 0 #404040 !important;
+}
+body.ui-theme-windows #view-admin aside { border-color: #FFF #404040 #404040 #FFF !important; }
+body.ui-theme-windows button:not([class*="fa-"]) { border: 2px outset #FFF; border-radius: 2px; background: #D4D0C8; color: #111; }
+body.ui-theme-windows #view-admin .sidebar-link.active { background: linear-gradient(90deg,#0A246A,#3A6EA5) !important; color: #FFF !important; }
+body.ui-theme-windows .dark-card h1,
+body.ui-theme-windows .dark-card h2,
+body.ui-theme-windows .dark-card h3,
+body.ui-theme-windows .dark-card .text-white,
+body.ui-theme-windows .light-card .text-white,
+body.ui-theme-windows #view-admin aside .text-white { color: #111 !important; }
+body.ui-theme-windows input,
+body.ui-theme-windows select,
+body.ui-theme-windows textarea { background: #FFF !important; border: 2px inset #808080 !important; border-radius: 0 !important; color: #111 !important; }
 }
 </style>
 <!-- Google Analytics 4 -->
@@ -4280,6 +4376,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <i class="fa-solid fa-sliders w-5"></i><span>Pengaturan</span><i id="adminSettingsChevron" class="fa-solid fa-chevron-down ml-auto text-[10px] transition-transform"></i>
 </button>
 <div id="adminSettingsSubnav" class="admin-settings-subnav hidden" aria-label="Menu Pengaturan">
+<button id="nav-tab-appearance" onclick="switchAdminTab('tab-appearance', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-palette w-5"></i><span>Tampilan &amp; Font</span></button>
 <button id="nav-tab-settings" onclick="switchAdminTab('tab-settings', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-building w-5"></i> <span>Identitas Aplikasi</span></button>
 <button id="nav-tab-about" onclick="switchAdminTab('tab-about', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-people-group w-5"></i> <span>Tentang Kami</span></button>
 <button id="nav-tab-news" onclick="switchAdminTab('tab-news', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-bullhorn w-5"></i> <span>Info SPPG</span></button>
@@ -4586,6 +4683,35 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="light-card p-4 rounded-2xl shadow-sm">
 <h3 class="mb-3 text-sm font-bold text-gray-900">Poster yang sudah diterbitkan</h3>
 <div id="adminMediaList" class="admin-news-list" aria-live="polite"><div class="text-xs text-gray-500">Memuat poster...</div></div>
+</div>
+</section>
+<section id="tab-appearance" class="admin-tab space-y-4 hidden">
+<div class="site-settings-heading flex items-start gap-3 rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4">
+<span class="site-settings-icon grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-600 text-white"><i class="fa-solid fa-palette"></i></span>
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Tampilan &amp; Font Aplikasi</h2><p class="mt-1 text-xs text-gray-500">Pilih gaya visual dan font untuk seluruh halaman aplikasi. Perubahan langsung diterapkan dan disimpan pada browser ini.</p></div>
+</div>
+<div class="light-card grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 sm:p-5">
+<label for="adminAppearanceTheme" class="admin-about-label">Gaya antarmuka
+<select id="adminAppearanceTheme" onchange="saveAdminAppearance()">
+<option value="spas">SPAS1 bawaan</option>
+<option value="candy">Candy Modern</option>
+<option value="linux">Classic Linux</option>
+<option value="windows">Classic Windows</option>
+</select>
+</label>
+<label for="adminAppearanceFont" class="admin-about-label">Font seluruh aplikasi
+<select id="adminAppearanceFont" onchange="saveAdminAppearance()">
+<option value="linux">Linux Standar (system-ui)</option>
+<option value="macos">Mac OS (SF Pro / system fallback)</option>
+</select>
+</label>
+<div class="sm:col-span-2 rounded-xl border border-gray-200 bg-gray-50 p-4" aria-live="polite">
+<strong class="text-sm">Pratinjau tampilan</strong>
+<p class="mt-1 text-xs">SPAS1 · Pengelolaan operasional dapur</p>
+<button type="button" class="mt-3 rounded-lg bg-indigo-600 px-3 py-2 text-xs font-bold text-white">Contoh tombol</button>
+</div>
+<p id="adminAppearanceStatus" class="sm:col-span-2 text-xs text-gray-500" role="status" aria-live="polite">Preferensi tampilan hanya tersimpan di browser ini.</p>
+<div class="sm:col-span-2 flex justify-end"><button type="button" onclick="resetAdminAppearance()" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-bold text-gray-700"><i class="fa-solid fa-rotate-left"></i> Kembalikan bawaan</button></div>
 </div>
 </section>
 <section id="tab-settings" class="admin-tab space-y-4 hidden">
@@ -7886,7 +8012,7 @@ document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
 document.querySelectorAll('.sidebar-link').forEach(b => { b.classList.remove('active'); b.style.backgroundColor = ''; b.style.color = ''; });
 document.getElementById(tabId).classList.remove('hidden');
 if (btn) { btn.classList.add('active'); btn.style.backgroundColor = '#4F46E5'; btn.style.color = '#FFFFFF'; }
-const settingsTab = ['tab-settings', 'tab-about', 'tab-news'].indexOf(tabId) !== -1;
+const settingsTab = ['tab-appearance', 'tab-settings', 'tab-about', 'tab-news'].indexOf(tabId) !== -1;
 const settingsToggle = document.getElementById('nav-settings-toggle');
 if (settingsToggle) settingsToggle.classList.toggle('is-current', settingsTab);
 if (settingsTab) toggleAdminSettingsMenu(true);
@@ -8978,6 +9104,66 @@ syncAdminPortalTheme(true);
 }
 } catch(e){}
 updateThemeToggleControls(document.body.classList.contains('app-light-mode'));
+}
+function applyAdminAppearance(theme, font, persist) {
+const themes = ['spas', 'candy', 'linux', 'windows'];
+const fonts = ['linux', 'macos'];
+if (!themes.includes(theme) || !fonts.includes(font)) throw new Error('Pilihan tampilan atau font tidak valid.');
+document.body.classList.remove('ui-theme-candy', 'ui-theme-linux', 'ui-theme-windows', 'ui-font-linux', 'ui-font-macos');
+if (theme !== 'spas') document.body.classList.add('ui-theme-' + theme);
+document.body.classList.add('ui-font-' + font);
+const themeSelect = document.getElementById('adminAppearanceTheme');
+const fontSelect = document.getElementById('adminAppearanceFont');
+if (themeSelect) themeSelect.value = theme;
+if (fontSelect) fontSelect.value = font;
+if (persist) localStorage.setItem('spas1_admin_appearance', JSON.stringify({ theme: theme, font: font }));
+}
+function loadAdminAppearance() {
+let preferences = {};
+try {
+const saved = localStorage.getItem('spas1_admin_appearance');
+if (saved) preferences = JSON.parse(saved);
+} catch (error) {
+console.error('Preferensi tampilan tersimpan tidak dapat dibaca:', error);
+}
+const theme = preferences && ['spas', 'candy', 'linux', 'windows'].includes(preferences.theme) ? preferences.theme : 'spas';
+const font = preferences && ['linux', 'macos'].includes(preferences.font) ? preferences.font : 'linux';
+try {
+applyAdminAppearance(theme, font, false);
+} catch (error) {
+console.error('Preferensi tampilan gagal diterapkan:', error);
+applyAdminAppearance('spas', 'linux', false);
+}
+}
+function saveAdminAppearance() {
+if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_SUPABASE_SESSION) {
+showToast('❌ Pengaturan tampilan hanya tersedia untuk SUPER ADMIN yang sudah login.');
+return;
+}
+const theme = document.getElementById('adminAppearanceTheme').value;
+const font = document.getElementById('adminAppearanceFont').value;
+const status = document.getElementById('adminAppearanceStatus');
+try {
+applyAdminAppearance(theme, font, true);
+status.textContent = 'Tampilan diterapkan dan disimpan pada browser ini.';
+} catch (error) {
+status.textContent = 'Preferensi tampilan gagal disimpan: ' + error.message;
+showToast('❌ ' + status.textContent);
+}
+}
+function resetAdminAppearance() {
+if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_SUPABASE_SESSION) {
+showToast('❌ Pengaturan tampilan hanya tersedia untuk SUPER ADMIN yang sudah login.');
+return;
+}
+const status = document.getElementById('adminAppearanceStatus');
+try {
+applyAdminAppearance('spas', 'linux', true);
+status.textContent = 'Tampilan bawaan SPAS1 dipulihkan dan disimpan pada browser ini.';
+} catch (error) {
+status.textContent = 'Preferensi tampilan gagal dipulihkan: ' + error.message;
+showToast('❌ ' + status.textContent);
+}
 }
 function changeCustomTheme(theme) {
 if (['emerald', 'ocean', 'royal', 'light'].indexOf(theme) === -1) return;
@@ -14389,7 +14575,7 @@ window.printBudgetOnly = function() {
 function updateClock() { const now = new Date(); const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; const dateEl = document.getElementById('currentDate'); const clockEl = document.getElementById('currentClock'); if (dateEl) dateEl.textContent = now.toLocaleDateString('id-ID', options); if (clockEl) clockEl.textContent = now.toTimeString().split(' ')[0] + ' WIB'; }
 setInterval(updateClock, 1000);
 function saveHaccpCheck() { haccpChecks = { cold: document.getElementById('haccpCold').checked, organo: document.getElementById('haccpOrgano').checked, sanitasi: document.getElementById('haccpSanitasi').checked, label: document.getElementById('haccpLabel').checked }; saveAppDataToCloud(); }
-function initApp() { initializePasswordVisibilityToggles(); loadAppDataFromCloud(); initializeInvitePasswordSetup(); applySiteSettings(currentSiteSettings); checkPortalAuth(); updateClock(); loadTheme(); let savedTheme = null; let legacyLightTheme = false; try { savedTheme = localStorage.getItem('spas1m_custom_theme'); legacyLightTheme = localStorage.getItem('spas1m_theme') === 'light'; } catch(e){} if (['emerald', 'ocean', 'royal', 'light'].indexOf(savedTheme) !== -1) changeCustomTheme(savedTheme); else if (legacyLightTheme && !savedTheme) changeCustomTheme('light'); loadPublicSiteSettings(); loadPublicSiteContent(); loadPublicAnnouncements(); loadPublicMedia(); renderDayTabs(); renderRecipeView(); renderBudgetTable(); renderAkgPosters(); }
+function initApp() { initializePasswordVisibilityToggles(); loadAppDataFromCloud(); initializeInvitePasswordSetup(); applySiteSettings(currentSiteSettings); checkPortalAuth(); updateClock(); loadTheme(); loadAdminAppearance(); let savedTheme = null; let legacyLightTheme = false; try { savedTheme = localStorage.getItem('spas1m_custom_theme'); legacyLightTheme = localStorage.getItem('spas1m_theme') === 'light'; } catch(e){} if (['emerald', 'ocean', 'royal', 'light'].indexOf(savedTheme) !== -1) changeCustomTheme(savedTheme); else if (legacyLightTheme && !savedTheme) changeCustomTheme('light'); loadPublicSiteSettings(); loadPublicSiteContent(); loadPublicAnnouncements(); loadPublicMedia(); renderDayTabs(); renderRecipeView(); renderBudgetTable(); renderAkgPosters(); }
 if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initApp); } else { initApp(); }
 })();
 function formatAnnouncementText(value) {
