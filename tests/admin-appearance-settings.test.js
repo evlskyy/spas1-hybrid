@@ -189,10 +189,11 @@ test('SUPER ADMIN appearance panel offers requested themes and whole-app fonts',
 });
 
 test('appearance preview text stays readable in dark mode and controls are easier to read', function() {
-  assert.match(html, /#view-admin #tab-appearance \.appearance-preview-content p \{\s*color:#475569 !important;\s*\}/);
-  assert.match(html, /#view-admin #tab-appearance \.appearance-preview-window\[data-theme="retro"\] \.appearance-preview-content p \{\s*color:#55485D !important;\s*\}/);
-  assert.match(html, /\.appearance-settings-card > \.admin-about-label \{ gap:8px; font-size:12px; \}/);
-  assert.match(html, /\.appearance-settings-card > \.admin-about-label select \{ min-height:38px; padding:8px 10px; font-size:14px;/);
+  assert.match(html, /#view-admin #tab-appearance \.appearance-preview-content p \{ color:#334155 !important; \}/);
+  assert.match(html, /#view-admin #tab-appearance \.appearance-preview-window\[data-theme="retro"\] \.appearance-preview-content p \{ color:#3E3442 !important; \}/);
+  assert.match(html, /\.appearance-settings-card > \.admin-about-label \{ gap:9px; font-size:14px; \}/);
+  assert.match(html, /\.appearance-settings-card > \.admin-about-label select \{ min-height:44px; padding:9px 12px; font-size:16px;/);
+  assert.match(html, /\.appearance-preview-content p \{ margin:7px 0;color:#334155;font-size:15px;font-weight:600;line-height:1\.5; \}/);
   assert.match(html, /class="light-card appearance-settings-card grid/);
 });
 
