@@ -188,6 +188,14 @@ test('SUPER ADMIN appearance panel offers requested themes and whole-app fonts',
   assert.match(html, /body\.ui-theme-windows:not\(\.app-light-mode\)\s*\{[\s\S]*color-scheme: dark/);
 });
 
+test('appearance preview text stays readable in dark mode and controls are easier to read', function() {
+  assert.match(html, /#view-admin #tab-appearance \.appearance-preview-content p \{\s*color:#475569 !important;\s*\}/);
+  assert.match(html, /#view-admin #tab-appearance \.appearance-preview-window\[data-theme="retro"\] \.appearance-preview-content p \{\s*color:#55485D !important;\s*\}/);
+  assert.match(html, /\.appearance-settings-card > \.admin-about-label \{ gap:8px; font-size:12px; \}/);
+  assert.match(html, /\.appearance-settings-card > \.admin-about-label select \{ min-height:38px; padding:8px 10px; font-size:14px;/);
+  assert.match(html, /class="light-card appearance-settings-card grid/);
+});
+
 test('global themes override home launcher styles and unify secondary home actions', function() {
   assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\) #view-home #btnSuperAdminLogin\s*\{[\s\S]*background: var\(--appearance-surface\) !important/);
   assert.match(html, /#view-home #btnSuperAdminLogin :is\(\.home-utility-description,\.home-admin-access\)\s*\{[\s\S]*color: var\(--appearance-subtle\) !important/);

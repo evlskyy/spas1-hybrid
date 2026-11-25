@@ -3376,6 +3376,8 @@ box-shadow: 2px 2px 0 #5D4778 !important;
 }
 body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) #view-admin aside .sidebar-link.active { color:#FFFFFF !important; }
 body.ui-theme-retro #view-admin aside .sidebar-link.active { color:#32273D !important; }
+.appearance-settings-card > .admin-about-label { gap:8px; font-size:12px; }
+.appearance-settings-card > .admin-about-label select { min-height:38px; padding:8px 10px; font-size:14px; line-height:1.35; }
 .appearance-preview-window { overflow:hidden;border:1px solid #CBD5E1;border-radius:10px;background:#FFFFFF;color:#1F2937;box-shadow:0 6px 18px rgba(15,23,42,.12); }
 .appearance-preview-titlebar { padding:9px 12px;background:#EEF2FF;color:#312E81;font-size:12px;font-weight:800; }
 .appearance-preview-content { padding:14px;background:#FFFFFF;color:#1F2937; }
@@ -3409,6 +3411,11 @@ body.ui-theme-retro #view-admin aside .sidebar-link.active { color:#32273D !impo
 .appearance-preview-window[data-theme="retro"] .appearance-preview-content { background:#FFF8EE;color:#32273D; }
 .appearance-preview-window[data-theme="retro"] .appearance-preview-content p { color:#55485D; }
 .appearance-preview-window[data-theme="retro"] .appearance-preview-content button { border:2px outset #FFF8EE;border-radius:6px;background:#F7A51B;color:#32273D;box-shadow:2px 2px 0 #5D4778; }
+#view-admin #tab-appearance .appearance-preview-content p { color:#475569 !important; }
+#view-admin #tab-appearance .appearance-preview-window[data-theme="candy"] .appearance-preview-content p { color:#6B5575 !important; }
+#view-admin #tab-appearance .appearance-preview-window[data-theme="linux"] .appearance-preview-content p { color:#333333 !important; }
+#view-admin #tab-appearance .appearance-preview-window[data-theme="windows"] .appearance-preview-content p { color:#222222 !important; }
+#view-admin #tab-appearance .appearance-preview-window[data-theme="retro"] .appearance-preview-content p { color:#55485D !important; }
 body.ui-font-linux .appearance-preview-window[data-font="macos"],
 body.ui-font-linux .appearance-preview-window[data-font="macos"] :not(i):not([class*="fa-"]) { font-family:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif !important; }
 body.ui-font-macos .appearance-preview-window[data-font="linux"],
@@ -5070,7 +5077,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <span class="site-settings-icon grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-600 text-white"><i class="fa-solid fa-palette"></i></span>
 <div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Tampilan &amp; Font Aplikasi</h2><p class="mt-1 text-xs text-gray-500">Pilih gaya visual dan font, lihat pratinjau, lalu tekan Terapkan untuk menyimpan di browser ini.</p></div>
 </div>
-<div class="light-card grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 sm:p-5">
+<div class="light-card appearance-settings-card grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 sm:p-5">
 <label for="adminAppearanceTheme" class="admin-about-label">Gaya antarmuka
 <select id="adminAppearanceTheme" onchange="previewAdminAppearance()">
 <option value="spas">SPAS1 bawaan</option>
