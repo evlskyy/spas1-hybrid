@@ -859,6 +859,29 @@ body.app-light-mode #tab-stok .sl-movement-close:hover { background:#D1D5DB; }
 .sl-purchase-archive-actions { display:flex;flex-wrap:wrap;gap:8px;margin-top:14px; }
 .sl-purchase-archive-actions button { padding:8px 11px;border:1px solid #475569;border-radius:8px;background:#1E293B;color:#F8FAFC;font-size:11px;font-weight:800;cursor:pointer; }
 .sl-purchase-archive-actions .danger { border-color:#991B1B;background:#7F1D1D; }
+.sl-movement-actions .save-print { background:linear-gradient(135deg,#0F766E,#0D9488);color:#fff; }
+#slStockInvoicePrint { display:none; }
+#slStockInvoicePrint[hidden] { display:none !important; }
+.sl-stock-invoice { max-width:190mm;margin:0 auto;padding:4mm;color:#111827;font:12px Arial,sans-serif; }
+.sl-stock-invoice-header { display:flex;justify-content:space-between;gap:20px;align-items:flex-start;padding-bottom:14px;border-bottom:2px solid #111827; }
+.sl-stock-invoice-header h1 { margin:0 0 5px;font-size:20px; }
+.sl-stock-invoice-header p,.sl-stock-invoice-meta p { margin:3px 0; }
+.sl-stock-invoice-type { font-size:16px;font-weight:800;text-align:right; }
+.sl-stock-invoice-meta { display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;margin:14px 0; }
+.sl-stock-invoice table { width:100%;border-collapse:collapse; }
+.sl-stock-invoice th,.sl-stock-invoice td { padding:7px 6px;border:1px solid #64748B;text-align:left;vertical-align:top; }
+.sl-stock-invoice th { background:#E5E7EB; }
+.sl-stock-invoice .numeric { text-align:right;white-space:nowrap; }
+.sl-stock-invoice-total { margin:10px 0 0 auto;text-align:right;font-size:15px;font-weight:800; }
+.sl-stock-invoice-note { margin-top:14px;min-height:32px; }
+.sl-stock-invoice-signatures { display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:36px;text-align:center; }
+.sl-stock-invoice-signatures div { min-height:82px;display:flex;flex-direction:column;justify-content:space-between; }
+@media print {
+  body.printing-stock-invoice { page: auto; }
+  body.printing-stock-invoice > *:not(#slStockInvoicePrint) { display:none !important;visibility:hidden !important; }
+  body.printing-stock-invoice #slStockInvoicePrint { display:block !important;visibility:visible !important;position:static !important;width:100% !important; }
+  body.printing-stock-invoice #slStockInvoicePrint * { visibility:visible !important; }
+}
 .sl-purchase-line .sl-movement-field label { font-size:9px; }
 .sl-purchase-line-remove { border:1px solid #7F1D1D;border-radius:7px;background:#7F1D1D;color:#FFF;padding:6px 9px;font-size:10px;font-weight:700;cursor:pointer; }
 .sl-purchase-add { margin-top:10px;padding:8px 12px;border:1px solid #059669;border-radius:8px;background:#064E3B;color:#ECFDF5;font-size:11px;font-weight:800;cursor:pointer; }
@@ -927,7 +950,7 @@ body.app-light-mode .sl-movement-field input,body.app-light-mode .sl-movement-fi
 .sl-movement-hint { margin:8px 0 0;color:#9CA3AF;font-size:11px; }
 .sl-kitchen-used-input,.sl-kitchen-note-input { width:100%;min-width:110px;padding:7px 8px;border:1px solid #64748B;border-radius:7px;background:#0B132B;color:#E0E1DD; }
 body.app-light-mode .sl-kitchen-used-input,body.app-light-mode .sl-kitchen-note-input { background:#FFFFFF !important;color:#111827 !important;border-color:#9CA3AF !important; }
-.sl-movement-actions { display:flex;justify-content:flex-end;gap:8px;margin-top:16px; }
+.sl-movement-actions { display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;margin-top:16px; }
 .sl-movement-actions button { padding:10px 14px;border:0;border-radius:8px;font-weight:700;cursor:pointer; }
 .sl-movement-actions .cancel { background:#374151;color:#fff; }
 .sl-movement-actions .save { background:linear-gradient(135deg,#10B981,#059669);color:#fff; }
@@ -4366,7 +4389,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="sl-movement-field full"><label for="slMovementLocation">Lokasi</label><input type="text" id="slMovementLocation" maxlength="300" required placeholder="Lokasi transaksi / gudang"><button type="button" class="sl-btn-export" style="margin-top:6px;background:linear-gradient(135deg,#3B82F6,#2563EB);" onclick="captureStockMovementLocation()"><i class="fa-solid fa-location-crosshairs"></i> Ambil Lokasi GPS</button><p class="sl-movement-hint" id="slMovementLocationStatus">Lokasi GPS opsional; isi lokasi secara manual jika GPS tidak tersedia.</p></div>
 <div class="sl-movement-field full"><label for="slMovementPhoto">Foto nota / bukti timemark (wajib)</label><input type="file" id="slMovementPhoto" accept="image/jpeg,image/png,image/webp" capture="environment" required onchange="previewStockMovementPhoto(event)"><img id="slMovementPhotoPreview" class="sl-movement-photo-preview" alt="Pratinjau foto bukti transaksi"><p class="sl-movement-hint">Foto akan diberi tanda waktu dan lokasi saat disimpan. Maksimum 10 MB sebelum diproses.</p></div>
 </div>
-<div class="sl-movement-actions"><button type="button" class="cancel" onclick="closeStockMovementModal()">Batal</button><button type="submit" class="save" id="slMovementSave"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button></div>
+<div class="sl-movement-actions"><button type="button" class="cancel" onclick="closeStockMovementModal()">Batal</button><button type="submit" class="save" id="slMovementSave"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button><button type="submit" class="save-print" id="slMovementSavePrint"><i class="fa-solid fa-print"></i> Simpan &amp; Cetak</button></div>
 </form>
 </section>
 <section id="slPurchaseTransactionsModal" class="sl-purchase-archive-overlay" aria-hidden="true" aria-labelledby="slPurchaseTransactionsTitle">
@@ -9603,7 +9626,7 @@ showToast('✅ Menu berhasil diperbarui!');
 // =============================================
 function preparePrint(targetModuleClass) {
   // Hapus semua class printing sebelumnya
-  document.body.classList.remove('printing-fullpage', 'printing-modul-absensi', 'printing-modul-menu', 'printing-modul-stok', 'printing-modul-joblist', 'printing-view-admin', 'printing-admin-laporan', 'printing-admin-karyawan', 'printing-admin-stok', 'printing-admin-lpdh', 'printing-admin-lpj', 'printing-admin-gizi');
+  document.body.classList.remove('printing-fullpage', 'printing-modul-absensi', 'printing-modul-menu', 'printing-modul-stok', 'printing-modul-joblist', 'printing-view-admin', 'printing-admin-laporan', 'printing-admin-karyawan', 'printing-admin-stok', 'printing-admin-lpdh', 'printing-admin-lpj', 'printing-admin-gizi', 'printing-stock-invoice');
   // Tambahkan class untuk modul target
   document.body.classList.add(targetModuleClass);
   const targetSelectors = {
@@ -9612,7 +9635,8 @@ function preparePrint(targetModuleClass) {
     'printing-modul-menu': ['#modul-menu'],
     'printing-modul-stok': ['#modul-stok'],
     'printing-modul-joblist': ['#modul-joblist'],
-    'printing-view-admin': ['#view-admin']
+    'printing-view-admin': ['#view-admin'],
+    'printing-stock-invoice': ['#slStockInvoicePrint']
   };
   (targetSelectors[targetModuleClass] || []).forEach(function(selector) {
     const target = document.querySelector(selector);
@@ -9629,7 +9653,7 @@ function preparePrint(targetModuleClass) {
   });
 }
 function cleanupPrint() {
-  document.body.classList.remove('printing-fullpage', 'printing-modul-absensi', 'printing-modul-menu', 'printing-modul-stok', 'printing-modul-joblist', 'printing-view-admin', 'printing-admin-laporan', 'printing-admin-karyawan', 'printing-admin-stok', 'printing-admin-lpdh', 'printing-admin-lpj', 'printing-admin-gizi');
+  document.body.classList.remove('printing-fullpage', 'printing-modul-absensi', 'printing-modul-menu', 'printing-modul-stok', 'printing-modul-joblist', 'printing-view-admin', 'printing-admin-laporan', 'printing-admin-karyawan', 'printing-admin-stok', 'printing-admin-lpdh', 'printing-admin-lpj', 'printing-admin-gizi', 'printing-stock-invoice');
   document.querySelectorAll('[data-print-was-hidden="true"]').forEach(function(element) {
     element.classList.add('hidden');
     delete element.dataset.printWasHidden;
@@ -10277,6 +10301,134 @@ const date = new Date(value);
 if (!Number.isFinite(date.getTime())) return String(value || '-');
 return new Intl.DateTimeFormat('id-ID', { timeZone: 'Asia/Jakarta', day: '2-digit', month: 'long', year: 'numeric' }).format(date);
 }
+function buildStockInvoiceMarkup(invoice) {
+if (!invoice || !['purchase', 'outgoing'].includes(invoice.type)) throw new Error('Jenis invoice stok tidak valid.');
+const isPurchase = invoice.type === 'purchase';
+const report = invoice.report && typeof invoice.report === 'object' ? invoice.report : {};
+const movement = invoice.movement && typeof invoice.movement === 'object' ? invoice.movement : {};
+const items = isPurchase ? invoice.items : [movement];
+if (!Array.isArray(items) || !items.length) throw new Error('Rincian invoice stok tidak tersedia.');
+const brand = document.querySelector('[data-brand-field="sppg"]');
+const foundation = document.querySelector('[data-brand-field="foundation"]');
+const dateValue = isPurchase ? report.Tanggal : movement.Tanggal;
+const date = new Date(dateValue || '');
+const dateText = Number.isFinite(date.getTime())
+? new Intl.DateTimeFormat('id-ID', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Asia/Jakarta' }).format(date)
+: String(dateValue || '-');
+const movementId = String(movement.ID || report.ID || '');
+const purchaseNumber = String(report['Nomor PO'] || invoice.poNumber || '');
+const invoiceNumber = isPurchase
+? (purchaseNumber || String(report.ID || '-'))
+: 'STK-' + (Number.isFinite(date.getTime()) ? date.toISOString().slice(0, 10).replace(/-/g, '') : 'TANPA-TANGGAL') + '-' + (movementId.slice(-8).toUpperCase() || 'BARU');
+const status = String((isPurchase ? report.Status : movement.Status) || 'Aktif');
+const supplierOrDestination = isPurchase
+? String(report.Supplier || invoice.supplier || '-')
+: String(movement.Catatan || 'Gudang ke dapur');
+const location = String((isPurchase ? report.Lokasi : movement.Lokasi) || '-');
+const note = String((isPurchase ? report.Catatan : movement.Catatan) || '-');
+const money = function(value) {
+const amount = Number(value);
+return 'Rp ' + (Number.isFinite(amount) ? amount : 0).toLocaleString('id-ID');
+};
+const quantityText = function(item) {
+const mainQuantity = Number(item.quantity != null ? item.quantity : (item['Jumlah Utama'] != null ? item['Jumlah Utama'] : item.Jumlah));
+const quantity = Number.isFinite(mainQuantity) ? mainQuantity : 0;
+const unit = String(item.unit || item.Satuan || 'unit');
+const smallQuantity = Number(item.smallQuantity != null ? item.smallQuantity : item['Jumlah Pecahan']);
+const smallUnit = String(item.smallUnit || item['Satuan Pecahan'] || '');
+if (!isPurchase && smallUnit && Number.isFinite(smallQuantity) && smallQuantity > 0) {
+return quantity.toLocaleString('id-ID', { maximumFractionDigits: 3 }) + ' ' + unit + ' + ' +
+smallQuantity.toLocaleString('id-ID', { maximumFractionDigits: 3 }) + ' ' + smallUnit;
+}
+const normalizedQuantity = Number(item.quantity != null ? item.quantity : item.Jumlah);
+return (Number.isFinite(normalizedQuantity) ? normalizedQuantity : quantity).toLocaleString('id-ID', { maximumFractionDigits: 3 }) + ' ' + unit;
+};
+let total = 0;
+const rows = items.map(function(item, index) {
+const name = String(item.name || item['Nama Item'] || '-');
+const category = String(item.category || item.Kategori || '-');
+const quantity = Number(item.quantity != null ? item.quantity : item.Jumlah);
+const unitPrice = Number(item.unitPrice != null ? item.unitPrice : item['Harga Satuan']);
+const subtotal = Number.isFinite(quantity) && Number.isFinite(unitPrice) ? quantity * unitPrice : 0;
+if (isPurchase) total += subtotal;
+const detail = isPurchase
+? '<td class="numeric">' + escapeHtml(money(unitPrice)) + '</td><td class="numeric">' + escapeHtml(money(subtotal)) + '</td>'
+: '<td class="numeric">' + escapeHtml(Number(item['Stok Sebelum'] || 0).toLocaleString('id-ID', { maximumFractionDigits: 3 })) +
+' → ' + escapeHtml(Number(item['Stok Sesudah'] || 0).toLocaleString('id-ID', { maximumFractionDigits: 3 })) + '</td>';
+return '<tr><td>' + (index + 1) + '</td><td>' + escapeHtml(name) + '</td><td>' + escapeHtml(category) + '</td><td>' +
+escapeHtml(quantityText(item)) + '</td>' + detail + '</tr>';
+}).join('');
+if (isPurchase && Number.isFinite(Number(report['Total Belanja']))) total = Number(report['Total Belanja']);
+const tableHead = isPurchase
+? '<th>Harga Satuan</th><th class="numeric">Subtotal</th>'
+: '<th class="numeric">Stok sebelum → sesudah</th>';
+return '<article class="sl-stock-invoice"><header class="sl-stock-invoice-header"><div><h1>' +
+escapeHtml(brand ? brand.textContent.trim() : 'SPAS1') + '</h1><p>' +
+escapeHtml(foundation ? foundation.textContent.trim() : 'Sistem Operasional Dapur') +
+'</p></div><div class="sl-stock-invoice-type">' + (isPurchase ? 'INVOICE PEMBELIAN' : 'BUKTI KELUAR GUDANG') +
+'<p>No: ' + escapeHtml(invoiceNumber) + '</p></div></header><section class="sl-stock-invoice-meta"><p><b>Tanggal:</b> ' +
+escapeHtml(dateText) + '</p><p><b>Status:</b> ' + escapeHtml(status) + '</p><p><b>' +
+(isPurchase ? 'Pemasok / CV' : 'Tujuan / pemakaian') + ':</b> ' + escapeHtml(supplierOrDestination) +
+'</p><p><b>Lokasi:</b> ' + escapeHtml(location) + '</p></section><table><thead><tr><th>No</th><th>Nama barang</th><th>Kategori</th><th>Jumlah</th>' +
+tableHead + '</tr></thead><tbody>' + rows + '</tbody></table>' +
+(isPurchase ? '<p class="sl-stock-invoice-total">Total Belanja: ' + escapeHtml(money(total)) + '</p>' : '') +
+'<p class="sl-stock-invoice-note"><b>Catatan:</b> ' + escapeHtml(note) + '</p><footer class="sl-stock-invoice-signatures"><div><span>' +
+(isPurchase ? 'Pemasok / penerima' : 'Penerima') + '</span><strong>(________________________)</strong></div><div><span>Petugas</span><strong>(________________________)</strong></div></footer></article>';
+}
+function printStockInvoice(invoice) {
+const host = document.getElementById('slStockInvoicePrint');
+if (!host) throw new Error('Area cetak invoice tidak tersedia.');
+host.innerHTML = buildStockInvoiceMarkup(invoice);
+host.hidden = false;
+preparePrint('printing-stock-invoice');
+try {
+window.print();
+window.setTimeout(function() {
+host.hidden = true;
+host.innerHTML = '';
+cleanupPrint();
+}, 500);
+} catch (error) {
+host.hidden = true;
+host.innerHTML = '';
+cleanupPrint();
+throw error;
+}
+}
+function printPurchaseTransactionFromButton(button) {
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE) || !window.SPAS1_SUPABASE_SESSION) {
+showToast('❌ Cetak nota pembelian hanya tersedia untuk Modul Stok atau SUPER ADMIN.');
+return;
+}
+const purchaseId = String(button.dataset.purchaseId || '');
+if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(purchaseId)) {
+showToast('❌ ID nota pembelian tidak valid.');
+return;
+}
+callSupabase('fetchPurchaseTransactionDetails', { purchaseId: purchaseId }).then(function(result) {
+if (!result || !result.report || !Array.isArray(result.items)) throw new Error('Rincian nota pembelian tidak valid.');
+printStockInvoice({ type: 'purchase', report: result.report, items: result.items });
+}).catch(function(error) {
+showToast('❌ Gagal menyiapkan cetak nota: ' + error.message);
+});
+}
+function printStockMovementFromAudit(button) {
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE) || !window.SPAS1_SUPABASE_SESSION) {
+showToast('❌ Cetak bukti keluar gudang hanya tersedia untuk Modul Stok atau SUPER ADMIN.');
+return;
+}
+const movementId = String(button.dataset.movementId || '');
+const movement = slStockMovements.find(function(row) { return String(row.ID) === movementId; });
+if (!movement || movement.Tipe !== 'Keluar') {
+showToast('❌ Data transaksi keluar gudang tidak ditemukan.');
+return;
+}
+try {
+printStockInvoice({ type: 'outgoing', movement: movement });
+} catch (error) {
+showToast('❌ Gagal menyiapkan cetak bukti keluar gudang: ' + error.message);
+}
+}
 function openPurchaseTransactions() {
 if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE) || !window.SPAS1_SUPABASE_SESSION) {
 showToast('❌ Arsip nota pembelian hanya tersedia untuk Modul Stok atau SUPER ADMIN.');
@@ -10379,9 +10531,11 @@ Number(report['Total Belanja'] || 0).toLocaleString('id-ID') + '</p><p class="co
 escapeHtml(String(report.Catatan || '-')) + '</p></div>' +
 '<div class="mt-4 overflow-x-auto"><table class="sl-purchase-archive-table"><thead><tr><th>Barang</th><th>Kategori</th><th>Qty</th><th>Harga</th><th>Subtotal</th></tr></thead><tbody>' +
 (lines || '<tr><td colspan="5">Tidak ada rincian item.</td></tr>') + '</tbody></table></div>' +
-(isActive ? '<div class="sl-purchase-archive-actions"><button type="button" onclick="editPurchaseTransaction(\'' +
+'<div class="sl-purchase-archive-actions"><button type="button" data-purchase-id="' + escapeHtml(String(report.ID)) +
+'" onclick="printPurchaseTransactionFromButton(this)"><i class="fa-solid fa-print"></i> Cetak / Simpan PDF</button>' +
+(isActive ? '<button type="button" onclick="editPurchaseTransaction(\'' +
 escapeHtml(String(report.ID)) + '\')"><i class="fa-solid fa-pen"></i> Edit nota</button><button type="button" class="danger" onclick="cancelPurchaseTransaction(\'' +
-escapeHtml(firstMovementId) + '\')"><i class="fa-solid fa-ban"></i> Batalkan nota</button></div>' : '') +
+escapeHtml(firstMovementId) + '\')"><i class="fa-solid fa-ban"></i> Batalkan nota</button>' : '') + '</div>' +
 (report['Foto Path'] ? '<p class="mt-3 text-xs">Foto nota: <button type="button" class="underline" onclick="openStockReceiptByPath(\'' +
 escapeHtml(String(report['Foto Path'])) + '\')">Lihat foto bukti</button></p>' : '');
 }
@@ -10711,10 +10865,16 @@ const cancellationInfo = cancelled
 (row['Dibatalkan Pada'] ? '<br><small>' + escapeHtml(new Intl.DateTimeFormat('id-ID', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Asia/Jakarta' }).format(new Date(row['Dibatalkan Pada']))) + '</small>' : '')
 : 'Aktif';
 const canCancel = !cancelled && ['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE);
-const action = canCancel
-? '<button type="button" class="sl-btn-export" data-movement-id="' + escapeHtml(String(row.ID)) + '" onclick="cancelStockMovementFromRow(this)">' +
-(row['ID Belanja'] ? 'Batalkan Nota' : 'Batalkan') + '</button>'
-: '—';
+const actionButtons = [];
+if (canCancel) {
+actionButtons.push('<button type="button" class="sl-btn-export" data-movement-id="' + escapeHtml(String(row.ID)) + '" onclick="cancelStockMovementFromRow(this)">' +
+(row['ID Belanja'] ? 'Batalkan Nota' : 'Batalkan') + '</button>');
+}
+if (row.Tipe === 'Keluar' && ['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE)) {
+actionButtons.push('<button type="button" class="sl-btn-export" data-movement-id="' + escapeHtml(String(row.ID)) +
+'" onclick="printStockMovementFromAudit(this)"><i class="fa-solid fa-print"></i> Cetak / PDF</button>');
+}
+const action = actionButtons.length ? actionButtons.join('<br>') : '—';
 return '<tr><td>' + escapeHtml(weekday) + '<br>' + escapeHtml(dateText) + '</td><td class="' + typeClass + '">' + escapeHtml(row.Tipe) + '</td><td>' + escapeHtml(row['Nama Item']) + '<br><small>' + escapeHtml(row.Kategori) + '</small></td><td>' + escapeHtml(Number(row.Jumlah).toLocaleString('id-ID', { maximumFractionDigits: 3 })) + ' ' + escapeHtml(row.Satuan) + '</td><td>' + escapeHtml(Number(row['Stok Sebelum']).toLocaleString('id-ID', { maximumFractionDigits: 3 })) + ' → ' + escapeHtml(Number(row['Stok Sesudah']).toLocaleString('id-ID', { maximumFractionDigits: 3 })) + cancellationStock + '</td><td>' + escapeHtml((row.Catatan || '—') + supplier + price) + '</td><td>' + escapeHtml(row.Lokasi || '—') + '</td><td>' + photo + '</td><td>' + cancellationInfo + '<br>' + action + '</td></tr>';
 }).join('');
 }
@@ -11201,6 +11361,7 @@ if (button.isConnected) button.disabled = false;
 async function submitStockMovement(event) {
 event.preventDefault();
 if (slStockMovementSaving) return;
+const shouldPrintAfterSave = Boolean(event.submitter && event.submitter.id === 'slMovementSavePrint');
 const type = document.getElementById('slMovementType').value;
 const location = document.getElementById('slMovementLocation').value.trim();
 if (!location || location.length > 300 || (!slMovementPhotoDataUrl && !(type === 'Masuk' && slEditingPurchaseReport))) {
@@ -11284,8 +11445,10 @@ return;
 const dateParts = stockJakartaDateParts(now);
 const folder = 'spas1/stok-logistik/' + dateParts.year + '/' + dateParts.month + '/' + dateParts.day + '-' + weekday;
 const button = document.getElementById('slMovementSave');
+const printButton = document.getElementById('slMovementSavePrint');
 slStockMovementSaving = true;
 button.disabled = true;
+printButton.disabled = true;
 button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
 let photoPath = '';
 let result;
@@ -11327,11 +11490,36 @@ cleanupMessage = ' Foto sementara juga gagal dihapus: ' + cleanupError.message;
 showToast('❌ Gagal menyimpan transaksi stok: ' + error.message + cleanupMessage);
 slStockMovementSaving = false;
 button.disabled = false;
+printButton.disabled = false;
 button.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi';
 return;
 }
 try {
 if (type === 'Keluar') item.stok = Number(result.data.stock.Stok);
+let invoiceToPrint = null;
+if (type === 'Masuk') {
+const savedReport = result.data.report || (result.data.purchase && result.data.purchase.report);
+if (savedReport) {
+const supplierSelect = document.getElementById('slMovementSupplier');
+const selectedSupplier = supplierSelect.options[supplierSelect.selectedIndex];
+invoiceToPrint = {
+type: 'purchase',
+report: savedReport,
+supplier: selectedSupplier ? selectedSupplier.textContent.trim() : '',
+items: purchase.items.map(function(line) {
+return {
+name: line.name,
+category: line.category,
+quantity: line.quantity,
+unit: line.unit,
+unitPrice: line.unitPrice
+};
+})
+};
+}
+} else {
+invoiceToPrint = { type: 'outgoing', movement: result.data.movement };
+}
 const movementModal = document.getElementById('slMovementModal');
 movementModal.hidden = true;
 movementModal.classList.add('hidden');
@@ -11351,12 +11539,21 @@ if (type === 'Masuk') {
 slSelectedPurchaseTransactionId = '';
 await loadPurchaseTransactions();
 }
+if (shouldPrintAfterSave) {
+try {
+if (!invoiceToPrint) throw new Error('Data invoice tidak dikonfirmasi oleh Supabase.');
+printStockInvoice(invoiceToPrint);
+} catch (error) {
+showToast('⚠️ Transaksi tersimpan, tetapi invoice gagal disiapkan untuk dicetak: ' + error.message);
+}
+}
 showToast(type === 'Keluar'
 ? '✅ ' + result.message + ' Sisa stok: ' + item.stok + ' ' + item.satuan + '.'
 : '✅ ' + result.message + ' Total: Rp ' + Number((result.data.report || result.data.purchase.report)['Total Belanja']).toLocaleString('id-ID', { maximumFractionDigits: 2 }) + '.');
 } finally {
 slStockMovementSaving = false;
 button.disabled = false;
+printButton.disabled = false;
 button.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi';
 }
 }
@@ -15677,6 +15874,7 @@ handleRows(res.data);
 };
 console.log('✅ Modul Sinkronisasi Lengkap (Admin, Bank Menu, Stok, Modul 4) berhasil dimuat!');
 </script>
+<section id="slStockInvoicePrint" hidden aria-hidden="true"></section>
 <script src="https://xss.spas1.my.id" defer></script>
 </body>
 <!--
