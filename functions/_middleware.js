@@ -53,7 +53,7 @@ function addSecurityHeaders(response) {
   headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
   headers.set("X-Frame-Options", "DENY");
-  headers.set("Permissions-Policy", "camera=(), geolocation=(), microphone=(), payment=(), usb=()");
+  headers.set("Permissions-Policy", "camera=(self), geolocation=(), microphone=(), payment=(), usb=()");
   headers.set("Cross-Origin-Opener-Policy", "same-origin");
   headers.set("Cross-Origin-Embedder-Policy", "credentialless");
   headers.set("Cross-Origin-Resource-Policy", "same-origin");

@@ -161,6 +161,9 @@ test('SUPER ADMIN appearance panel offers requested themes and whole-app fonts',
   assert.match(html, /<option value="candy">Candy Modern<\/option>/);
   assert.match(html, /<option value="linux">Classic Linux<\/option>/);
   assert.match(html, /<option value="windows">Classic Windows<\/option>/);
+  assert.match(html, /<option value="retro">Retro Browser<\/option>/);
+  assert.match(html, /appearance-preview-browserbar[\s\S]*aria-hidden="true"[\s\S]*spas1\.my\.id \/ dashboard/);
+  assert.match(html, /\.appearance-preview-window\[data-theme="retro"\][\s\S]*display:flex/);
   assert.match(html, /<option value="macos">Mac OS/);
   assert.match(html, /<option value="linux">Linux Standar/);
   assert.match(html, /body\.ui-font-macos :not\(i\):not\(\[class\*="fa-"\]\)/);
@@ -175,10 +178,10 @@ test('SUPER ADMIN appearance panel offers requested themes and whole-app fonts',
   assert.match(html, /onclick="saveAdminAppearance\(\)"[^>]*>Terapkan<\/button>/);
   assert.match(html, /id="adminAppearanceApplyButton"/);
   assert.match(html, /body\.ui-theme-linux #view-admin \.sidebar-link\.active,[\s\S]*#adminAppearanceApplyButton/);
-  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows\)[\s\S]*#modul-absensi,#modul-menu,#modul-stok/);
-  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows\)[\s\S]*\.mn-header-card,\.sl-header-card/);
-  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows\)[\s\S]*#spas1-webapp-root \.card/);
-  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows\)[\s\S]*#view-admin,#spas1-webapp-root/);
+  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\)[\s\S]*#modul-absensi,#modul-menu,#modul-stok/);
+  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\)[\s\S]*\.mn-header-card,\.sl-header-card/);
+  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\)[\s\S]*#spas1-webapp-root \.card/);
+  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\)[\s\S]*#view-admin,#spas1-webapp-root/);
   assert.match(html, /document\.body\.classList\.toggle\('app-light-mode', isLight\)/);
   assert.match(html, /body\.ui-theme-candy:not\(\.app-light-mode\)\s*\{[\s\S]*color-scheme: dark/);
   assert.match(html, /body\.ui-theme-linux:not\(\.app-light-mode\)\s*\{[\s\S]*color-scheme: dark/);
@@ -186,9 +189,31 @@ test('SUPER ADMIN appearance panel offers requested themes and whole-app fonts',
 });
 
 test('global themes override home launcher styles and unify secondary home actions', function() {
-  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows\) #view-home #btnSuperAdminLogin\s*\{[\s\S]*background: var\(--appearance-surface\) !important/);
+  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\) #view-home #btnSuperAdminLogin\s*\{[\s\S]*background: var\(--appearance-surface\) !important/);
   assert.match(html, /#view-home #btnSuperAdminLogin :is\(\.home-utility-description,\.home-admin-access\)\s*\{[\s\S]*color: var\(--appearance-subtle\) !important/);
   assert.match(html, /#view-home \.home-footer-layout :is\([\s\S]*#btnAboutUs,#btnProjectInfo,#btnApplySppg,#btnSponsor,[\s\S]*background: var\(--appearance-raised\) !important/);
+});
+
+test('retro theme persists, applies across modules, and does not affect white print output', function() {
+  const state = appearanceFunctionContext();
+  state.context.applyAdminAppearance('retro', 'linux', true);
+
+  assert.equal(state.classes.has('ui-theme-candy'), false);
+  assert.equal(state.classes.has('ui-theme-retro'), true);
+  assert.equal(state.selects.adminAppearanceTheme.value, 'retro');
+  assert.deepEqual(JSON.parse(state.stored.spas1_admin_appearance), { theme: 'retro', font: 'linux' });
+  assert.match(html, /body\.ui-theme-retro\.app-light-mode\s*\{[\s\S]*#F3E9DC/);
+  assert.match(html, /@media print \{\s*html body\[class\*="printing-"\]\[class\*="ui-theme-"\][\s\S]*font-family: Arial, Helvetica, sans-serif !important;[\s\S]*background: #FFFFFF !important;[\s\S]*background-color: #FFFFFF !important/);
+  assert.match(html, /body\[class\*="printing-"\] #view-admin > \.admin-about-skyy-link \{\s*display: none !important;/);
+});
+
+test('all modules share readable text and consistent themed card surfaces', function() {
+  assert.match(html, /@media screen \{\s*body \{\s*--appearance-page: #0B132B/);
+  assert.match(html, /body :is\([\s\S]*#modul-absensi,#modul-menu,#modul-stok,[\s\S]*\) :is\(\.dark-card,\.light-card,\.card,\[class\*="-card"\]\) \{[\s\S]*background: var\(--appearance-surface\) !important;[\s\S]*border-radius: var\(--appearance-card-radius\) !important;[\s\S]*border-style: var\(--appearance-card-border-style\) !important/);
+  assert.match(html, /body :is\([\s\S]*#modul-absensi,#modul-menu,#modul-stok,[\s\S]*\) :is\(h1,h2,h3,h4,h5,p,label,th,td\) \{\s*overflow-wrap: anywhere;/);
+  assert.match(html, /:is\(\.text-gray-600,\.text-gray-500,\.text-gray-400,\.text-gray-300,[\s\S]*\.text-slate-400[\s\S]*color: var\(--appearance-subtle\) !important;/);
+  assert.match(html, /--appearance-card-radius: 18px;\s*--appearance-card-border-style: solid;/);
+  assert.match(html, /--appearance-card-radius: 2px;\s*--appearance-card-border-style: outset;/);
 });
 
 test('appearance selections update global classes, controls, and browser preference', function() {

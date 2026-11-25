@@ -24,9 +24,9 @@ test('organization Turnstile uses the active application theme', function() {
   assert.match(organizationWidget, /theme: document\.body\.classList\.contains\('app-light-mode'\) \? 'light' : 'dark'/);
 });
 
-test('sponsor 404 keeps the 404 art and the generated hybrid art in the HTML footer', function() {
-  assert.match(html, /\.sponsor-404-panel \{[^}]*width: min\(640px, 92%\);/);
-  assert.match(html, /\.sponsor-404-ascii \{[^}]*font-size: clamp\(4px, 1\.25vw, 9\.2px\);/);
+test('sponsor 404 keeps its original ASCII title font responsive and keeps generated hybrid art in the footer', function() {
+  assert.match(html, /\.sponsor-404-panel \{[^}]*width: min\(640px, 100%\);/);
+  assert.match(html, /\.sponsor-404-ascii \{[^}]*font-size: clamp\(2px, \.7vw, 8px\);[^}]*white-space: pre;/);
   assert.match(html, /<h1 class="sponsor-404-code" aria-label="ERROR 404 NOT FOUND"><span class="sponsor-404-ascii" aria-hidden="true">/);
   assert.ok(html.includes(String.raw`$$$$$$$\   $$$$$$\ $$$$$$\         $$ /  \__|$$$$$$\  $$\   $$\ $$$$$$$\   $$$$$$$ |`));
   assert.doesNotMatch(html, /class="sponsor-404-status"|class="sponsor-404-brand"|class="sponsor-404-message"|class="sponsor-404-name-art"|aria-label="spas1-hybrid"|Halaman Ini Sedang Dalam Pencarian/);

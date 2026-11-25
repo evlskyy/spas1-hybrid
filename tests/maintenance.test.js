@@ -88,7 +88,7 @@ test('security middleware blocks repository files and adds browser hardening hea
   });
   assert.equal(response.headers.get('Strict-Transport-Security'), 'max-age=31536000; includeSubDomains; preload');
   assert.equal(response.headers.get('X-Frame-Options'), 'DENY');
-  assert.equal(response.headers.get('Permissions-Policy'), 'camera=(), geolocation=(), microphone=(), payment=(), usb=()');
+  assert.equal(response.headers.get('Permissions-Policy'), 'camera=(self), geolocation=(), microphone=(), payment=(), usb=()');
   assert.equal(response.headers.get('Cross-Origin-Opener-Policy'), 'same-origin');
   assert.equal(response.headers.get('Cross-Origin-Embedder-Policy'), 'credentialless');
   assert.equal(response.headers.get('Cross-Origin-Resource-Policy'), 'same-origin');

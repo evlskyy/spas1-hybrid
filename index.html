@@ -1076,13 +1076,13 @@ body.app-light-mode #btnProjectInfo.home-project-info-button:active {
 .home-about-button-mark { border-radius: 4px; object-fit: contain; }
 .home-about-button-emoji { display: inline-flex; width: 22px; height: 22px; flex: 0 0 22px; align-items: center; justify-content: center; font-size: 18px; line-height: 1; }
 .sponsor-page { width: min(100%, 1100px); min-height: 520px; padding: 28px; border: 0; border-radius: 24px; background: transparent; box-shadow: none; }
-.sponsor-404 { min-height: 430px; display: grid; place-items: center; text-align: center; }
-.sponsor-404-panel { position: relative; width: min(640px, 92%); padding: 40px 32px 38px; border: 1px solid rgba(34, 211, 238, 0.48); border-radius: 4px; background: rgba(15, 23, 42, 0.62); box-shadow: 0 0 28px rgba(34, 211, 238, 0.22), inset 0 0 24px rgba(34, 211, 238, 0.05); font-family: inherit; }
-.sponsor-404-close { position: absolute; top: -18px; right: -18px; width: 36px; height: 36px; border: 1px solid rgba(34, 211, 238, 0.7); border-radius: 50%; background: #020617; color: #22D3EE; display: grid; place-items: center; cursor: pointer; box-shadow: 0 0 14px rgba(34, 211, 238, 0.32); transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease; }
+.sponsor-404 { box-sizing: border-box; width: 100%; min-height: 430px; display: grid; place-items: center; padding: 12px; text-align: center; }
+.sponsor-404-panel { position: relative; box-sizing: border-box; width: min(640px, 100%); padding: clamp(56px, 8vw, 72px) clamp(18px, 5vw, 32px) clamp(28px, 5vw, 38px); border: 1px solid rgba(34, 211, 238, 0.48); border-radius: 4px; background: rgba(15, 23, 42, 0.62); box-shadow: 0 0 28px rgba(34, 211, 238, 0.22), inset 0 0 24px rgba(34, 211, 238, 0.05); font-family: inherit; }
+.sponsor-404-close { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; border: 1px solid rgba(34, 211, 238, 0.7); border-radius: 50%; background: #020617; color: #22D3EE; display: grid; place-items: center; cursor: pointer; box-shadow: 0 0 14px rgba(34, 211, 238, 0.32); transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease; }
 .sponsor-404-close:hover, .sponsor-404-close:focus-visible { transform: rotate(90deg); background: #22D3EE; color: #020617; outline: none; }
-.sponsor-404-image { display: block; width: 190px; height: 190px; margin: 0 auto 34px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.8)); }
-.sponsor-404-code { margin: 0 0 30px; color: #22D3EE; font-family: inherit; font-size: 0; font-weight: 700; line-height: 1; text-shadow: 0 0 12px rgba(34, 211, 238, 0.9), 0 0 28px rgba(34, 211, 238, 0.45); }
-.sponsor-404-ascii { display: block; margin: 0; overflow-x: auto; color: inherit; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: clamp(4px, 1.25vw, 9.2px); font-weight: 700; letter-spacing: 0; line-height: 1.2; text-shadow: inherit; white-space: pre; }
+.sponsor-404-image { display: block; width: clamp(112px, 34vw, 190px); height: auto; aspect-ratio: 1; margin: 0 auto clamp(20px, 5vw, 34px); object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.8)); }
+.sponsor-404-code { width: 100%; margin: 0 0 12px; color: #22D3EE; font-family: inherit; font-size: 0; font-weight: 700; line-height: 1; text-shadow: 0 0 12px rgba(34, 211, 238, 0.9), 0 0 28px rgba(34, 211, 238, 0.45); }
+.sponsor-404-ascii { display: block; width: 100%; margin: 0; overflow: hidden; color: inherit; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: clamp(2px, .7vw, 8px); font-weight: 700; letter-spacing: 0; line-height: 1.12; text-shadow: inherit; white-space: pre; }
 .sponsor-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 42px; }
 .sponsor-nav a { color: #22D3EE; font-size: 20px; font-weight: 800; text-decoration: none; }
 .sponsor-nav-links { display: flex; gap: 24px; font-size: 14px; color: #94A3B8; }
@@ -1919,11 +1919,9 @@ body.app-light-mode #view-admin .site-settings-heading .site-settings-icon { col
   .home-footer-powered a, .home-footer-powered img { width: 14px; height: 14px; flex: 0 0 14px; }
   .sponsor-page { width: 100%; min-height: 0; padding: 0 8px; }
   #view-sponsor { min-height: 100svh !important; padding: 12px !important; }
-  .sponsor-404 { min-height: 0; }
-  .sponsor-404-panel { width: min(528px, calc(100% - 24px)); padding: 32px 16px 28px; box-sizing: border-box; }
-  .sponsor-404-close { top: -16px; right: -16px; }
-  .sponsor-404-image { width: 160px; height: 160px; margin-bottom: 26px; }
-  .sponsor-404-code { margin-bottom: 24px; font-size: clamp(36px, 10vw, 50px); }
+  .sponsor-404 { min-height: 0; padding: 8px; }
+  .sponsor-404-panel { width: 100%; padding: 54px 16px 28px; }
+  .sponsor-404-code { font-size: clamp(2rem, 9vw, 2.7rem); letter-spacing: .05em; }
   .about-admin-beneficiary-row { grid-template-columns: 1fr 1fr; }
   .about-admin-beneficiary-row > *:nth-child(4) { grid-column: 1 / -1; }
   .about-admin-table { display: block; min-width: 0; }
@@ -3089,6 +3087,14 @@ body.ui-font-linux,
 body.ui-font-linux :not(i):not([class*="fa-"]) {
 font-family: system-ui, "Noto Sans", "DejaVu Sans", sans-serif !important;
 }
+body.ui-font-linux .sponsor-404-code .sponsor-404-ascii,
+body.ui-font-macos .sponsor-404-code .sponsor-404-ascii {
+font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+body.ui-font-linux .sponsor-404-code,
+body.ui-font-macos .sponsor-404-code {
+color: #22D3EE !important;
+}
 body.ui-theme-candy {
 --appearance-page: #FFF7FC;
 --appearance-surface: #FFFBFE;
@@ -3099,6 +3105,8 @@ body.ui-theme-candy {
 --appearance-border: #E8B8D2;
 --appearance-accent: #C02678;
 --appearance-shadow: 0 12px 30px rgba(155,91,135,.12);
+--appearance-card-radius: 18px;
+--appearance-card-border-style: solid;
 color-scheme: light;
 background: linear-gradient(135deg,#FFF1F7 0%,#F2F4FF 52%,#E8FBFF 100%) fixed !important;
 color: var(--appearance-text) !important;
@@ -3113,6 +3121,8 @@ body.ui-theme-linux {
 --appearance-border: #777777;
 --appearance-accent: #3465A4;
 --appearance-shadow: inset 1px 1px #FFFFFF,1px 1px 2px #777777;
+--appearance-card-radius: 3px;
+--appearance-card-border-style: outset;
 color-scheme: light;
 background: #C6C6C6 !important;
 color: var(--appearance-text) !important;
@@ -3127,6 +3137,8 @@ body.ui-theme-windows {
 --appearance-border: #808080;
 --appearance-accent: #0A246A;
 --appearance-shadow: 1px 1px 0 #404040;
+--appearance-card-radius: 2px;
+--appearance-card-border-style: outset;
 color-scheme: light;
 background: linear-gradient(135deg,#0A246A,#3A6EA5) fixed !important;
 color: var(--appearance-text) !important;
@@ -3141,6 +3153,8 @@ body.ui-theme-candy:not(.app-light-mode) {
 --appearance-border: #765B76;
 --appearance-accent: #F472B6;
 --appearance-shadow: 0 12px 30px rgba(0,0,0,.38);
+--appearance-card-radius: 18px;
+--appearance-card-border-style: solid;
 color-scheme: dark;
 background: linear-gradient(135deg,#241624 0%,#201D32 52%,#132B31 100%) fixed !important;
 color: var(--appearance-text) !important;
@@ -3155,6 +3169,8 @@ body.ui-theme-linux:not(.app-light-mode) {
 --appearance-border: #69717B;
 --appearance-accent: #8AB4F8;
 --appearance-shadow: inset 1px 1px #535A63,1px 1px 2px #101214;
+--appearance-card-radius: 3px;
+--appearance-card-border-style: outset;
 color-scheme: dark;
 background: #191B1E !important;
 color: var(--appearance-text) !important;
@@ -3169,11 +3185,43 @@ body.ui-theme-windows:not(.app-light-mode) {
 --appearance-border: #718198;
 --appearance-accent: #8CB4FF;
 --appearance-shadow: 1px 1px 0 #080C13;
+--appearance-card-radius: 2px;
+--appearance-card-border-style: outset;
 color-scheme: dark;
 background: linear-gradient(135deg,#0A246A,#171D29) fixed !important;
 color: var(--appearance-text) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+body.ui-theme-retro {
+--appearance-page: #251A35;
+--appearance-surface: #362844;
+--appearance-raised: #443552;
+--appearance-muted: #4B3A58;
+--appearance-text: #FFF8EE;
+--appearance-subtle: #E0D0C2;
+--appearance-border: #8A6D84;
+--appearance-accent: #F7A51B;
+--appearance-shadow: 4px 4px 0 #5D4778;
+--appearance-card-radius: 9px;
+--appearance-card-border-style: solid;
+color-scheme: dark;
+background: linear-gradient(135deg,#251A35,#1D2940) fixed !important;
+color: var(--appearance-text) !important;
+}
+body.ui-theme-retro.app-light-mode {
+--appearance-page: #F3E9DC;
+--appearance-surface: #FFF8EE;
+--appearance-raised: #F8EBDD;
+--appearance-muted: #F7D8D6;
+--appearance-text: #32273D;
+--appearance-subtle: #55485D;
+--appearance-border: #796D6A;
+--appearance-accent: #E69512;
+--appearance-shadow: 4px 4px 0 #5D4778;
+color-scheme: light;
+background: linear-gradient(135deg,#F3E9DC 0%,#F9E5E5 54%,#E3EDFA 100%) fixed !important;
+color: var(--appearance-text) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) :is(
   #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
   #view-tutorial,#view-about-us,#view-sponsor,#modul-absensi,#modul-menu,#modul-stok,
   #modul-joblist,#view-admin
@@ -3181,11 +3229,11 @@ body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
 background: var(--appearance-page) !important;
 color: var(--appearance-text) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #view-admin > main {
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) #view-admin > main {
 background: var(--appearance-page) !important;
 color: var(--appearance-text) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) :is(
   .dark-card,.light-card,.home-news-panel,.home-news-launcher,
   .mn-header-card,.sl-header-card,.mn-stat-box,.sl-stat-box,
   .mn-category-stat-card,.mn-menu-card,.mn-comp-item,.mn-akg-bar,.sl-purchase-line,
@@ -3204,16 +3252,16 @@ border-color: var(--appearance-border) !important;
 color: var(--appearance-text) !important;
 box-shadow: var(--appearance-shadow) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #view-home #btnSuperAdminLogin {
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) #view-home #btnSuperAdminLogin {
 background: var(--appearance-surface) !important;
 border-color: var(--appearance-border) !important;
 color: var(--appearance-text) !important;
 box-shadow: var(--appearance-shadow) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #view-home #btnSuperAdminLogin :is(.home-utility-description,.home-admin-access) {
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) #view-home #btnSuperAdminLogin :is(.home-utility-description,.home-admin-access) {
 color: var(--appearance-subtle) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #view-home .home-footer-layout :is(
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) #view-home .home-footer-layout :is(
   #btnAboutUs,#btnProjectInfo,#btnApplySppg,#btnSponsor,
   .home-about-button,.home-project-info-button,.home-live-demo-button,.home-sponsor-button
 ) {
@@ -3222,7 +3270,7 @@ border-color: var(--appearance-border) !important;
 color: var(--appearance-text) !important;
 box-shadow: var(--appearance-shadow) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #spas1-webapp-root {
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) #spas1-webapp-root {
 --bg: var(--appearance-page);
 --card-bg: var(--appearance-surface);
 --card-inner: var(--appearance-raised);
@@ -3240,7 +3288,7 @@ body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #spas1-webapp-root {
 background: var(--appearance-page) !important;
 color: var(--appearance-text) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) :is(
   #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
   #view-tutorial,#view-about-us,#view-sponsor,#modul-absensi,#modul-menu,#modul-stok,
   #modul-joblist,#view-admin,#mnEditModal,#slEditModal,#slMovementModal,
@@ -3252,23 +3300,29 @@ background: var(--appearance-raised) !important;
 border-color: var(--appearance-border) !important;
 color: var(--appearance-text) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) :is(
   #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
   #view-tutorial,#view-about-us,#view-sponsor,#modul-absensi,#modul-menu,#modul-stok,
   #modul-joblist,#view-admin,#spas1-webapp-root
-) :is(.text-gray-900,.text-gray-800,.text-gray-700,.text-gray-600,
-      .text-gray-500,.text-gray-400,.text-gray-300,.text-slate-300,
-      .text-white:not(button):not(button *)) {
+) :is(.text-gray-900,.text-gray-800,.text-gray-700,.text-slate-900,.text-slate-800,.text-slate-700) {
 color: var(--appearance-text) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) :is(
   #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
   #view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,
   #modul-joblist,#view-admin,#spas1-webapp-root
-) :is(.text-gray-600,.text-gray-500,.text-gray-400,.text-gray-300,.text-slate-300) {
+) :is(.text-gray-600,.text-gray-500,.text-gray-400,.text-gray-300,
+      .text-slate-600,.text-slate-500,.text-slate-400,.text-slate-300) {
 color: var(--appearance-subtle) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#view-sponsor,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin,#spas1-webapp-root
+) .text-white:not(button):not(button *) {
+color: var(--appearance-text) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) :is(
 .modal-overlay,.mn-edit-modal,.sl-edit-modal,.mn-login-overlay,
 .sl-login-overlay,.sl-purchase-archive-overlay,.recovery-chat-overlay,
 #modal-admin-login,#versionWelcomeOverlay,#superAdminWelcomeOverlay
@@ -3278,19 +3332,19 @@ background: rgba(15,23,42,.42) !important;
 body.ui-theme-candy #view-admin .site-settings-icon { background:#C02678 !important; }
 body.ui-theme-linux #view-admin .site-settings-icon,
 body.ui-theme-windows #view-admin .site-settings-icon { background:#3465A4 !important; }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) :is(
   #view-admin,#modul-stok,#spas1-webapp-root
 ) table thead {
 background: var(--appearance-muted) !important;
 color: var(--appearance-text) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) :is(
   #view-admin,#modul-stok,#spas1-webapp-root
 ) table thead th {
 color: var(--appearance-text) !important;
 border-color: var(--appearance-border) !important;
 }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) :is(
   #view-admin,#modul-stok,#spas1-webapp-root
 ) table td {
 border-color: var(--appearance-border) !important;
@@ -3310,12 +3364,30 @@ body.ui-theme-linux #view-admin .sidebar-link.active,
 body.ui-theme-linux #view-admin #adminAppearanceApplyButton { background:#3465A4 !important;color:#FFFFFF !important; }
 body.ui-theme-windows #view-admin .sidebar-link.active,
 body.ui-theme-windows #view-admin #adminAppearanceApplyButton { background:linear-gradient(90deg,#0A246A,#3A6EA5) !important;color:#FFFFFF !important; }
-body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #view-admin aside .sidebar-link.active { color:#FFFFFF !important; }
+body.ui-theme-retro #view-admin .site-settings-icon { background:#E69512 !important; color:#32273D !important; }
+body.ui-theme-retro :is(button,input,select,textarea) { border-radius: 7px; border-color: #796D6A; }
+body.ui-theme-retro :is(button:not(.mn-btn-export):not(.sl-btn-export),input,select,textarea) { border-style: outset; }
+body.ui-theme-retro #view-admin .sidebar-link.active,
+body.ui-theme-retro #view-admin #adminAppearanceApplyButton {
+background: linear-gradient(90deg,#F7A51B,#F28A7B) !important;
+border: 2px outset #FFF8EE !important;
+color: #32273D !important;
+box-shadow: 2px 2px 0 #5D4778 !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) #view-admin aside .sidebar-link.active { color:#FFFFFF !important; }
+body.ui-theme-retro #view-admin aside .sidebar-link.active { color:#32273D !important; }
 .appearance-preview-window { overflow:hidden;border:1px solid #CBD5E1;border-radius:10px;background:#FFFFFF;color:#1F2937;box-shadow:0 6px 18px rgba(15,23,42,.12); }
 .appearance-preview-titlebar { padding:9px 12px;background:#EEF2FF;color:#312E81;font-size:12px;font-weight:800; }
 .appearance-preview-content { padding:14px;background:#FFFFFF;color:#1F2937; }
 .appearance-preview-content p { margin:5px 0;color:#475569; }
 .appearance-preview-content button { margin-top:8px;padding:7px 10px;border:0;border-radius:7px;background:#4F46E5;color:#FFFFFF;font-size:11px;font-weight:800; }
+.appearance-preview-browserbar { display:none; align-items:center; gap:7px; min-height:34px; padding:6px 9px; background:#F0E7DF; border-bottom:1px solid #796D6A; }
+.appearance-preview-browserbar span:first-child { display:flex; gap:4px; flex:0 0 auto; }
+.appearance-preview-browserbar i { width:9px; height:9px; border:1px solid #5D4778; border-radius:50%; background:#F5A623; }
+.appearance-preview-browserbar i:nth-child(2) { background:#8FC5F9; }
+.appearance-preview-browserbar i:nth-child(3) { background:#F28A7B; }
+.appearance-preview-browserbar strong { overflow:hidden; padding:4px 9px; border:1px solid #796D6A; border-radius:6px 6px 0 0; background:#FFF8EE; color:#32273D; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }
+.appearance-preview-browserbar em { min-width:0; flex:1 1 auto; overflow:hidden; padding:4px 8px; border:1px solid #796D6A; border-radius:12px; background:#FFF8EE; color:#55485D; font-size:9px; font-style:normal; text-overflow:ellipsis; white-space:nowrap; }
 .appearance-preview-window[data-theme="candy"] { border:1px solid #F3C9DF;border-radius:18px;background:#FFFBFE;box-shadow:0 12px 30px rgba(155,91,135,.16); }
 .appearance-preview-window[data-theme="candy"] .appearance-preview-titlebar { background:linear-gradient(110deg,#FCE7F3,#EDE9FE);color:#6B2152; }
 .appearance-preview-window[data-theme="candy"] .appearance-preview-content { background:#FFFBFE;color:#3F3152; }
@@ -3331,10 +3403,160 @@ body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #view-admin aside .si
 .appearance-preview-window[data-theme="windows"] .appearance-preview-content { background:#D4D0C8;color:#111; }
 .appearance-preview-window[data-theme="windows"] .appearance-preview-content p { color:#222; }
 .appearance-preview-window[data-theme="windows"] .appearance-preview-content button { border:2px outset #FFF;border-radius:2px;background:#D4D0C8;color:#111; }
+.appearance-preview-window[data-theme="retro"] { border:2px solid #796D6A;border-radius:10px;background:#FFF8EE;box-shadow:4px 4px 0 #5D4778; }
+.appearance-preview-window[data-theme="retro"] .appearance-preview-browserbar { display:flex; }
+.appearance-preview-window[data-theme="retro"] .appearance-preview-titlebar { padding:8px 12px;background:linear-gradient(90deg,#8FC5F9,#F7B1AD);color:#32273D;border-bottom:1px solid #796D6A; }
+.appearance-preview-window[data-theme="retro"] .appearance-preview-content { background:#FFF8EE;color:#32273D; }
+.appearance-preview-window[data-theme="retro"] .appearance-preview-content p { color:#55485D; }
+.appearance-preview-window[data-theme="retro"] .appearance-preview-content button { border:2px outset #FFF8EE;border-radius:6px;background:#F7A51B;color:#32273D;box-shadow:2px 2px 0 #5D4778; }
 body.ui-font-linux .appearance-preview-window[data-font="macos"],
 body.ui-font-linux .appearance-preview-window[data-font="macos"] :not(i):not([class*="fa-"]) { font-family:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif !important; }
 body.ui-font-macos .appearance-preview-window[data-font="linux"],
 body.ui-font-macos .appearance-preview-window[data-font="linux"] :not(i):not([class*="fa-"]) { font-family:system-ui,"Noto Sans","DejaVu Sans",sans-serif !important; }
+body.ui-theme-retro :is(#view-home,#view-news-archive,#view-announcement-detail,#view-project-info,#view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,#modul-joblist,#view-admin,#spas1-webapp-root) :is(.dark-card,.light-card,.card,[class*="-card"]) {
+border-width: 2px !important;
+box-shadow: var(--appearance-shadow) !important;
+}
+body.ui-theme-retro :is(.mn-header-card,.sl-header-card,.site-settings-heading,.home-news-panel,.home-news-launcher) {
+box-shadow: 4px 4px 0 #5D4778, inset 0 5px 0 #8FC5F9 !important;
+}
+@media screen {
+body {
+--appearance-page: #0B132B;
+--appearance-surface: #1C2541;
+--appearance-raised: #25304B;
+--appearance-muted: #263552;
+--appearance-text: #E0E1DD;
+--appearance-subtle: #AAB7CA;
+--appearance-border: #3A506B;
+--appearance-shadow: 0 8px 20px rgba(0,0,0,.18);
+--appearance-card-radius: 16px;
+--appearance-card-border-style: solid;
+}
+body.app-light-mode:not([class*="ui-theme-"]) {
+--appearance-page: #F3F4F6;
+--appearance-surface: #FFFFFF;
+--appearance-raised: #F9FAFB;
+--appearance-muted: #E5E7EB;
+--appearance-text: #111827;
+--appearance-subtle: #4B5563;
+--appearance-border: #D1D5DB;
+--appearance-shadow: 0 8px 20px rgba(15,23,42,.08);
+}
+body :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin,#spas1-webapp-root
+) {
+background-color: var(--appearance-page) !important;
+color: var(--appearance-text) !important;
+}
+body :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin,#spas1-webapp-root
+) :is(.dark-card,.light-card,.card,[class*="-card"]) {
+background: var(--appearance-surface) !important;
+border: 1px solid var(--appearance-border) !important;
+border-radius: var(--appearance-card-radius) !important;
+border-style: var(--appearance-card-border-style) !important;
+box-shadow: var(--appearance-shadow) !important;
+color: var(--appearance-text) !important;
+}
+body :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin,#spas1-webapp-root
+) :is(.text-gray-900,.text-gray-800,.text-gray-700,.text-slate-900,.text-slate-800,.text-slate-700) {
+color: var(--appearance-text) !important;
+}
+body :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin,#spas1-webapp-root
+) :is(.text-gray-600,.text-gray-500,.text-gray-400,.text-gray-300,
+      .text-slate-600,.text-slate-500,.text-slate-400,.text-slate-300) {
+color: var(--appearance-subtle) !important;
+}
+body :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin,#spas1-webapp-root
+) .text-white:not(button):not(button *) {
+color: var(--appearance-text) !important;
+}
+body :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin,#spas1-webapp-root
+) :is(h1,h2,h3,h4,h5,p,label,th,td) {
+overflow-wrap: anywhere;
+}
+body :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin,#spas1-webapp-root
+) :is(input,textarea)::placeholder {
+color: var(--appearance-subtle) !important;
+opacity: 1;
+}
+body :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin,#spas1-webapp-root
+) :is([class*="border-[#3A506B]"],[class*="border-gray-700"],[class*="border-gray-800"],[class*="border-slate-700"]) {
+border-color: var(--appearance-border) !important;
+}
+body :is(#view-admin,#modul-stok,#spas1-webapp-root) table thead {
+background: var(--appearance-muted) !important;
+color: var(--appearance-text) !important;
+}
+body :is(#view-admin,#modul-stok,#spas1-webapp-root) table :is(th,td) {
+border-color: var(--appearance-border) !important;
+}
+}
+@media print {
+html body[class*="printing-"][class*="ui-theme-"],
+html body[class*="printing-"][class*="ui-font-"] {
+font-family: Arial, Helvetica, sans-serif !important;
+color: #000000 !important;
+background: #FFFFFF !important;
+background-color: #FFFFFF !important;
+background-image: none !important;
+border-color: #888888 !important;
+box-shadow: none !important;
+text-shadow: none !important;
+}
+html body[class*="printing-"][class*="ui-theme-"] :is(
+  #view-home,#modul-absensi,#modul-menu,#modul-stok,#modul-joblist,
+  #view-admin,#spas1-webapp-root,#slStockInvoicePrint,[data-print-target]
+),
+html body[class*="printing-"][class*="ui-theme-"] :is(
+  #view-home,#modul-absensi,#modul-menu,#modul-stok,#modul-joblist,
+  #view-admin,#spas1-webapp-root,#slStockInvoicePrint,[data-print-target]
+) *,
+html body[class*="printing-"][class*="ui-font-"] :is(
+  #view-home,#modul-absensi,#modul-menu,#modul-stok,#modul-joblist,
+  #view-admin,#spas1-webapp-root,#slStockInvoicePrint,[data-print-target]
+),
+html body[class*="printing-"][class*="ui-font-"] :is(
+  #view-home,#modul-absensi,#modul-menu,#modul-stok,#modul-joblist,
+  #view-admin,#spas1-webapp-root,#slStockInvoicePrint,[data-print-target]
+) * {
+font-family: Arial, Helvetica, sans-serif !important;
+color: #000000 !important;
+background: #FFFFFF !important;
+background-color: #FFFFFF !important;
+background-image: none !important;
+border-color: #888888 !important;
+box-shadow: none !important;
+text-shadow: none !important;
+}
+body[class*="printing-"] #view-admin > .admin-about-skyy-link {
+display: none !important;
+visibility: hidden !important;
+}
+}
 </style>
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4933FEDV2TW"></script>
@@ -4049,7 +4271,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="flex justify-between items-center border-b border-[#3A506B] pb-3"><h3 class="font-bold text-sm" id="titleScanAksi">Pemindaian visual (tanpa pencocokan wajah)</h3><button onclick="kembaliKeMenuAbsen()" class="text-xs text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button></div>
 <div class="p-3 bg-sky-950/40 border border-sky-500/30 rounded-xl text-left flex items-center space-x-3"><i class="fa-solid fa-location-dot text-sky-400 text-lg"></i><div><p class="text-[10px] text-sky-300 font-semibold">GPS Location Live:</p><p class="text-xs text-white font-mono" id="lokasiGPSDisplay">Menangkap GPS...</p></div></div>
 <div class="relative w-full h-64 sm:h-72 blueprint-grid-bg rounded-2xl overflow-hidden border-2 border-sky-500/50 flex items-center justify-center shadow-inner" id="frCameraContainer">
-<video id="webcamVideo" autoplay playsinline muted class="absolute inset-0 w-full h-full object-cover opacity-90" style="transform: scaleX(-1) !important;"></video>
+<video id="webcamVideo" autoplay playsinline muted class="absolute inset-0 w-full h-full object-cover opacity-90"></video>
 <canvas id="faceCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-10" style="filter: drop-shadow(0 0 10px rgba(100,180,255,0.5));"></canvas>
 <div class="fr-grid-overlay"></div>
 <div class="fr-corner fr-corner-tl"></div><div class="fr-corner fr-corner-tr"></div><div class="fr-corner fr-corner-bl"></div><div class="fr-corner fr-corner-br"></div>
@@ -4855,6 +5077,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <option value="candy">Candy Modern</option>
 <option value="linux">Classic Linux</option>
 <option value="windows">Classic Windows</option>
+<option value="retro">Retro Browser</option>
 </select>
 </label>
 <label for="adminAppearanceFont" class="admin-about-label">Font seluruh aplikasi
@@ -4866,6 +5089,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="sm:col-span-2">
 <p class="mb-2 text-xs font-bold text-gray-500">Pratinjau langsung</p>
 <div class="appearance-preview-window" data-theme="spas" data-font="linux" aria-live="polite">
+<div class="appearance-preview-browserbar" aria-hidden="true"><span><i></i><i></i><i></i></span><strong>SPAS1</strong><em>spas1.my.id / dashboard</em></div>
 <div class="appearance-preview-titlebar">SPAS1 · SUPER ADMIN</div>
 <div class="appearance-preview-content"><strong>Pengelolaan operasional dapur</strong><p>Contoh tampilan kartu, teks, dan tombol sesuai pilihan tema serta font.</p><button type="button">Contoh tombol</button></div>
 </div>
@@ -9217,7 +9441,7 @@ if (adminToggle) adminToggle.setAttribute('aria-label', isLight ? 'Ganti ke mode
 }
 function toggleMainAppTheme() {
 const bodyEl = document.body;
-const hasAppearancePreset = bodyEl.matches('.ui-theme-candy, .ui-theme-linux, .ui-theme-windows');
+const hasAppearancePreset = bodyEl.matches('.ui-theme-candy, .ui-theme-linux, .ui-theme-windows, .ui-theme-retro');
 const root = document.getElementById('spas1-webapp-root');
 const themeSelector = document.getElementById('themeSelector');
 bodyEl.classList.toggle('app-light-mode');
@@ -9288,10 +9512,10 @@ preview.dataset.font = fontSelect.value;
 if (status) status.textContent = 'Pratinjau diperbarui. Tekan Terapkan untuk menggunakan pilihan ini.';
 }
 function applyAdminAppearance(theme, font, persist) {
-const themes = ['spas', 'candy', 'linux', 'windows'];
+const themes = ['spas', 'candy', 'linux', 'windows', 'retro'];
 const fonts = ['linux', 'macos'];
 if (!themes.includes(theme) || !fonts.includes(font)) throw new Error('Pilihan tampilan atau font tidak valid.');
-document.body.classList.remove('ui-theme-candy', 'ui-theme-linux', 'ui-theme-windows', 'ui-font-linux', 'ui-font-macos');
+document.body.classList.remove('ui-theme-candy', 'ui-theme-linux', 'ui-theme-windows', 'ui-theme-retro', 'ui-font-linux', 'ui-font-macos');
 if (theme !== 'spas') document.body.classList.add('ui-theme-' + theme);
 document.body.classList.add('ui-font-' + font);
 let isLight = theme !== 'spas';
@@ -9327,7 +9551,7 @@ if (saved) preferences = JSON.parse(saved);
 } catch (error) {
 console.error('Preferensi tampilan tersimpan tidak dapat dibaca:', error);
 }
-const theme = preferences && ['spas', 'candy', 'linux', 'windows'].includes(preferences.theme) ? preferences.theme : 'spas';
+const theme = preferences && ['spas', 'candy', 'linux', 'windows', 'retro'].includes(preferences.theme) ? preferences.theme : 'spas';
 const font = preferences && ['linux', 'macos'].includes(preferences.font) ? preferences.font : 'linux';
 try {
 applyAdminAppearance(theme, font, false);
@@ -9370,7 +9594,7 @@ function changeCustomTheme(theme) {
 if (['emerald', 'ocean', 'royal', 'light'].indexOf(theme) === -1) return;
 const root = document.getElementById('spas1-webapp-root');
 const themeSelector = document.getElementById('themeSelector');
-const hasAppearancePreset = document.body.matches('.ui-theme-candy, .ui-theme-linux, .ui-theme-windows');
+const hasAppearancePreset = document.body.matches('.ui-theme-candy, .ui-theme-linux, .ui-theme-windows, .ui-theme-retro');
 const selectedLightMode = theme === 'light';
 if (!hasAppearancePreset) document.body.classList.toggle('app-light-mode', selectedLightMode);
 const isLight = document.body.classList.contains('app-light-mode');
@@ -12676,7 +12900,85 @@ if (window.turnstile && organizationTurnstileWidgetId !== null) window.turnstile
 function prosesLoginKaryawan() { const inputNik = document.getElementById('inputNikLogin').value.trim(); const pin = document.getElementById('inputEmployeePin').value; const btn = document.getElementById('btnLoginKaryawan'); if(!inputNik || !pin) { alert('Masukkan ID relawan dan PIN Anda!'); return; } btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Mengecek Database...</span>'; btn.disabled = true; callSupabaseAction('verifyEmployeeLogin', { nik: inputNik, pin: pin }, function(res) { btn.innerHTML = '<span>Verifikasi & Masuk</span> <i class="fa-solid fa-arrow-right"></i>'; btn.disabled = false; if (res.status === 'success' && res.sessionToken) { window.SPAS1_AUTH_TOKEN = res.sessionToken; window.SPAS1_AUTH_ROLE = 'employee'; activeUserData = res; setModuleLoginBackground(false); document.getElementById('userIdDisplay').innerText = 'ID: #' + res.idKaryawan + ' | ' + res.divisi; document.getElementById('userNameDisplay').innerText = res.nama; document.getElementById('userInitial').innerText = res.nama.charAt(0).toUpperCase(); document.getElementById('screen-login-nik').classList.add('hidden'); document.getElementById('screen-menu-absen').classList.remove('hidden'); showToast('Selamat Datang, ' + res.nama); } else { alert(res.message || 'Login gagal.'); } }, function(err) { btn.innerHTML = '<span>Verifikasi & Masuk</span>'; btn.disabled = false; alert('Gagal memverifikasi: ' + err.message); }); }
 function logoutKaryawan() { const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; activeUserData = null; document.getElementById('inputNikLogin').value = ''; document.getElementById('inputEmployeePin').value = ''; document.getElementById('screen-menu-absen').classList.add('hidden'); document.getElementById('screen-login-nik').classList.remove('hidden'); setModuleLoginBackground(true); document.getElementById('loginPortal').style.display = 'flex'; document.getElementById('dashboardActionButtons').style.display = 'none'; }
 function triggerAbsenAction(jenis) { activeAbsenType = jenis; document.getElementById('screen-menu-absen').classList.add('hidden'); document.getElementById('screen-scan-wajah').classList.remove('hidden'); document.getElementById('titleScanAksi').innerText = 'Pemindaian visual (tanpa pencocokan wajah) - ' + jenis; document.getElementById('lokasiGPSDisplay').innerText = 'Lokasi tidak tersedia'; if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(position => { const lat = position.coords.latitude; const lon = position.coords.longitude; document.getElementById('lokasiGPSDisplay').innerText = lat.toFixed(4) + ', ' + lon.toFixed(4) + ' (dilaporkan browser; tidak diverifikasi)'; }, () => { document.getElementById('lokasiGPSDisplay').innerText = 'Lokasi tidak tersedia'; }); } }
-async function bukaKameraDepanOtomatis() { const video = document.getElementById('webcamVideo'); const canvas = document.getElementById('faceCanvas'); const statusText = document.getElementById('cameraStatusText'); const errorPanel = document.getElementById('frErrorPanel'); const loadingOverlay = document.getElementById('frLoadingOverlay'); stopCamera(); errorPanel.classList.remove('show'); loadingOverlay.classList.add('show'); statusText.innerHTML = '<span class="fr-status-dot"></span><span>Menghubungkan kamera...</span>'; if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { showCameraError('Browser tidak mendukung akses kamera.'); return; } try { const constraints = { video: { facingMode: { ideal: 'user' }, width: { ideal: 640, min: 320 }, height: { ideal: 480, min: 240 } }, audio: false }; try { cameraStream = await navigator.mediaDevices.getUserMedia(constraints); } catch (exactErr) { constraints.video.facingMode = { ideal: 'user' }; cameraStream = await navigator.mediaDevices.getUserMedia(constraints); } video.srcObject = cameraStream; await new Promise((resolve, reject) => { const timeout = setTimeout(() => reject(new Error('Timeout menunggu kamera')), 5000); video.onloadedmetadata = () => { clearTimeout(timeout); resolve(); }; video.onerror = () => { clearTimeout(timeout); reject(new Error('Video error')); }; }); try { await video.play(); } catch (playErr) { video.muted = true; await video.play(); } canvas.width = video.videoWidth || 640; canvas.height = video.videoHeight || 480; video.onplay = () => { loadingOverlay.classList.remove('show'); statusText.innerHTML = '<span class="fr-status-dot"></span><span>Kamera aktif; animasi ini tidak mengenali identitas.</span>'; runAIFaceTrackingLoop(video, canvas, statusText); }; } catch (err) { loadingOverlay.classList.remove('show'); console.error('Camera error:', err); showCameraError('Error: ' + (err.message || err.name || 'Tidak diketahui')); } }
+async function bukaKameraDepanOtomatis() {
+const video = document.getElementById('webcamVideo');
+const canvas = document.getElementById('faceCanvas');
+const statusText = document.getElementById('cameraStatusText');
+const errorPanel = document.getElementById('frErrorPanel');
+const loadingOverlay = document.getElementById('frLoadingOverlay');
+stopCamera();
+errorPanel.classList.remove('show');
+loadingOverlay.classList.add('show');
+statusText.innerHTML = '<span class="fr-status-dot"></span><span>Menghubungkan kamera...</span>';
+if (!window.isSecureContext) {
+loadingOverlay.classList.remove('show');
+showCameraError('Kamera hanya dapat digunakan melalui HTTPS atau localhost.');
+return;
+}
+if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+loadingOverlay.classList.remove('show');
+showCameraError('Browser tidak mendukung akses kamera.');
+return;
+}
+try {
+const constraints = {
+video: { facingMode: { ideal: 'user' }, width: { ideal: 640 }, height: { ideal: 480 } },
+audio: false
+};
+try {
+cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
+} catch (constraintError) {
+if (constraintError.name === 'NotAllowedError' || constraintError.name === 'SecurityError') {
+throw constraintError;
+}
+cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+}
+await new Promise((resolve, reject) => {
+const timeout = setTimeout(() => finish(new Error('Timeout menunggu kamera')), 8000);
+const finish = (error) => {
+clearTimeout(timeout);
+video.removeEventListener('loadedmetadata', onLoadedMetadata);
+video.removeEventListener('error', onVideoError);
+if (error) reject(error);
+else resolve();
+};
+const onLoadedMetadata = () => finish();
+const onVideoError = () => finish(new Error('Video kamera gagal dimuat.'));
+video.addEventListener('loadedmetadata', onLoadedMetadata, { once: true });
+video.addEventListener('error', onVideoError, { once: true });
+video.srcObject = cameraStream;
+if (video.readyState >= 1) onLoadedMetadata();
+});
+canvas.width = video.videoWidth || 640;
+canvas.height = video.videoHeight || 480;
+let trackingStarted = false;
+const startCameraTracking = () => {
+if (trackingStarted) return;
+trackingStarted = true;
+loadingOverlay.classList.remove('show');
+statusText.innerHTML = '<span class="fr-status-dot"></span><span>Kamera aktif; animasi ini tidak mengenali identitas.</span>';
+runAIFaceTrackingLoop(video, canvas, statusText);
+};
+video.onplay = startCameraTracking;
+try {
+await video.play();
+} catch (playError) {
+video.muted = true;
+await video.play();
+}
+if (!video.paused) startCameraTracking();
+} catch (err) {
+loadingOverlay.classList.remove('show');
+stopCamera();
+console.error('Camera error:', err);
+const message = err.name === 'NotAllowedError'
+? 'Izin kamera ditolak. Izinkan akses kamera untuk situs ini lalu coba lagi.'
+: err.name === 'SecurityError'
+? 'Browser memblokir kamera. Pastikan situs memakai HTTPS dan izinkan akses kamera.'
+: 'Error: ' + (err.message || err.name || 'Tidak diketahui');
+showCameraError(message);
+}
+}
 function showCameraError(message) { const statusText = document.getElementById('cameraStatusText'); const errorPanel = document.getElementById('frErrorPanel'); const errorMessage = document.getElementById('frErrorMessage'); statusText.innerHTML = '<span class="fr-status-dot error"></span><span>Kamera Tidak Tersedia</span>'; errorMessage.textContent = message; errorPanel.classList.add('show'); }
 async function retryCameraAccess() { const errorPanel = document.getElementById('frErrorPanel'); errorPanel.classList.remove('show'); await bukaKameraDepanOtomatis(); }
 function openCameraSettings() { alert('Pengaturan Browser:\n1. Buka Settings/Pengaturan browser\n2. Cari "Site Settings" / "Privacy"\n3. Cari "Camera" permissions\n4. Izinkan untuk situs ini\n5. Refresh halaman'); }
@@ -12693,7 +12995,7 @@ return handleValidatedFileCapture(event, source);
 };
 function kembaliKeMenuAbsen() { stopCamera(); document.getElementById('screen-scan-wajah').classList.add('hidden'); document.getElementById('screen-menu-absen').classList.remove('hidden'); }
 function simpanAbsensiFinal() { const btn = document.getElementById('btnSimpanAbsen'); if (!activeUserData || !window.SPAS1_AUTH_TOKEN || window.SPAS1_AUTH_ROLE !== 'employee') { alert('Sesi relawan tidak valid. Silakan login kembali.'); logoutKaryawan(); return; } btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Menyimpan ke Database...</span>'; btn.disabled = true; const payload = { employeeId: activeUserData.idKaryawan, employeeName: activeUserData.nama, divisi: activeUserData.divisi, tipe: activeAbsenType, lokasi: document.getElementById('lokasiGPSDisplay').innerText }; callSupabaseAction('recordUserAttendance', payload, function(res) { btn.innerHTML = '<i class="fa-solid fa-user-check"></i> <span>Verifikasi Kehadiran</span>'; btn.disabled = false; if (!res || res.status !== 'success') { alert('❌ ' + (res && res.message ? res.message : 'Absensi gagal disimpan.')); return; } showToast(res.message + ' (PIN valid; identitas wajah/lokasi tidak diverifikasi)'); stopCamera(); const preview = document.getElementById('frFilePreview'); if (preview) preview.style.display = 'none'; capturedFaceFileBase64 = ''; kembaliKeMenuAbsen(); }, function(err) { btn.innerHTML = '<i class="fa-solid fa-user-check"></i> <span>Verifikasi Kehadiran</span>'; btn.disabled = false; alert('❌ Gagal: ' + err.message); }); }
-function stopCamera() { if (faceTrackInterval) { clearInterval(faceTrackInterval); faceTrackInterval = null; } if(cameraStream) { cameraStream.getTracks().forEach(track => track.stop()); cameraStream = null; } const video = document.getElementById('webcamVideo'); if (video) { video.srcObject = null; } }
+function stopCamera() { if (faceTrackInterval) { clearInterval(faceTrackInterval); faceTrackInterval = null; } if(cameraStream) { cameraStream.getTracks().forEach(track => track.stop()); cameraStream = null; } const video = document.getElementById('webcamVideo'); if (video) { video.onplay = null; video.srcObject = null; } }
 function runAIFaceTrackingLoop(video, canvas, statusText) {
 const ctx = canvas.getContext('2d');
 let scanTicks = 0;
@@ -12725,8 +13027,6 @@ const captureCanvas = document.createElement('canvas');
 captureCanvas.width = video.videoWidth;
 captureCanvas.height = video.videoHeight;
 const captureCtx = captureCanvas.getContext('2d');
-captureCtx.translate(captureCanvas.width, 0);
-captureCtx.scale(-1, 1);
 captureCtx.drawImage(video, 0, 0);
 const dataUrl = captureCanvas.toDataURL('image/jpeg', 0.85);
 capturedFaceFileBase64 = dataUrl;
