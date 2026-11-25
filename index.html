@@ -3080,6 +3080,7 @@ display: table-header-group;
 body[class*="printing-"] tfoot {
 display: table-footer-group;
 }
+}
 body.ui-font-macos,
 body.ui-font-macos :not(i):not([class*="fa-"]) {
 font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif !important;
@@ -3089,94 +3090,251 @@ body.ui-font-linux :not(i):not([class*="fa-"]) {
 font-family: system-ui, "Noto Sans", "DejaVu Sans", sans-serif !important;
 }
 body.ui-theme-candy {
-background: linear-gradient(135deg,#FFF1F7 0%,#F2F4FF 52%,#E8FBFF 100%) !important;
-color: #3F3152 !important;
+--appearance-page: #FFF7FC;
+--appearance-surface: #FFFBFE;
+--appearance-raised: #FFFFFF;
+--appearance-muted: #FCEAF4;
+--appearance-text: #3F3152;
+--appearance-subtle: #705C78;
+--appearance-border: #E8B8D2;
+--appearance-accent: #C02678;
+--appearance-shadow: 0 12px 30px rgba(155,91,135,.12);
+color-scheme: light;
+background: linear-gradient(135deg,#FFF1F7 0%,#F2F4FF 52%,#E8FBFF 100%) fixed !important;
+color: var(--appearance-text) !important;
 }
-body.ui-theme-candy #view-home,
-body.ui-theme-candy #view-admin { background: transparent !important; color: #3F3152 !important; }
-body.ui-theme-candy .dark-card,
-body.ui-theme-candy .light-card,
-body.ui-theme-candy #view-admin aside,
-body.ui-theme-candy .home-news-panel,
-body.ui-theme-candy .home-news-launcher,
-body.ui-theme-candy .sl-purchase-archive-card,
-body.ui-theme-candy .sl-movement-card {
-background-color: #FFFBFE !important;
-border-color: #F3C9DF !important;
-border-radius: 20px !important;
-color: #3F3152 !important;
-box-shadow: 0 12px 30px rgba(155,91,135,.12) !important;
+body.ui-theme-linux {
+--appearance-page: #C6C6C6;
+--appearance-surface: #D7D7D7;
+--appearance-raised: #E7E7E7;
+--appearance-muted: #D0D0D0;
+--appearance-text: #171717;
+--appearance-subtle: #444444;
+--appearance-border: #777777;
+--appearance-accent: #3465A4;
+--appearance-shadow: inset 1px 1px #FFFFFF,1px 1px 2px #777777;
+color-scheme: light;
+background: #C6C6C6 !important;
+color: var(--appearance-text) !important;
 }
-body.ui-theme-candy button:not([class*="fa-"]) { border-radius: 14px; }
-body.ui-theme-candy #view-admin .sidebar-link.active { background: linear-gradient(135deg,#DB2777,#8B5CF6) !important; }
-body.ui-theme-candy .dark-card h1,
-body.ui-theme-candy .dark-card h2,
-body.ui-theme-candy .dark-card h3,
-body.ui-theme-candy .dark-card .text-white,
-body.ui-theme-candy .light-card .text-white,
-body.ui-theme-candy #view-admin aside .text-white { color: #3F3152 !important; }
-body.ui-theme-candy input,
-body.ui-theme-candy select,
-body.ui-theme-candy textarea { border-color: #E8B8D2 !important; border-radius: 12px !important; }
-body.ui-theme-linux { background: #C6C6C6 !important; color: #171717 !important; }
-body.ui-theme-linux #view-home,
-body.ui-theme-linux #view-admin { background: #C6C6C6 !important; color: #171717 !important; }
-body.ui-theme-linux .dark-card,
-body.ui-theme-linux .light-card,
-body.ui-theme-linux #view-admin aside,
-body.ui-theme-linux .home-news-panel,
-body.ui-theme-linux .home-news-launcher,
-body.ui-theme-linux .sl-purchase-archive-card,
-body.ui-theme-linux .sl-movement-card {
-background: linear-gradient(#F1F1F1,#D7D7D7) !important;
-border: 1px solid #777 !important;
-border-radius: 3px !important;
-color: #171717 !important;
-box-shadow: inset 1px 1px #FFF, 1px 1px 2px #777 !important;
-}
-body.ui-theme-linux button:not([class*="fa-"]) { border-radius: 3px; }
-body.ui-theme-linux #view-admin .sidebar-link.active { background: #3465A4 !important; color: #FFF !important; }
-body.ui-theme-linux .dark-card h1,
-body.ui-theme-linux .dark-card h2,
-body.ui-theme-linux .dark-card h3,
-body.ui-theme-linux .dark-card .text-white,
-body.ui-theme-linux .light-card .text-white,
-body.ui-theme-linux #view-admin aside .text-white { color: #171717 !important; }
-body.ui-theme-linux input,
-body.ui-theme-linux select,
-body.ui-theme-linux textarea { background: #FFF !important; border: 1px solid #777 !important; border-radius: 2px !important; color: #171717 !important; }
 body.ui-theme-windows {
+--appearance-page: #C0C0C0;
+--appearance-surface: #D4D0C8;
+--appearance-raised: #E4E2DC;
+--appearance-muted: #CBC7BF;
+--appearance-text: #111111;
+--appearance-subtle: #333333;
+--appearance-border: #808080;
+--appearance-accent: #0A246A;
+--appearance-shadow: 1px 1px 0 #404040;
+color-scheme: light;
 background: linear-gradient(135deg,#0A246A,#3A6EA5) fixed !important;
-color: #111 !important;
+color: var(--appearance-text) !important;
 }
-body.ui-theme-windows #view-home,
-body.ui-theme-windows #view-admin { background: #C0C0C0 !important; color: #111 !important; }
-body.ui-theme-windows .dark-card,
-body.ui-theme-windows .light-card,
-body.ui-theme-windows #view-admin aside,
-body.ui-theme-windows .home-news-panel,
-body.ui-theme-windows .home-news-launcher,
-body.ui-theme-windows .sl-purchase-archive-card,
-body.ui-theme-windows .sl-movement-card {
-background: #D4D0C8 !important;
-border: 2px outset #FFF !important;
-border-radius: 2px !important;
-color: #111 !important;
-box-shadow: 1px 1px 0 #404040 !important;
+body.ui-theme-candy:not(.app-light-mode) {
+--appearance-page: #211923;
+--appearance-surface: #302533;
+--appearance-raised: #3D3042;
+--appearance-muted: #49364D;
+--appearance-text: #F8EDF5;
+--appearance-subtle: #D2BDD0;
+--appearance-border: #765B76;
+--appearance-accent: #F472B6;
+--appearance-shadow: 0 12px 30px rgba(0,0,0,.38);
+color-scheme: dark;
+background: linear-gradient(135deg,#241624 0%,#201D32 52%,#132B31 100%) fixed !important;
+color: var(--appearance-text) !important;
 }
-body.ui-theme-windows #view-admin aside { border-color: #FFF #404040 #404040 #FFF !important; }
-body.ui-theme-windows button:not([class*="fa-"]) { border: 2px outset #FFF; border-radius: 2px; background: #D4D0C8; color: #111; }
-body.ui-theme-windows #view-admin .sidebar-link.active { background: linear-gradient(90deg,#0A246A,#3A6EA5) !important; color: #FFF !important; }
-body.ui-theme-windows .dark-card h1,
-body.ui-theme-windows .dark-card h2,
-body.ui-theme-windows .dark-card h3,
-body.ui-theme-windows .dark-card .text-white,
-body.ui-theme-windows .light-card .text-white,
-body.ui-theme-windows #view-admin aside .text-white { color: #111 !important; }
-body.ui-theme-windows input,
-body.ui-theme-windows select,
-body.ui-theme-windows textarea { background: #FFF !important; border: 2px inset #808080 !important; border-radius: 0 !important; color: #111 !important; }
+body.ui-theme-linux:not(.app-light-mode) {
+--appearance-page: #191B1E;
+--appearance-surface: #272A2F;
+--appearance-raised: #33373D;
+--appearance-muted: #3B4047;
+--appearance-text: #F1F3F5;
+--appearance-subtle: #C4C9D0;
+--appearance-border: #69717B;
+--appearance-accent: #8AB4F8;
+--appearance-shadow: inset 1px 1px #535A63,1px 1px 2px #101214;
+color-scheme: dark;
+background: #191B1E !important;
+color: var(--appearance-text) !important;
 }
+body.ui-theme-windows:not(.app-light-mode) {
+--appearance-page: #171D29;
+--appearance-surface: #252E3D;
+--appearance-raised: #323D50;
+--appearance-muted: #3A4D68;
+--appearance-text: #F1F5F9;
+--appearance-subtle: #C7D2E0;
+--appearance-border: #718198;
+--appearance-accent: #8CB4FF;
+--appearance-shadow: 1px 1px 0 #080C13;
+color-scheme: dark;
+background: linear-gradient(135deg,#0A246A,#171D29) fixed !important;
+color: var(--appearance-text) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#view-sponsor,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin
+) {
+background: var(--appearance-page) !important;
+color: var(--appearance-text) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #view-admin > main {
+background: var(--appearance-page) !important;
+color: var(--appearance-text) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+  .dark-card,.light-card,.home-news-panel,.home-news-launcher,
+  .mn-header-card,.sl-header-card,.mn-stat-box,.sl-stat-box,
+  .mn-category-stat-card,.mn-menu-card,.mn-comp-item,.mn-akg-bar,.sl-purchase-line,
+  .mn-period-section,.mn-empty-state,.sl-empty-state,.sl-table-wrapper,
+  .sl-table-scroll-wrapper,.sl-daily-table-wrapper,.sl-audit-section,.sl-audit-stat,.sl-audit-chart,
+  .sl-audit-chart-row,.sl-movement-card,.sl-purchase-archive-card,
+  .mn-edit-card,.sl-edit-card,.mn-login-card,.sl-login-card,
+  .about-card,.about-metric,.about-team-card,.news-archive-card,
+  .announcement-detail-card,.lpj-sheet,.recovery-chat-card,.sync-auth-card,
+  .version-welcome-card,.site-settings-heading,#view-admin aside,
+  #sppgApplicationOverlay > div,#invitePasswordOverlay > div,
+  #spas1-webapp-root .card,#spas1-webapp-root .modal-card
+) {
+background: var(--appearance-surface) !important;
+border-color: var(--appearance-border) !important;
+color: var(--appearance-text) !important;
+box-shadow: var(--appearance-shadow) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #view-home #btnSuperAdminLogin {
+background: var(--appearance-surface) !important;
+border-color: var(--appearance-border) !important;
+color: var(--appearance-text) !important;
+box-shadow: var(--appearance-shadow) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #view-home #btnSuperAdminLogin :is(.home-utility-description,.home-admin-access) {
+color: var(--appearance-subtle) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #view-home .home-footer-layout :is(
+  #btnAboutUs,#btnProjectInfo,#btnApplySppg,#btnSponsor,
+  .home-about-button,.home-project-info-button,.home-live-demo-button,.home-sponsor-button
+) {
+background: var(--appearance-raised) !important;
+border-color: var(--appearance-border) !important;
+color: var(--appearance-text) !important;
+box-shadow: var(--appearance-shadow) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #spas1-webapp-root {
+--bg: var(--appearance-page);
+--card-bg: var(--appearance-surface);
+--card-inner: var(--appearance-raised);
+--text-main: var(--appearance-text);
+--text-muted: var(--appearance-subtle);
+--border: var(--appearance-border);
+--emerald: var(--appearance-accent);
+--emerald-dark: var(--appearance-muted);
+--emerald-light: var(--appearance-accent);
+--amber: #92400E;
+--purple: #6B21A8;
+--sky: #075985;
+--rose: #BE123C;
+--shadow: var(--appearance-shadow);
+background: var(--appearance-page) !important;
+color: var(--appearance-text) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#view-sponsor,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin,#mnEditModal,#slEditModal,#slMovementModal,
+  #slPurchaseTransactionsModal,#modal-admin-login,#sppgApplicationOverlay,
+  #invitePasswordOverlay,#versionWelcomeOverlay,#superAdminWelcomeOverlay,
+  #recoveryChatOverlay,.modal-overlay,.mn-login-overlay,.sl-login-overlay
+) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),select,textarea) {
+background: var(--appearance-raised) !important;
+border-color: var(--appearance-border) !important;
+color: var(--appearance-text) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#view-sponsor,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin,#spas1-webapp-root
+) :is(.text-gray-900,.text-gray-800,.text-gray-700,.text-gray-600,
+      .text-gray-500,.text-gray-400,.text-gray-300,.text-slate-300,
+      .text-white:not(button):not(button *)) {
+color: var(--appearance-text) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+  #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
+  #view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,
+  #modul-joblist,#view-admin,#spas1-webapp-root
+) :is(.text-gray-600,.text-gray-500,.text-gray-400,.text-gray-300,.text-slate-300) {
+color: var(--appearance-subtle) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+.modal-overlay,.mn-edit-modal,.sl-edit-modal,.mn-login-overlay,
+.sl-login-overlay,.sl-purchase-archive-overlay,.recovery-chat-overlay,
+#modal-admin-login,#versionWelcomeOverlay,#superAdminWelcomeOverlay
+) {
+background: rgba(15,23,42,.42) !important;
+}
+body.ui-theme-candy #view-admin .site-settings-icon { background:#C02678 !important; }
+body.ui-theme-linux #view-admin .site-settings-icon,
+body.ui-theme-windows #view-admin .site-settings-icon { background:#3465A4 !important; }
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+  #view-admin,#modul-stok,#spas1-webapp-root
+) table thead {
+background: var(--appearance-muted) !important;
+color: var(--appearance-text) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+  #view-admin,#modul-stok,#spas1-webapp-root
+) table thead th {
+color: var(--appearance-text) !important;
+border-color: var(--appearance-border) !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) :is(
+  #view-admin,#modul-stok,#spas1-webapp-root
+) table td {
+border-color: var(--appearance-border) !important;
+}
+body.ui-theme-candy :is(button,input,select,textarea) { border-radius: 12px; }
+body.ui-theme-linux :is(button,input,select,textarea) { border-radius: 2px; }
+body.ui-theme-windows :is(button,input,select,textarea) { border-radius: 0; }
+body.ui-theme-linux :is(button:not(.mn-btn-export):not(.sl-btn-export),input,select,textarea) {
+border-style: inset;
+}
+body.ui-theme-windows :is(button:not(.mn-btn-export):not(.sl-btn-export),input,select,textarea) {
+border-style: inset;
+}
+body.ui-theme-candy #view-admin .sidebar-link.active,
+body.ui-theme-candy #view-admin #adminAppearanceApplyButton { background: linear-gradient(135deg,#DB2777,#8B5CF6) !important;color:#FFFFFF !important; }
+body.ui-theme-linux #view-admin .sidebar-link.active,
+body.ui-theme-linux #view-admin #adminAppearanceApplyButton { background:#3465A4 !important;color:#FFFFFF !important; }
+body.ui-theme-windows #view-admin .sidebar-link.active,
+body.ui-theme-windows #view-admin #adminAppearanceApplyButton { background:linear-gradient(90deg,#0A246A,#3A6EA5) !important;color:#FFFFFF !important; }
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows) #view-admin aside .sidebar-link.active { color:#FFFFFF !important; }
+.appearance-preview-window { overflow:hidden;border:1px solid #CBD5E1;border-radius:10px;background:#FFFFFF;color:#1F2937;box-shadow:0 6px 18px rgba(15,23,42,.12); }
+.appearance-preview-titlebar { padding:9px 12px;background:#EEF2FF;color:#312E81;font-size:12px;font-weight:800; }
+.appearance-preview-content { padding:14px;background:#FFFFFF;color:#1F2937; }
+.appearance-preview-content p { margin:5px 0;color:#475569; }
+.appearance-preview-content button { margin-top:8px;padding:7px 10px;border:0;border-radius:7px;background:#4F46E5;color:#FFFFFF;font-size:11px;font-weight:800; }
+.appearance-preview-window[data-theme="candy"] { border:1px solid #F3C9DF;border-radius:18px;background:#FFFBFE;box-shadow:0 12px 30px rgba(155,91,135,.16); }
+.appearance-preview-window[data-theme="candy"] .appearance-preview-titlebar { background:linear-gradient(110deg,#FCE7F3,#EDE9FE);color:#6B2152; }
+.appearance-preview-window[data-theme="candy"] .appearance-preview-content { background:#FFFBFE;color:#3F3152; }
+.appearance-preview-window[data-theme="candy"] .appearance-preview-content p { color:#6B5575; }
+.appearance-preview-window[data-theme="candy"] .appearance-preview-content button { border-radius:12px;background:linear-gradient(135deg,#DB2777,#8B5CF6); }
+.appearance-preview-window[data-theme="linux"] { border:1px solid #777;border-radius:3px;background:#D7D7D7;box-shadow:inset 1px 1px #FFF,1px 1px 2px #777; }
+.appearance-preview-window[data-theme="linux"] .appearance-preview-titlebar { background:linear-gradient(#F1F1F1,#D7D7D7);color:#171717;border-bottom:1px solid #888; }
+.appearance-preview-window[data-theme="linux"] .appearance-preview-content { background:#E7E7E7;color:#171717; }
+.appearance-preview-window[data-theme="linux"] .appearance-preview-content p { color:#333; }
+.appearance-preview-window[data-theme="linux"] .appearance-preview-content button { border:1px outset #FFF;border-radius:3px;background:#D7D7D7;color:#171717; }
+.appearance-preview-window[data-theme="windows"] { border:2px outset #FFF;border-radius:2px;background:#D4D0C8;box-shadow:1px 1px 0 #404040; }
+.appearance-preview-window[data-theme="windows"] .appearance-preview-titlebar { background:linear-gradient(90deg,#0A246A,#3A6EA5);color:#FFF; }
+.appearance-preview-window[data-theme="windows"] .appearance-preview-content { background:#D4D0C8;color:#111; }
+.appearance-preview-window[data-theme="windows"] .appearance-preview-content p { color:#222; }
+.appearance-preview-window[data-theme="windows"] .appearance-preview-content button { border:2px outset #FFF;border-radius:2px;background:#D4D0C8;color:#111; }
+body.ui-font-linux .appearance-preview-window[data-font="macos"],
+body.ui-font-linux .appearance-preview-window[data-font="macos"] :not(i):not([class*="fa-"]) { font-family:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif !important; }
+body.ui-font-macos .appearance-preview-window[data-font="linux"],
+body.ui-font-macos .appearance-preview-window[data-font="linux"] :not(i):not([class*="fa-"]) { font-family:system-ui,"Noto Sans","DejaVu Sans",sans-serif !important; }
 </style>
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4933FEDV2TW"></script>
@@ -3212,7 +3370,7 @@ gtag('config', 'G-4933FEDV2TW');
   <div class="version-welcome-card">
     <div class="version-welcome-icon" aria-hidden="true"><img src="assets/spas1-mark.png" alt=""></div>
     <h2 id="versionWelcomeTitle">SPAS1 Version 2.2.2 Hybrid</h2>
-    <p>Aplikasi operasional harian dapur Makan Bergizi Gratis untuk <span data-brand-field="sppg">SPPG Sungai Pasir 1, Meral, Karimun</span>. Crafted Sky with ❤️</p>
+    <p>Aplikasi operasional harian dapur Makan Bergizi Gratis. Crafted Sky with ❤️</p>
     <div class="version-welcome-actions" aria-label="Tautan aplikasi">
       <a class="version-welcome-link" href="https://spas1.my.id/" target="_blank" rel="noopener noreferrer">
         <span class="version-welcome-link-label">LIVE APP</span><strong class="version-welcome-link-value">SPAS1.MY.ID</strong>
@@ -4688,11 +4846,11 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <section id="tab-appearance" class="admin-tab space-y-4 hidden">
 <div class="site-settings-heading flex items-start gap-3 rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4">
 <span class="site-settings-icon grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-600 text-white"><i class="fa-solid fa-palette"></i></span>
-<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Tampilan &amp; Font Aplikasi</h2><p class="mt-1 text-xs text-gray-500">Pilih gaya visual dan font untuk seluruh halaman aplikasi. Perubahan langsung diterapkan dan disimpan pada browser ini.</p></div>
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Tampilan &amp; Font Aplikasi</h2><p class="mt-1 text-xs text-gray-500">Pilih gaya visual dan font, lihat pratinjau, lalu tekan Terapkan untuk menyimpan di browser ini.</p></div>
 </div>
 <div class="light-card grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 sm:p-5">
 <label for="adminAppearanceTheme" class="admin-about-label">Gaya antarmuka
-<select id="adminAppearanceTheme" onchange="saveAdminAppearance()">
+<select id="adminAppearanceTheme" onchange="previewAdminAppearance()">
 <option value="spas">SPAS1 bawaan</option>
 <option value="candy">Candy Modern</option>
 <option value="linux">Classic Linux</option>
@@ -4700,18 +4858,23 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </select>
 </label>
 <label for="adminAppearanceFont" class="admin-about-label">Font seluruh aplikasi
-<select id="adminAppearanceFont" onchange="saveAdminAppearance()">
+<select id="adminAppearanceFont" onchange="previewAdminAppearance()">
 <option value="linux">Linux Standar (system-ui)</option>
 <option value="macos">Mac OS (SF Pro / system fallback)</option>
 </select>
 </label>
-<div class="sm:col-span-2 rounded-xl border border-gray-200 bg-gray-50 p-4" aria-live="polite">
-<strong class="text-sm">Pratinjau tampilan</strong>
-<p class="mt-1 text-xs">SPAS1 · Pengelolaan operasional dapur</p>
-<button type="button" class="mt-3 rounded-lg bg-indigo-600 px-3 py-2 text-xs font-bold text-white">Contoh tombol</button>
+<div class="sm:col-span-2">
+<p class="mb-2 text-xs font-bold text-gray-500">Pratinjau langsung</p>
+<div class="appearance-preview-window" data-theme="spas" data-font="linux" aria-live="polite">
+<div class="appearance-preview-titlebar">SPAS1 · SUPER ADMIN</div>
+<div class="appearance-preview-content"><strong>Pengelolaan operasional dapur</strong><p>Contoh tampilan kartu, teks, dan tombol sesuai pilihan tema serta font.</p><button type="button">Contoh tombol</button></div>
 </div>
-<p id="adminAppearanceStatus" class="sm:col-span-2 text-xs text-gray-500" role="status" aria-live="polite">Preferensi tampilan hanya tersimpan di browser ini.</p>
-<div class="sm:col-span-2 flex justify-end"><button type="button" onclick="resetAdminAppearance()" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-bold text-gray-700"><i class="fa-solid fa-rotate-left"></i> Kembalikan bawaan</button></div>
+</div>
+<p id="adminAppearanceStatus" class="sm:col-span-2 text-xs text-gray-600" role="status" aria-live="polite">Preferensi tampilan hanya tersimpan di browser ini.</p>
+<div class="sm:col-span-2 flex flex-wrap justify-end gap-2">
+<button type="button" onclick="resetAdminAppearance()" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-bold text-gray-700"><i class="fa-solid fa-rotate-left"></i> Kembalikan bawaan</button>
+<button id="adminAppearanceApplyButton" type="button" onclick="saveAdminAppearance()" class="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Terapkan</button>
+</div>
 </div>
 </section>
 <section id="tab-settings" class="admin-tab space-y-4 hidden">
@@ -9054,25 +9217,32 @@ if (adminToggle) adminToggle.setAttribute('aria-label', isLight ? 'Ganti ke mode
 }
 function toggleMainAppTheme() {
 const bodyEl = document.body;
+const hasAppearancePreset = bodyEl.matches('.ui-theme-candy, .ui-theme-linux, .ui-theme-windows');
 const root = document.getElementById('spas1-webapp-root');
 const themeSelector = document.getElementById('themeSelector');
 bodyEl.classList.toggle('app-light-mode');
 const isLight = bodyEl.classList.contains('app-light-mode');
 if (isLight) {
 currentTheme = 'light';
-if (root) { root.classList.add('light-mode'); root.classList.remove('ocean-theme', 'royal-theme'); }
-if (themeSelector) themeSelector.value = 'light';
+if (root) {
+root.classList.add('light-mode');
+if (!hasAppearancePreset) root.classList.remove('ocean-theme', 'royal-theme');
+}
+if (themeSelector && !hasAppearancePreset) themeSelector.value = 'light';
 syncAdminPortalTheme(true);
 } else {
 currentTheme = 'dark';
-if (root) { root.classList.remove('light-mode', 'ocean-theme', 'royal-theme'); }
-if (themeSelector) themeSelector.value = 'emerald';
+if (root) {
+root.classList.remove('light-mode');
+if (!hasAppearancePreset) root.classList.remove('ocean-theme', 'royal-theme');
+}
+if (themeSelector && !hasAppearancePreset) themeSelector.value = 'emerald';
 syncAdminPortalTheme(false);
 }
 updateThemeToggleControls(isLight);
 try {
 localStorage.setItem('spas1_main_theme', currentTheme);
-localStorage.setItem('spas1m_custom_theme', themeSelector ? themeSelector.value : (isLight ? 'light' : 'emerald'));
+if (!hasAppearancePreset) localStorage.setItem('spas1m_custom_theme', themeSelector ? themeSelector.value : (isLight ? 'light' : 'emerald'));
 } catch(e) { console.error('Gagal menyimpan tema:', e); }
 }
 function syncAdminPortalTheme(isLight) {
@@ -9105,6 +9275,18 @@ syncAdminPortalTheme(true);
 } catch(e){}
 updateThemeToggleControls(document.body.classList.contains('app-light-mode'));
 }
+function previewAdminAppearance() {
+const themeSelect = document.getElementById('adminAppearanceTheme');
+const fontSelect = document.getElementById('adminAppearanceFont');
+const preview = document.querySelector('.appearance-preview-window');
+const status = document.getElementById('adminAppearanceStatus');
+if (!themeSelect || !fontSelect) return;
+if (preview) {
+preview.dataset.theme = themeSelect.value;
+preview.dataset.font = fontSelect.value;
+}
+if (status) status.textContent = 'Pratinjau diperbarui. Tekan Terapkan untuk menggunakan pilihan ini.';
+}
 function applyAdminAppearance(theme, font, persist) {
 const themes = ['spas', 'candy', 'linux', 'windows'];
 const fonts = ['linux', 'macos'];
@@ -9112,10 +9294,29 @@ if (!themes.includes(theme) || !fonts.includes(font)) throw new Error('Pilihan t
 document.body.classList.remove('ui-theme-candy', 'ui-theme-linux', 'ui-theme-windows', 'ui-font-linux', 'ui-font-macos');
 if (theme !== 'spas') document.body.classList.add('ui-theme-' + theme);
 document.body.classList.add('ui-font-' + font);
+let isLight = theme !== 'spas';
+try {
+const savedMainTheme = localStorage.getItem('spas1_main_theme');
+if (savedMainTheme === 'light') isLight = true;
+if (savedMainTheme === 'dark') isLight = false;
+} catch (error) {
+console.error('Mode tampilan SPAS1 tidak dapat dibaca:', error);
+isLight = document.body.classList.contains('app-light-mode');
+}
+document.body.classList.toggle('app-light-mode', isLight);
 const themeSelect = document.getElementById('adminAppearanceTheme');
 const fontSelect = document.getElementById('adminAppearanceFont');
 if (themeSelect) themeSelect.value = theme;
 if (fontSelect) fontSelect.value = font;
+const root = document.getElementById('spas1-webapp-root');
+if (root) root.classList.toggle('light-mode', isLight);
+syncAdminPortalTheme(isLight);
+updateThemeToggleControls(isLight);
+const preview = document.querySelector('.appearance-preview-window');
+if (preview) {
+preview.dataset.theme = theme;
+preview.dataset.font = font;
+}
 if (persist) localStorage.setItem('spas1_admin_appearance', JSON.stringify({ theme: theme, font: font }));
 }
 function loadAdminAppearance() {
@@ -9145,7 +9346,7 @@ const font = document.getElementById('adminAppearanceFont').value;
 const status = document.getElementById('adminAppearanceStatus');
 try {
 applyAdminAppearance(theme, font, true);
-status.textContent = 'Tampilan diterapkan dan disimpan pada browser ini.';
+status.textContent = 'Tampilan berhasil diterapkan dan disimpan pada browser ini.';
 } catch (error) {
 status.textContent = 'Preferensi tampilan gagal disimpan: ' + error.message;
 showToast('❌ ' + status.textContent);
@@ -9169,8 +9370,10 @@ function changeCustomTheme(theme) {
 if (['emerald', 'ocean', 'royal', 'light'].indexOf(theme) === -1) return;
 const root = document.getElementById('spas1-webapp-root');
 const themeSelector = document.getElementById('themeSelector');
-const isLight = theme === 'light';
-document.body.classList.toggle('app-light-mode', isLight);
+const hasAppearancePreset = document.body.matches('.ui-theme-candy, .ui-theme-linux, .ui-theme-windows');
+const selectedLightMode = theme === 'light';
+if (!hasAppearancePreset) document.body.classList.toggle('app-light-mode', selectedLightMode);
+const isLight = document.body.classList.contains('app-light-mode');
 if (root) {
 root.classList.toggle('light-mode', isLight);
 root.classList.toggle('ocean-theme', theme === 'ocean');
@@ -9182,7 +9385,7 @@ syncAdminPortalTheme(isLight);
 updateThemeToggleControls(isLight);
 try {
 localStorage.setItem('spas1m_custom_theme', theme);
-localStorage.setItem('spas1_main_theme', currentTheme);
+if (!hasAppearancePreset) localStorage.setItem('spas1_main_theme', currentTheme);
 } catch(e) { console.error('Gagal menyimpan tema:', e); }
 }
 function setPortalLoginBusy(buttonId, busy) {
