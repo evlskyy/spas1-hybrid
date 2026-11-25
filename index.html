@@ -837,6 +837,28 @@ body.app-light-mode #tab-stok .sl-movement-close:hover { background:#D1D5DB; }
 .sl-purchase-line { padding:12px;border:1px solid #3A506B;border-radius:10px;background:rgba(11,19,43,.5); }
 .sl-purchase-line-heading { display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;color:#CBD5E1;font-size:11px;font-weight:800; }
 .sl-purchase-line-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px; }
+.sl-purchase-order-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:12px; }
+.sl-purchase-barcode-row { display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px; }
+.sl-purchase-barcode-row input { flex:1 1 220px; }
+.sl-purchase-scan-button { padding:8px 12px;border:1px solid #0D9488;border-radius:8px;background:#134E4A;color:#CCFBF1;font-size:11px;font-weight:800;cursor:pointer; }
+.sl-purchase-scanner { margin:8px 0 12px;padding:10px;border:1px solid #0F766E;border-radius:10px;background:rgba(15,118,110,.12); }
+.sl-purchase-scanner video { display:block;width:min(100%,420px);max-height:260px;margin:8px auto;border-radius:8px;background:#020617; }
+.sl-purchase-line-total { display:flex;justify-content:flex-end;gap:8px;margin-top:8px;color:#A7F3D0;font-size:11px;font-weight:800; }
+.sl-purchase-archive-overlay { position:fixed;inset:0;z-index:11000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(2,6,23,.78); }
+.sl-purchase-archive-overlay.visible { display:flex; }
+.sl-purchase-archive-card { display:flex;flex-direction:column;width:min(1100px,100%);max-height:calc(100vh - 32px);overflow:hidden;border:1px solid #475569;border-radius:16px;background:#111827;color:#F8FAFC;box-shadow:0 24px 70px rgba(0,0,0,.45); }
+.sl-purchase-archive-header { display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid #334155; }
+.sl-purchase-archive-body { display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.4fr);min-height:260px;overflow:hidden; }
+.sl-purchase-archive-list { overflow:auto;padding:12px;border-right:1px solid #334155; }
+.sl-purchase-archive-detail { overflow:auto;padding:16px; }
+.sl-purchase-archive-date { margin:10px 0 6px;color:#6EE7B7;font-size:12px;font-weight:900; }
+.sl-purchase-archive-entry { display:flex;width:100%;flex-direction:column;gap:4px;padding:9px 10px;border:0;border-radius:8px;background:transparent;color:#E2E8F0;text-align:left;cursor:pointer; }
+.sl-purchase-archive-entry:hover,.sl-purchase-archive-entry[aria-current="true"] { background:rgba(79,70,229,.25); }
+.sl-purchase-archive-table { width:100%;border-collapse:collapse;font-size:11px; }
+.sl-purchase-archive-table th,.sl-purchase-archive-table td { padding:8px;border-bottom:1px solid #334155;text-align:left;vertical-align:top; }
+.sl-purchase-archive-actions { display:flex;flex-wrap:wrap;gap:8px;margin-top:14px; }
+.sl-purchase-archive-actions button { padding:8px 11px;border:1px solid #475569;border-radius:8px;background:#1E293B;color:#F8FAFC;font-size:11px;font-weight:800;cursor:pointer; }
+.sl-purchase-archive-actions .danger { border-color:#991B1B;background:#7F1D1D; }
 .sl-purchase-line .sl-movement-field label { font-size:9px; }
 .sl-purchase-line-remove { border:1px solid #7F1D1D;border-radius:7px;background:#7F1D1D;color:#FFF;padding:6px 9px;font-size:10px;font-weight:700;cursor:pointer; }
 .sl-purchase-add { margin-top:10px;padding:8px 12px;border:1px solid #059669;border-radius:8px;background:#064E3B;color:#ECFDF5;font-size:11px;font-weight:800;cursor:pointer; }
@@ -844,11 +866,22 @@ body.app-light-mode #tab-stok .sl-movement-close:hover { background:#D1D5DB; }
 body.app-light-mode #tab-stok .sl-purchase-line { border-color:#D1D5DB;background:#FFFFFF; }
 body.app-light-mode #tab-stok .sl-purchase-line-heading,body.app-light-mode #tab-stok .sl-purchase-total { border-color:#D1D5DB;color:#374151; }
 body.app-light-mode #tab-stok .sl-purchase-add { border-color:#059669;background:#ECFDF5;color:#065F46; }
+body.app-light-mode #tab-stok .sl-purchase-scanner { border-color:#99F6E4;background:#F0FDFA; }
+body.app-light-mode #tab-stok .sl-purchase-line-total { color:#047857; }
+body.app-light-mode .sl-purchase-archive-card { border-color:#CBD5E1;background:#FFFFFF;color:#111827; }
+body.app-light-mode .sl-purchase-archive-header,body.app-light-mode .sl-purchase-archive-list { border-color:#E5E7EB; }
+body.app-light-mode .sl-purchase-archive-entry { color:#1F2937; }
+body.app-light-mode .sl-purchase-archive-date { color:#047857; }
+body.app-light-mode .sl-purchase-archive-table th,body.app-light-mode .sl-purchase-archive-table td { border-color:#E5E7EB; }
+body.app-light-mode .sl-purchase-archive-actions button { border-color:#CBD5E1;background:#F3F4F6;color:#111827; }
+body.app-light-mode .sl-purchase-archive-actions .danger { border-color:#991B1B;background:#7F1D1D;color:#FFFFFF; }
 .sl-kitchen-usage-quantities { display:grid;gap:5px;min-width:110px; }
 .sl-kitchen-usage-quantities small { color:#9CA3AF;font-size:11px;line-height:1.35; }
 .accounting-folder-heading { display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px; }
 .accounting-folder-heading h2 { margin:0;color:#F8FAFC;font-size:20px;font-weight:900; }
 .accounting-folder-heading p,.accounting-folder-status { margin:5px 0 0;color:#CBD5E1;font-size:13px;line-height:1.55; }
+.accounting-folder-context-hint { display:flex;align-items:flex-start;gap:8px;margin:10px 0 0;padding:10px 12px;border:1px solid rgba(52,211,153,.35);border-radius:9px;background:rgba(6,78,59,.2);color:#A7F3D0;font-size:12px;line-height:1.5; }
+.accounting-folder-context-hint i { flex:0 0 auto;margin-top:2px; }
 .accounting-folder-heading > button,.accounting-folder-back,.accounting-report-open,.accounting-folder-shortcut { display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:8px 11px;border:1px solid #047857;border-radius:8px;background:#065F46;color:#ECFDF5;font-size:12px;font-weight:800;cursor:pointer; }
 .accounting-folder-list { display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px; }
 .accounting-folder-card { display:flex;align-items:center;gap:12px;min-height:68px;padding:12px;border:1px solid #256C5A;border-radius:11px;background:rgba(6,78,59,.28);color:#F8FAFC;text-align:left;cursor:pointer; }
@@ -876,6 +909,7 @@ body.app-light-mode .accounting-folder-icon { filter:brightness(.95) saturate(1.
 .accounting-report-card small { color:#CBD5E1;font-size:12px; }
 body.app-light-mode .accounting-folder-heading h2,body.app-light-mode .accounting-folder-detail-heading h3 { color:#111827; }
 body.app-light-mode .accounting-folder-heading p,body.app-light-mode .accounting-folder-status,body.app-light-mode .accounting-folder-card-main small,body.app-light-mode .accounting-folder-card-count { color:#374151; }
+body.app-light-mode .accounting-folder-context-hint { border-color:#A7F3D0;background:#ECFDF5;color:#065F46; }
 body.app-light-mode .accounting-folder-card { border-color:#A7F3D0;background:#ECFDF5;color:#111827; }
 body.app-light-mode .accounting-folder-card:hover { background:#D1FAE5; }
 body.app-light-mode .accounting-folder-detail { border-color:#A7F3D0;background:#F0FDF4; }
@@ -4289,9 +4323,10 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Nota Pembelian &amp; Transaksi Stok Logistik</h2><p class="mt-1 text-xs text-gray-500">Catat stok masuk dari nota pembelian dan stok keluar gudang di sini. Setiap transaksi menyimpan waktu, hari operasional, foto bertimemark, lokasi, dan catatan audit. Riwayat dan pembatalan transaksi tersedia pada menu Audit &amp; Riwayat Transaksi Stok.</p></div>
 <div class="flex flex-wrap gap-2">
 <button type="button" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold" onclick="openStockMovementModal('Masuk')"><i class="fa-solid fa-circle-arrow-down"></i> Input Nota Pembelian / Stok Masuk</button>
+<button type="button" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold" onclick="openPurchaseTransactions()"><i class="fa-solid fa-folder-open"></i> Data Transaksi Pembelian</button>
 <button type="button" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-xs font-bold" onclick="openStockMovementModal('Keluar')"><i class="fa-solid fa-circle-arrow-up"></i> Catat Stok Keluar Gudang</button>
 </div>
-<p class="text-[11px] text-gray-500">Catat beberapa bahan dari satu nota dalam satu transaksi agar stok dan foto bukti tersimpan bersama. Setiap transaksi tersimpan di Supabase berdasarkan tanggal dan hari operasional.</p>
+<p class="text-[11px] text-gray-500">Tambahkan produk ke antrean nota, pilih pemasok, lalu simpan. Arsip transaksi otomatis dikelompokkan menurut tanggal nota; koreksi tersimpan di audit stok.</p>
 <div id="stockFolderContextMenu" class="accounting-folder-context-menu" role="menu" aria-label="Menu folder stok">
   <button type="button" class="accounting-folder-context-item" onclick="createStockFolderPrompt()" role="menuitem">📁 New folder</button>
 </div>
@@ -4308,9 +4343,22 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="sl-movement-field full"><label for="slMovementNote">Catatan / tujuan pemakaian</label><textarea id="slMovementNote" rows="2" maxlength="500" placeholder="Contoh: kebutuhan operasional dapur hari ini"></textarea></div>
 </div>
 <div id="slDailyPurchaseFields" class="sl-purchase-fields" hidden>
+<div class="sl-purchase-order-grid">
+<div class="sl-movement-field"><label for="slPurchaseDate">Tanggal nota</label><input type="date" id="slPurchaseDate" required></div>
+<div class="sl-movement-field"><label for="slPurchasePoNumber">Nomor PO / transaksi</label><input type="text" id="slPurchasePoNumber" maxlength="40" readonly aria-describedby="slPurchasePoHint"><small id="slPurchasePoHint" class="sl-movement-hint">Dibuat otomatis dan unik.</small></div>
+<div class="sl-movement-field"><label for="slMovementSupplier">Pemasok / CV</label><div class="flex gap-2"><select id="slMovementSupplier" required class="min-w-0 flex-1"><option value="">Pilih pemasok</option></select><button type="button" class="sl-purchase-scan-button" onclick="addStockSupplierPrompt()" aria-label="Tambah pemasok">+ Pemasok</button></div></div>
+</div>
+<div class="sl-purchase-barcode-row">
+<input type="text" id="slPurchaseBarcodeInput" maxlength="80" autocomplete="off" placeholder="Pindai barcode produk atau masukkan kode" aria-label="Barcode produk" onkeydown="if(event.key==='Enter'){event.preventDefault();handlePurchaseBarcode();}">
+<button type="button" class="sl-purchase-scan-button" onclick="startPurchaseBarcodeScan()"><i class="fa-solid fa-barcode"></i> Scan Kamera</button>
+</div>
+<div id="slPurchaseBarcodeScanner" class="sl-purchase-scanner" hidden>
+<video id="slPurchaseBarcodeVideo" playsinline muted aria-label="Kamera pemindai barcode"></video>
+<p id="slPurchaseBarcodeStatus" class="sl-movement-hint" role="status" aria-live="polite">Arahkan kamera ke barcode produk.</p>
+<button type="button" class="sl-purchase-scan-button" onclick="stopPurchaseBarcodeScan()">Tutup Pemindai</button>
+</div>
 <div><div class="sl-purchase-line-list" id="slPurchaseLineList"></div><button type="button" class="sl-purchase-add" onclick="addDailyPurchaseLine()"><i class="fa-solid fa-plus"></i> Tambah Bahan</button><div class="sl-purchase-total"><span>Total Belanja</span><strong id="slPurchaseTotal">Rp 0</strong></div></div>
 <div class="sl-movement-grid" style="margin-top:12px;">
-<div class="sl-movement-field"><label for="slMovementSupplier">Supplier / Toko</label><input type="text" id="slMovementSupplier" maxlength="160" placeholder="Nama toko / pemasok"></div>
 <div class="sl-movement-field full"><label for="slMovementNotePurchase">Catatan Nota Belanja</label><textarea id="slMovementNotePurchase" rows="2" maxlength="500" placeholder="Catatan tambahan untuk laporan belanja harian"></textarea></div>
 </div>
 </div>
@@ -4321,9 +4369,19 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="sl-movement-actions"><button type="button" class="cancel" onclick="closeStockMovementModal()">Batal</button><button type="submit" class="save" id="slMovementSave"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button></div>
 </form>
 </section>
+<section id="slPurchaseTransactionsModal" class="sl-purchase-archive-overlay" aria-hidden="true" aria-labelledby="slPurchaseTransactionsTitle">
+<div class="sl-purchase-archive-card" role="dialog" aria-modal="true">
+<div class="sl-purchase-archive-header"><div><h2 id="slPurchaseTransactionsTitle" class="text-lg font-black">Data Transaksi Pembelian</h2><p class="mt-1 text-xs text-gray-400">Folder otomatis berdasarkan tanggal nota. Pilih transaksi untuk melihat rincian.</p></div><button type="button" class="sl-movement-close" onclick="closePurchaseTransactions()">Tutup</button></div>
+<div class="sl-purchase-archive-body">
+<div id="slPurchaseTransactionFolders" class="sl-purchase-archive-list" aria-label="Folder transaksi berdasarkan tanggal"><p class="text-xs text-gray-500">Memuat transaksi...</p></div>
+<div id="slPurchaseTransactionDetail" class="sl-purchase-archive-detail" aria-live="polite"><p class="text-sm text-gray-500">Pilih transaksi pembelian di sebelah kiri.</p></div>
+</div>
+</div>
+</section>
 </section>
 <section id="tab-accounting-folders" class="admin-tab space-y-4 hidden">
 <div class="accounting-folder-heading"><div><h2>Arsip Folder LPDH &amp; LPJ Harian</h2><p>Setiap folder tanggal menggabungkan laporan LPDH dan/atau LPJ yang sudah tersimpan di Supabase. Klik folder untuk membuka laporan.</p></div><button type="button" onclick="loadAccountingReportFolders()"><i class="fa-solid fa-rotate"></i> Muat Ulang</button></div>
+<p class="accounting-folder-context-hint"><i class="fa-solid fa-computer-mouse" aria-hidden="true"></i><span>Untuk menambahkan folder tanggal baru, klik kanan pada area arsip ini lalu pilih <strong>New folder</strong>.</span></p>
 <p id="accountingReportFolderStatus" class="accounting-folder-status" role="status" aria-live="polite">Muat folder laporan dari Supabase.</p>
 <div id="accountingReportFolderList" class="accounting-folder-list" aria-label="Daftar folder laporan harian"></div>
 <div id="accountingReportFolderDetail" class="accounting-folder-detail" hidden></div>
@@ -4774,7 +4832,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </section>
 </main>
 </div>
-<div id="modal-admin-login" class="fixed inset-0 bg-black/80 hidden items-center justify-center p-4" style="display:none" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="adminLoginTitle" onclick="if(event.target===this) tutupAdminLogin()">
+<div id="modal-admin-login" class="fixed inset-0 bg-black/80 hidden items-center justify-center p-4" style="display:none" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="adminLoginTitle">
 <div class="dark-card w-full max-w-md p-6 rounded-3xl space-y-4 text-center">
 <div class="w-12 h-12 bg-purple-600/20 text-purple-400 rounded-xl mx-auto flex items-center justify-center text-xl border border-purple-500/30"><i class="fa-solid fa-shield-halved"></i></div>
 <h3 id="adminLoginTitle" class="font-bold text-base">SUPER ADMIN</h3>
@@ -4789,7 +4847,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <p id="adminLoginRecoveryMessage" class="admin-recovery-message" role="status" aria-live="polite"></p>
 </div>
 </div>
-<button onclick="tutupAdminLogin()" class="text-xs text-gray-400 hover:underline">Batal</button>
+<button type="button" onclick="tutupAdminLogin()" class="text-xs text-gray-400 hover:underline">Batal</button>
 </div>
 </div>
 <div id="recoveryChatOverlay" class="recovery-chat-overlay" role="dialog" aria-modal="true" aria-labelledby="recoveryChatTitle" aria-hidden="true" onclick="if(event.target===this) closeRecoveryChat()">
@@ -4940,6 +4998,14 @@ let slStockMovements = [];
 let slMovementPhotoDataUrl = '';
 let slStockMovementSaving = false;
 let slPurchaseLineSequence = 0;
+let slPurchaseSuppliers = [];
+let slPurchaseTransactions = [];
+let slSelectedPurchaseTransactionId = '';
+let slEditingPurchaseId = '';
+let slEditingPurchaseReport = null;
+let slPurchaseBarcodeStream = null;
+let slPurchaseBarcodeDetector = null;
+let slPurchaseBarcodeScanActive = false;
 let slDailyPurchases = [];
 let slDailyKitchenUsage = [];
 let slSelectedStockDate = '';
@@ -5082,6 +5148,7 @@ const SPAS1_TENANT_SCOPED_TABLES = new Set([
 'modul2_bank_menu_period',
 'modul3_stok_logistik',
 'modul3_stok_logistik_belanja_harian',
+'spas1_stock_suppliers',
 'modul3_stok_logistik_pemakaian_harian',
 'modul3_stok_logistik_transaksi',
 'spas1_lpdh_reports',
@@ -5413,6 +5480,21 @@ const url = supabasePublicMediaUrl(path);
 return { path: path, url: url, data: { id: path, fileId: path, url: url } };
 }
 
+async function copySupabaseStockReceipt(sourcePath, destinationFolder) {
+const source = String(sourcePath || '').replace(/^\/+/, '');
+if (!isSupabaseStockReceiptPath(source)) throw new Error('Lokasi foto nota lama tidak valid.');
+const response = await supabaseStorageRequest('/storage/v1/object/authenticated/spas1-media/' + source.split('/').map(encodeURIComponent).join('/'), { method: 'GET' });
+const blob = await response.blob();
+if (!/^image\/(jpeg|png|webp)$/i.test(blob.type)) throw new Error('Format foto nota lama tidak didukung untuk disalin.');
+const dataUrl = await new Promise(function(resolve, reject) {
+const reader = new FileReader();
+reader.onload = function() { resolve(String(reader.result || '')); };
+reader.onerror = function() { reject(new Error('Foto nota lama tidak dapat dibaca.')); };
+reader.readAsDataURL(blob);
+});
+return uploadSupabaseMedia({ dataUrl: dataUrl, folder: destinationFolder });
+}
+
 async function deleteSupabaseMedia(filePath) {
 const path = String(filePath || '').replace(/^\/+/, '');
 if (!isSupabaseTenantStoragePath(path, '')) {
@@ -5494,7 +5576,8 @@ Satuan: item.satuan || '',
 'Faktor Konversi': conversion.conversionFactor,
 Stok: Number(item.stok) || 0,
 'Harga (Rp)': Number(item.harga) || 0,
-Supplier: item.supplier || ''
+Supplier: item.supplier || '',
+Barcode: item.barcode || null
 };
 }
 
@@ -6230,6 +6313,52 @@ limit: '1000'
 if (!Array.isArray(rows)) throw new Error('Data pembelian harian dari Supabase tidak valid.');
 return { status: 'success', data: rows };
 }
+case 'fetchPurchaseSuppliers': {
+requireSupabaseSession();
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Akses Modul Stok diperlukan untuk melihat pemasok.');
+const rows = await supabaseRequest('spas1_stock_suppliers', {
+query: { select: 'id,supplier_name,status,created_at', status: 'eq.Aktif', order: 'supplier_name.asc', limit: '500' }
+});
+if (!Array.isArray(rows)) throw new Error('Data pemasok dari Supabase tidak valid.');
+return { status: 'success', data: rows };
+}
+case 'createPurchaseSupplier': {
+requireSupabaseSession();
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Akses Modul Stok diperlukan untuk menambah pemasok.');
+const supplierName = String(payload.supplierName || '').trim();
+if (supplierName.length < 2 || supplierName.length > 160) throw new Error('Nama pemasok harus berisi 2–160 karakter.');
+const rows = await supabaseRequest('spas1_stock_suppliers', {
+method: 'POST',
+body: { supplier_name: supplierName, status: 'Aktif' },
+prefer: 'return=representation'
+});
+if (!Array.isArray(rows) || !rows.length) throw new Error('Supabase tidak mengonfirmasi pemasok tersimpan.');
+return { status: 'success', data: rows[0], message: 'Pemasok berhasil ditambahkan.' };
+}
+case 'fetchPurchaseTransactions': {
+requireSupabaseSession();
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Akses Modul Stok diperlukan untuk membuka arsip nota pembelian.');
+const rows = await supabaseRequest('modul3_stok_logistik_belanja_harian', {
+query: { select: '*', order: 'Tanggal.desc', limit: '1000' }
+});
+if (!Array.isArray(rows)) throw new Error('Daftar transaksi pembelian dari Supabase tidak valid.');
+return { status: 'success', data: rows };
+}
+case 'fetchPurchaseTransactionDetails': {
+requireSupabaseSession();
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Akses Modul Stok diperlukan untuk melihat rincian nota.');
+const purchaseId = String(payload.purchaseId || '');
+if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(purchaseId)) throw new Error('ID nota pembelian tidak valid.');
+const reports = await supabaseRequest('modul3_stok_logistik_belanja_harian', {
+query: { select: '*', ID: 'eq.' + purchaseId, limit: '1' }
+});
+if (!Array.isArray(reports) || reports.length !== 1) throw new Error('Nota pembelian tidak ditemukan.');
+const items = await supabaseRequest('modul3_stok_logistik_transaksi', {
+query: { select: '*', 'ID Belanja': 'eq.' + purchaseId, order: 'Tanggal.asc', limit: '100' }
+});
+if (!Array.isArray(items)) throw new Error('Rincian nota pembelian dari Supabase tidak valid.');
+return { status: 'success', report: reports[0], items: items };
+}
 case 'fetchDailyPurchaseFolder': {
 requireSupabaseSession();
 if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Folder laporan belanja harian hanya dapat dibuka oleh SUPER ADMIN atau staf Modul Stok.');
@@ -6346,6 +6475,15 @@ if (!purchase || typeof purchase !== 'object' || Array.isArray(purchase)) throw 
 const items = purchase.items;
 const location = String(purchase.location || '').trim();
 const photoPath = String(purchase.photoPath || '');
+const purchaseDate = String(purchase.purchaseDate || '');
+const poNumber = String(purchase.poNumber || '').trim();
+const supplierId = String(purchase.supplierId || '');
+if (!/^\d{4}-\d{2}-\d{2}$/.test(purchaseDate) ||
+new Date(purchaseDate + 'T00:00:00Z').toISOString().slice(0, 10) !== purchaseDate ||
+!/^PO-[A-Z0-9-]{8,37}$/.test(poNumber) ||
+!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(supplierId)) {
+throw new Error('Tanggal nota, nomor PO, atau pemasok tidak valid.');
+}
 if (!Array.isArray(items) || items.length < 1 || items.length > 100 ||
 !location || location.length > 300 ||
 !isSupabaseStockReceiptPath(photoPath)) {
@@ -6356,6 +6494,7 @@ if (!item || typeof item !== 'object' || Array.isArray(item)) throw new Error('B
 const category = String(item.category || '').trim();
 const name = String(item.name || '').trim();
 const unit = String(item.unit || '').trim();
+const barcode = String(item.barcode || '').trim();
 const smallUnit = String(item.smallUnit || '').trim();
 const conversionFactorRaw = String(item.conversionFactor == null || item.conversionFactor === '' ? '' : item.conversionFactor).trim();
 const conversionFactor = smallUnit && conversionFactorRaw ? Number(conversionFactorRaw) : null;
@@ -6368,17 +6507,73 @@ if (!categories.includes(category) || !name || name.length > 160 || !unit || uni
 !Number.isSafeInteger(unitPrice) || unitPrice < 0) {
 throw new Error('Periksa kategori, nama, satuan, jumlah, dan harga setiap bahan.');
 }
-return { category: category, name: name, unit: unit, smallUnit: smallUnit, conversionFactor: conversionFactor, quantity: quantity, unitPrice: unitPrice };
+if (barcode && !/^[A-Za-z0-9._/-]{3,80}$/.test(barcode)) throw new Error('Barcode harus berisi 3–80 karakter yang valid.');
+return { category: category, name: name, unit: unit, smallUnit: smallUnit, conversionFactor: conversionFactor, quantity: quantity, unitPrice: unitPrice, barcode: barcode };
 });
-const result = await supabaseRpc('record_stok_logistik_daily_purchase', {
-p_supplier: String(purchase.supplier || '').trim(),
+const result = await supabaseRpc('record_stok_logistik_purchase_order', {
+p_purchase_date: purchaseDate,
+p_po_number: poNumber,
+p_supplier_id: supplierId,
 p_note: String(purchase.note || '').trim(),
 p_location: location,
 p_photo_path: photoPath,
 p_items: normalizedItems
 });
 if (!result || !result.report || !Array.isArray(result.movementIds)) throw new Error('Laporan belanja tidak berhasil dikonfirmasi oleh Supabase.');
-return { status: 'success', data: result, message: 'Folder belanja harian berhasil disimpan dan stok diperbarui.' };
+return { status: 'success', data: result, message: 'Nota pembelian berhasil disimpan dan stok diperbarui.' };
+}
+case 'editDailyStockPurchase': {
+requireSupabaseSession();
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Akses Modul Stok diperlukan untuk mengubah nota pembelian.');
+const purchase = payload.purchase;
+if (!purchase || typeof purchase !== 'object' || Array.isArray(purchase)) throw new Error('Data laporan belanja tidak valid.');
+const purchaseId = String(purchase.purchaseId || '');
+if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(purchaseId)) throw new Error('ID nota pembelian tidak valid.');
+const items = purchase.items;
+const location = String(purchase.location || '').trim();
+const photoPath = String(purchase.photoPath || '');
+const purchaseDate = String(purchase.purchaseDate || '');
+const poNumber = String(purchase.poNumber || '').trim();
+const supplierId = String(purchase.supplierId || '');
+if (!/^\d{4}-\d{2}-\d{2}$/.test(purchaseDate) ||
+new Date(purchaseDate + 'T00:00:00Z').toISOString().slice(0, 10) !== purchaseDate ||
+!/^PO-[A-Z0-9-]{8,37}$/.test(poNumber) ||
+!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(supplierId) ||
+!Array.isArray(items) || items.length < 1 || items.length > 100 ||
+!location || location.length > 300 || !isSupabaseStockReceiptPath(photoPath)) {
+throw new Error('Tanggal, nomor PO, pemasok, lokasi, foto, dan rincian nota harus valid.');
+}
+const normalizedItems = items.map(function(item) {
+const category = String(item.category || '').trim();
+const name = String(item.name || '').trim();
+const unit = String(item.unit || '').trim();
+const smallUnit = String(item.smallUnit || '').trim();
+const conversionFactor = smallUnit && item.conversionFactor !== '' ? Number(item.conversionFactor) : null;
+const quantity = Number(item.quantity);
+const unitPrice = Number(item.unitPrice);
+const barcode = String(item.barcode || '').trim();
+if (!['Bahan Baku', 'Bumbu', 'Rempah', 'Sayur', 'Buah', 'Lainnya'].includes(category) ||
+!name || name.length > 160 || !unit || unit.length > 40 || smallUnit.length > 40 ||
+(smallUnit && (!Number.isSafeInteger(conversionFactor) || conversionFactor <= 0)) ||
+(!smallUnit && item.conversionFactor) || !Number.isFinite(quantity) || quantity <= 0 ||
+!Number.isSafeInteger(unitPrice) || unitPrice < 0 ||
+(barcode && !/^[A-Za-z0-9._/-]{3,80}$/.test(barcode))) {
+throw new Error('Periksa kategori, nama, satuan, jumlah, harga, dan barcode setiap bahan.');
+}
+return { category: category, name: name, unit: unit, smallUnit: smallUnit, conversionFactor: conversionFactor, quantity: quantity, unitPrice: unitPrice, barcode: barcode };
+});
+const result = await supabaseRpc('edit_stok_logistik_purchase_order', {
+p_purchase_id: purchaseId,
+p_purchase_date: purchaseDate,
+p_po_number: poNumber,
+p_supplier_id: supplierId,
+p_note: String(purchase.note || '').trim(),
+p_location: location,
+p_photo_path: photoPath,
+p_items: normalizedItems
+});
+if (!result || !result.purchase || !result.purchase.report) throw new Error('Perubahan nota tidak berhasil dikonfirmasi oleh Supabase.');
+return { status: 'success', data: result, message: 'Nota pembelian berhasil diperbarui; riwayat stok sebelumnya tetap tersimpan.' };
 }
 case 'recordKitchenUsage': {
 requireSupabaseSession();
@@ -7283,6 +7478,11 @@ actions.forEach(function(button) { button.disabled = true; });
 }
 function tutupAdminLogin() {
 const modal = document.getElementById('modal-admin-login');
+toggleAdminLoginRecovery(false);
+document.getElementById('adminLoginRecoveryEmail').value = '';
+const recoveryMessage = document.getElementById('adminLoginRecoveryMessage');
+recoveryMessage.textContent = '';
+recoveryMessage.className = 'admin-recovery-message';
 modal.classList.add('hidden');
 modal.classList.remove('flex');
 modal.style.display = 'none';
@@ -9916,14 +10116,16 @@ line.innerHTML = '<div class="sl-purchase-line-heading"><span>Bahan #' + lineId 
 '<div class="sl-purchase-line-grid">' +
 '<div class="sl-movement-field"><label>Kategori</label><select data-purchase-field="category" required onchange="updateDailyPurchaseTotal()"><option value="">Pilih kategori</option>' + options + '</select></div>' +
 '<div class="sl-movement-field"><label>Nama bahan</label><input type="text" data-purchase-field="name" maxlength="160" required placeholder="Contoh: Beras"></div>' +
+'<div class="sl-movement-field"><label>Barcode (opsional)</label><input type="text" data-purchase-field="barcode" maxlength="80" placeholder="Kode produk"></div>' +
 '<div class="sl-movement-field"><label>Satuan</label><input type="text" data-purchase-field="unit" maxlength="40" required placeholder="kg, liter, pack"></div>' +
-'<div class="sl-movement-field"><label>Jumlah dibeli</label><input type="number" data-purchase-field="quantity" min="0.001" step="0.001" required placeholder="0"></div>' +
+'<div class="sl-movement-field"><label>Jumlah dibeli</label><input type="number" data-purchase-field="quantity" min="0.001" step="0.001" required placeholder="0" oninput="updateDailyPurchaseTotal()"></div>' +
 '<div class="sl-movement-field"><label>Satuan pecahan</label><input type="text" data-purchase-field="smallUnit" maxlength="40" placeholder="mis. bungkus"></div>' +
 '<div class="sl-movement-field"><label>Faktor konversi</label><input type="number" data-purchase-field="conversionFactor" min="1" step="1" placeholder="mis. 12"></div>' +
 '<div class="sl-movement-field"><label>Harga satuan (Rp)</label><input type="number" data-purchase-field="unitPrice" min="0" step="1" required placeholder="0" oninput="updateDailyPurchaseTotal()"></div>' +
-'</div>';
+'</div><div class="sl-purchase-line-total" data-purchase-subtotal>Subtotal: Rp 0</div>';
 list.appendChild(line);
 updateStockMovementType();
+updateDailyPurchaseTotal();
 }
 function resetDailyPurchaseLines() {
 document.getElementById('slPurchaseLineList').replaceChildren();
@@ -9931,16 +10133,361 @@ slPurchaseLineSequence = 0;
 addDailyPurchaseLine();
 }
 function updateDailyPurchaseTotal() {
-const total = Array.from(document.querySelectorAll('#slPurchaseLineList .sl-purchase-line')).reduce(function(sum, line) {
+const lines = Array.from(document.querySelectorAll('#slPurchaseLineList .sl-purchase-line'));
+const total = lines.reduce(function(sum, line) {
 const quantity = Number(line.querySelector('[data-purchase-field="quantity"]').value);
 const unitPrice = Number(line.querySelector('[data-purchase-field="unitPrice"]').value);
-return Number.isFinite(quantity) && quantity > 0 && Number.isSafeInteger(unitPrice) && unitPrice >= 0
-? sum + quantity * unitPrice
-: sum;
+const subtotal = Number.isFinite(quantity) && quantity > 0 && Number.isSafeInteger(unitPrice) && unitPrice >= 0 ? quantity * unitPrice : 0;
+const subtotalField = line.querySelector('[data-purchase-subtotal]');
+if (subtotalField) subtotalField.textContent = 'Subtotal: Rp ' + subtotal.toLocaleString('id-ID', { maximumFractionDigits: 2 });
+return sum + subtotal;
 }, 0);
-document.getElementById('slPurchaseTotal').textContent = 'Rp ' + Math.round(total).toLocaleString('id-ID');
+document.getElementById('slPurchaseTotal').textContent = 'Rp ' + total.toLocaleString('id-ID', { maximumFractionDigits: 2 });
 }
-function openStockMovementModal(type, itemId) {
+function generatePurchaseOrderNumber(date) {
+const compactDate = String(date || '').replace(/-/g, '');
+const randomPart = window.crypto && typeof window.crypto.getRandomValues === 'function'
+? Array.from(window.crypto.getRandomValues(new Uint8Array(4))).map(function(value) { return value.toString(36).padStart(2, '0'); }).join('').toUpperCase().slice(0, 7)
+: Math.random().toString(36).slice(2, 9).toUpperCase();
+return 'PO-' + compactDate + '-' + randomPart;
+}
+async function loadPurchaseSuppliers(selectedId) {
+const field = document.getElementById('slMovementSupplier');
+if (!field) return;
+field.innerHTML = '<option value="">Memuat pemasok...</option>';
+const result = await callSupabase('fetchPurchaseSuppliers', {});
+if (!result || result.status !== 'success' || !Array.isArray(result.data)) throw new Error('Daftar pemasok tidak dapat dimuat.');
+slPurchaseSuppliers = result.data;
+field.innerHTML = '<option value="">Pilih pemasok</option>' + slPurchaseSuppliers.map(function(supplier) {
+return '<option value="' + escapeHtml(supplier.id) + '">' + escapeHtml(supplier.supplier_name) + '</option>';
+}).join('');
+if (selectedId) field.value = String(selectedId);
+}
+async function addStockSupplierPrompt() {
+const supplierName = prompt('Nama pemasok atau CV baru:');
+if (supplierName === null) return;
+if (supplierName.trim().length < 2 || supplierName.trim().length > 160) {
+showToast('❌ Nama pemasok harus berisi 2–160 karakter.');
+return;
+}
+try {
+const result = await callSupabase('createPurchaseSupplier', { supplierName: supplierName.trim() });
+await loadPurchaseSuppliers(result.data.id);
+showToast('✅ ' + result.message);
+} catch (error) {
+showToast('❌ Pemasok tidak dapat ditambahkan: ' + error.message);
+}
+}
+function findStockItemByBarcode(barcode) {
+const normalized = String(barcode || '').trim().toLowerCase();
+return normalized ? SL_STOK_DATA.find(function(item) { return String(item.barcode || '').trim().toLowerCase() === normalized; }) || null : null;
+}
+function addPurchaseLineForBarcode(barcode) {
+const normalized = String(barcode || '').trim();
+if (!normalized) return;
+if (!/^[A-Za-z0-9._/-]{3,80}$/.test(normalized)) {
+showToast('❌ Format barcode tidak valid.');
+return;
+}
+addDailyPurchaseLine();
+const line = document.querySelector('#slPurchaseLineList .sl-purchase-line:last-child');
+if (!line) return;
+const stockItem = findStockItemByBarcode(normalized);
+line.querySelector('[data-purchase-field="barcode"]').value = normalized;
+if (stockItem) {
+line.querySelector('[data-purchase-field="category"]').value = stockItem.kategori || '';
+line.querySelector('[data-purchase-field="name"]').value = stockItem.nama || '';
+line.querySelector('[data-purchase-field="unit"]').value = stockItem.satuan || '';
+line.querySelector('[data-purchase-field="unitPrice"]').value = Number(stockItem.harga) || 0;
+line.querySelector('[data-purchase-field="quantity"]').value = '1';
+showToast('✅ Produk barcode ditemukan. Periksa jumlah dan harga sebelum menyimpan.');
+} else {
+showToast('ℹ️ Barcode belum terdaftar. Lengkapi detail bahan secara manual.');
+line.querySelector('[data-purchase-field="name"]').focus();
+}
+updateDailyPurchaseTotal();
+}
+function handlePurchaseBarcode() {
+const input = document.getElementById('slPurchaseBarcodeInput');
+const barcode = input ? input.value.trim() : '';
+if (!barcode) return;
+addPurchaseLineForBarcode(barcode);
+input.value = '';
+}
+function stopPurchaseBarcodeScan() {
+slPurchaseBarcodeScanActive = false;
+if (slPurchaseBarcodeStream) {
+slPurchaseBarcodeStream.getTracks().forEach(function(track) { track.stop(); });
+slPurchaseBarcodeStream = null;
+}
+const video = document.getElementById('slPurchaseBarcodeVideo');
+if (video) video.srcObject = null;
+const scanner = document.getElementById('slPurchaseBarcodeScanner');
+if (scanner) scanner.hidden = true;
+}
+async function startPurchaseBarcodeScan() {
+const status = document.getElementById('slPurchaseBarcodeStatus');
+const scanner = document.getElementById('slPurchaseBarcodeScanner');
+if (!('BarcodeDetector' in window)) {
+if (status) status.textContent = 'Pemindaian kamera tidak didukung browser ini. Gunakan scanner USB atau ketik/pindai kode ke kolom barcode lalu tekan Enter.';
+if (scanner) scanner.hidden = false;
+return;
+}
+if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== 'function') {
+if (status) status.textContent = 'Kamera tidak tersedia. Gunakan scanner USB atau ketik/pindai kode secara manual.';
+if (scanner) scanner.hidden = false;
+return;
+}
+try {
+slPurchaseBarcodeDetector = new window.BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_128', 'code_39', 'itf'] });
+slPurchaseBarcodeStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false });
+const video = document.getElementById('slPurchaseBarcodeVideo');
+video.srcObject = slPurchaseBarcodeStream;
+scanner.hidden = false;
+await video.play();
+slPurchaseBarcodeScanActive = true;
+if (status) status.textContent = 'Arahkan kamera ke barcode produk.';
+const scanFrame = async function() {
+if (!slPurchaseBarcodeScanActive) return;
+try {
+const codes = await slPurchaseBarcodeDetector.detect(video);
+if (codes.length && codes[0].rawValue) {
+const value = codes[0].rawValue;
+stopPurchaseBarcodeScan();
+addPurchaseLineForBarcode(value);
+return;
+}
+} catch (error) {
+stopPurchaseBarcodeScan();
+if (status) status.textContent = 'Pemindaian gagal: ' + error.message + '. Anda dapat memasukkan barcode secara manual.';
+scanner.hidden = false;
+return;
+}
+window.requestAnimationFrame(scanFrame);
+};
+window.requestAnimationFrame(scanFrame);
+} catch (error) {
+stopPurchaseBarcodeScan();
+if (status) status.textContent = 'Kamera tidak dapat dibuka: ' + error.message + '. Gunakan scanner USB atau masukkan barcode manual.';
+scanner.hidden = false;
+}
+}
+function formatPurchaseDate(value) {
+const date = new Date(value);
+if (!Number.isFinite(date.getTime())) return String(value || '-');
+return new Intl.DateTimeFormat('id-ID', { timeZone: 'Asia/Jakarta', day: '2-digit', month: 'long', year: 'numeric' }).format(date);
+}
+function openPurchaseTransactions() {
+if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE) || !window.SPAS1_SUPABASE_SESSION) {
+showToast('❌ Arsip nota pembelian hanya tersedia untuk Modul Stok atau SUPER ADMIN.');
+return;
+}
+const modal = document.getElementById('slPurchaseTransactionsModal');
+modal.classList.add('visible');
+modal.setAttribute('aria-hidden', 'false');
+loadPurchaseTransactions();
+}
+function closePurchaseTransactions() {
+const modal = document.getElementById('slPurchaseTransactionsModal');
+modal.classList.remove('visible');
+modal.setAttribute('aria-hidden', 'true');
+}
+async function loadPurchaseTransactions() {
+const list = document.getElementById('slPurchaseTransactionFolders');
+const detail = document.getElementById('slPurchaseTransactionDetail');
+list.innerHTML = '<p class="text-xs text-gray-500">Memuat transaksi...</p>';
+try {
+const result = await callSupabase('fetchPurchaseTransactions', {});
+if (!result || result.status !== 'success' || !Array.isArray(result.data)) throw new Error('Daftar transaksi tidak valid.');
+slPurchaseTransactions = result.data;
+const grouped = new Map();
+slPurchaseTransactions.forEach(function(report) {
+const parts = stockJakartaDateParts(new Date(report.Tanggal));
+const date = parts.year + '-' + parts.month + '-' + parts.day;
+if (!grouped.has(date)) grouped.set(date, []);
+grouped.get(date).push(report);
+});
+if (!grouped.size) {
+list.innerHTML = '<p class="text-xs text-gray-500">Belum ada transaksi pembelian tersimpan.</p>';
+detail.innerHTML = '<p class="text-sm text-gray-500">Pilih transaksi pembelian di sebelah kiri.</p>';
+return;
+}
+list.innerHTML = Array.from(grouped.keys()).sort().reverse().map(function(date) {
+const reports = grouped.get(date);
+return '<div class="sl-purchase-archive-date">📁 ' + escapeHtml(formatPurchaseDate(date + 'T12:00:00+07:00')) + '</div>' +
+reports.map(function(report) {
+const reportId = String(report.ID || '');
+const selected = reportId === slSelectedPurchaseTransactionId;
+return '<button type="button" class="sl-purchase-archive-entry" aria-current="' + String(selected) +
+'" onclick="showPurchaseTransactionDetail(\'' + escapeHtml(reportId) + '\')"><strong>' +
+escapeHtml(String(report['Nomor PO'] || report.ID || 'Nota')) + '</strong><span>' +
+escapeHtml(String(report.Supplier || '-')) + ' · ' + escapeHtml(String(report.Status || 'Aktif')) + '</span><span>' +
+escapeHtml(String(report['Jumlah Item'] || 0)) + ' item · Rp ' +
+Number(report['Total Belanja'] || 0).toLocaleString('id-ID') + '</span></button>';
+}).join('');
+}).join('');
+if (!slSelectedPurchaseTransactionId || !slPurchaseTransactions.some(function(report) { return String(report.ID) === slSelectedPurchaseTransactionId; })) {
+slSelectedPurchaseTransactionId = '';
+detail.innerHTML = '<p class="text-sm text-gray-500">Pilih transaksi pembelian di sebelah kiri.</p>';
+}
+} catch (error) {
+list.innerHTML = '<p class="text-xs text-rose-400">Gagal memuat arsip: ' + escapeHtml(error.message) + '</p>';
+showToast('❌ Arsip nota pembelian gagal dimuat: ' + error.message);
+}
+}
+async function showPurchaseTransactionDetail(purchaseId) {
+if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(purchaseId))) return;
+slSelectedPurchaseTransactionId = String(purchaseId);
+const detail = document.getElementById('slPurchaseTransactionDetail');
+detail.innerHTML = '<p class="text-sm text-gray-500">Memuat rincian nota...</p>';
+try {
+const result = await callSupabase('fetchPurchaseTransactionDetails', { purchaseId: purchaseId });
+if (!result || !result.report || !Array.isArray(result.items)) throw new Error('Rincian nota tidak valid.');
+renderPurchaseTransactionDetail(result.report, result.items);
+const current = document.querySelector('.sl-purchase-archive-entry[aria-current="true"]');
+if (current) current.setAttribute('aria-current', 'false');
+const selected = Array.from(document.querySelectorAll('.sl-purchase-archive-entry')).find(function(button) {
+return button.getAttribute('onclick') === 'showPurchaseTransactionDetail(\'' + purchaseId + '\')';
+});
+if (selected) selected.setAttribute('aria-current', 'true');
+} catch (error) {
+detail.innerHTML = '<p class="text-sm text-rose-400">Gagal membuka nota: ' + escapeHtml(error.message) + '</p>';
+showToast('❌ Rincian nota gagal dimuat: ' + error.message);
+}
+}
+function renderPurchaseTransactionDetail(report, items) {
+const detail = document.getElementById('slPurchaseTransactionDetail');
+const isActive = report.Status === 'Aktif';
+const lines = items.map(function(item) {
+const quantity = Number(item.Jumlah) || 0;
+const price = Number(item['Harga Satuan']) || 0;
+return '<tr><td>' + escapeHtml(String(item['Nama Item'] || '-')) + '</td><td>' +
+escapeHtml(String(item.Kategori || '-')) + '</td><td>' + quantity.toLocaleString('id-ID') + ' ' +
+escapeHtml(String(item.Satuan || '')) + '</td><td>Rp ' + price.toLocaleString('id-ID') +
+'</td><td>Rp ' + (quantity * price).toLocaleString('id-ID') + '</td></tr>';
+}).join('');
+const firstMovementId = items.length ? String(items[0].ID || '') : '';
+detail.innerHTML = '<div class="flex flex-wrap items-start justify-between gap-3"><div><h3 class="text-base font-black">' +
+escapeHtml(String(report['Nomor PO'] || 'Nota pembelian')) + '</h3><p class="text-xs text-gray-400">' +
+escapeHtml(formatPurchaseDate(report.Tanggal)) + ' · ' + escapeHtml(String(report.Supplier || '-')) +
+'</p></div><strong class="' + (isActive ? 'text-emerald-400' : 'text-rose-400') + '">' +
+escapeHtml(String(report.Status || '-')) + '</strong></div>' +
+'<div class="mt-3 grid grid-cols-2 gap-2 text-xs"><p><b>PO:</b> ' + escapeHtml(String(report['Nomor PO'] || '-')) +
+'</p><p><b>Jumlah barang:</b> ' + escapeHtml(String(report['Jumlah Item'] || items.length)) +
+'</p><p><b>Lokasi:</b> ' + escapeHtml(String(report.Lokasi || '-')) + '</p><p><b>Total:</b> Rp ' +
+Number(report['Total Belanja'] || 0).toLocaleString('id-ID') + '</p><p class="col-span-2"><b>Catatan:</b> ' +
+escapeHtml(String(report.Catatan || '-')) + '</p></div>' +
+'<div class="mt-4 overflow-x-auto"><table class="sl-purchase-archive-table"><thead><tr><th>Barang</th><th>Kategori</th><th>Qty</th><th>Harga</th><th>Subtotal</th></tr></thead><tbody>' +
+(lines || '<tr><td colspan="5">Tidak ada rincian item.</td></tr>') + '</tbody></table></div>' +
+(isActive ? '<div class="sl-purchase-archive-actions"><button type="button" onclick="editPurchaseTransaction(\'' +
+escapeHtml(String(report.ID)) + '\')"><i class="fa-solid fa-pen"></i> Edit nota</button><button type="button" class="danger" onclick="cancelPurchaseTransaction(\'' +
+escapeHtml(firstMovementId) + '\')"><i class="fa-solid fa-ban"></i> Batalkan nota</button></div>' : '') +
+(report['Foto Path'] ? '<p class="mt-3 text-xs">Foto nota: <button type="button" class="underline" onclick="openStockReceiptByPath(\'' +
+escapeHtml(String(report['Foto Path'])) + '\')">Lihat foto bukti</button></p>' : '');
+}
+async function editPurchaseTransaction(purchaseId) {
+try {
+const result = await callSupabase('fetchPurchaseTransactionDetails', { purchaseId: purchaseId });
+if (!result || !result.report || !Array.isArray(result.items)) throw new Error('Data nota tidak valid.');
+if (result.report.Status !== 'Aktif') throw new Error('Nota yang sudah dibatalkan tidak dapat diedit.');
+if (!stokLogistikLoadedFromSupabase) {
+const stockResult = await callSupabase('fetchStokLogistik', {});
+if (!stockResult || stockResult.status !== 'success' || !Array.isArray(stockResult.data)) throw new Error('Data stok diperlukan untuk mengedit nota.');
+loadStokLogistikRows(stockResult.data);
+}
+closePurchaseTransactions();
+openStockMovementModal('Masuk', null, { skipSupplierLoad: true });
+slEditingPurchaseId = String(purchaseId);
+slEditingPurchaseReport = result.report;
+const date = String(result.report.Tanggal || '').slice(0, 10);
+document.getElementById('slPurchaseDate').value = date;
+document.getElementById('slPurchasePoNumber').value = result.report['Nomor PO'] || generatePurchaseOrderNumber(date);
+document.getElementById('slPurchaseDate').onchange = function() {};
+document.getElementById('slMovementNotePurchase').value = result.report.Catatan || '';
+document.getElementById('slMovementLocation').value = result.report.Lokasi || '';
+document.getElementById('slMovementPhoto').required = false;
+document.getElementById('slMovementSave').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan Nota';
+await loadPurchaseSuppliers(result.report['Supplier ID']);
+const list = document.getElementById('slPurchaseLineList');
+list.replaceChildren();
+slPurchaseLineSequence = 0;
+result.items.forEach(function(item) {
+addDailyPurchaseLine();
+const line = list.lastElementChild;
+const stockItem = SL_STOK_DATA.find(function(stock) { return String(stock.id) === String(item['Item ID']); });
+line.querySelector('[data-purchase-field="category"]').value = item.Kategori || '';
+line.querySelector('[data-purchase-field="name"]').value = item['Nama Item'] || '';
+line.querySelector('[data-purchase-field="barcode"]').value = stockItem ? stockItem.barcode || '' : '';
+line.querySelector('[data-purchase-field="unit"]').value = item.Satuan || '';
+line.querySelector('[data-purchase-field="smallUnit"]').value = item['Satuan Pecahan'] || '';
+line.querySelector('[data-purchase-field="conversionFactor"]').value = item['Faktor Konversi'] || '';
+line.querySelector('[data-purchase-field="quantity"]').value = item.Jumlah || '';
+line.querySelector('[data-purchase-field="unitPrice"]').value = item['Harga Satuan'] || 0;
+});
+updateDailyPurchaseTotal();
+document.getElementById('slMovementModal').hidden = false;
+document.getElementById('slMovementModal').classList.remove('hidden');
+document.getElementById('slMovementModal').scrollIntoView({ behavior: 'smooth', block: 'start' });
+} catch (error) {
+showToast('❌ Nota tidak dapat diedit: ' + error.message);
+}
+}
+async function openStockReceiptByPath(filePath) {
+const path = String(filePath || '').replace(/^\/+/, '');
+if (!isSupabaseStockReceiptPath(path)) {
+showToast('❌ Lokasi foto bukti transaksi tidak valid.');
+return;
+}
+const popup = window.open('about:blank', '_blank');
+if (!popup) {
+showToast('Izinkan pop-up untuk membuka foto bukti transaksi.');
+return;
+}
+popup.opener = null;
+try {
+const response = await supabaseStorageRequest('/storage/v1/object/sign/spas1-media/' + path.split('/').map(encodeURIComponent).join('/'), {
+method: 'POST',
+body: JSON.stringify({ expiresIn: 3600 })
+});
+const data = await response.json();
+const signedPath = String(data.signedURL || data.signedUrl || '');
+if (!signedPath) throw new Error('Supabase tidak mengembalikan tautan sementara untuk foto nota.');
+if (/^https?:\/\//i.test(signedPath)) popup.location.href = signedPath;
+else {
+const normalizedPath = signedPath.charAt(0) === '/' ? signedPath : '/' + signedPath;
+popup.location.href = normalizedPath.startsWith('/storage/v1/')
+? window.SPAS1_SUPABASE_URL + normalizedPath
+: window.SPAS1_SUPABASE_URL + '/storage/v1' + normalizedPath;
+}
+} catch (error) {
+popup.close();
+showToast('❌ Gagal membuka foto nota: ' + error.message);
+}
+}
+async function cancelPurchaseTransaction(movementId) {
+if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(movementId))) {
+showToast('❌ Rincian transaksi tidak ditemukan untuk pembatalan.');
+return;
+}
+if (!confirm('Batalkan nota pembelian ini? Stok akan dikoreksi dan riwayat tetap tersimpan.')) return;
+const reason = prompt('Masukkan alasan pembatalan nota (minimal 5 karakter):');
+if (reason === null) return;
+if (reason.trim().length < 5 || reason.length > 500) {
+showToast('❌ Alasan pembatalan minimal 5 karakter dan maksimal 500 karakter.');
+return;
+}
+try {
+const result = await callSupabase('voidStockMovement', { movementId: movementId, reason: reason.trim() });
+showToast('✅ ' + result.message);
+slSelectedPurchaseTransactionId = '';
+await loadPurchaseTransactions();
+document.getElementById('slPurchaseTransactionDetail').innerHTML = '<p class="text-sm text-gray-500">Nota dibatalkan; stok dan riwayat sudah diperbarui.</p>';
+await Promise.all([loadDailyStockData(), loadStockMovements()]);
+} catch (error) {
+showToast('❌ Nota gagal dibatalkan: ' + error.message);
+}
+}
+function openStockMovementModal(type, itemId, options) {
 if (!['admin', 'stok'].includes(window.SPAS1_AUTH_ROLE) || !window.SPAS1_SUPABASE_SESSION) {
 showToast('❌ Nota pembelian dan stok keluar gudang hanya dapat dicatat oleh Modul Stok atau SUPER ADMIN.');
 return;
@@ -9950,11 +10497,27 @@ ensureStockMasterLoaded(function() {
 const form = document.getElementById('slMovementForm');
 form.reset();
 resetDailyPurchaseLines();
+slEditingPurchaseId = '';
+slEditingPurchaseReport = null;
+document.getElementById('slMovementPhoto').required = true;
+document.getElementById('slMovementSave').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi';
 slMovementPhotoDataUrl = '';
 document.getElementById('slMovementPhotoPreview').style.display = 'none';
 document.getElementById('slMovementPhotoPreview').removeAttribute('src');
 const typeField = document.getElementById('slMovementType');
 typeField.value = type === 'Keluar' ? 'Keluar' : 'Masuk';
+const purchaseDate = document.getElementById('slPurchaseDate');
+const dateParts = stockJakartaDateParts(new Date());
+purchaseDate.value = dateParts.year + '-' + dateParts.month + '-' + dateParts.day;
+document.getElementById('slPurchasePoNumber').value = generatePurchaseOrderNumber(purchaseDate.value);
+if (!(options && options.skipSupplierLoad)) {
+loadPurchaseSuppliers().catch(function(error) {
+showToast('❌ Daftar pemasok gagal dimuat: ' + error.message);
+});
+}
+purchaseDate.onchange = function() {
+if (!slEditingPurchaseId) document.getElementById('slPurchasePoNumber').value = generatePurchaseOrderNumber(purchaseDate.value);
+};
 const itemField = document.getElementById('slMovementItem');
 itemField.innerHTML = '<option value="">Pilih item stok</option>' + SL_STOK_DATA.slice().sort(function(a, b) { return a.nama.localeCompare(b.nama, 'id'); }).map(function(item) {
 const equivalent = formatStockEquivalent(Number(item.stok) || 0, item.satuan, item.smallUnit, item.conversionFactor);
@@ -9985,12 +10548,17 @@ if (slStockMovementSaving) {
 showToast('Transaksi sedang disimpan. Tunggu hingga proses selesai sebelum menutup formulir.');
 return;
 }
+stopPurchaseBarcodeScan();
+slEditingPurchaseId = '';
+slEditingPurchaseReport = null;
 const movementModal = document.getElementById('slMovementModal');
 movementModal.hidden = true;
 movementModal.classList.add('hidden');
 document.getElementById('slMovementForm').reset();
 resetDailyPurchaseLines();
 updateStockMovementType();
+document.getElementById('slMovementPhoto').required = true;
+document.getElementById('slMovementSave').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi';
 slMovementPhotoDataUrl = '';
 document.getElementById('slMovementPhotoPreview').style.display = 'none';
 document.getElementById('slMovementPhotoPreview').removeAttribute('src');
@@ -10635,8 +11203,8 @@ event.preventDefault();
 if (slStockMovementSaving) return;
 const type = document.getElementById('slMovementType').value;
 const location = document.getElementById('slMovementLocation').value.trim();
-if (!location || location.length > 300 || !slMovementPhotoDataUrl) {
-showToast('❌ Lengkapi lokasi dan foto bukti transaksi.');
+if (!location || location.length > 300 || (!slMovementPhotoDataUrl && !(type === 'Masuk' && slEditingPurchaseReport))) {
+showToast('❌ Lengkapi lokasi dan foto bukti transaksi; nota yang diedit dapat mempertahankan foto sebelumnya.');
 return;
 }
 let item = null;
@@ -10653,19 +11221,30 @@ unit: line.querySelector('[data-purchase-field="unit"]').value.trim(),
 smallUnit: line.querySelector('[data-purchase-field="smallUnit"]').value.trim(),
 conversionFactor: line.querySelector('[data-purchase-field="conversionFactor"]').value,
 quantity: Number(line.querySelector('[data-purchase-field="quantity"]').value),
-unitPrice: Number(line.querySelector('[data-purchase-field="unitPrice"]').value)
+unitPrice: Number(line.querySelector('[data-purchase-field="unitPrice"]').value),
+barcode: line.querySelector('[data-purchase-field="barcode"]').value.trim()
 };
 }),
-supplier: document.getElementById('slMovementSupplier').value.trim(),
+supplierId: document.getElementById('slMovementSupplier').value,
+purchaseDate: document.getElementById('slPurchaseDate').value,
+poNumber: document.getElementById('slPurchasePoNumber').value.trim(),
+purchaseId: slEditingPurchaseId,
 note: document.getElementById('slMovementNotePurchase').value.trim(),
 location: location
 };
-if (!purchase.items.length || purchase.items.some(function(line) {
+const selectedDate = new Date(purchase.purchaseDate + 'T12:00:00+07:00');
+const selectedWeekday = stockWeekday(selectedDate);
+if (!purchase.purchaseDate || !Number.isFinite(selectedDate.getTime()) ||
+!['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'].includes(selectedWeekday) ||
+purchase.purchaseDate > (function() { const parts = stockJakartaDateParts(new Date()); return parts.year + '-' + parts.month + '-' + parts.day; })() ||
+!purchase.supplierId || !purchase.poNumber ||
+!purchase.items.length || purchase.items.some(function(line) {
 return !line.category || !line.name || line.name.length > 160 || !line.unit || line.unit.length > 40 ||
 !Number.isFinite(line.quantity) || line.quantity <= 0 ||
-!Number.isSafeInteger(line.unitPrice) || line.unitPrice < 0;
+!Number.isSafeInteger(line.unitPrice) || line.unitPrice < 0 ||
+(line.barcode && !/^[A-Za-z0-9._/-]{3,80}$/.test(line.barcode));
 })) {
-showToast('❌ Periksa kategori, nama, satuan, jumlah, dan harga setiap bahan.');
+showToast('❌ Periksa tanggal kerja, nomor PO, pemasok, kategori, nama, satuan, jumlah, harga, dan barcode setiap bahan.');
 return;
 }
 } else {
@@ -10711,12 +11290,13 @@ button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
 let photoPath = '';
 let result;
 try {
-const watermarkedPhoto = await watermarkStockMovementPhoto(slMovementPhotoDataUrl, now, location);
-const uploaded = await uploadSupabaseMedia({ dataUrl: watermarkedPhoto, folder: folder });
+const uploaded = slMovementPhotoDataUrl
+? await uploadSupabaseMedia({ dataUrl: await watermarkStockMovementPhoto(slMovementPhotoDataUrl, now, location), folder: folder })
+: await copySupabaseStockReceipt(slEditingPurchaseReport['Foto Path'], folder);
 photoPath = uploaded.path;
 if (type === 'Masuk') {
 purchase.photoPath = photoPath;
-result = await callSupabase('recordDailyStockPurchase', { purchase: purchase });
+result = await callSupabase(slEditingPurchaseId ? 'editDailyStockPurchase' : 'recordDailyStockPurchase', { purchase: purchase });
 } else {
 result = await callSupabase('recordStockMovement', {
 movement: {
@@ -10758,14 +11338,22 @@ movementModal.classList.add('hidden');
 document.getElementById('slMovementForm').reset();
 resetDailyPurchaseLines();
 updateStockMovementType();
+slEditingPurchaseId = '';
+slEditingPurchaseReport = null;
+document.getElementById('slMovementPhoto').required = true;
+document.getElementById('slMovementSave').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi';
 slMovementPhotoDataUrl = '';
 document.getElementById('slMovementPhotoPreview').style.display = 'none';
 document.getElementById('slMovementPhotoPreview').removeAttribute('src');
 await loadDailyStockData();
 await loadStockMovements();
+if (type === 'Masuk') {
+slSelectedPurchaseTransactionId = '';
+await loadPurchaseTransactions();
+}
 showToast(type === 'Keluar'
 ? '✅ ' + result.message + ' Sisa stok: ' + item.stok + ' ' + item.satuan + '.'
-: '✅ ' + result.message + ' Total: Rp ' + Number(result.data.report['Total Belanja']).toLocaleString('id-ID', { maximumFractionDigits: 2 }) + '.');
+: '✅ ' + result.message + ' Total: Rp ' + Number((result.data.report || result.data.purchase.report)['Total Belanja']).toLocaleString('id-ID', { maximumFractionDigits: 2 }) + '.');
 } finally {
 slStockMovementSaving = false;
 button.disabled = false;
@@ -15056,7 +15644,8 @@ smallUnit: String(row['Satuan Pecahan'] || ''),
 conversionFactor: row['Faktor Konversi'] == null || row['Faktor Konversi'] === '' ? null : Number(row['Faktor Konversi']),
 stok: Number.isFinite(Number(row.Stok)) ? Number(row.Stok) : 0,
 harga: Number.isFinite(Number(row['Harga (Rp)'])) ? Number(row['Harga (Rp)']) : 0,
-supplier: String(row.Supplier || '')
+supplier: String(row.Supplier || ''),
+barcode: String(row.Barcode || '')
 }));
 SL_STOK_DATA.splice(0, SL_STOK_DATA.length, ...loadedItems);
 stokLogistikLoadedFromSupabase = true;

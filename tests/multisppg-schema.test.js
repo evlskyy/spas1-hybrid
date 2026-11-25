@@ -11,6 +11,7 @@ const stockConversionMigration = fs.readFileSync(path.join(root, 'supabase_stock
 const volunteerFunction = fs.readFileSync(path.join(root, 'supabase/functions/volunteer-registration/index.ts'), 'utf8');
 const emptyTenantMigration = fs.readFileSync(path.join(root, 'supabase/tenant_empty_defaults_migration.sql'), 'utf8');
 const onboardingPermissionsMigration = fs.readFileSync(path.join(root, 'supabase/sppg_onboarding_permissions_migration.sql'), 'utf8');
+const purchaseMigration = fs.readFileSync(path.join(root, 'supabase/purchase_order_management_migration.sql'), 'utf8');
 
 function quotedNames(source) {
   return Array.from(source.matchAll(/'([^']+)'/g), function(match) { return match[1]; });
@@ -25,9 +26,13 @@ test('frontend and tenant migration cover the same operational tables', function
   assert.ok(migrationMatch, 'migration tenant table list should exist');
 
   assert.deepEqual(
-    quotedNames(html.slice(clientStart, clientEnd)).sort(),
+    quotedNames(html.slice(clientStart, clientEnd)).filter(function(name) {
+      return name !== 'spas1_stock_suppliers';
+    }).sort(),
     quotedNames(migrationMatch[1]).sort()
   );
+  assert.match(purchaseMigration, /create table if not exists public\.spas1_stock_suppliers/);
+  assert.match(purchaseMigration, /alter table public\.spas1_stock_suppliers enable row level security/);
 });
 
 test('tenant migration preserves existing rows and adds restrictive tenant checks', function() {

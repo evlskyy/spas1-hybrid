@@ -112,6 +112,12 @@ test('accounting archive reads existing Supabase reports and refreshes after sav
   assert.match(html, /function openAccountingReportFromFolder\(reportType, date\)/);
 });
 
+test('accounting archive visibly explains the right-click new folder action', function() {
+  assert.match(html, /accounting-folder-context-hint/);
+  assert.match(html, /klik kanan pada area arsip ini lalu pilih <strong>New folder<\/strong>/);
+  assert.match(html, /id="accountingFolderContextMenu"[\s\S]*createAccountingReportFolderPrompt\(\)/);
+});
+
 test('stock tab includes a right-click new folder flow for daily stock archive', function() {
   assert.doesNotMatch(html, /Folder Hari Ini/);
   assert.match(html, /New folder/);

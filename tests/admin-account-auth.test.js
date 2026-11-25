@@ -52,6 +52,21 @@ test('recovery chat opens above the admin login dialog so outside clicks do not 
   assert.match(html, /id="recoveryChatOverlay"[^>]*onclick="if\(event\.target===this\) closeRecoveryChat\(\)"/);
 });
 
+test('admin login dialog closes only through its explicit cancel button, not backdrop clicks', function() {
+  const modal = html.match(/<div id="modal-admin-login"[^>]*>/);
+  const cancel = html.match(/<button type="button" onclick="tutupAdminLogin\(\)"[^>]*>Batal<\/button>/);
+  const closeFunctionStart = html.indexOf('function tutupAdminLogin()');
+  const closeFunctionEnd = html.indexOf('\nconst SUPER_ADMIN_WELCOME_STORAGE_KEY', closeFunctionStart);
+  const closeFunction = html.slice(closeFunctionStart, closeFunctionEnd);
+
+  assert.ok(modal);
+  assert.doesNotMatch(modal[0], /onclick=/);
+  assert.ok(cancel);
+  assert.match(closeFunction, /toggleAdminLoginRecovery\(false\)/);
+  assert.match(closeFunction, /adminLoginRecoveryEmail'\)\.value = ''/);
+  assert.match(closeFunction, /adminLoginRecoveryMessage'\);[\s\S]*?recoveryMessage\.textContent = ''/);
+});
+
 test('admin username migration keeps mappings private and throttles failed login attempts', function() {
   assert.match(migration, /alter table public\.spas1_admin_usernames enable row level security/i);
   assert.match(migration, /revoke all on public\.spas1_admin_usernames from public, anon, authenticated/i);
