@@ -1,6 +1,9 @@
 [functions.volunteer-registration]
 verify_jwt = false
 
+[functions.admin-account-auth]
+verify_jwt = false
+
 [functions.aboutsky-contact]
 verify_jwt = false
 

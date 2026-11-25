@@ -951,6 +951,39 @@ body.app-light-mode .github-social-link svg path { fill: #181717; }
 .home-footer-admin button { padding: 8px !important; font-size: 10px !important; gap: 5px !important; }
 #btnSuperAdminLogin.home-admin-login-launcher { border-color: rgba(129, 140, 248, 0.4); background: rgba(79, 70, 229, 0.15); color: #C7D2FE; }
 #btnSuperAdminLogin.home-admin-login-launcher:hover { border-color: #A5B4FC; background: rgba(79, 70, 229, 0.3); }
+.home-admin-status { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px; color: #A7F3D0; font-size: 10px; font-weight: 700; line-height: 1.35; }
+.home-admin-status-dot { width: 7px; height: 7px; flex: 0 0 7px; border-radius: 999px; background: #34D399; box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.12); }
+.home-admin-status-email { color: #C7D2FE; }
+.admin-login-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.admin-login-tab { border: 1px solid #475569; border-radius: 10px; background: #111827; padding: 9px 8px; color: #CBD5E1; font-size: 11px; font-weight: 800; transition: 0.18s ease; }
+.admin-login-tab.active { border-color: #A5B4FC; background: #312E81; color: #FFFFFF; }
+.admin-recovery-grid { display: grid; gap: 10px; }
+.admin-recovery-card { border: 1px solid #334155; border-radius: 12px; background: #111827; padding: 12px; text-align: left; }
+.admin-recovery-card h4 { margin: 0 0 5px; color: #F8FAFC; font-size: 12px; font-weight: 800; }
+.admin-recovery-card p { margin: 0; color: #94A3B8; font-size: 10px; line-height: 1.55; }
+.admin-recovery-card input { width: 100%; margin-top: 8px; border: 1px solid #475569; border-radius: 8px; background: #0B132B; padding: 9px 10px; color: #FFFFFF; font-size: 11px; }
+.admin-recovery-card button { width: 100%; margin-top: 8px; border: 1px solid #6366F1; border-radius: 8px; background: #4F46E5; padding: 9px 10px; color: #FFFFFF; font-size: 11px; font-weight: 800; }
+.admin-recovery-card a { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; color: #A7F3D0; font-size: 10px; font-weight: 800; text-decoration: underline; }
+.admin-recovery-message { min-height: 18px; margin: 0; color: #A7F3D0; font-size: 10px; line-height: 1.5; }
+.recovery-chat-overlay { position: fixed; inset: 0; z-index: 145; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(2, 6, 23, 0.78); }
+.recovery-chat-overlay.show { display: flex; }
+.recovery-chat-card { width: min(420px, 100%); max-height: min(620px, calc(100vh - 32px)); overflow: hidden; border: 1px solid #475569; border-radius: 18px; background: #111827; box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45); }
+.recovery-chat-header { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #334155; padding: 14px 16px; color: #F8FAFC; }
+.recovery-chat-avatar { display: inline-flex; width: 38px; height: 38px; flex: 0 0 38px; align-items: center; justify-content: center; border-radius: 50%; background: #059669; color: #FFFFFF; }
+.recovery-chat-header h3 { margin: 0; font-size: 13px; font-weight: 900; }
+.recovery-chat-header p { margin: 2px 0 0; color: #94A3B8; font-size: 10px; }
+.recovery-chat-close { margin-left: auto; border: 0; background: transparent; color: #CBD5E1; cursor: pointer; }
+.recovery-chat-messages { min-height: 240px; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 9px; padding: 16px; }
+.recovery-chat-message { max-width: 88%; border-radius: 12px; padding: 10px 11px; font-size: 11px; line-height: 1.55; }
+.recovery-chat-message.bot { align-self: flex-start; border: 1px solid #334155; background: #1E293B; color: #E2E8F0; }
+.recovery-chat-message.user { align-self: flex-end; background: #4F46E5; color: #FFFFFF; }
+.recovery-chat-form { display: grid; gap: 8px; border-top: 1px solid #334155; padding: 12px 16px 16px; }
+.recovery-chat-form input { width: 100%; border: 1px solid #475569; border-radius: 10px; background: #0B132B; padding: 10px 11px; color: #FFFFFF; font-size: 11px; }
+.recovery-chat-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 8px; }
+.recovery-chat-actions button,
+.recovery-chat-whatsapp { box-sizing: border-box; display: inline-flex; min-width: 0; height: 38px; align-items: center; justify-content: center; gap: 5px; border-radius: 9px; padding: 9px 8px; font-size: 10px; line-height: 1.2; font-weight: 900; text-align: center; white-space: nowrap; }
+.recovery-chat-send { border: 1px solid #6366F1; background: #4F46E5; color: #FFFFFF; }
+.recovery-chat-whatsapp { border: 1px solid #34D399; background: #059669; color: #FFFFFF; text-decoration: none; text-align: center; }
 .home-footer-layout > #btnProjectInfo { padding: 8px !important; font-size: 10px !important; gap: 5px !important; }
 .home-project-info-button { border-color: rgba(52, 211, 153, 0.4) !important; background-color: rgba(5, 150, 105, 0.15) !important; color: #A7F3D0 !important; }
 .home-project-info-button:hover { border-color: #6EE7B7 !important; background-color: rgba(5, 150, 105, 0.3) !important; }
@@ -3247,7 +3280,11 @@ gtag('config', 'G-4933FEDV2TW');
 <div class="home-footer-layout">
 <button id="btnSuperAdminLogin" type="button" onclick="bukaAdminPortal()" class="home-news-panel home-news-launcher home-admin-card home-admin-login-launcher" aria-label="SUPER ADMIN">
 <span class="home-utility-icon"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></span>
-<span class="home-utility-content"><span class="home-utility-title">SUPER ADMIN</span><span class="home-utility-description">Kelola akun, data sistem, dan pengaturan aplikasi.</span></span>
+<span class="home-utility-content">
+  <span class="home-utility-title">SUPER ADMIN</span>
+  <span class="home-utility-description">Kelola akun, data sistem, dan pengaturan aplikasi.</span>
+  <span class="home-admin-status"><span class="home-admin-status-dot" aria-hidden="true"></span><span>SPPG Sungai Pasir 1 Meral, Karimun aktif</span><span class="home-admin-status-email">Email admin terverifikasi</span></span>
+</span>
 <i class="fa-solid fa-arrow-right home-admin-card-arrow" aria-hidden="true"></i>
 </button>
 <div class="home-footer-left-actions">
@@ -4205,6 +4242,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <button id="nav-tab-laporan" onclick="switchAdminTab('tab-laporan', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-clipboard-user w-5"></i> <span>Laporan</span></button>
 <button id="nav-tab-karyawan" onclick="switchAdminTab('tab-karyawan', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-users-gear w-5"></i> <span>Relawan</span></button>
 <button id="nav-tab-module-access" onclick="switchAdminTab('tab-module-access', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-key w-5"></i> <span>Akun &amp; Akses Modul</span></button>
+<button id="nav-tab-account-recovery" onclick="switchAdminTab('tab-account-recovery', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-user-shield w-5"></i> <span>Pemulihan Akun</span></button>
 <button id="nav-tab-registrations" onclick="switchAdminTab('tab-registrations', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-user-clock w-5"></i> <span>Registrasi</span><span id="volunteerRegistrationBadge" class="hidden min-w-5 rounded-full bg-rose-600 px-1.5 py-0.5 text-center text-[10px] font-black leading-4 text-white" aria-label="Permohonan menunggu">0</span></button>
 <button id="nav-tab-organization-requests" class="hidden sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap" onclick="switchAdminTab('tab-organization-requests', this)"><i class="fa-solid fa-building-circle-check w-5"></i><span>Permohonan SPPG</span></button>
 </div>
@@ -4608,6 +4646,44 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </table>
 </div>
 </section>
+<section id="tab-account-recovery" class="admin-tab space-y-4 hidden">
+<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Pemulihan Akun SUPER ADMIN</h2><p class="mt-1 text-xs text-gray-500">Username terpisah dari email pemulihan terverifikasi. Perubahan username tidak mengubah email untuk reset password.</p></div>
+</div>
+<div class="grid grid-cols-1 gap-3 lg:grid-cols-3">
+<div class="light-card rounded-2xl border border-gray-200 p-4 shadow-sm">
+<h3 class="text-sm font-bold text-gray-900"><i class="fa-solid fa-user-pen mr-2 text-indigo-600"></i>Username Login</h3>
+<p class="mt-2 text-xs leading-5 text-gray-600">Gunakan username baru untuk login. Email pemulihan tetap terpisah dan tidak berubah.</p>
+<label for="adminUsernameNew" class="mt-3 block text-xs font-semibold text-gray-700">Username baru
+<input id="adminUsernameNew" type="text" minlength="3" maxlength="48" pattern="[A-Za-z0-9._-]{3,48}" autocomplete="off" placeholder="contoh: tahusuper" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5 text-sm">
+</label>
+<button id="btnAdminUsernameSave" type="button" onclick="saveAdminUsername()" class="mt-3 w-full rounded-lg bg-indigo-600 px-3 py-2.5 text-xs font-bold text-white hover:bg-indigo-700">Simpan Username</button>
+<p id="adminUsernameMessage" class="mt-2 min-h-5 text-xs leading-5" role="status" aria-live="polite"></p>
+</div>
+<div class="light-card rounded-2xl border border-gray-200 p-4 shadow-sm">
+<h3 class="text-sm font-bold text-gray-900"><i class="fa-solid fa-envelope mr-2 text-indigo-600"></i>Email Pemulihan</h3>
+<p id="adminRecoveryEmailCurrent" class="mt-2 break-all text-xs leading-5 text-gray-600" role="status" aria-live="polite">Memuat email akun...</p>
+<form class="mt-3" onsubmit="event.preventDefault(); updateAdminRecoveryEmail();">
+<label for="adminRecoveryEmailNew" class="block text-xs font-semibold text-gray-700">Email aktif yang dapat Anda akses
+<input id="adminRecoveryEmailNew" type="email" autocomplete="email" maxlength="254" placeholder="nama@email.com" disabled class="mt-1 w-full rounded-lg border border-gray-300 p-2.5 text-sm">
+</label>
+<button id="btnAdminRecoveryEmailSave" type="submit" disabled class="mt-3 w-full rounded-lg border border-emerald-600 bg-emerald-600 px-3 py-2.5 text-xs font-bold text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50">Kirim Konfirmasi Email</button>
+</form>
+<p id="adminRecoveryEmailMessage" class="mt-2 min-h-5 text-xs leading-5" role="status" aria-live="polite"></p>
+<button id="adminRecoveryEmailSupport" type="button" class="hidden mt-2 inline-flex items-center gap-2 rounded-lg border border-emerald-300 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-700" onclick="openRecoveryChat('email')"><i class="fa-solid fa-comments"></i> Chat bantuan pemulihan</button>
+</div>
+<div class="light-card rounded-2xl border border-gray-200 p-4 shadow-sm">
+<h3 class="text-sm font-bold text-gray-900"><i class="fa-solid fa-key mr-2 text-indigo-600"></i>Lupa Password</h3>
+<p class="mt-2 text-xs leading-5 text-gray-600">Kirim tautan ke email pemulihan yang sudah terverifikasi dan dapat diakses.</p>
+<label for="adminRecoveryEmail" class="mt-3 block text-xs font-semibold text-gray-700">Email pemulihan
+<input id="adminRecoveryEmail" type="email" autocomplete="email" placeholder="nama@email.com" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5 text-sm">
+</label>
+<button id="btnAdminRecovery" type="button" onclick="requestAdminPasswordRecovery()" class="mt-3 w-full rounded-lg bg-indigo-600 px-3 py-2.5 text-xs font-bold text-white hover:bg-indigo-700">Kirim Tautan Reset Password</button>
+<p id="adminRecoveryMessage" class="mt-2 min-h-5 text-xs leading-5 text-emerald-700" role="status" aria-live="polite"></p>
+</div>
+</div>
+<p class="text-xs leading-5 text-gray-500">Lupa username? Jika masih ingat email pemulihan, gunakan email tersebut pada kolom login untuk masuk, lalu atur username baru di sini. Jika email juga tidak dapat diakses, gunakan Chat Bantuan Pemulihan Akun.</p>
+</section>
 <section id="tab-registrations" class="admin-tab space-y-4 hidden">
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
 <div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Permohonan Registrasi Relawan</h2><p class="mt-1 text-xs text-gray-500">Pendaftaran baru dilakukan melalui formulir relawan. SUPER ADMIN dapat mengubah atau menghapus permohonan yang masih menunggu, lalu menyetujui atau menolaknya.</p></div>
@@ -4704,8 +4780,35 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="dark-card w-full max-w-md p-6 rounded-3xl space-y-4 text-center">
 <div class="w-12 h-12 bg-purple-600/20 text-purple-400 rounded-xl mx-auto flex items-center justify-center text-xl border border-purple-500/30"><i class="fa-solid fa-shield-halved"></i></div>
 <h3 id="adminLoginTitle" class="font-bold text-base">SUPER ADMIN</h3>
-<form class="space-y-3 text-left" onsubmit="event.preventDefault(); verifikasiAdmin()"><input type="text" id="adminUser" placeholder="Username Admin" autocomplete="username" required class="w-full p-3 bg-[#0B132B] border border-[#3A506B] rounded-xl text-xs text-white font-bold"><input type="password" id="adminPass" placeholder="Password" autocomplete="current-password" required class="w-full p-3 bg-[#0B132B] border border-[#3A506B] rounded-xl text-xs text-white font-bold"><button id="btnSubmitAdmin" type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition-colors">Masuk ke Portal Admin</button></form>
+<form class="space-y-3 text-left" onsubmit="event.preventDefault(); verifikasiAdmin()"><input type="text" id="adminUser" placeholder="Username atau email pemulihan" autocomplete="username" required class="w-full p-3 bg-[#0B132B] border border-[#3A506B] rounded-xl text-xs text-white font-bold"><input type="password" id="adminPass" placeholder="Password" autocomplete="current-password" required class="w-full p-3 bg-[#0B132B] border border-[#3A506B] rounded-xl text-xs text-white font-bold"><button id="btnSubmitAdmin" type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition-colors">Masuk ke Portal Admin</button></form>
+<div class="text-left">
+<button id="btnShowAdminLoginRecovery" type="button" class="text-xs font-bold text-indigo-300 hover:underline" onclick="toggleAdminLoginRecovery(true)">Lupa password?</button>
+<button type="button" class="ml-3 text-xs font-bold text-emerald-300 hover:underline" onclick="openRecoveryChat('email')">Lupa username/email?</button>
+<div id="adminLoginRecoveryPanel" class="admin-recovery-card mt-2 hidden">
+<p>Masukkan email pemulihan terverifikasi untuk menerima tautan reset. Jika lupa username, email tersebut juga dapat digunakan untuk login.</p>
+<input id="adminLoginRecoveryEmail" type="email" autocomplete="email" placeholder="nama@email.com">
+<button id="btnAdminLoginRecovery" type="button" onclick="requestAdminPasswordRecovery('login')">Kirim Tautan Reset</button>
+<p id="adminLoginRecoveryMessage" class="admin-recovery-message" role="status" aria-live="polite"></p>
+</div>
+</div>
 <button onclick="tutupAdminLogin()" class="text-xs text-gray-400 hover:underline">Batal</button>
+</div>
+</div>
+<div id="recoveryChatOverlay" class="recovery-chat-overlay" role="dialog" aria-modal="true" aria-labelledby="recoveryChatTitle" aria-hidden="true" onclick="if(event.target===this) closeRecoveryChat()">
+<div class="recovery-chat-card">
+<div class="recovery-chat-header">
+<span class="recovery-chat-avatar"><i class="fa-solid fa-robot"></i></span>
+<div><h3 id="recoveryChatTitle">Bantuan Pemulihan Akun</h3><p>Chatbot SPAS1 · panduan dan handoff WhatsApp</p></div>
+<button type="button" class="recovery-chat-close" onclick="closeRecoveryChat()" aria-label="Tutup chat"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div id="recoveryChatMessages" class="recovery-chat-messages" aria-live="polite"></div>
+<form id="recoveryChatForm" class="recovery-chat-form" onsubmit="event.preventDefault(); submitRecoveryChat();">
+<input id="recoveryChatInput" type="text" maxlength="120" autocomplete="off" placeholder="Tulis jawaban Anda">
+<div class="recovery-chat-actions">
+<button type="submit" class="recovery-chat-send"><i class="fa-solid fa-paper-plane"></i> Kirim</button>
+<a id="recoveryChatWhatsApp" class="recovery-chat-whatsapp" href="https://wa.me/6281378004808" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> Lanjut ke WhatsApp</a>
+</div>
+</form>
 </div>
 </div>
 <div class="version-welcome-overlay" id="superAdminWelcomeOverlay" role="dialog" aria-modal="true" aria-labelledby="superAdminWelcomeTitle" aria-describedby="superAdminWelcomeDescription" aria-hidden="true">
@@ -5565,10 +5668,21 @@ async function callSupabase(action, payload) {
 payload = payload || {};
 switch (action) {
 case 'verifyAdminLogin': {
-const auth = await supabaseLogin(payload.username, payload.password, '@admin.spas1.local');
+const result = await callSupabaseFunction('admin-account-auth', {
+action: 'login',
+username: payload.username,
+password: payload.password
+});
+if (!result || !result.session || !result.session.access_token || !result.session.refresh_token) {
+throw new Error('Respons login SUPER ADMIN tidak valid.');
+}
+window.SPAS1_SUPABASE_SESSION = result.session.access_token;
+window.SPAS1_SUPABASE_REFRESH_TOKEN = result.session.refresh_token;
+window.SPAS1_AUTH_TOKEN = result.session.access_token;
 window.SPAS1_AUTH_ROLE = 'admin';
+if (typeof window.SPAS1_RELOAD_TENANT_LOCAL_STATE === 'function') window.SPAS1_RELOAD_TENANT_LOCAL_STATE();
 updatePlatformAdminControls();
-return { status: 'success', sessionToken: auth.access_token, role: 'admin', message: 'Login admin berhasil.' };
+return { status: 'success', sessionToken: result.session.access_token, role: 'admin', message: 'Login admin berhasil.' };
 }
 case 'verifyModuleLogin': {
 const module = String(payload.module || '');
@@ -6923,6 +7037,252 @@ modal.style.display = 'flex';
 modal.setAttribute('aria-hidden', 'false');
 document.getElementById('adminUser').focus();
 }
+async function loadAdminAccountProfile() {
+const status = document.getElementById('adminRecoveryEmailCurrent');
+if (!status) return;
+status.textContent = 'Memuat email dan username akun...';
+try {
+const profile = await callSupabaseFunction('admin-account-auth', { action: 'profile' });
+document.getElementById('adminUsernameNew').value = profile.username || '';
+const email = String(profile.recoveryEmail || '');
+const recoveryInput = document.getElementById('adminRecoveryEmail');
+const emailInput = document.getElementById('adminRecoveryEmailNew');
+const emailSaveButton = document.getElementById('btnAdminRecoveryEmailSave');
+const emailSupport = document.getElementById('adminRecoveryEmailSupport');
+const emailCanBeChanged = Boolean(email && profile.recoveryEmailVerified && !profile.recoveryEmailIsSynthetic);
+if (recoveryInput && email && profile.recoveryEmailVerified && !profile.recoveryEmailIsSynthetic) recoveryInput.value = email;
+if (emailInput) emailInput.disabled = !emailCanBeChanged;
+if (emailSaveButton) emailSaveButton.disabled = !emailCanBeChanged;
+if (emailSupport) emailSupport.classList.toggle('hidden', emailCanBeChanged);
+if (!email) {
+status.textContent = 'Email akun tidak tersedia. Hubungi pengelola.';
+} else if (profile.recoveryEmailIsSynthetic) {
+status.textContent = 'Email login saat ini adalah alamat internal dan tidak bisa menerima pemulihan. Pengelola perlu memverifikasi pemilik akun sebelum menggantinya.';
+status.className = 'mt-2 break-words text-xs leading-5 text-amber-700';
+} else if (!profile.recoveryEmailVerified) {
+status.textContent = email + ' · belum terverifikasi. Hubungi pengelola untuk verifikasi sebelum memakai pemulihan password.';
+status.className = 'mt-2 break-all text-xs leading-5 text-amber-700';
+} else {
+status.textContent = email + (profile.recoveryEmailVerified ? ' · terverifikasi' : ' · belum terverifikasi');
+status.className = profile.recoveryEmailVerified
+? 'mt-2 break-all text-xs leading-5 text-emerald-700'
+: 'mt-2 break-all text-xs leading-5 text-amber-700';
+}
+} catch (error) {
+status.textContent = 'Gagal memuat profil akun: ' + error.message;
+status.className = 'mt-2 break-words text-xs leading-5 text-rose-700';
+}
+}
+async function saveAdminUsername() {
+const input = document.getElementById('adminUsernameNew');
+const message = document.getElementById('adminUsernameMessage');
+const button = document.getElementById('btnAdminUsernameSave');
+if (!input || !message || !button) return;
+const username = input.value.trim().toLowerCase();
+if (!/^[a-z0-9._-]{3,48}$/.test(username)) {
+message.textContent = 'Username harus 3–48 karakter: huruf, angka, titik, garis bawah, atau tanda hubung.';
+message.className = 'mt-2 min-h-5 text-xs leading-5 text-rose-700';
+input.focus();
+return;
+}
+button.disabled = true;
+button.textContent = 'Menyimpan...';
+message.textContent = '';
+try {
+const result = await callSupabaseFunction('admin-account-auth', {
+action: 'set-username',
+username: username
+});
+message.textContent = result.message || 'Username berhasil diperbarui.';
+message.className = 'mt-2 min-h-5 text-xs leading-5 text-emerald-700';
+} catch (error) {
+message.textContent = error.message;
+message.className = 'mt-2 min-h-5 text-xs leading-5 text-rose-700';
+} finally {
+button.disabled = false;
+button.textContent = 'Simpan Username';
+}
+}
+async function updateAdminRecoveryEmail() {
+const input = document.getElementById('adminRecoveryEmailNew');
+const message = document.getElementById('adminRecoveryEmailMessage');
+const button = document.getElementById('btnAdminRecoveryEmailSave');
+if (!input || !message || !button) return;
+const email = input.value.trim();
+if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.toLowerCase().endsWith('@admin.spas1.local')) {
+message.textContent = 'Masukkan email aktif yang dapat Anda akses.';
+message.className = 'mt-2 min-h-5 text-xs leading-5 text-rose-700';
+input.focus();
+return;
+}
+button.disabled = true;
+button.textContent = 'Mengirim konfirmasi...';
+message.textContent = '';
+try {
+const result = await callSupabaseFunction('admin-account-auth', {
+action: 'set-recovery-email',
+email: email
+});
+message.textContent = result.message || 'Periksa email untuk mengonfirmasi perubahan.';
+message.className = 'mt-2 min-h-5 text-xs leading-5 text-emerald-700';
+input.value = '';
+} catch (error) {
+message.textContent = error.message;
+message.className = 'mt-2 min-h-5 text-xs leading-5 text-rose-700';
+} finally {
+button.disabled = false;
+button.textContent = 'Kirim Konfirmasi Email';
+}
+}
+function toggleAdminLoginRecovery(open) {
+const panel = document.getElementById('adminLoginRecoveryPanel');
+if (!panel) return;
+panel.classList.toggle('hidden', !open);
+if (open) document.getElementById('adminLoginRecoveryEmail').focus();
+}
+async function requestAdminPasswordRecovery(context) {
+const fromLogin = context === 'login';
+const input = document.getElementById(fromLogin ? 'adminLoginRecoveryEmail' : 'adminRecoveryEmail');
+const message = document.getElementById(fromLogin ? 'adminLoginRecoveryMessage' : 'adminRecoveryMessage');
+const button = document.getElementById(fromLogin ? 'btnAdminLoginRecovery' : 'btnAdminRecovery');
+if (!input || !message || !button) return;
+const email = input.value.trim();
+if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+    email.toLowerCase().endsWith('@admin.spas1.local')) {
+message.textContent = 'Gunakan email pemulihan aktif, bukan username atau alamat internal.';
+message.className = fromLogin
+? 'admin-recovery-message text-rose-300'
+: 'mt-2 min-h-5 text-xs leading-5 text-rose-700';
+input.focus();
+return;
+}
+button.disabled = true;
+button.textContent = 'Mengirim...';
+message.textContent = '';
+try {
+const response = await fetch(window.SPAS1_SUPABASE_URL + '/auth/v1/recover', {
+method: 'POST',
+headers: {
+'apikey': window.SPAS1_SUPABASE_ANON_KEY,
+'Authorization': 'Bearer ' + window.SPAS1_SUPABASE_ANON_KEY,
+'Content-Type': 'application/json'
+},
+body: JSON.stringify({
+email: email,
+redirect_to: window.location.origin + window.location.pathname + '#type=recovery'
+})
+});
+if (!response.ok) {
+let result = {};
+try { result = await response.json(); } catch (error) {}
+throw new Error(result.msg || result.message || 'Permintaan reset password gagal diproses.');
+}
+message.textContent = 'Jika email terdaftar, tautan reset password sudah dikirim. Periksa kotak masuk dan folder spam.';
+message.className = fromLogin
+? 'admin-recovery-message text-emerald-300'
+: 'mt-2 min-h-5 text-xs leading-5 text-emerald-700';
+input.value = '';
+} catch (error) {
+message.textContent = error.message;
+message.className = fromLogin
+? 'admin-recovery-message text-rose-300'
+: 'mt-2 min-h-5 text-xs leading-5 text-rose-700';
+} finally {
+button.disabled = false;
+button.textContent = fromLogin ? 'Kirim Tautan Reset' : 'Kirim Tautan Reset Password';
+}
+}
+let recoveryChatType = '';
+let recoveryChatStep = 0;
+let recoveryChatAnswers = [];
+function appendRecoveryChatMessage(text, sender) {
+const messages = document.getElementById('recoveryChatMessages');
+if (!messages) return;
+const item = document.createElement('div');
+item.className = 'recovery-chat-message ' + (sender === 'user' ? 'user' : 'bot');
+item.textContent = text;
+messages.appendChild(item);
+messages.scrollTop = messages.scrollHeight;
+}
+function recoveryChatPhone() {
+const phone = String((typeof currentSiteContent !== 'undefined' && currentSiteContent.whatsappPhone) || '6281378004808').replace(/\D/g, '');
+return phone.length >= 8 && phone.length <= 15 ? phone : '6281378004808';
+}
+function openRecoveryChat(type) {
+recoveryChatType = type === 'email' ? 'email' : 'username';
+recoveryChatStep = 0;
+recoveryChatAnswers = [];
+const overlay = document.getElementById('recoveryChatOverlay');
+const messages = document.getElementById('recoveryChatMessages');
+const input = document.getElementById('recoveryChatInput');
+const whatsapp = document.getElementById('recoveryChatWhatsApp');
+if (!overlay || !messages || !input || !whatsapp) return;
+messages.replaceChildren();
+input.disabled = false;
+document.querySelectorAll('#recoveryChatOverlay .recovery-chat-send').forEach(function(button) { button.disabled = false; });
+overlay.classList.add('show');
+overlay.setAttribute('aria-hidden', 'false');
+whatsapp.href = 'https://wa.me/' + recoveryChatPhone();
+if (recoveryChatType === 'username') {
+appendRecoveryChatMessage('Halo. Saya bantu persiapan permintaan reset username SUPER ADMIN. Sebutkan username lama atau username yang masih Anda ingat.', 'bot');
+input.placeholder = 'Contoh: admin.sppg';
+} else {
+appendRecoveryChatMessage('Halo. Saya bantu mencari dan memulihkan email SUPER ADMIN. Sebutkan username atau nama lengkap admin yang Anda ingat.', 'bot');
+input.placeholder = 'Username atau nama lengkap';
+}
+input.value = '';
+input.focus();
+}
+function closeRecoveryChat() {
+const overlay = document.getElementById('recoveryChatOverlay');
+if (!overlay) return;
+overlay.classList.remove('show');
+overlay.setAttribute('aria-hidden', 'true');
+}
+function submitRecoveryChat() {
+const input = document.getElementById('recoveryChatInput');
+const whatsapp = document.getElementById('recoveryChatWhatsApp');
+if (!input || !whatsapp) return;
+const answer = input.value.trim();
+if (!answer) {
+appendRecoveryChatMessage('Silakan isi jawaban terlebih dahulu agar permintaan dapat diproses.', 'bot');
+input.focus();
+return;
+}
+appendRecoveryChatMessage(answer, 'user');
+recoveryChatAnswers.push(answer);
+input.value = '';
+recoveryChatStep++;
+if (recoveryChatType === 'username') {
+if (recoveryChatStep === 1) {
+appendRecoveryChatMessage('Baik. Sebutkan username baru yang ingin digunakan.', 'bot');
+input.placeholder = 'Username baru';
+return;
+}
+if (recoveryChatStep === 2) {
+appendRecoveryChatMessage('Terakhir, tulis nomor WhatsApp atau nama pengelola SPPG untuk verifikasi kepemilikan akun.', 'bot');
+input.placeholder = 'Nomor WhatsApp / nama pengelola';
+return;
+}
+} else {
+if (recoveryChatStep === 1) {
+appendRecoveryChatMessage('Baik. Sebutkan nomor WhatsApp atau email lama yang pernah terhubung dengan akun ini.', 'bot');
+input.placeholder = 'Nomor WhatsApp atau email lama';
+return;
+}
+}
+const isUsername = recoveryChatType === 'username';
+const title = isUsername ? 'Permintaan reset username SUPER ADMIN SPAS1' : 'Permintaan bantuan lupa email SUPER ADMIN SPAS1';
+const details = isUsername
+? 'Username lama: ' + recoveryChatAnswers[0] + '\\nUsername baru: ' + recoveryChatAnswers[1] + '\\nVerifikasi: ' + recoveryChatAnswers[2]
+: 'Username/nama admin: ' + recoveryChatAnswers[0] + '\\nKontak/email lama: ' + recoveryChatAnswers[1];
+appendRecoveryChatMessage('Rangkuman sudah siap. Tekan lanjut ke WhatsApp untuk verifikasi dan pengaturan akun oleh pengelola.', 'bot');
+const text = encodeURIComponent(title + '\\n\\n' + details);
+whatsapp.href = 'https://wa.me/' + recoveryChatPhone() + '?text=' + text;
+input.disabled = true;
+const actions = document.querySelectorAll('#recoveryChatOverlay .recovery-chat-send');
+actions.forEach(function(button) { button.disabled = true; });
+}
 function tutupAdminLogin() {
 const modal = document.getElementById('modal-admin-login');
 modal.classList.add('hidden');
@@ -7309,7 +7669,7 @@ const settingsTab = ['tab-settings', 'tab-about', 'tab-news'].indexOf(tabId) !==
 const settingsToggle = document.getElementById('nav-settings-toggle');
 if (settingsToggle) settingsToggle.classList.toggle('is-current', settingsTab);
 if (settingsTab) toggleAdminSettingsMenu(true);
-const superAksesTab = ['tab-laporan', 'tab-karyawan', 'tab-module-access', 'tab-registrations', 'tab-organization-requests'].indexOf(tabId) !== -1;
+const superAksesTab = ['tab-laporan', 'tab-karyawan', 'tab-module-access', 'tab-account-recovery', 'tab-registrations', 'tab-organization-requests'].indexOf(tabId) !== -1;
 const superAksesToggle = document.getElementById('nav-super-akses-toggle');
 if (superAksesToggle) superAksesToggle.classList.toggle('is-current', superAksesTab);
 if (superAksesTab) toggleSuperAksesMenu(true);
@@ -7327,6 +7687,7 @@ if (window.SuperGizi) window.SuperGizi.init();
 if (tabId === 'tab-news') { loadAdminAnnouncements(); loadAdminMedia(); }
 if (tabId === 'tab-settings') loadAdminSiteSettings();
 if (tabId === 'tab-about') loadAdminAboutData();
+if (tabId === 'tab-account-recovery') loadAdminAccountProfile();
 if (tabId === 'tab-module-access') loadModuleAccountsAdmin();
 if (tabId === 'tab-registrations') loadVolunteerRegistrationRequests();
 if (tabId === 'tab-organization-requests') loadOrganizationRequests();
