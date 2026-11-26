@@ -165,7 +165,7 @@ test('global identity updates branded modules and ignores invalid names', functi
   const end = html.indexOf('\nfunction applyModuleLoginLogo', start);
   const source = html.slice(start, end);
   const foundation = [{ textContent: '' }];
-  const sppg = [{ textContent: '' }, { textContent: '' }];
+  const sppg = [{ textContent: '', hidden: false }, { textContent: '', hidden: false }];
   const context = {
     window: { SPAS1_MODULE_LOGO_OVERRIDE: '' },
     document: {
@@ -183,17 +183,21 @@ test('global identity updates branded modules and ignores invalid names', functi
 
   context.run({ foundationName: '  Yayasan Baru  ', sppgName: 'undefined' });
   assert.equal(context.getState().foundationName, 'Yayasan Baru');
-  assert.equal(context.getState().sppgName, 'Nama SPPG belum diatur');
-  assert.deepEqual(sppg.map(function(element) { return element.textContent; }), [
-    'Nama SPPG belum diatur',
-    'Nama SPPG belum diatur'
-  ]);
+  assert.equal(context.getState().sppgName, '');
+  assert.deepEqual(sppg.map(function(element) { return element.textContent; }), ['', '']);
+  assert.deepEqual(sppg.map(function(element) { return element.hidden; }), [true, true]);
 
   context.run({ sppgName: 'SPPG Baru' });
   assert.deepEqual(sppg.map(function(element) { return element.textContent; }), ['SPPG Baru', 'SPPG Baru']);
+  assert.deepEqual(sppg.map(function(element) { return element.hidden; }), [false, false]);
   assert.match(html, /id="aboutSppgName" data-brand-field="sppg"/);
   assert.match(html, /Manajemen <span data-brand-field="sppg">/);
   assert.doesNotMatch(html, /id="aboutTeamTitle" data-content-key="teamTitle"/);
+});
+
+test('poster archive hint remains readable on the light theme', function() {
+  assert.match(html, /body\.app-light-mode \.poster-click-hint \{ color: #334155 !important; \}/);
+  assert.match(html, /Poster &amp; Info Visual <span class="poster-click-hint">\( klik untuk detail \)<\/span>/);
 });
 
 test('loading incomplete identity settings never puts undefined in the admin inputs', function() {

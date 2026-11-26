@@ -24,6 +24,26 @@ test('SUPER ADMIN login resolves usernames server-side and preserves Auth email 
   assert.match(edgeFunction, /data\.user\.app_metadata\?\.role !== "admin"/);
 });
 
+test('username and password fields use accessible floating labels on login screens', function() {
+  for (const id of ['mnLoginUser', 'mnLoginPass', 'slLoginUser', 'slLoginPass', 'adminUser', 'adminPass', 'loginUsername', 'loginPassword']) {
+    assert.match(html, new RegExp('id="' + id + '"[^>]*placeholder=" "'));
+    assert.match(html, new RegExp('<label[^>]*for="' + id + '"'));
+  }
+  assert.match(html, /\.floating-label-field > input:focus \+ label/);
+  assert.match(html, /\.floating-label-field > input:not\(:placeholder-shown\) \+ label/);
+  assert.match(html, /\.floating-label-field > \.password-toggle-wrap:focus-within \+ label/);
+  assert.match(html, /\.password-toggle-wrap:has\(> input:not\(:placeholder-shown\)\) \+ label/);
+  assert.match(html, /\.floating-label-field > \.password-toggle-wrap > input \{ padding-top:18px !important;/);
+  assert.match(html, /\.floating-label-field > label \{[^}]*background:var\(--floating-label-bg\) !important/);
+  assert.match(html, /body\.app-light-mode \.floating-label-field \{ --floating-label-bg:var\(--appearance-raised,#F9FAFB\); \}/);
+  assert.match(html, /#spas1-webapp-root \.floating-label-field \{ --floating-label-bg:var\(--card-inner,#0F172A\); \}/);
+  assert.match(html, /font-size:12px !important;font-weight:800/);
+  assert.match(html, /body\.app-light-mode \.floating-label-field > label \{[^}]*color:#065F46 !important/);
+  assert.match(html, /:not\(\.app-light-mode\) \.floating-label-field > label \{ color:var\(--appearance-text\) !important; \}/);
+  assert.match(html, /transform:translateY\(-7px\) scale\(\.92\)/);
+  assert.match(html, /transition:transform \.18s ease/);
+});
+
 test('username updates require the authenticated admin and do not change the Auth email', function() {
   assert.match(html, /id="adminUsernameNew"/);
   assert.match(html, /id="adminRecoveryEmailCurrent"/);

@@ -141,6 +141,25 @@ test('purchase transaction archive opens by date folder and is mobile responsive
   assert.doesNotMatch(html, /\/\*\s*const grouped = new Map\(\)/);
 });
 
+test('purchase order detail expands to a full-page view with a back control', function() {
+  assert.match(html, /\.sl-purchase-archive-overlay\.has-purchase-detail \.sl-purchase-archive-list \{ display:none; \}/);
+  assert.match(html, /\.sl-purchase-archive-overlay\.has-purchase-detail \.sl-purchase-archive-detail \{ width:100%;/);
+  assert.match(html, /\.sl-purchase-archive-overlay\.has-purchase-detail \{ padding:16px;align-items:center; \}/);
+  assert.match(html, /\.sl-purchase-archive-overlay\.has-purchase-detail \.sl-purchase-archive-card \{ width:min\(1100px,100%\);height:auto;/);
+  assert.match(html, /classList\.add\('has-purchase-detail'\)/);
+  assert.match(html, /function backToPurchaseTransactionList\(\)/);
+  assert.match(html, /class="sl-purchase-detail-back btn-kembali-animated" onclick="backToPurchaseTransactionList\(\)"/);
+  assert.match(html, /\.sl-purchase-detail-back \{[^}]*rgba\(2,44,34,\.8\)[^}]*#6EE7B7/);
+  assert.match(html, /body\.app-light-mode \.sl-purchase-detail-back \{[^}]*#047857/);
+});
+
+test('purchase archive folder cards use high-contrast colors in the default light theme', function() {
+  assert.match(html, /body\.app-light-mode \.sl-purchase-archive-folder \{ border-color:#94A3B8;background:#F1F5F9;color:#0F172A; \}/);
+  assert.match(html, /body\.app-light-mode \.sl-purchase-archive-folder\[aria-current="true"\] \{ border-color:#047857;background:#D1FAE5;color:#064E3B; \}/);
+  assert.match(html, /body\.app-light-mode \.sl-purchase-archive-folder small \{ color:#166534; \}/);
+  assert.match(html, /body\.app-light-mode \.sl-purchase-archive-folder-count \{ background:#166534;color:#FFFFFF; \}/);
+});
+
 test('audit stock page does not expose the folder shortcut or print action', function() {
   assert.doesNotMatch(html, /openStockAuditFolderPicker\(\)/);
   assert.doesNotMatch(html, /id="stockFolderList"/);

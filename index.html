@@ -847,6 +847,15 @@ body.app-light-mode #tab-stok .sl-movement-close:hover { background:#D1D5DB; }
 .sl-purchase-archive-overlay { position:fixed;inset:0;z-index:11000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(2,6,23,.78); }
 .sl-purchase-archive-overlay.visible { display:flex; }
 .sl-purchase-archive-card { display:flex;flex-direction:column;width:min(1100px,100%);max-height:calc(100vh - 32px);overflow:hidden;border:1px solid #475569;border-radius:16px;background:#111827;color:#F8FAFC;box-shadow:0 24px 70px rgba(0,0,0,.45); }
+.sl-purchase-archive-overlay.has-purchase-detail { padding:16px;align-items:center; }
+.sl-purchase-archive-overlay.has-purchase-detail .sl-purchase-archive-card { width:min(1100px,100%);height:auto;max-height:calc(100vh - 32px);border:1px solid #475569;border-radius:16px; }
+.sl-purchase-archive-overlay.has-purchase-detail .sl-purchase-archive-body { display:block;flex:1;min-height:0;overflow:auto; }
+.sl-purchase-archive-overlay.has-purchase-detail .sl-purchase-archive-list { display:none; }
+.sl-purchase-archive-overlay.has-purchase-detail .sl-purchase-archive-detail { width:100%;min-height:100%;padding:clamp(16px,4vw,48px);overflow:visible; }
+.sl-purchase-detail-back { display:inline-flex;align-items:center;gap:8px;margin:0 0 20px;padding:9px 12px;border:1px solid rgba(16,185,129,.7);border-radius:8px;background:rgba(2,44,34,.8);color:#6EE7B7;font-size:12px;font-weight:800;cursor:pointer; }
+.sl-purchase-detail-back:hover { border-color:#34D399; }
+body.app-light-mode .sl-purchase-detail-back { border-color:#047857;background:rgba(5,150,105,.1);color:#047857; }
+body.app-light-mode .sl-purchase-detail-back:hover { background:#047857;color:#FFFFFF; }
 .sl-purchase-archive-header { display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid #334155; }
 .sl-purchase-archive-body { display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.4fr);min-height:260px;overflow:hidden; }
 .sl-purchase-archive-list { overflow:auto;padding:12px;border-right:1px solid #334155; }
@@ -859,12 +868,12 @@ body.app-light-mode #tab-stok .sl-movement-close:hover { background:#D1D5DB; }
 .sl-purchase-archive-actions { display:flex;flex-wrap:wrap;gap:8px;margin-top:14px; }
 .sl-purchase-archive-actions button { padding:8px 11px;border:1px solid #475569;border-radius:8px;background:#1E293B;color:#F8FAFC;font-size:11px;font-weight:800;cursor:pointer; }
 .sl-purchase-archive-actions .danger { border-color:#991B1B;background:#7F1D1D; }
-.sl-purchase-archive-folder { display:flex;width:100%;align-items:center;gap:10px;padding:11px;border:1px solid #334155;border-radius:10px;background:rgba(15,23,42,.35);color:#F8FAFC;text-align:left;cursor:pointer; }
+.sl-purchase-archive-folder { display:flex;width:100%;align-items:center;gap:10px;padding:11px;border:1px solid #64748B;border-radius:10px;background:#1E293B;color:#F8FAFC;text-align:left;cursor:pointer; }
 .sl-purchase-archive-folder + .sl-purchase-archive-folder { margin-top:8px; }
-.sl-purchase-archive-folder:hover,.sl-purchase-archive-folder[aria-current="true"] { border-color:#34D399;background:rgba(6,78,59,.35); }
+.sl-purchase-archive-folder:hover,.sl-purchase-archive-folder[aria-current="true"] { border-color:#10B981;background:#064E3B; }
 .sl-purchase-archive-folder strong { display:block;min-width:0;overflow-wrap:anywhere; }
-.sl-purchase-archive-folder small { color:#A7F3D0;font-size:11px; }
-.sl-purchase-archive-folder-count { margin-left:auto;flex:0 0 auto;padding:4px 7px;border-radius:999px;background:rgba(16,185,129,.18);color:#6EE7B7;font-size:11px;font-weight:900; }
+.sl-purchase-archive-folder small { color:#D1FAE5;font-size:11px; }
+.sl-purchase-archive-folder-count { margin-left:auto;flex:0 0 auto;padding:4px 7px;border-radius:999px;background:#065F46;color:#FFFFFF;font-size:11px;font-weight:900; }
 .sl-movement-actions .save-print { background:linear-gradient(135deg,#0F766E,#0D9488);color:#fff; }
 #slStockInvoicePrint { display:none; }
 #slStockInvoicePrint[hidden] { display:none !important; }
@@ -900,6 +909,10 @@ body.app-light-mode #tab-stok .sl-purchase-line-total { color:#047857; }
 body.app-light-mode .sl-purchase-archive-card { border-color:#CBD5E1;background:#FFFFFF;color:#111827; }
 body.app-light-mode .sl-purchase-archive-header,body.app-light-mode .sl-purchase-archive-list { border-color:#E5E7EB; }
 body.app-light-mode .sl-purchase-archive-entry { color:#1F2937; }
+body.app-light-mode .sl-purchase-archive-folder { border-color:#94A3B8;background:#F1F5F9;color:#0F172A; }
+body.app-light-mode .sl-purchase-archive-folder:hover,body.app-light-mode .sl-purchase-archive-folder[aria-current="true"] { border-color:#047857;background:#D1FAE5;color:#064E3B; }
+body.app-light-mode .sl-purchase-archive-folder small { color:#166534; }
+body.app-light-mode .sl-purchase-archive-folder-count { background:#166534;color:#FFFFFF; }
 body.app-light-mode .sl-purchase-archive-date { color:#047857; }
 body.app-light-mode .sl-purchase-archive-table th,body.app-light-mode .sl-purchase-archive-table td { border-color:#E5E7EB; }
 body.app-light-mode .sl-purchase-archive-actions button { border-color:#CBD5E1;background:#F3F4F6;color:#111827; }
@@ -997,6 +1010,29 @@ body.app-light-mode .mn-login-field input, body.app-light-mode .sl-login-field i
 .mn-login-back, .sl-login-back { width: 100%; padding: 12px; background: rgba(16,185,129,0.1); color: #10B981; border: 1.5px solid #10B981; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
 body.app-light-mode .mn-login-back, body.app-light-mode .sl-login-back { background: rgba(5,150,105,0.1) !important; color: #059669 !important; border-color: #059669 !important; }
 .mn-login-back:hover, .sl-login-back:hover { background: #10B981; color: white; }
+.floating-label-field { position:relative;text-align:left;--floating-label-bg:#0B132B; }
+.floating-label-field > input { padding-top:18px !important;padding-bottom:8px !important; }
+.floating-label-field > .password-toggle-wrap { width:100%; }
+.floating-label-field > .password-toggle-wrap > input { padding-top:18px !important;padding-bottom:8px !important; }
+.floating-label-field > input::placeholder { color:transparent !important; }
+.floating-label-field > .password-toggle-wrap > input::placeholder { color:transparent !important; }
+.floating-label-field > label { position:absolute;z-index:2;top:0;left:10px;margin:0 !important;padding:0 5px;background:var(--floating-label-bg) !important;color:#D1FAE5;font-size:12px !important;font-weight:800;line-height:1.2;letter-spacing:.02em;text-transform:none !important;transform:translateY(14px);transform-origin:left center;pointer-events:none;transition:transform .18s ease,color .18s ease; }
+.floating-label-field > input:focus + label,.floating-label-field > input:not(:placeholder-shown) + label { color:#6EE7B7;transform:translateY(-7px) scale(.92); }
+.floating-label-field > .password-toggle-wrap:focus-within + label,.floating-label-field > .password-toggle-wrap:has(> input:not(:placeholder-shown)) + label { color:#6EE7B7;transform:translateY(-7px) scale(.92); }
+.floating-label-field > input:focus,.floating-label-field > .password-toggle-wrap > input:focus { border-color:#10B981 !important;box-shadow:0 0 0 3px rgba(16,185,129,.15); }
+body.app-light-mode .floating-label-field > label { background:var(--floating-label-bg) !important;color:#065F46 !important; }
+body.app-light-mode .floating-label-field > input:focus + label,body.app-light-mode .floating-label-field > input:not(:placeholder-shown) + label { color:#047857 !important; }
+body.app-light-mode .floating-label-field > .password-toggle-wrap:focus-within + label,body.app-light-mode .floating-label-field > .password-toggle-wrap:has(> input:not(:placeholder-shown)) + label { color:#047857 !important; }
+#spas1-webapp-root .floating-label-field { --floating-label-bg:var(--card-inner,#0F172A); }
+body.app-light-mode #spas1-webapp-root .floating-label-field { --floating-label-bg:#F9FAFB; }
+body.app-light-mode #modal-admin-login .floating-label-field { --floating-label-bg:var(--appearance-raised,#FFFFFF); }
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) .floating-label-field { --floating-label-bg:var(--appearance-raised,#0B132B); }
+body.app-light-mode .floating-label-field { --floating-label-bg:var(--appearance-raised,#F9FAFB); }
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro):not(.app-light-mode) .floating-label-field > label { color:var(--appearance-text) !important; }
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro):not(.app-light-mode) .floating-label-field > input:focus + label,
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro):not(.app-light-mode) .floating-label-field > input:not(:placeholder-shown) + label,
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro):not(.app-light-mode) .floating-label-field > .password-toggle-wrap:focus-within + label,
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro):not(.app-light-mode) .floating-label-field > .password-toggle-wrap:has(> input:not(:placeholder-shown)) + label { color:var(--appearance-text) !important; }
 .mn-login-footer, .sl-login-footer { font-size: 10px; color: #6B7280; margin-top: 16px; font-weight: 600; }
 body.app-light-mode .mn-login-footer, body.app-light-mode .sl-login-footer { color: #6B7280 !important; }
 .mn-login-error, .sl-login-error { background: rgba(239,68,68,0.1); border: 1px solid #EF4444; color: #DC2626; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 700; margin-bottom: 12px; display: none; }
@@ -1409,6 +1445,7 @@ body.app-light-mode .home-news-launcher { border-color: #D1D5DB; background: #FF
 body.app-light-mode .news-archive-card { border-color: #D1D5DB; background: #FFFFFF; }
 body.app-light-mode .news-archive-card h2 { color: #111827; }
 body.app-light-mode .news-archive-card > p { color: #4B5563; }
+body.app-light-mode .poster-click-hint { color: #334155 !important; }
 body.app-light-mode .home-news-meta { color: #047857; }
 body.app-light-mode .home-news-empty { border-color: #CBD5E1; color: #475569; }
 body.app-light-mode .announcement-detail-card { border-color: #CBD5E1; background: #FFFFFF; }
@@ -4491,8 +4528,8 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <h2 class="mn-login-title">BANK MENU</h2>
 <p class="mn-login-subtitle">Bank Menu <span data-brand-field="sppg">SPPG Sungai Pasir 1 Meral</span></p>
 <div class="mn-login-error" id="mnLoginError"><i class="fa-solid fa-circle-exclamation"></i> Username atau kata sandi salah!</div>
-<div class="mn-login-field"><label>Username</label><input type="text" id="mnLoginUser" placeholder="Masukkan username..." onkeydown="if(event.key==='Enter') verifyMnLogin()"></div>
-<div class="mn-login-field"><label>Kata Sandi Portal</label><input type="password" id="mnLoginPass" placeholder="Masukkan kata sandi..." onkeydown="if(event.key==='Enter') verifyMnLogin()"></div>
+<div class="mn-login-field floating-label-field"><input type="text" id="mnLoginUser" autocomplete="username" placeholder=" " onkeydown="if(event.key==='Enter') verifyMnLogin()"><label for="mnLoginUser">Username</label></div>
+<div class="mn-login-field floating-label-field"><input type="password" id="mnLoginPass" autocomplete="current-password" placeholder=" " onkeydown="if(event.key==='Enter') verifyMnLogin()"><label for="mnLoginPass">Kata Sandi Portal</label></div>
 <button id="mnLoginSubmit" class="mn-login-btn" onclick="verifyMnLogin()"><i class="fa-solid fa-right-to-bracket"></i> Masuk ke Portal</button>
 <button class="mn-login-back" onclick="closeMnLogin()"><i class="fa-solid fa-arrow-left"></i> Kembali ke Menu Utama</button>
 <div class="mn-login-footer">Hak Akses Terbatas | ©2026.CraftedSkyy.With ❤️ </div>
@@ -4559,8 +4596,8 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <h2 class="sl-login-title">STOK LOGISTIK</h2>
 <p class="sl-login-subtitle">Stok Logistik <span data-brand-field="sppg">SPPG Sungai Pasir 1 Meral</span></p>
 <div class="sl-login-error" id="slLoginError"><i class="fa-solid fa-circle-exclamation"></i> Username atau kata sandi salah!</div>
-<div class="sl-login-field"><label>Username</label><input type="text" id="slLoginUser" placeholder="Masukkan username..." onkeydown="if(event.key==='Enter') verifySlLogin()"></div>
-<div class="sl-login-field"><label>Kata Sandi Portal</label><input type="password" id="slLoginPass" placeholder="Masukkan kata sandi..." onkeydown="if(event.key==='Enter') verifySlLogin()"></div>
+<div class="sl-login-field floating-label-field"><input type="text" id="slLoginUser" autocomplete="username" placeholder=" " onkeydown="if(event.key==='Enter') verifySlLogin()"><label for="slLoginUser">Username</label></div>
+<div class="sl-login-field floating-label-field"><input type="password" id="slLoginPass" autocomplete="current-password" placeholder=" " onkeydown="if(event.key==='Enter') verifySlLogin()"><label for="slLoginPass">Kata Sandi Portal</label></div>
 <button id="slLoginSubmit" class="sl-login-btn" onclick="verifySlLogin()"><i class="fa-solid fa-right-to-bracket"></i> Masuk ke Portal</button>
 <button class="sl-login-back" onclick="closeSlLogin()"><i class="fa-solid fa-arrow-left"></i> Kembali ke Menu Utama</button>
 <div class="sl-login-footer">Hak Akses Terbatas | ©2026.CraftedSkyy.With ❤️</div>
@@ -4581,8 +4618,8 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </div>
 <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 4px; color: var(--text-main);">SPAS1 V2.2.2 HYBRID LOGIN</h2>
 <div style="color: var(--text-muted); font-size: 11px; font-weight: 700; margin-bottom: 16px;"><span data-brand-field="sppg">SPPG Sungai Pasir 1 Meral</span></div>
-<div class="form-group" style="text-align: left;"><label class="form-label">Username</label><input class="input-field" id="loginUsername" onkeydown="if(event.key==='Enter') handleLogin()" placeholder="Masukkan Username Brayy..." type="text" /></div>
-<div class="form-group" style="text-align: left;"><label class="form-label">Kata Sandi Portal</label><input class="input-field" id="loginPassword" onkeydown="if(event.key==='Enter') handleLogin()" placeholder="Masukkan Sandi Brayy..." type="password" /></div>
+<div class="form-group floating-label-field" style="text-align: left;"><input class="input-field" id="loginUsername" autocomplete="username" onkeydown="if(event.key==='Enter') handleLogin()" placeholder=" " type="text" /><label class="form-label" for="loginUsername">Username</label></div>
+<div class="form-group floating-label-field" style="text-align: left;"><input class="input-field" id="loginPassword" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleLogin()" placeholder=" " type="password" /><label class="form-label" for="loginPassword">Kata Sandi Portal</label></div>
 <button id="portalLoginSubmit" class="btn btn-emerald" onclick="handleLogin()" style="font-size: 13px; justify-content: center; margin-top: 8px; padding: 10px; width: 100%;">Masuk ke Portal</button>
 <div style="color: var(--text-muted); font-size: 10px; margin-top: 12px;">Hak Akses Terbatas | ©2026.CraftedSkyy.with ❤️ </div>
 <div style="margin-top: 10px;"><button onclick="kembaliKeHome()" id="btnLoginBack" class="btn-kembali-animated" style="width: 100%; padding: 10px 16px; background-color: rgba(2, 44, 34, 0.8); border: 1px solid rgba(16, 185, 129, 0.7); color: #6ee7b7; font-weight: bold; border-radius: 12px; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;"><span style="font-size: 14px;">←</span><span>Kembali ke Menu Utama</span></button></div>
@@ -5481,7 +5518,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="dark-card w-full max-w-md p-6 rounded-3xl space-y-4 text-center">
 <div class="w-12 h-12 bg-purple-600/20 text-purple-400 rounded-xl mx-auto flex items-center justify-center text-xl border border-purple-500/30"><i class="fa-solid fa-shield-halved"></i></div>
 <h3 id="adminLoginTitle" class="font-bold text-base">SUPER ADMIN</h3>
-<form class="space-y-3 text-left" onsubmit="event.preventDefault(); verifikasiAdmin()"><input type="text" id="adminUser" placeholder="Username atau email pemulihan" autocomplete="username" required class="w-full p-3 bg-[#0B132B] border border-[#3A506B] rounded-xl text-xs text-white font-bold"><input type="password" id="adminPass" placeholder="Password" autocomplete="current-password" required class="w-full p-3 bg-[#0B132B] border border-[#3A506B] rounded-xl text-xs text-white font-bold"><button id="btnSubmitAdmin" type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition-colors">Masuk ke Portal Admin</button></form>
+<form class="space-y-3 text-left" onsubmit="event.preventDefault(); verifikasiAdmin()"><div class="floating-label-field admin-floating-field"><input type="text" id="adminUser" placeholder=" " autocomplete="username" required class="w-full p-3 bg-[#0B132B] border border-[#3A506B] rounded-xl text-xs text-white font-bold"><label for="adminUser">Username atau email pemulihan</label></div><div class="floating-label-field admin-floating-field"><input type="password" id="adminPass" placeholder=" " autocomplete="current-password" required class="w-full p-3 bg-[#0B132B] border border-[#3A506B] rounded-xl text-xs text-white font-bold"><label for="adminPass">Password</label></div><button id="btnSubmitAdmin" type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition-colors">Masuk ke Portal Admin</button></form>
 <div class="text-left">
 <button id="btnShowAdminLoginRecovery" type="button" class="text-xs font-bold text-indigo-300 hover:underline" onclick="toggleAdminLoginRecovery(true)">Lupa password?</button>
 <button type="button" class="ml-3 text-xs font-bold text-emerald-300 hover:underline" onclick="openRecoveryChat('email')">Lupa username/email?</button>
@@ -11256,6 +11293,7 @@ loadPurchaseTransactions();
 function closePurchaseTransactions() {
 const modal = document.getElementById('slPurchaseTransactionsModal');
 modal.classList.remove('visible');
+modal.classList.remove('has-purchase-detail');
 modal.setAttribute('aria-hidden', 'true');
 slSelectedPurchaseFolder = '';
 slSelectedPurchaseTransactionId = '';
@@ -11349,8 +11387,9 @@ detail.innerHTML = '<p class="text-sm text-gray-500">Pilih folder tanggal untuk 
 async function showPurchaseTransactionDetail(purchaseId) {
 if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(purchaseId))) return;
 slSelectedPurchaseTransactionId = String(purchaseId);
+document.getElementById('slPurchaseTransactionsModal').classList.add('has-purchase-detail');
 const detail = document.getElementById('slPurchaseTransactionDetail');
-detail.innerHTML = '<p class="text-sm text-gray-500">Memuat rincian nota...</p>';
+detail.innerHTML = '<button type="button" class="sl-purchase-detail-back btn-kembali-animated" onclick="backToPurchaseTransactionList()"><i class="fa-solid fa-arrow-left"></i> Kembali ke daftar PO</button><p class="text-sm text-gray-500">Memuat rincian nota...</p>';
 try {
 const result = await callSupabase('fetchPurchaseTransactionDetails', { purchaseId: purchaseId });
 if (!result || !result.report || !Array.isArray(result.items)) throw new Error('Rincian nota tidak valid.');
@@ -11362,9 +11401,14 @@ return button.getAttribute('onclick') === 'showPurchaseTransactionDetail(\'' + p
 });
 if (selected) selected.setAttribute('aria-current', 'true');
 } catch (error) {
-detail.innerHTML = '<p class="text-sm text-rose-400">Gagal membuka nota: ' + escapeHtml(error.message) + '</p>';
+detail.innerHTML = '<button type="button" class="sl-purchase-detail-back btn-kembali-animated" onclick="backToPurchaseTransactionList()"><i class="fa-solid fa-arrow-left"></i> Kembali ke daftar PO</button><p class="text-sm text-rose-400">Gagal membuka nota: ' + escapeHtml(error.message) + '</p>';
 showToast('❌ Rincian nota gagal dimuat: ' + error.message);
 }
+}
+function backToPurchaseTransactionList() {
+document.getElementById('slPurchaseTransactionsModal').classList.remove('has-purchase-detail');
+const detail = document.getElementById('slPurchaseTransactionDetail');
+detail.innerHTML = '<p class="text-sm text-gray-500">Pilih PO dalam folder untuk melihat rincian.</p>';
 }
 function renderPurchaseTransactionDetail(report, items) {
 const detail = document.getElementById('slPurchaseTransactionDetail');
@@ -11378,7 +11422,8 @@ escapeHtml(String(item.Satuan || '')) + '</td><td>Rp ' + price.toLocaleString('i
 '</td><td>Rp ' + (quantity * price).toLocaleString('id-ID') + '</td></tr>';
 }).join('');
 const firstMovementId = items.length ? String(items[0].ID || '') : '';
-detail.innerHTML = '<div class="flex flex-wrap items-start justify-between gap-3"><div><h3 class="text-base font-black">' +
+detail.innerHTML = '<button type="button" class="sl-purchase-detail-back btn-kembali-animated" onclick="backToPurchaseTransactionList()"><i class="fa-solid fa-arrow-left"></i> Kembali ke daftar PO</button>' +
+'<div class="flex flex-wrap items-start justify-between gap-3"><div><h3 class="text-base font-black">' +
 escapeHtml(String(report['Nomor PO'] || 'Nota pembelian')) + '</h3><p class="text-xs text-gray-400">' +
 escapeHtml(formatPurchaseDate(report.Tanggal)) + ' · ' + escapeHtml(String(report.Supplier || '-')) +
 '</p></div><strong class="' + (isActive ? 'text-emerald-400' : 'text-rose-400') + '">' +
@@ -16424,7 +16469,7 @@ showAdminWhatsappSettingsMessage('Gagal menyimpan: ' + error.message, 'error');
 }
 let currentSiteSettings = {
 foundationName: 'Nama Yayasan belum diatur',
-sppgName: 'Nama SPPG belum diatur',
+sppgName: '',
 logoFileId: '',
 logoUrl: ''
 };
@@ -16444,7 +16489,7 @@ const value = settings[key];
 if (key === 'foundationName' || key === 'sppgName') {
 const placeholder = key === 'foundationName' ? 'Nama Yayasan belum diatur' : 'Nama SPPG belum diatur';
 const normalized = normalizeSiteIdentityName(value, placeholder);
-if (normalized) currentSiteSettings[key] = normalized;
+if (typeof value === 'string') currentSiteSettings[key] = normalized;
 } else if (['logoFileId', 'logoUrl'].indexOf(key) !== -1 && value !== null && value !== undefined) {
 currentSiteSettings[key] = value;
 }
@@ -16454,6 +16499,7 @@ element.textContent = currentSiteSettings.foundationName;
 });
 document.querySelectorAll('[data-brand-field="sppg"]').forEach(function(element) {
 element.textContent = currentSiteSettings.sppgName;
+element.hidden = !currentSiteSettings.sppgName;
 });
 document.title = 'SPAS1 Version 2.2.2 Hybrid - ' + currentSiteSettings.foundationName;
 const globalLogoUrl = currentSiteSettings.logoUrl || DEFAULT_SITE_LOGO_URL;
