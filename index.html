@@ -859,6 +859,12 @@ body.app-light-mode #tab-stok .sl-movement-close:hover { background:#D1D5DB; }
 .sl-purchase-archive-actions { display:flex;flex-wrap:wrap;gap:8px;margin-top:14px; }
 .sl-purchase-archive-actions button { padding:8px 11px;border:1px solid #475569;border-radius:8px;background:#1E293B;color:#F8FAFC;font-size:11px;font-weight:800;cursor:pointer; }
 .sl-purchase-archive-actions .danger { border-color:#991B1B;background:#7F1D1D; }
+.sl-purchase-archive-folder { display:flex;width:100%;align-items:center;gap:10px;padding:11px;border:1px solid #334155;border-radius:10px;background:rgba(15,23,42,.35);color:#F8FAFC;text-align:left;cursor:pointer; }
+.sl-purchase-archive-folder + .sl-purchase-archive-folder { margin-top:8px; }
+.sl-purchase-archive-folder:hover,.sl-purchase-archive-folder[aria-current="true"] { border-color:#34D399;background:rgba(6,78,59,.35); }
+.sl-purchase-archive-folder strong { display:block;min-width:0;overflow-wrap:anywhere; }
+.sl-purchase-archive-folder small { color:#A7F3D0;font-size:11px; }
+.sl-purchase-archive-folder-count { margin-left:auto;flex:0 0 auto;padding:4px 7px;border-radius:999px;background:rgba(16,185,129,.18);color:#6EE7B7;font-size:11px;font-weight:900; }
 .sl-movement-actions .save-print { background:linear-gradient(135deg,#0F766E,#0D9488);color:#fff; }
 #slStockInvoicePrint { display:none; }
 #slStockInvoicePrint[hidden] { display:none !important; }
@@ -1971,6 +1977,25 @@ body { font-size: 14px; }
 .mn-header-card h2, .sl-header-card h2 { font-size: 16px !important; }
 .mn-header-card p, .sl-header-card p { font-size: 10px !important; }
 .cloud-sync-indicator { font-size: 9px !important; padding: 4px 8px !important; }
+.sl-purchase-archive-overlay { align-items:flex-start;overflow-y:auto;padding:8px; }
+.sl-purchase-archive-card { max-height:calc(100vh - 16px);border-radius:12px; }
+.sl-purchase-archive-header { align-items:flex-start;padding:12px; }
+.sl-purchase-archive-header h2 { font-size:16px;line-height:1.35; }
+.sl-purchase-archive-header p { max-width:260px;line-height:1.45;overflow-wrap:anywhere; }
+.sl-purchase-archive-body { grid-template-columns:1fr;overflow-y:auto; }
+.sl-purchase-archive-list { max-height:none;border-right:0;border-bottom:1px solid #334155;overflow:visible;padding:10px; }
+.sl-purchase-archive-detail { min-width:0;padding:12px;overflow-wrap:anywhere; }
+.sl-purchase-archive-detail > div:first-child { width:100%; }
+.sl-purchase-archive-detail .grid.grid-cols-2 { grid-template-columns:1fr; }
+.sl-purchase-archive-detail .col-span-2 { grid-column:auto; }
+.sl-purchase-archive-table { display:block;width:100%;overflow-x:auto;white-space:nowrap; }
+.sl-purchase-archive-actions { display:grid;grid-template-columns:1fr; }
+.sl-purchase-archive-actions button { width:100%;justify-content:center; }
+.accounting-folder-list,.stock-folder-list { grid-template-columns:1fr; }
+.accounting-folder-card { min-width:0; }
+.accounting-folder-card-main { min-width:0; }
+.accounting-folder-card-main strong,.accounting-folder-card-main small { overflow-wrap:anywhere; }
+.accounting-folder-card-count { flex:0 0 auto; }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
 .mn-stat-grid, .sl-stat-grid { grid-template-columns: repeat(3, 1fr) !important; }
@@ -5621,6 +5646,7 @@ let slPurchaseLineSequence = 0;
 let slPurchaseSuppliers = [];
 let slPurchaseTransactions = [];
 let slSelectedPurchaseTransactionId = '';
+let slSelectedPurchaseFolder = '';
 let slEditingPurchaseId = '';
 let slEditingPurchaseReport = null;
 let slPurchaseBarcodeStream = null;
@@ -8345,6 +8371,55 @@ return Array.from(folders.values()).sort(function(left, right) {
 return right.date.localeCompare(left.date);
 });
 }
+function accountingReportFolderStorageKey() {
+const tenantId = getSupabaseTenantId();
+return tenantId ? 'spas1-accounting-report-folders:' + tenantId : '';
+}
+function loadSavedAccountingReportFolders() {
+const key = accountingReportFolderStorageKey();
+if (!key) return [];
+try {
+const saved = JSON.parse(localStorage.getItem(key) || '[]');
+if (!Array.isArray(saved)) return [];
+return saved.filter(function(folder) {
+const date = String(folder && folder.date || '');
+const parsedDate = new Date(date + 'T00:00:00Z');
+return /^\d{4}-\d{2}-\d{2}$/.test(date) &&
+Number.isFinite(parsedDate.getTime()) &&
+parsedDate.toISOString().slice(0, 10) === date;
+}).map(function(folder) {
+return { date: String(folder.date), lpdh: false, lpj: false };
+});
+} catch (error) {
+return [];
+}
+}
+function saveAccountingReportFolders() {
+const key = accountingReportFolderStorageKey();
+if (!key) return;
+try {
+const customFolders = accountingReportFolders
+.filter(function(folder) { return !folder.lpdh && !folder.lpj; })
+.map(function(folder) { return { date: folder.date }; });
+localStorage.setItem(key, JSON.stringify(customFolders));
+} catch (error) {
+showToast('❌ Folder tidak dapat disimpan permanen: ' + error.message);
+}
+}
+function mergeAccountingReportFolders(supabaseFolders, savedFolders) {
+const merged = new Map();
+supabaseFolders.forEach(function(folder) {
+merged.set(folder.date, { date: folder.date, lpdh: !!folder.lpdh, lpj: !!folder.lpj });
+});
+savedFolders.forEach(function(folder) {
+const existing = merged.get(folder.date);
+if (existing) return;
+merged.set(folder.date, { date: folder.date, lpdh: false, lpj: false });
+});
+return Array.from(merged.values()).sort(function(left, right) {
+return right.date.localeCompare(left.date);
+});
+}
 function renderAccountingReportFolders() {
 const list = document.getElementById('accountingReportFolderList');
 const detail = document.getElementById('accountingReportFolderDetail');
@@ -8409,7 +8484,10 @@ if (requestId !== accountingReportFolderLoadSequence) return;
 if (!results[0] || !Array.isArray(results[0].data) || !results[1] || !Array.isArray(results[1].data)) {
 throw new Error('Supabase mengembalikan daftar folder laporan dengan format yang tidak valid.');
 }
-accountingReportFolders = groupAccountingReportDates(results[0].data, results[1].data);
+accountingReportFolders = mergeAccountingReportFolders(
+groupAccountingReportDates(results[0].data, results[1].data),
+loadSavedAccountingReportFolders()
+);
 accountingReportFoldersLoaded = true;
 status.textContent = accountingReportFolders.length + ' folder laporan harian ditemukan.';
 renderAccountingReportFolders();
@@ -8473,6 +8551,7 @@ return right.date.localeCompare(left.date);
 });
 accountingReportFoldersLoaded = true;
 currentAccountingReportFolder = normalized;
+saveAccountingReportFolders();
 renderAccountingReportFolders();
 showToast('✅ Folder baru dibuat untuk tanggal ' + normalized + '.');
 }
@@ -11178,6 +11257,8 @@ function closePurchaseTransactions() {
 const modal = document.getElementById('slPurchaseTransactionsModal');
 modal.classList.remove('visible');
 modal.setAttribute('aria-hidden', 'true');
+slSelectedPurchaseFolder = '';
+slSelectedPurchaseTransactionId = '';
 }
 async function loadPurchaseTransactions() {
 const list = document.getElementById('slPurchaseTransactionFolders');
@@ -11187,6 +11268,24 @@ try {
 const result = await callSupabase('fetchPurchaseTransactions', {});
 if (!result || result.status !== 'success' || !Array.isArray(result.data)) throw new Error('Daftar transaksi tidak valid.');
 slPurchaseTransactions = result.data;
+if (!slPurchaseTransactions.some(function(report) {
+const parts = stockJakartaDateParts(new Date(report.Tanggal));
+const date = parts.year + '-' + parts.month + '-' + parts.day;
+return date === slSelectedPurchaseFolder;
+})) slSelectedPurchaseFolder = '';
+renderPurchaseTransactionFolders();
+if (!slSelectedPurchaseFolder) {
+detail.innerHTML = '<p class="text-sm text-gray-500">Pilih folder tanggal untuk melihat nota pembelian.</p>';
+} else {
+renderPurchaseTransactionFolderEntries(slSelectedPurchaseFolder);
+}
+} catch (error) {
+list.innerHTML = '<p class="text-xs text-rose-400">Gagal memuat arsip: ' + escapeHtml(error.message) + '</p>';
+showToast('❌ Arsip nota pembelian gagal dimuat: ' + error.message);
+}
+}
+function renderPurchaseTransactionFolders() {
+const list = document.getElementById('slPurchaseTransactionFolders');
 const grouped = new Map();
 slPurchaseTransactions.forEach(function(report) {
 const parts = stockJakartaDateParts(new Date(report.Tanggal));
@@ -11196,12 +11295,35 @@ grouped.get(date).push(report);
 });
 if (!grouped.size) {
 list.innerHTML = '<p class="text-xs text-gray-500">Belum ada transaksi pembelian tersimpan.</p>';
-detail.innerHTML = '<p class="text-sm text-gray-500">Pilih transaksi pembelian di sebelah kiri.</p>';
 return;
 }
 list.innerHTML = Array.from(grouped.keys()).sort().reverse().map(function(date) {
 const reports = grouped.get(date);
-return '<div class="sl-purchase-archive-date">📁 ' + escapeHtml(formatPurchaseDate(date + 'T12:00:00+07:00')) + '</div>' +
+const selected = date === slSelectedPurchaseFolder;
+return '<button type="button" class="sl-purchase-archive-folder" aria-current="' + String(selected) +
+'" onclick="openPurchaseTransactionFolder(\'' + escapeHtml(date) + '\')"><img class="accounting-folder-icon" src="assets/spas1-folder.svg" alt="Folder" title="Folder ' +
+escapeHtml(formatPurchaseDate(date + 'T12:00:00+07:00')) + '"><span><strong>' +
+escapeHtml(formatPurchaseDate(date + 'T12:00:00+07:00')) + '</strong><small>Nota pembelian</small></span><span class="sl-purchase-archive-folder-count">' +
+reports.length + ' PO</span></button>';
+}).join('');
+}
+function openPurchaseTransactionFolder(date) {
+if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date))) return;
+slSelectedPurchaseFolder = String(date);
+renderPurchaseTransactionFolders();
+renderPurchaseTransactionFolderEntries(slSelectedPurchaseFolder);
+}
+function renderPurchaseTransactionFolderEntries(date) {
+const list = document.getElementById('slPurchaseTransactionFolders');
+const detail = document.getElementById('slPurchaseTransactionDetail');
+const reports = slPurchaseTransactions.filter(function(report) {
+const parts = stockJakartaDateParts(new Date(report.Tanggal));
+return (parts.year + '-' + parts.month + '-' + parts.day) === date;
+}).sort(function(left, right) {
+return String(right['Nomor PO'] || '').localeCompare(String(left['Nomor PO'] || ''), 'id');
+});
+list.innerHTML = '<button type="button" class="sl-purchase-archive-folder" onclick="closePurchaseTransactionFolder()"><i class="fa-solid fa-arrow-left"></i><strong>Kembali ke semua folder</strong></button>' +
+'<div class="sl-purchase-archive-date">📁 ' + escapeHtml(formatPurchaseDate(date + 'T12:00:00+07:00')) + '</div>' +
 reports.map(function(report) {
 const reportId = String(report.ID || '');
 const selected = reportId === slSelectedPurchaseTransactionId;
@@ -11212,15 +11334,17 @@ escapeHtml(String(report.Supplier || '-')) + ' · ' + escapeHtml(String(report.S
 escapeHtml(String(report['Jumlah Item'] || 0)) + ' item · Rp ' +
 Number(report['Total Belanja'] || 0).toLocaleString('id-ID') + '</span></button>';
 }).join('');
-}).join('');
-if (!slSelectedPurchaseTransactionId || !slPurchaseTransactions.some(function(report) { return String(report.ID) === slSelectedPurchaseTransactionId; })) {
+if (!slSelectedPurchaseTransactionId || !reports.some(function(report) { return String(report.ID) === slSelectedPurchaseTransactionId; })) {
 slSelectedPurchaseTransactionId = '';
-detail.innerHTML = '<p class="text-sm text-gray-500">Pilih transaksi pembelian di sebelah kiri.</p>';
+detail.innerHTML = '<p class="text-sm text-gray-500">Pilih PO dalam folder untuk melihat rincian.</p>';
 }
-} catch (error) {
-list.innerHTML = '<p class="text-xs text-rose-400">Gagal memuat arsip: ' + escapeHtml(error.message) + '</p>';
-showToast('❌ Arsip nota pembelian gagal dimuat: ' + error.message);
 }
+function closePurchaseTransactionFolder() {
+slSelectedPurchaseFolder = '';
+slSelectedPurchaseTransactionId = '';
+renderPurchaseTransactionFolders();
+const detail = document.getElementById('slPurchaseTransactionDetail');
+detail.innerHTML = '<p class="text-sm text-gray-500">Pilih folder tanggal untuk melihat nota pembelian.</p>';
 }
 async function showPurchaseTransactionDetail(purchaseId) {
 if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(purchaseId))) return;

@@ -118,10 +118,27 @@ test('accounting archive visibly explains the right-click new folder action', fu
   assert.match(html, /id="accountingFolderContextMenu"[\s\S]*createAccountingReportFolderPrompt\(\)/);
 });
 
+test('new accounting folders are saved by tenant and merged after tab reload', function() {
+  assert.match(html, /spas1-accounting-report-folders:/);
+  assert.match(html, /function saveAccountingReportFolders\(\)/);
+  assert.match(html, /function loadSavedAccountingReportFolders\(\)/);
+  assert.match(html, /mergeAccountingReportFolders\(/);
+  assert.match(html, /saveAccountingReportFolders\(\);/);
+});
+
 test('stock tab includes a right-click new folder flow for daily stock archive', function() {
   assert.doesNotMatch(html, /Folder Hari Ini/);
   assert.match(html, /New folder/);
   assert.match(html, /createStockFolderPrompt\(\)/);
+});
+
+test('purchase transaction archive opens by date folder and is mobile responsive', function() {
+  assert.match(html, /function renderPurchaseTransactionFolders\(\)/);
+  assert.match(html, /function openPurchaseTransactionFolder\(date\)/);
+  assert.match(html, /Kembali ke semua folder/);
+  assert.match(html, /Pilih PO dalam folder untuk melihat rincian/);
+  assert.match(html, /@media \(max-width: 768px\)[\s\S]*\.sl-purchase-archive-body \{ grid-template-columns:1fr;/);
+  assert.doesNotMatch(html, /\/\*\s*const grouped = new Map\(\)/);
 });
 
 test('audit stock page does not expose the folder shortcut or print action', function() {
