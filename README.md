@@ -52,11 +52,14 @@ Setelah perubahan PWA dipublikasikan di host HTTPS, pengguna dapat memasang SPAS
 
 Service worker hanya menyimpan halaman informasi offline, manifest, dan ikon. Halaman aplikasi, sesi login, data Supabase, dan API tidak disimpan untuk penggunaan offline; koneksi internet tetap diperlukan untuk membuka modul dan menyinkronkan data.
 
+Untuk menguji endpoint `/api/media` secara lokal, jalankan `npx wrangler pages dev dist --ip 127.0.0.1 --port 8788` dari folder proyek, lalu buka `http://127.0.0.1:8788`. VS Code Live Server hanya menyajikan file statis dan tidak menjalankan Cloudflare Pages Functions.
+
 ## Deployment dan konfigurasi
 
 - Nama project Cloudflare Pages yang direncanakan: `spas1-hybrid`.
 - Domain baru belum ditentukan. Domain `spas1.my.id` tetap untuk aplikasi lama.
 - Referensi project Supabase diatur di `index.html`; publishable key memang bersifat publik.
+- File Storage aplikasi diakses melalui proxy same-origin `/api/media`; bucket dan path dibatasi, autentikasi pengguna diteruskan ke Supabase, dan RLS tetap mengatur akses. Domain Supabase masih digunakan langsung untuk autentikasi dan database.
 - Edge Function registrasi relawan memerlukan secret `TURNSTILE_SECRET_KEY` di Supabase. Jangan masukkan secret ini ke kode frontend atau commit ke Git.
 - Origin browser yang diizinkan diatur dengan `APP_ALLOWED_ORIGINS`; nilai bawaan hanya `https://spas1-hybrid.pages.dev`. Origin localhost HTTP(S) juga diizinkan untuk pengembangan lokal, tetapi aksi terautentikasi tetap memerlukan sesi yang valid.
 - Skema database dan Row Level Security (RLS) dijelaskan di `supabase_migration.sql`. Tinjau perubahan dan cadangkan data sebelum menerapkannya ke project lain.

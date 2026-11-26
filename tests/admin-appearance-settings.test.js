@@ -200,7 +200,30 @@ test('appearance preview text stays readable in dark mode and controls are easie
 test('global themes override home launcher styles and unify secondary home actions', function() {
   assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\) #view-home #btnSuperAdminLogin\s*\{[\s\S]*background: var\(--appearance-surface\) !important/);
   assert.match(html, /#view-home #btnSuperAdminLogin :is\(\.home-utility-description,\.home-admin-access\)\s*\{[\s\S]*color: var\(--appearance-subtle\) !important/);
-  assert.match(html, /#view-home \.home-footer-layout :is\([\s\S]*#btnAboutUs,#btnProjectInfo,#btnApplySppg,#btnSponsor,[\s\S]*background: var\(--appearance-raised\) !important/);
+  assert.match(html, /#view-home \.home-footer-layout :is\([\s\S]*#btnAboutUs,#btnProjectInfo,#btnApplySppg,#btnSponsor,[\s\S]*background: var\(--appearance-surface\) !important/);
+});
+
+test('Trakteer card follows selected appearance themes and themed hover states', function() {
+  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\) #view-home \.home-footer-layout :is\([\s\S]*\.trakteer-link[^)]*\)\s*\{\s*background: var\(--appearance-surface\) !important;\s*border-color: var\(--appearance-border\) !important;\s*color: var\(--appearance-text\) !important;\s*box-shadow: var\(--appearance-shadow\) !important;\s*backdrop-filter: none !important;/);
+  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\) #view-home \.home-footer-layout :is\([\s\S]*\.trakteer-link,#btnSponsor\s*\):is\(:hover,:focus-visible\)\s*\{\s*background: var\(--appearance-muted\) !important;\s*border-color: var\(--appearance-accent\) !important;\s*color: var\(--appearance-text\) !important;/);
+});
+
+test('Trakteer animated icon switches to black in light mode and white in dark mode', function() {
+  assert.match(html, /body\.app-light-mode \.trakteer-icon,[\s\S]*body\.app-light-mode \.project-info-trakteer-icon \{ filter: brightness\(0\) !important; \}/);
+  assert.match(html, /body:not\(\.app-light-mode\) \.trakteer-icon,[\s\S]*body:not\(\.app-light-mode\) \.project-info-trakteer-icon \{ filter: brightness\(0\) invert\(1\) !important; \}/);
+  assert.match(html, /\.trakteer-icon, \.project-info-trakteer-icon \{[\s\S]*animation: trakteerWiggle 3s infinite/);
+});
+
+test('home registration, live demo, and sponsor icons switch between light and dark modes', function() {
+  assert.match(html, /body\.app-light-mode #view-home :is\(#btnApplySppg,\.home-live-demo-button,#btnSponsor\) > i \{ color: #111827 !important; \}/);
+  assert.match(html, /body:not\(\.app-light-mode\) #view-home :is\(#btnApplySppg,\.home-live-demo-button,#btnSponsor\) > i \{ color: #FFFFFF !important; \}/);
+});
+
+test('home action cards share module surfaces, get visible hover borders, and wrap on phones', function() {
+  assert.match(html, /body:not\(\.ui-theme-candy\):not\(\.ui-theme-linux\):not\(\.ui-theme-windows\):not\(\.ui-theme-retro\) #view-home \.home-footer-layout :is\([\s\S]*#btnProjectInfo,#btnApplySppg,#btnAboutUs,\.home-live-demo-button,\.trakteer-link,#btnSponsor[\s\S]*\) \{\s*background: #1C2541 !important;\s*border-color: #3A506B !important;\s*color: #E0E1DD !important;/);
+  assert.match(html, /body\.app-light-mode:not\(\.ui-theme-candy\):not\(\.ui-theme-linux\):not\(\.ui-theme-windows\):not\(\.ui-theme-retro\) #view-home \.home-footer-layout :is\([\s\S]*\) \{\s*background: #FFFFFF !important;\s*border-color: #D1D5DB !important;\s*color: #111827 !important;/);
+  assert.match(html, /#view-home \.home-dashboard-main \.grid > \.dark-card:hover,[\s\S]*#view-home \.home-footer-layout > \.home-news-launcher:hover,[\s\S]*border-color: var\(--appearance-accent, #34D399\) !important;\s*outline: 2px solid var\(--appearance-accent, #34D399\) !important;\s*outline-offset: 1px;\s*box-shadow: 0 0 0 2px var\(--appearance-accent, #34D399\) !important;/);
+  assert.match(html, /@media \(max-width: 640px\) \{\s*#view-home \.home-footer-layout :is\([\s\S]*\) \{\s*min-width: 0 !important;\s*min-height: 42px;\s*height: auto !important;[\s\S]*white-space: normal !important;[\s\S]*overflow-wrap: anywhere;/);
 });
 
 test('retro theme persists, applies across modules, and does not affect white print output', function() {

@@ -1337,21 +1337,6 @@ body.app-light-mode #view-home #btnSuperAdminLogin {
   background: #FFFFFF !important;
   color: #3730A3 !important;
 }
-body.app-light-mode #view-home #btnProjectInfo {
-  border-color: #6EE7B7 !important;
-  background: #D1FAE5 !important;
-  color: #065F46 !important;
-}
-body.app-light-mode #view-home #btnAboutUs {
-  border-color: #FDE68A !important;
-  background: #FEF3C7 !important;
-  color: #854D0E !important;
-}
-body.app-light-mode #view-home .trakteer-link {
-  border-color: #86EFAC;
-  background: #DCFCE7;
-  color: #166534;
-}
 body.app-light-mode #view-home .home-footer-copyright,
 body.app-light-mode #view-home .home-footer-copyright a { color: #4B5563 !important; }
 body.app-light-mode #view-home #btnToggleTheme {
@@ -1364,6 +1349,39 @@ body.app-light-mode .whatsapp-badge { background-color: #B91C1C !important; colo
 body.app-light-mode #view-home .text-emerald-400,
 body.app-light-mode #view-home .text-emerald-300 { color: #065F46 !important; }
 body.app-light-mode #view-home .home-news-launcher:not(#btnSuperAdminLogin) { color: #065F46 !important; }
+/* Keep the footer actions on the same surface as the module and launcher cards. */
+#view-home .home-footer-layout :is(
+  #btnProjectInfo,#btnApplySppg,#btnAboutUs,.home-live-demo-button,.trakteer-link,#btnSponsor
+) {
+  border: 1px solid #3A506B !important;
+  background: #1C2541 !important;
+  color: #E0E1DD !important;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.12) !important;
+  backdrop-filter: none !important;
+}
+body.app-light-mode #view-home .home-footer-layout :is(
+  #btnProjectInfo,#btnApplySppg,#btnAboutUs,.home-live-demo-button,.trakteer-link,#btnSponsor
+) {
+  border-color: #D1D5DB !important;
+  background: #FFFFFF !important;
+  color: #111827 !important;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05) !important;
+}
+#view-home .home-footer-layout :is(
+  #btnProjectInfo,#btnApplySppg,#btnAboutUs,.home-live-demo-button,.trakteer-link,#btnSponsor
+):is(:hover,:focus-visible) {
+  border-color: #059669 !important;
+  outline: 2px solid rgba(5,150,105,0.35) !important;
+  outline-offset: 1px;
+}
+body.app-light-mode #view-home .home-footer-layout :is(#btnApplySppg,.home-live-demo-button,#btnSponsor) > i {
+  color: #111827 !important;
+}
+body:not(.app-light-mode) #view-home .home-footer-layout :is(#btnApplySppg,.home-live-demo-button,#btnSponsor) > i {
+  color: #FFFFFF !important;
+}
+body.app-light-mode #view-home .home-footer-trakteer .trakteer-icon { filter: brightness(0) !important; }
+body:not(.app-light-mode) #view-home .home-footer-trakteer .trakteer-icon { filter: brightness(0) invert(1) !important; }
 body.app-light-mode #view-admin .text-emerald-600 { color: #047857 !important; }
 body.app-light-mode #view-admin .text-amber-600 { color: #92400E !important; }
 body.app-light-mode #view-admin .bg-emerald-600 { background-color: #047857 !important; }
@@ -5095,12 +5113,48 @@ const requestOptions = Object.assign({}, options || {});
 const headers = supabaseHeaders();
 if (requestOptions.body == null) delete headers['Content-Type'];
 requestOptions.headers = Object.assign(headers, requestOptions.headers || {});
-const response = await fetch(window.SPAS1_SUPABASE_URL + path, requestOptions);
+const storagePathMatch = String(path || '').match(/^\/storage\/v1\/object\/(?:(public|authenticated)\/)?(spas1-media|spas1-lpdh)\/(.+)$/);
+let response;
+let isMediaProxyRequest = false;
+if (storagePathMatch) {
+isMediaProxyRequest = true;
+let objectPath;
+try {
+objectPath = storagePathMatch[3].split('/').map(function(segment) { return decodeURIComponent(segment); }).join('/');
+} catch (_) {
+throw new Error('Lokasi Supabase Storage tidak valid.');
+}
+const proxyUrl = new URL('/api/media', window.location.origin);
+proxyUrl.searchParams.set('bucket', storagePathMatch[2]);
+proxyUrl.searchParams.set('path', objectPath);
+if (storagePathMatch[1] === 'authenticated' || storagePathMatch[2] === 'spas1-lpdh') {
+proxyUrl.searchParams.set('access', 'authenticated');
+}
+response = await fetch(proxyUrl.pathname + proxyUrl.search, requestOptions);
+} else if (/^\/rest\/v1\/rpc\/[A-Za-z0-9_-]+$/.test(String(path || ''))) {
+response = await fetch(window.SPAS1_SUPABASE_URL + path, requestOptions);
+} else {
+throw new Error('Lokasi Supabase Storage tidak valid.');
+}
 if (response.status === 401 && !retryAfterRefresh && window.SPAS1_SUPABASE_REFRESH_TOKEN) {
 await refreshSupabaseSession();
 return supabaseStorageRequest(path, options, true);
 }
-if (!response.ok) throw new Error('Supabase Storage HTTP ' + response.status + ': ' + await response.text());
+if (!response.ok) {
+let message = await response.text();
+if (isMediaProxyRequest && response.status === 404 &&
+['localhost', '127.0.0.1', '::1'].includes(window.location.hostname)) {
+message = 'Cloudflare Pages Functions tidak berjalan di Live Server. Jalankan `npx wrangler pages dev dist --ip 127.0.0.1 --port 8788` dari folder proyek, lalu buka http://127.0.0.1:8788.';
+} else {
+try {
+const errorPayload = JSON.parse(message);
+if (errorPayload && typeof errorPayload.error === 'string') message = errorPayload.error;
+} catch (_) {
+if (/^\s*</.test(message)) message = 'Server mengirim halaman HTML, bukan respons API. Pastikan endpoint /api/media aktif.';
+}
+}
+throw new Error((isMediaProxyRequest ? 'Media proxy' : 'Supabase request') + ' HTTP ' + response.status + ': ' + message);
+}
 return response;
 }
 
@@ -5314,9 +5368,11 @@ const tenantFolder = segments[0];
 const isLegacyFolder = tenantFolder === 'spas1';
 const isTenantFolder = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(tenantFolder);
 if ((!isLegacyFolder && !isTenantFolder) || segments.length < 2 ||
-segments.some(function(segment) { return !segment || segment === '.' || segment === '..'; })) return '';
-return window.SPAS1_SUPABASE_URL + '/storage/v1/object/public/spas1-media/' +
-path.split('/').map(encodeURIComponent).join('/');
+segments.some(function(segment) { return !segment || segment === '.' || segment === '..' || /[\\\u0000-\u001f\u007f?#]/.test(segment); })) return '';
+const url = new URL('/api/media', window.location.origin);
+url.searchParams.set('bucket', 'spas1-media');
+url.searchParams.set('path', path);
+return url.pathname + url.search;
 }
 
 function requireSupabaseSession() {
@@ -9938,22 +9994,30 @@ return;
 }
 popup.opener = null;
 try {
-const response = await supabaseStorageRequest('/storage/v1/object/sign/spas1-lpdh/' + path.split('/').map(encodeURIComponent).join('/'), {
-method: 'POST',
-body: JSON.stringify({ expiresIn: 3600 })
-});
-const result = await response.json();
-const signedPath = String(result.signedURL || result.signedUrl || '');
-if (!signedPath) throw new Error('Supabase tidak mengembalikan tautan sementara untuk bukti nota.');
-if (/^https?:\/\//i.test(signedPath)) popup.location.href = signedPath;
-else {
-const normalizedPath = signedPath.charAt(0) === '/' ? signedPath : '/' + signedPath;
-popup.location.href = normalizedPath.startsWith('/storage/v1/') ? window.SPAS1_SUPABASE_URL + normalizedPath : window.SPAS1_SUPABASE_URL + '/storage/v1' + normalizedPath;
-}
+const response = await supabaseStorageRequest('/storage/v1/object/authenticated/spas1-lpdh/' + path.split('/').map(encodeURIComponent).join('/'), { method: 'GET' });
+await openSupabaseMediaBlobInPopup(response, popup);
 } catch (error) {
 popup.close();
 showToast('❌ Gagal membuka bukti LPDH: ' + error.message);
 }
+}
+async function openSupabaseMediaBlobInPopup(response, popup) {
+const mediaUrl = URL.createObjectURL(await response.blob());
+try {
+popup.location.replace(mediaUrl);
+} catch (error) {
+URL.revokeObjectURL(mediaUrl);
+throw error;
+}
+const cleanup = function() {
+clearInterval(closeWatcher);
+clearTimeout(expiryTimer);
+URL.revokeObjectURL(mediaUrl);
+};
+const closeWatcher = setInterval(function() {
+if (popup.closed) cleanup();
+}, 10000);
+const expiryTimer = setTimeout(cleanup, 30 * 60 * 1000);
 }
 async function saveLpdhReport(event) {
 event.preventDefault();
@@ -12647,9 +12711,10 @@ if (poster.image !== undefined && !image) throw new Error('Format gambar poster 
 const fileId = poster.fileId === undefined ? '' : readText(String(poster.fileId), 'ID file poster', 500);
 if (fileId && !supabasePublicMediaUrl(fileId)) throw new Error('Lokasi file poster tidak valid.');
 const imageUrl = poster.imageUrl === undefined ? '' : readText(String(poster.imageUrl), 'URL poster', 2000);
-if (imageUrl && !aboutSafeImageUrl(imageUrl)) throw new Error('URL poster tidak valid.');
-if (imageUrl && fileId && imageUrl !== supabasePublicMediaUrl(fileId)) throw new Error('URL dan ID file poster tidak cocok.');
-if (!image && !fileId && !imageUrl) throw new Error('Data gambar poster tidak ditemukan.');
+const safeImageUrl = imageUrl ? aboutSafeImageUrl(imageUrl) : '';
+if (imageUrl && !safeImageUrl) throw new Error('URL poster tidak valid.');
+if (safeImageUrl && fileId && safeImageUrl !== supabasePublicMediaUrl(fileId)) throw new Error('URL dan ID file poster tidak cocok.');
+if (!image && !fileId && !safeImageUrl) throw new Error('Data gambar poster tidak ditemukan.');
 const normalizedPoster = {
 id: id,
 title: readText(poster.title, 'Judul poster', 300),
@@ -12657,7 +12722,7 @@ date: readText(poster.date, 'Tanggal poster', 100)
 };
 if (image) normalizedPoster.image = image;
 if (fileId) normalizedPoster.fileId = fileId;
-if (imageUrl) normalizedPoster.imageUrl = imageUrl;
+if (safeImageUrl) normalizedPoster.imageUrl = safeImageUrl;
 return normalizedPoster;
 });
 }
@@ -13282,9 +13347,16 @@ return new Intl.NumberFormat('id-ID').format(Math.max(0, Number(value) || 0));
 function aboutSafeImageUrl(value) {
 const url = String(value || '');
 try {
-const parsed = new URL(url);
+const parsed = new URL(url, window.location.origin);
+if (parsed.origin === window.location.origin && parsed.pathname === '/api/media' &&
+parsed.searchParams.get('bucket') === 'spas1-media') {
+return supabasePublicMediaUrl(parsed.searchParams.get('path') || '');
+}
 const storagePrefix = new URL('/storage/v1/object/public/spas1-media/', window.SPAS1_SUPABASE_URL);
-return parsed.origin === storagePrefix.origin && parsed.pathname.startsWith(storagePrefix.pathname) ? url : '';
+if (parsed.origin !== storagePrefix.origin || !parsed.pathname.startsWith(storagePrefix.pathname)) return '';
+const encodedPath = parsed.pathname.slice(storagePrefix.pathname.length);
+const decodedPath = encodedPath.split('/').map(function(segment) { return decodeURIComponent(segment); }).join('/');
+return supabasePublicMediaUrl(decodedPath);
 } catch (_) {
 return '';
 }

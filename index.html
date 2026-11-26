@@ -1067,6 +1067,10 @@ body.app-light-mode #btnProjectInfo.home-project-info-button:active {
 .trakteer-link { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; width: 126px; min-width: 126px; height: 36px; gap: 4px; padding: 0 8px; border: 1px solid rgba(89, 214, 94, 0.38); border-radius: 10px; background: rgba(89, 214, 94, 0.12); color: #A7F3D0; font-size: 12px; font-weight: 800; letter-spacing: 0.02em; text-decoration: none; white-space: nowrap; backdrop-filter: blur(12px); box-shadow: 0 4px 14px rgba(89, 214, 94, 0.14); transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
 .trakteer-link:hover, .trakteer-link:focus-visible { border-color: rgba(110, 231, 183, 0.7); background: rgba(89, 214, 94, 0.2); box-shadow: 0 7px 18px rgba(89, 214, 94, 0.24); outline: none; }
 .trakteer-icon, .project-info-trakteer-icon { display: block; flex: 0 0 16px; width: 16px; height: 16px; object-fit: contain; animation: trakteerWiggle 3s infinite; }
+body.app-light-mode .trakteer-icon,
+body.app-light-mode .project-info-trakteer-icon { filter: brightness(0) !important; }
+body:not(.app-light-mode) .trakteer-icon,
+body:not(.app-light-mode) .project-info-trakteer-icon { filter: brightness(0) invert(1) !important; }
 .trakteer-label { display: inline-flex; align-items: center; gap: 2px; line-height: 1; white-space: nowrap; }
 .trakteer-coffee { display: inline-block; font-size: 0.92em; line-height: 1; }
 @keyframes trakteerWiggle { 0%, 60%, 100% { transform: rotate(0) scale(1); } 75% { transform: rotate(0) scale(1.12); } 80% { transform: rotate(0) scale(1.1); } 84% { transform: rotate(-10deg) scale(1.1); } 88% { transform: rotate(10deg) scale(1.1); } 92% { transform: rotate(-10deg) scale(1.1); } 96% { transform: rotate(10deg) scale(1.1); } }
@@ -1428,21 +1432,8 @@ body.app-light-mode #view-home #btnSuperAdminLogin {
   background: #FFFFFF !important;
   color: #3730A3 !important;
 }
-body.app-light-mode #view-home #btnProjectInfo {
-  border-color: #6EE7B7 !important;
-  background: #D1FAE5 !important;
-  color: #065F46 !important;
-}
-body.app-light-mode #view-home #btnAboutUs {
-  border-color: #FDE68A !important;
-  background: #FEF3C7 !important;
-  color: #854D0E !important;
-}
-body.app-light-mode #view-home .trakteer-link {
-  border-color: #86EFAC;
-  background: #DCFCE7;
-  color: #166534;
-}
+body.app-light-mode #view-home :is(#btnApplySppg,.home-live-demo-button,#btnSponsor) > i { color: #111827 !important; }
+body:not(.app-light-mode) #view-home :is(#btnApplySppg,.home-live-demo-button,#btnSponsor) > i { color: #FFFFFF !important; }
 body.app-light-mode #view-home .home-footer-copyright,
 body.app-light-mode #view-home .home-footer-copyright a { color: #4B5563 !important; }
 body.app-light-mode #view-home #btnToggleTheme {
@@ -3263,12 +3254,98 @@ color: var(--appearance-subtle) !important;
 }
 body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) #view-home .home-footer-layout :is(
   #btnAboutUs,#btnProjectInfo,#btnApplySppg,#btnSponsor,
-  .home-about-button,.home-project-info-button,.home-live-demo-button,.home-sponsor-button
+  .home-about-button,.home-project-info-button,.home-live-demo-button,.home-sponsor-button,.trakteer-link
 ) {
-background: var(--appearance-raised) !important;
+background: var(--appearance-surface) !important;
 border-color: var(--appearance-border) !important;
 color: var(--appearance-text) !important;
 box-shadow: var(--appearance-shadow) !important;
+backdrop-filter: none !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) #view-home .home-footer-layout :is(
+  #btnProjectInfo,#btnApplySppg,#btnAboutUs,.home-live-demo-button,.trakteer-link,#btnSponsor
+):is(:hover,:focus-visible) {
+background: var(--appearance-muted) !important;
+border-color: var(--appearance-accent) !important;
+color: var(--appearance-text) !important;
+box-shadow: var(--appearance-shadow) !important;
+}
+body:not(.ui-theme-candy):not(.ui-theme-linux):not(.ui-theme-windows):not(.ui-theme-retro) #view-home .home-footer-layout :is(
+  #btnProjectInfo,#btnApplySppg,#btnAboutUs,.home-live-demo-button,.trakteer-link,#btnSponsor
+) {
+background: #1C2541 !important;
+border-color: #3A506B !important;
+color: #E0E1DD !important;
+box-shadow: 0 10px 25px -5px rgba(0,0,0,0.12) !important;
+}
+body.app-light-mode:not(.ui-theme-candy):not(.ui-theme-linux):not(.ui-theme-windows):not(.ui-theme-retro) #view-home .home-footer-layout :is(
+  #btnProjectInfo,#btnApplySppg,#btnAboutUs,.home-live-demo-button,.trakteer-link,#btnSponsor
+) {
+background: #FFFFFF !important;
+border-color: #D1D5DB !important;
+color: #111827 !important;
+box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05) !important;
+backdrop-filter: none !important;
+}
+body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) #view-home .home-footer-layout :is(
+  #btnProjectInfo,#btnApplySppg,#btnAboutUs,.home-live-demo-button,#btnSponsor
+):is(:hover,:focus-visible) {
+border-color: var(--appearance-accent) !important;
+}
+#view-home .home-dashboard-main .grid > .dark-card,
+#view-home .home-footer-layout > #btnSuperAdminLogin,
+#view-home .home-footer-layout > .home-news-launcher,
+#view-home .home-footer-layout :is(
+  #btnProjectInfo,#btnApplySppg,#btnAboutUs,.home-live-demo-button,.trakteer-link,#btnSponsor
+) {
+transition: border-color .18s ease, outline-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+#view-home .home-dashboard-main .grid > .dark-card:hover,
+#view-home .home-footer-layout > #btnSuperAdminLogin:hover,
+#view-home .home-footer-layout > .home-news-launcher:hover,
+#view-home .home-footer-layout :is(
+  #btnProjectInfo,#btnApplySppg,#btnAboutUs,.home-live-demo-button,.trakteer-link,#btnSponsor
+):hover {
+border-color: var(--appearance-accent, #34D399) !important;
+outline: 2px solid var(--appearance-accent, #34D399) !important;
+outline-offset: 1px;
+box-shadow: 0 0 0 2px var(--appearance-accent, #34D399) !important;
+}
+#view-home .home-dashboard-main .grid > .dark-card:focus-visible,
+#view-home .home-footer-layout > #btnSuperAdminLogin:focus-visible,
+#view-home .home-footer-layout > .home-news-launcher:focus-visible,
+#view-home .home-footer-layout :is(
+  #btnProjectInfo,#btnApplySppg,#btnAboutUs,.home-live-demo-button,.trakteer-link,#btnSponsor
+):focus-visible {
+border-color: var(--appearance-accent, #34D399) !important;
+outline: 2px solid var(--appearance-accent, #34D399) !important;
+outline-offset: 2px;
+}
+@media (max-width: 640px) {
+  #view-home .home-footer-layout :is(
+    #btnProjectInfo,#btnApplySppg,#btnAboutUs,.home-live-demo-button,.trakteer-link,#btnSponsor
+  ) {
+    min-width: 0 !important;
+    min-height: 42px;
+    height: auto !important;
+    padding: 5px 3px !important;
+    gap: 3px !important;
+    font-size: 9px !important;
+    line-height: 1.2;
+    white-space: normal !important;
+    overflow: visible;
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
+  #view-home .home-footer-layout :is(
+    #btnProjectInfo,#btnApplySppg,#btnAboutUs,.home-live-demo-button,.trakteer-link,#btnSponsor
+  ) > span {
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  #view-home .home-footer-layout .trakteer-label { white-space: normal; }
 }
 body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) #spas1-webapp-root {
 --bg: var(--appearance-page);
@@ -5820,12 +5897,48 @@ const requestOptions = Object.assign({}, options || {});
 const headers = supabaseHeaders();
 if (requestOptions.body == null) delete headers['Content-Type'];
 requestOptions.headers = Object.assign(headers, requestOptions.headers || {});
-const response = await fetch(window.SPAS1_SUPABASE_URL + path, requestOptions);
+const storagePathMatch = String(path || '').match(/^\/storage\/v1\/object\/(?:(public|authenticated)\/)?(spas1-media|spas1-lpdh)\/(.+)$/);
+let response;
+let isMediaProxyRequest = false;
+if (storagePathMatch) {
+isMediaProxyRequest = true;
+let objectPath;
+try {
+objectPath = storagePathMatch[3].split('/').map(function(segment) { return decodeURIComponent(segment); }).join('/');
+} catch (_) {
+throw new Error('Lokasi Supabase Storage tidak valid.');
+}
+const proxyUrl = new URL('/api/media', window.location.origin);
+proxyUrl.searchParams.set('bucket', storagePathMatch[2]);
+proxyUrl.searchParams.set('path', objectPath);
+if (storagePathMatch[1] === 'authenticated' || storagePathMatch[2] === 'spas1-lpdh') {
+proxyUrl.searchParams.set('access', 'authenticated');
+}
+response = await fetch(proxyUrl.pathname + proxyUrl.search, requestOptions);
+} else if (/^\/rest\/v1\/rpc\/[A-Za-z0-9_-]+$/.test(String(path || ''))) {
+response = await fetch(window.SPAS1_SUPABASE_URL + path, requestOptions);
+} else {
+throw new Error('Lokasi Supabase Storage tidak valid.');
+}
 if (response.status === 401 && !retryAfterRefresh && window.SPAS1_SUPABASE_REFRESH_TOKEN) {
 await refreshSupabaseSession();
 return supabaseStorageRequest(path, options, true);
 }
-if (!response.ok) throw new Error('Supabase Storage HTTP ' + response.status + ': ' + await response.text());
+if (!response.ok) {
+let message = await response.text();
+if (isMediaProxyRequest && response.status === 404 &&
+['localhost', '127.0.0.1', '::1'].includes(window.location.hostname)) {
+message = 'Cloudflare Pages Functions tidak berjalan di Live Server. Jalankan `npx wrangler pages dev dist --ip 127.0.0.1 --port 8788` dari folder proyek, lalu buka http://127.0.0.1:8788.';
+} else {
+try {
+const errorPayload = JSON.parse(message);
+if (errorPayload && typeof errorPayload.error === 'string') message = errorPayload.error;
+} catch (_) {
+if (/^\s*</.test(message)) message = 'Server mengirim halaman HTML, bukan respons API. Pastikan endpoint /api/media aktif.';
+}
+}
+throw new Error((isMediaProxyRequest ? 'Media proxy' : 'Supabase request') + ' HTTP ' + response.status + ': ' + message);
+}
 return response;
 }
 
@@ -6054,9 +6167,11 @@ const tenantFolder = segments[0];
 const isLegacyFolder = tenantFolder === 'spas1';
 const isTenantFolder = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(tenantFolder);
 if ((!isLegacyFolder && !isTenantFolder) || segments.length < 2 ||
-segments.some(function(segment) { return !segment || segment === '.' || segment === '..'; })) return '';
-return window.SPAS1_SUPABASE_URL + '/storage/v1/object/public/spas1-media/' +
-path.split('/').map(encodeURIComponent).join('/');
+segments.some(function(segment) { return !segment || segment === '.' || segment === '..' || /[\\\u0000-\u001f\u007f?#]/.test(segment); })) return '';
+const url = new URL('/api/media', window.location.origin);
+url.searchParams.set('bucket', 'spas1-media');
+url.searchParams.set('path', path);
+return url.pathname + url.search;
 }
 
 function requireSupabaseSession() {
@@ -11219,24 +11334,30 @@ return;
 }
 popup.opener = null;
 try {
-const response = await supabaseStorageRequest('/storage/v1/object/sign/spas1-media/' + path.split('/').map(encodeURIComponent).join('/'), {
-method: 'POST',
-body: JSON.stringify({ expiresIn: 3600 })
-});
-const data = await response.json();
-const signedPath = String(data.signedURL || data.signedUrl || '');
-if (!signedPath) throw new Error('Supabase tidak mengembalikan tautan sementara untuk foto nota.');
-if (/^https?:\/\//i.test(signedPath)) popup.location.href = signedPath;
-else {
-const normalizedPath = signedPath.charAt(0) === '/' ? signedPath : '/' + signedPath;
-popup.location.href = normalizedPath.startsWith('/storage/v1/')
-? window.SPAS1_SUPABASE_URL + normalizedPath
-: window.SPAS1_SUPABASE_URL + '/storage/v1' + normalizedPath;
-}
+const response = await supabaseStorageRequest('/storage/v1/object/authenticated/spas1-media/' + path.split('/').map(encodeURIComponent).join('/'), { method: 'GET' });
+await openSupabaseMediaBlobInPopup(response, popup);
 } catch (error) {
 popup.close();
 showToast('❌ Gagal membuka foto nota: ' + error.message);
 }
+}
+async function openSupabaseMediaBlobInPopup(response, popup) {
+const mediaUrl = URL.createObjectURL(await response.blob());
+try {
+popup.location.replace(mediaUrl);
+} catch (error) {
+URL.revokeObjectURL(mediaUrl);
+throw error;
+}
+const cleanup = function() {
+clearInterval(closeWatcher);
+clearTimeout(expiryTimer);
+URL.revokeObjectURL(mediaUrl);
+};
+const closeWatcher = setInterval(function() {
+if (popup.closed) cleanup();
+}, 10000);
+const expiryTimer = setTimeout(cleanup, 30 * 60 * 1000);
 }
 async function cancelPurchaseTransaction(movementId) {
 if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(movementId))) {
@@ -11879,18 +12000,8 @@ return;
 }
 popup.opener = null;
 try {
-const response = await supabaseStorageRequest('/storage/v1/object/sign/spas1-lpdh/' + path.split('/').map(encodeURIComponent).join('/'), {
-method: 'POST',
-body: JSON.stringify({ expiresIn: 3600 })
-});
-const result = await response.json();
-const signedPath = String(result.signedURL || result.signedUrl || '');
-if (!signedPath) throw new Error('Supabase tidak mengembalikan tautan sementara untuk bukti nota.');
-if (/^https?:\/\//i.test(signedPath)) popup.location.href = signedPath;
-else {
-const normalizedPath = signedPath.charAt(0) === '/' ? signedPath : '/' + signedPath;
-popup.location.href = normalizedPath.startsWith('/storage/v1/') ? window.SPAS1_SUPABASE_URL + normalizedPath : window.SPAS1_SUPABASE_URL + '/storage/v1' + normalizedPath;
-}
+const response = await supabaseStorageRequest('/storage/v1/object/authenticated/spas1-lpdh/' + path.split('/').map(encodeURIComponent).join('/'), { method: 'GET' });
+await openSupabaseMediaBlobInPopup(response, popup);
 } catch (error) {
 popup.close();
 showToast('❌ Gagal membuka bukti LPDH: ' + error.message);
@@ -14939,9 +15050,10 @@ if (poster.image !== undefined && !image) throw new Error('Format gambar poster 
 const fileId = poster.fileId === undefined ? '' : readText(String(poster.fileId), 'ID file poster', 500);
 if (fileId && !supabasePublicMediaUrl(fileId)) throw new Error('Lokasi file poster tidak valid.');
 const imageUrl = poster.imageUrl === undefined ? '' : readText(String(poster.imageUrl), 'URL poster', 2000);
-if (imageUrl && !aboutSafeImageUrl(imageUrl)) throw new Error('URL poster tidak valid.');
-if (imageUrl && fileId && imageUrl !== supabasePublicMediaUrl(fileId)) throw new Error('URL dan ID file poster tidak cocok.');
-if (!image && !fileId && !imageUrl) throw new Error('Data gambar poster tidak ditemukan.');
+const safeImageUrl = imageUrl ? aboutSafeImageUrl(imageUrl) : '';
+if (imageUrl && !safeImageUrl) throw new Error('URL poster tidak valid.');
+if (safeImageUrl && fileId && safeImageUrl !== supabasePublicMediaUrl(fileId)) throw new Error('URL dan ID file poster tidak cocok.');
+if (!image && !fileId && !safeImageUrl) throw new Error('Data gambar poster tidak ditemukan.');
 const normalizedPoster = {
 id: id,
 title: readText(poster.title, 'Judul poster', 300),
@@ -14949,7 +15061,7 @@ date: readText(poster.date, 'Tanggal poster', 100)
 };
 if (image) normalizedPoster.image = image;
 if (fileId) normalizedPoster.fileId = fileId;
-if (imageUrl) normalizedPoster.imageUrl = imageUrl;
+if (safeImageUrl) normalizedPoster.imageUrl = safeImageUrl;
 return normalizedPoster;
 });
 }
@@ -15574,9 +15686,16 @@ return new Intl.NumberFormat('id-ID').format(Math.max(0, Number(value) || 0));
 function aboutSafeImageUrl(value) {
 const url = String(value || '');
 try {
-const parsed = new URL(url);
+const parsed = new URL(url, window.location.origin);
+if (parsed.origin === window.location.origin && parsed.pathname === '/api/media' &&
+parsed.searchParams.get('bucket') === 'spas1-media') {
+return supabasePublicMediaUrl(parsed.searchParams.get('path') || '');
+}
 const storagePrefix = new URL('/storage/v1/object/public/spas1-media/', window.SPAS1_SUPABASE_URL);
-return parsed.origin === storagePrefix.origin && parsed.pathname.startsWith(storagePrefix.pathname) ? url : '';
+if (parsed.origin !== storagePrefix.origin || !parsed.pathname.startsWith(storagePrefix.pathname)) return '';
+const encodedPath = parsed.pathname.slice(storagePrefix.pathname.length);
+const decodedPath = encodedPath.split('/').map(function(segment) { return decodeURIComponent(segment); }).join('/');
+return supabasePublicMediaUrl(decodedPath);
 } catch (_) {
 return '';
 }
