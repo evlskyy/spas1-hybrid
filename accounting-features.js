@@ -289,7 +289,7 @@ function renderFinanceTransactions() {
     return '<tr class="border-t border-gray-100"><td class="p-3">' + escapeHtml(row.transaction_date) + '</td>' +
       '<td class="p-3">' + escapeHtml(financeTypeLabel(row.transaction_type)) + '</td>' +
       '<td class="p-3">' + escapeHtml(row.category) + '</td>' +
-      '<td class="max-w-xs p-3">' + escapeHtml(row.description) + '</td>' +
+      '<td class="finance-description-cell p-3">' + escapeHtml(row.description) + '</td>' +
       '<td class="whitespace-nowrap p-3 font-bold">' + escapeHtml(formatFinanceMoney(row.amount)) + '</td>' +
       '<td class="p-3">' + escapeHtml(row.payment_method) + '</td>' +
       '<td class="p-3">' + escapeHtml(row.reference || '—') + '<div>' + receipt + '</div></td>' +

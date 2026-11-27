@@ -3707,6 +3707,34 @@ color: var(--appearance-text) !important;
 body #view-admin #tab-finance .border-gray-300 {
 border-color: var(--appearance-border) !important;
 }
+#view-admin #tab-finance #financePrintArea {
+max-width: 100%;
+overflow-x: auto;
+-webkit-overflow-scrolling: touch;
+}
+#view-admin #tab-finance .finance-transactions-table {
+min-width: 1165px;
+table-layout: fixed;
+}
+#view-admin #tab-finance .finance-transactions-table :is(th,td) {
+overflow-wrap: normal;
+word-break: normal;
+vertical-align: top;
+}
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(1) { width: 105px; white-space: nowrap; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(2) { width: 100px; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(3) { width: 110px; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(4) { width: 180px; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(5) { width: 145px; white-space: nowrap; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(6) { width: 120px; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(7) { width: 125px; overflow-wrap: anywhere; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(8) { width: 90px; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(9) { width: 190px; }
+#view-admin #tab-finance .finance-transactions-table .finance-description-cell {
+white-space: normal;
+overflow-wrap: anywhere;
+line-height: 1.45;
+}
 }
 @media print {
 html body[class*="printing-"][class*="ui-theme-"],
@@ -5137,7 +5165,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </div>
 <p id="financeStatus" class="text-xs text-gray-500" role="status" aria-live="polite">Memuat transaksi...</p>
 <div id="financePrintArea" class="overflow-x-auto rounded-xl border border-gray-200">
-<table class="w-full min-w-[1050px] text-left text-xs"><thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Tanggal</th><th class="p-3">Jenis</th><th class="p-3">Kategori</th><th class="p-3">Keterangan</th><th class="p-3">Jumlah</th><th class="p-3">Metode / Sumber</th><th class="p-3">Referensi / Bukti</th><th class="p-3">Status</th><th class="p-3 no-print">Aksi</th></tr></thead><tbody id="financeTransactionRows"><tr><td colspan="9" class="p-5 text-center text-gray-500">Memuat transaksi...</td></tr></tbody></table>
+<table class="finance-transactions-table w-full min-w-[1165px] text-left text-xs"><thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Tanggal</th><th class="p-3">Jenis</th><th class="p-3">Kategori</th><th class="p-3">Keterangan</th><th class="p-3">Jumlah</th><th class="p-3">Metode / Sumber</th><th class="p-3">Referensi / Bukti</th><th class="p-3">Status</th><th class="p-3 no-print">Aksi</th></tr></thead><tbody id="financeTransactionRows"><tr><td colspan="9" class="p-5 text-center text-gray-500">Memuat transaksi...</td></tr></tbody></table>
 </div>
 <section class="no-print space-y-3">
 <h3 class="font-bold text-gray-800">Riwayat Audit Keuangan</h3>

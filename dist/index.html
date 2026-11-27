@@ -3062,6 +3062,34 @@ color: #1F2937 !important;
 body #view-admin #tab-finance .border-gray-300 {
 border-color: #64748B !important;
 }
+#view-admin #tab-finance #financePrintArea {
+max-width: 100%;
+overflow-x: auto;
+-webkit-overflow-scrolling: touch;
+}
+#view-admin #tab-finance .finance-transactions-table {
+min-width: 1165px;
+table-layout: fixed;
+}
+#view-admin #tab-finance .finance-transactions-table :is(th,td) {
+overflow-wrap: normal;
+word-break: normal;
+vertical-align: top;
+}
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(1) { width: 105px; white-space: nowrap; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(2) { width: 100px; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(3) { width: 110px; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(4) { width: 180px; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(5) { width: 145px; white-space: nowrap; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(6) { width: 120px; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(7) { width: 125px; overflow-wrap: anywhere; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(8) { width: 90px; }
+#view-admin #tab-finance .finance-transactions-table :is(th,td):nth-child(9) { width: 190px; }
+#view-admin #tab-finance .finance-transactions-table .finance-description-cell {
+white-space: normal;
+overflow-wrap: anywhere;
+line-height: 1.45;
+}
 </style>
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4933FEDV2TW"></script>
@@ -4382,7 +4410,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </form>
 <div class="flex flex-wrap items-end gap-2 no-print"><label class="text-xs font-bold text-gray-700">Dari<input id="financeFilterFrom" type="date" class="mt-1 block rounded-lg border border-gray-300 p-2"></label><label class="text-xs font-bold text-gray-700">Sampai<input id="financeFilterTo" type="date" class="mt-1 block rounded-lg border border-gray-300 p-2"></label><label class="text-xs font-bold text-gray-700">Jenis<select id="financeFilterType" class="mt-1 block rounded-lg border border-gray-300 p-2"><option value="">Semua</option><option value="saldo_awal">Saldo Awal</option><option value="pemasukan">Pemasukan</option><option value="pengeluaran">Pengeluaran</option></select></label><label class="text-xs font-bold text-gray-700">Status<select id="financeFilterStatus" class="mt-1 block rounded-lg border border-gray-300 p-2"><option value="">Semua</option><option value="pending">Menunggu</option><option value="approved">Disetujui</option><option value="rejected">Ditolak</option></select></label><button type="button" class="rounded-lg bg-indigo-600 px-4 py-2.5 text-xs font-bold text-white" onclick="loadFinanceTransactions()">Tampilkan</button><button type="button" class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-bold" onclick="exportFinanceExcel()">Ekspor XLSX</button><button type="button" class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-bold" onclick="printFinanceReport()">Simpan PDF / Cetak</button><button type="button" class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-bold" onclick="loadFinanceAudit()">Riwayat Audit</button></div>
 <p id="financeStatus" class="text-xs text-gray-500" role="status" aria-live="polite">Memuat transaksi...</p>
-<div id="financePrintArea" class="overflow-x-auto rounded-xl border border-gray-200"><table class="w-full min-w-[1050px] text-left text-xs"><thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Tanggal</th><th class="p-3">Jenis</th><th class="p-3">Kategori</th><th class="p-3">Keterangan</th><th class="p-3">Jumlah</th><th class="p-3">Metode / Sumber</th><th class="p-3">Referensi / Bukti</th><th class="p-3">Status</th><th class="p-3 no-print">Aksi</th></tr></thead><tbody id="financeTransactionRows"><tr><td colspan="9" class="p-5 text-center text-gray-500">Memuat transaksi...</td></tr></tbody></table></div>
+<div id="financePrintArea" class="overflow-x-auto rounded-xl border border-gray-200"><table class="finance-transactions-table w-full min-w-[1165px] text-left text-xs"><thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Tanggal</th><th class="p-3">Jenis</th><th class="p-3">Kategori</th><th class="p-3">Keterangan</th><th class="p-3">Jumlah</th><th class="p-3">Metode / Sumber</th><th class="p-3">Referensi / Bukti</th><th class="p-3">Status</th><th class="p-3 no-print">Aksi</th></tr></thead><tbody id="financeTransactionRows"><tr><td colspan="9" class="p-5 text-center text-gray-500">Memuat transaksi...</td></tr></tbody></table></div>
 <section class="no-print space-y-3"><h3 class="font-bold text-gray-800">Riwayat Audit Keuangan</h3><p id="financeAuditStatus" class="text-xs text-gray-500" role="status" aria-live="polite">Klik Riwayat Audit untuk memuat perubahan yang tercatat.</p><div class="overflow-x-auto rounded-xl border border-gray-200"><table class="w-full min-w-[760px] text-left text-xs"><thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Waktu</th><th class="p-3">Aksi</th><th class="p-3">ID Transaksi</th><th class="p-3">Aktor</th><th class="p-3">Perubahan</th></tr></thead><tbody id="financeAuditRows"><tr><td colspan="5" class="p-4 text-center text-gray-500">Belum dimuat.</td></tr></tbody></table></div></section>
 </section>
 <section id="tab-accounting-folders" class="admin-tab space-y-4 hidden">

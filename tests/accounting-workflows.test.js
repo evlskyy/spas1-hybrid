@@ -21,12 +21,16 @@ test('Akuntan submenu exposes stock opname and finance in source and deployed pa
     assert.match(html, /id="financeAuditRows"/);
     assert.match(html, /#view-admin #tab-finance :is\(#financeTransactionForm,#financePrintArea,section\.no-print > div\.overflow-x-auto\)[\s\S]*?background-color:/);
     assert.match(html, /#view-admin #tab-finance :is\(input:not\(\[type="hidden"\]\),select,textarea\)[\s\S]*?background-color:/);
+    assert.match(html, /class="finance-transactions-table w-full min-w-\[1165px\]/);
+    assert.match(html, /finance-transactions-table :is\(th,td\):nth-child\(1\) \{ width: 105px; white-space: nowrap; \}/);
+    assert.match(html, /finance-description-cell \{\s*white-space: normal;\s*overflow-wrap: anywhere;/);
     assert.match(html, /src="\.\/accounting-features\.js" defer/);
     assert.match(html, /'spas1_finance_transactions'/);
     assert.match(html, /initializeStockOpnameDate\(\); loadStockOpnames\(\)/);
     assert.match(html, /initializeFinanceDate\(\); loadFinanceTransactions\(\)/);
   }
   assert.equal(fs.readFileSync(path.join(root, 'dist/accounting-features.js'), 'utf8'), featureScript);
+  assert.match(featureScript, /finance-description-cell p-3/);
 });
 
 test('stock opname approval is tenant-bound, snapshot-checked, and applies audited stock adjustments', function() {
