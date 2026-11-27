@@ -52,6 +52,22 @@ test('finance approval protects the ledger and keeps evidence in private storage
   assert.doesNotMatch(featureScript, /uploadSupabaseMedia\(\{ dataUrl: dataUrl, folder: 'spas1\/akuntan-keuangan'/);
 });
 
+test('finance JPEG receipts retain the extension accepted by the database', async function() {
+  const requests = [];
+  const context = {
+    getSupabaseTenantStorageFolder: function() { return 'tenant-123'; },
+    supabaseStorageRequest: async function(path, options) {
+      requests.push({ path: path, options: options });
+    }
+  };
+  vm.runInNewContext(featureScript, context);
+
+  const path = await context.uploadFinanceReceipt(new Blob(['jpeg'], { type: 'image/jpeg' }));
+
+  assert.match(path, /^tenant-123\/akuntan-keuangan\/.+\.jpeg$/);
+  assert.match(requests[0].path, /\.jpeg$/);
+});
+
 test('finance balance includes only approved opening balance, income, and expense', async function() {
   const elements = {
     financeTransactionRows: { innerHTML: '' },

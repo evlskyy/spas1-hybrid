@@ -337,7 +337,7 @@ async function uploadFinanceReceipt(file) {
   if (!file || file.size > 10 * 1024 * 1024 || !/^image\/(jpeg|png|webp)$/i.test(file.type)) {
     throw new Error('Bukti harus berupa JPEG, PNG, atau WebP dengan ukuran maksimal 10 MB.');
   }
-  const extension = file.type.split('/')[1].replace('jpeg', 'jpg');
+  const extension = file.type.split('/')[1];
   const path = getSupabaseTenantStorageFolder() + '/akuntan-keuangan/' +
     Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + extension;
   await supabaseStorageRequest('/storage/v1/object/spas1-finance/' + path.split('/').map(encodeURIComponent).join('/'), {
