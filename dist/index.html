@@ -3034,7 +3034,18 @@ background-color: #1C2541 !important;
 border-color: #334155 !important;
 color: #E2E8F0 !important;
 }
+body:not(.app-light-mode) #view-admin #tab-finance #financeLedgerArea,
+body:not(.app-light-mode) #view-admin #tab-finance-obligations :is(#financeReceivableForm,#financeObligationPaymentForm,.overflow-x-auto) {
+background-color: #1C2541 !important;
+border-color: #334155 !important;
+color: #E2E8F0 !important;
+}
 body:not(.app-light-mode) #view-admin #tab-finance :is(input:not([type="hidden"]),select,textarea) {
+background-color: #0F172A !important;
+border-color: #475569 !important;
+color: #F8FAFC !important;
+}
+body:not(.app-light-mode) #view-admin #tab-finance-obligations :is(input:not([type="hidden"]),select,textarea) {
 background-color: #0F172A !important;
 border-color: #475569 !important;
 color: #F8FAFC !important;
@@ -3049,7 +3060,18 @@ background-color: #FFFFFF !important;
 border-color: #D1D5DB !important;
 color: #111827 !important;
 }
+body.app-light-mode #view-admin #tab-finance #financeLedgerArea,
+body.app-light-mode #view-admin #tab-finance-obligations :is(#financeReceivableForm,#financeObligationPaymentForm,.overflow-x-auto) {
+background-color: #FFFFFF !important;
+border-color: #D1D5DB !important;
+color: #111827 !important;
+}
 body.app-light-mode #view-admin #tab-finance :is(input:not([type="hidden"]),select,textarea) {
+background-color: #FFFFFF !important;
+border-color: #9CA3AF !important;
+color: #0F172A !important;
+}
+body.app-light-mode #view-admin #tab-finance-obligations :is(input:not([type="hidden"]),select,textarea) {
 background-color: #FFFFFF !important;
 border-color: #9CA3AF !important;
 color: #0F172A !important;
@@ -4342,6 +4364,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <button id="nav-tab-stok" onclick="switchAdminTab('tab-stok', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-boxes-stacked w-5"></i> <span>Stok &amp; Nota</span></button>
 <button id="nav-tab-stock-opname" onclick="switchAdminTab('tab-stock-opname', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-clipboard-list w-5"></i> <span>Stok Opname</span></button>
 <button id="nav-tab-finance" onclick="switchAdminTab('tab-finance', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-money-bill-transfer w-5"></i> <span>Transaksi Keuangan</span></button>
+<button id="nav-tab-finance-obligations" onclick="switchAdminTab('tab-finance-obligations', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-scale-balanced w-5"></i> <span>Hutang &amp; Piutang</span></button>
 <button id="nav-tab-accounting-folders" onclick="switchAdminTab('tab-accounting-folders', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><img class="accounting-folder-icon" src="assets/spas1-folder.svg" alt="Folder" title="Folder LPDH &amp; LPJ"> <span>Folder LPDH &amp; LPJ</span></button>
 <button id="nav-tab-lpdh" onclick="switchAdminTab('tab-lpdh', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-file-invoice-dollar w-5"></i> <span>LPDH Harian</span></button>
 <button id="nav-tab-lpj" onclick="switchAdminTab('tab-lpj', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-file-signature w-5"></i> <span>LPJ</span></button>
@@ -4398,9 +4421,14 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="sl-movement-field full"><label for="slMovementNote">Catatan / tujuan pemakaian</label><textarea id="slMovementNote" rows="2" maxlength="500" placeholder="Contoh: kebutuhan operasional dapur hari ini"></textarea></div>
 </div>
 <div id="slDailyPurchaseFields" class="sl-purchase-fields" hidden>
+<div class="sl-movement-grid">
+<div class="sl-movement-field"><label for="slPurchaseDate">Tanggal nota</label><input type="date" id="slPurchaseDate" required></div>
+<div class="sl-movement-field"><label for="slPurchasePoNumber">Nomor PO / transaksi</label><input type="text" id="slPurchasePoNumber" maxlength="40" readonly required></div>
+<div class="sl-movement-field"><label for="slMovementSupplier">Pemasok / CV</label><div class="flex gap-2"><select id="slMovementSupplier" required class="min-w-0 flex-1"><option value="">Memuat pemasok...</option></select><button type="button" class="sl-purchase-scan-button" onclick="addStockSupplierPrompt()">+ Pemasok</button></div></div>
+<div class="sl-movement-field"><label for="slPurchasePaymentType">Pembayaran nota</label><select id="slPurchasePaymentType" required><option value="cash_lunas">Cash / Lunas</option><option value="hutang">Hutang (dibayar nanti)</option></select><small class="sl-movement-hint">Cash/Lunas membuat pengeluaran menunggu persetujuan. Hutang baru mengurangi saldo saat dibayar dan disetujui. Jangan catat nota yang sama lagi sebagai pengeluaran manual.</small></div>
+</div>
 <div><div class="sl-purchase-line-list" id="slPurchaseLineList"></div><button type="button" class="sl-purchase-add" onclick="addDailyPurchaseLine()"><i class="fa-solid fa-plus"></i> Tambah Bahan</button><div class="sl-purchase-total"><span>Total Belanja</span><strong id="slPurchaseTotal">Rp 0</strong></div></div>
 <div class="sl-movement-grid" style="margin-top:12px;">
-<div class="sl-movement-field"><label for="slMovementSupplier">Supplier / Toko</label><input type="text" id="slMovementSupplier" maxlength="160" placeholder="Nama toko / pemasok"></div>
 <div class="sl-movement-field full"><label for="slMovementNotePurchase">Catatan Nota Belanja</label><textarea id="slMovementNotePurchase" rows="2" maxlength="500" placeholder="Catatan tambahan untuk laporan belanja harian"></textarea></div>
 </div>
 </div>
@@ -4442,7 +4470,17 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="flex flex-wrap items-end gap-2 no-print"><label class="text-xs font-bold text-gray-700">Dari<input id="financeFilterFrom" type="date" class="mt-1 block rounded-lg border border-gray-300 p-2"></label><label class="text-xs font-bold text-gray-700">Sampai<input id="financeFilterTo" type="date" class="mt-1 block rounded-lg border border-gray-300 p-2"></label><label class="text-xs font-bold text-gray-700">Jenis<select id="financeFilterType" class="mt-1 block rounded-lg border border-gray-300 p-2"><option value="">Semua</option><option value="saldo_awal">Saldo Awal</option><option value="pemasukan">Pemasukan</option><option value="pengeluaran">Pengeluaran</option></select></label><label class="text-xs font-bold text-gray-700">Status<select id="financeFilterStatus" class="mt-1 block rounded-lg border border-gray-300 p-2"><option value="">Semua</option><option value="pending">Menunggu</option><option value="approved">Disetujui</option><option value="rejected">Ditolak</option></select></label><button type="button" class="rounded-lg bg-indigo-600 px-4 py-2.5 text-xs font-bold text-white" onclick="loadFinanceTransactions()">Tampilkan</button><button type="button" class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-bold" onclick="exportFinanceExcel()">Ekspor XLSX</button><button type="button" class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-bold" onclick="printFinanceReport()">Simpan PDF / Cetak</button><button type="button" class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-bold" onclick="loadFinanceAudit()">Riwayat Audit</button></div>
 <p id="financeStatus" class="text-xs text-gray-500" role="status" aria-live="polite">Memuat transaksi...</p>
 <div id="financePrintArea" class="overflow-x-auto rounded-xl border border-gray-200"><table class="finance-transactions-table w-full min-w-[1165px] text-left text-xs"><thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Tanggal</th><th class="p-3">Jenis</th><th class="p-3">Kategori</th><th class="p-3">Keterangan</th><th class="p-3">Jumlah</th><th class="p-3">Metode / Sumber</th><th class="p-3">Referensi / Bukti</th><th class="p-3">Status</th><th class="p-3 no-print">Aksi</th></tr></thead><tbody id="financeTransactionRows"><tr><td colspan="9" class="p-5 text-center text-gray-500">Memuat transaksi...</td></tr></tbody></table></div>
+<section class="space-y-3"><div><h3 class="font-bold text-gray-800">Rincian Saldo Kronologis</h3><p class="text-xs text-gray-500">Hanya transaksi yang disetujui ditampilkan. Saldo awal menjadi titik awal perhitungan; tidak ada pengeluaran yang diasumsikan berasal dari saldo awal tertentu.</p></div><div id="financeLedgerArea" class="overflow-x-auto rounded-xl border border-gray-200"><table class="w-full min-w-[720px] text-left text-xs"><thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Tanggal</th><th class="p-3">Keterangan</th><th class="p-3">Jenis</th><th class="p-3">Perubahan</th><th class="p-3">Saldo Setelah Transaksi</th></tr></thead><tbody id="financeLedgerRows"><tr><td colspan="5" class="p-4 text-center text-gray-500">Memuat rincian saldo...</td></tr></tbody></table></div></section>
 <section class="no-print space-y-3"><h3 class="font-bold text-gray-800">Riwayat Audit Keuangan</h3><p id="financeAuditStatus" class="text-xs text-gray-500" role="status" aria-live="polite">Klik Riwayat Audit untuk memuat perubahan yang tercatat.</p><div class="overflow-x-auto rounded-xl border border-gray-200"><table class="w-full min-w-[760px] text-left text-xs"><thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Waktu</th><th class="p-3">Aksi</th><th class="p-3">ID Transaksi</th><th class="p-3">Aktor</th><th class="p-3">Perubahan</th></tr></thead><tbody id="financeAuditRows"><tr><td colspan="5" class="p-4 text-center text-gray-500">Belum dimuat.</td></tr></tbody></table></div></section>
+</section>
+<section id="tab-finance-obligations" class="admin-tab space-y-4 hidden">
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Hutang &amp; Piutang</h2><p class="mt-1 text-xs text-gray-500">Nota Hutang dicatat sebagai kewajiban; pembayaran atau cicilan baru mengubah saldo setelah disetujui. Piutang menambah saldo hanya setelah penerimaan disetujui.</p></div>
+<div class="grid gap-3 sm:grid-cols-3"><div class="rounded-xl border border-amber-200 bg-amber-50 p-4"><span class="text-xs font-bold text-amber-800">Sisa Hutang</span><strong id="financePayablesOutstanding" class="mt-1 block text-xl text-amber-900">Rp 0</strong></div><div class="rounded-xl border border-sky-200 bg-sky-50 p-4"><span class="text-xs font-bold text-sky-800">Sisa Piutang</span><strong id="financeReceivablesOutstanding" class="mt-1 block text-xl text-sky-900">Rp 0</strong></div><div class="rounded-xl border border-violet-200 bg-violet-50 p-4"><span class="text-xs font-bold text-violet-800">Pembayaran Menunggu Persetujuan</span><strong id="financeObligationsPending" class="mt-1 block text-xl text-violet-900">Rp 0</strong></div></div>
+<form id="financeReceivableForm" class="no-print grid gap-3 rounded-xl border border-gray-200 bg-white p-4 sm:grid-cols-2" onsubmit="saveFinanceReceivable(event)"><h3 class="font-bold text-gray-800 sm:col-span-2">Catat Piutang Baru</h3><label class="text-xs font-bold text-gray-700">Pihak yang berutang<input id="financeReceivableParty" type="text" maxlength="160" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" required></label><label class="text-xs font-bold text-gray-700">Jumlah Piutang (Rp)<input id="financeReceivableAmount" type="number" min="0.01" max="999999999999.99" step="0.01" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" required></label><label class="text-xs font-bold text-gray-700 sm:col-span-2">Keterangan<input id="financeReceivableDescription" type="text" maxlength="500" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" required></label><label class="text-xs font-bold text-gray-700">Jatuh Tempo (opsional)<input id="financeReceivableDueDate" type="date" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5"></label><div class="flex items-end"><button id="financeReceivableSave" type="submit" class="rounded-lg bg-sky-700 px-4 py-2.5 text-xs font-bold text-white">Simpan Piutang</button></div></form>
+<form id="financeObligationPaymentForm" class="no-print hidden grid gap-3 rounded-xl border border-indigo-200 bg-indigo-50 p-4 sm:grid-cols-2" onsubmit="saveFinanceObligationPayment(event)"><input id="financeObligationPaymentId" type="hidden"><div class="sm:col-span-2"><h3 id="financeObligationPaymentTitle" class="font-bold text-gray-800">Catat Pembayaran</h3><p id="financeObligationPaymentContext" class="mt-1 text-xs text-gray-600"></p></div><label class="text-xs font-bold text-gray-700">Tanggal transaksi<input id="financeObligationPaymentDate" type="date" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" required></label><label class="text-xs font-bold text-gray-700">Jumlah pembayaran/penerimaan (Rp)<input id="financeObligationPaymentAmount" type="number" min="0.01" step="0.01" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" required></label><label class="text-xs font-bold text-gray-700">Metode<input id="financeObligationPaymentMethod" type="text" maxlength="100" placeholder="Tunai, transfer..." class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" required></label><label class="text-xs font-bold text-gray-700">Referensi (opsional)<input id="financeObligationPaymentReference" type="text" maxlength="160" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5"></label><label class="text-xs font-bold text-gray-700 sm:col-span-2">Foto bukti (wajib)<input id="financeObligationPaymentReceipt" type="file" accept="image/jpeg,image/png,image/webp" capture="environment" class="mt-1 block w-full rounded-lg border border-gray-300 p-2.5" required></label><div class="flex flex-wrap gap-2 sm:col-span-2"><button id="financeObligationPaymentSave" type="submit" class="rounded-lg bg-indigo-700 px-4 py-2.5 text-xs font-bold text-white">Ajukan Persetujuan</button><button type="button" class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-bold" onclick="cancelFinanceObligationPayment()">Batal</button></div></form>
+<div class="flex flex-wrap items-center justify-between gap-2"><h3 class="font-bold text-gray-800">Daftar Hutang dan Piutang</h3><button type="button" class="rounded-lg border border-gray-300 px-3 py-2 text-xs font-bold" onclick="loadFinanceObligations()">Muat Ulang</button></div>
+<p id="financeObligationsStatus" class="text-xs text-gray-500" role="status" aria-live="polite">Memuat Hutang dan Piutang...</p>
+<div class="overflow-x-auto rounded-xl border border-gray-200"><table class="w-full min-w-[1050px] text-left text-xs"><thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Jenis</th><th class="p-3">Pihak / Keterangan</th><th class="p-3">Jatuh Tempo</th><th class="p-3">Nilai Awal</th><th class="p-3">Disetujui</th><th class="p-3">Menunggu</th><th class="p-3">Sisa</th><th class="p-3">Status</th><th class="p-3">Aksi</th></tr></thead><tbody id="financeObligationRows"><tr><td colspan="9" class="p-4 text-center text-gray-500">Memuat data...</td></tr></tbody></table></div>
 </section>
 <section id="tab-accounting-folders" class="admin-tab space-y-4 hidden">
 <div class="accounting-folder-heading"><div><h2>Arsip Folder LPDH &amp; LPJ Harian</h2><p>Setiap folder tanggal menggabungkan laporan LPDH dan/atau LPJ yang sudah tersimpan di Supabase. Klik folder untuk membuka laporan.</p></div><button type="button" onclick="loadAccountingReportFolders()"><i class="fa-solid fa-rotate"></i> Muat Ulang</button></div>
@@ -5143,6 +5181,8 @@ const SPAS1_TENANT_SCOPED_TABLES = new Set([
 'spas1_stock_opname_lines',
 'spas1_finance_transactions',
 'spas1_finance_transaction_audit',
+'spas1_finance_obligations',
+'spas1_finance_obligation_payments',
 'spas1_lpdh_reports',
 'spas1_lpj_reports'
 ]);
@@ -6407,9 +6447,17 @@ if (!purchase || typeof purchase !== 'object' || Array.isArray(purchase)) throw 
 const items = purchase.items;
 const location = String(purchase.location || '').trim();
 const photoPath = String(purchase.photoPath || '');
+const purchaseDate = String(purchase.purchaseDate || '');
+const poNumber = String(purchase.poNumber || '').trim();
+const supplierId = String(purchase.supplierId || '');
+const paymentType = String(purchase.paymentType || '');
 if (!Array.isArray(items) || items.length < 1 || items.length > 100 ||
 !location || location.length > 300 ||
-!isSupabaseStockReceiptPath(photoPath)) {
+!isSupabaseStockReceiptPath(photoPath) ||
+!/^\d{4}-\d{2}-\d{2}$/.test(purchaseDate) ||
+!/^PO-[A-Z0-9-]{8,37}$/.test(poNumber) ||
+!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(supplierId) ||
+!['cash_lunas', 'hutang'].includes(paymentType)) {
 throw new Error('Lengkapi minimal satu bahan, lokasi, dan foto nota yang valid.');
 }
 const normalizedItems = items.map(function(item) {
@@ -6431,15 +6479,18 @@ throw new Error('Periksa kategori, nama, satuan, jumlah, dan harga setiap bahan.
 }
 return { category: category, name: name, unit: unit, smallUnit: smallUnit, conversionFactor: conversionFactor, quantity: quantity, unitPrice: unitPrice };
 });
-const result = await supabaseRpc('record_stok_logistik_daily_purchase', {
-p_supplier: String(purchase.supplier || '').trim(),
+const result = await supabaseRpc('spas1_record_stock_purchase_with_payment', {
+p_purchase_date: purchaseDate,
+p_po_number: poNumber,
+p_supplier_id: supplierId,
 p_note: String(purchase.note || '').trim(),
 p_location: location,
 p_photo_path: photoPath,
-p_items: normalizedItems
+p_items: normalizedItems,
+p_payment_type: paymentType
 });
 if (!result || !result.report || !Array.isArray(result.movementIds)) throw new Error('Laporan belanja tidak berhasil dikonfirmasi oleh Supabase.');
-return { status: 'success', data: result, message: 'Folder belanja harian berhasil disimpan dan stok diperbarui.' };
+return { status: 'success', data: result, message: 'Nota pembelian berhasil disimpan dan stok diperbarui.' };
 }
 case 'recordKitchenUsage': {
 requireSupabaseSession();
@@ -7470,7 +7521,7 @@ const superAksesTab = ['tab-content', 'tab-laporan', 'tab-karyawan', 'tab-regist
 const superAksesToggle = document.getElementById('nav-super-akses-toggle');
 if (superAksesToggle) superAksesToggle.classList.toggle('is-current', superAksesTab);
 if (superAksesTab) toggleSuperAksesMenu(true);
-const akuntanTab = ['tab-audit', 'tab-stok', 'tab-stock-opname', 'tab-finance', 'tab-accounting-folders', 'tab-lpdh', 'tab-lpj'].indexOf(tabId) !== -1;
+const akuntanTab = ['tab-audit', 'tab-stok', 'tab-stock-opname', 'tab-finance', 'tab-finance-obligations', 'tab-accounting-folders', 'tab-lpdh', 'tab-lpj'].indexOf(tabId) !== -1;
 const akuntanToggle = document.getElementById('nav-akuntan-toggle');
 if (akuntanToggle) akuntanToggle.classList.toggle('is-current', akuntanTab);
 if (akuntanTab) toggleAkuntanMenu(true);
@@ -7490,6 +7541,7 @@ if (tabId === 'tab-organization-requests') loadOrganizationRequests();
 if (tabId === 'tab-audit') { initializeStockAuditDate(); loadStockMovements(); }
 if (tabId === 'tab-stock-opname') { initializeStockOpnameDate(); loadStockOpnames(); }
 if (tabId === 'tab-finance') { initializeFinanceDate(); loadFinanceTransactions(); }
+if (tabId === 'tab-finance-obligations') { initializeFinanceDate(); loadFinanceObligations(); }
 if (tabId === 'tab-accounting-folders') loadAccountingReportFolders();
 if (tabId === 'tab-lpdh') {
 initializeLpdhForm();
@@ -9547,6 +9599,52 @@ line.innerHTML = '<div class="sl-purchase-line-heading"><span>Bahan #' + lineId 
 list.appendChild(line);
 updateStockMovementType();
 }
+function generatePurchaseOrderNumber(date) {
+const compactDate = String(date || localDateInputValue()).replace(/-/g, '');
+return 'PO-' + compactDate + '-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+}
+async function loadPurchaseSuppliers(selectedId) {
+const select = document.getElementById('slMovementSupplier');
+if (!select) return;
+select.innerHTML = '<option value="">Memuat pemasok...</option>';
+const rows = await supabaseRequest('spas1_stock_suppliers', {
+query: { select: 'id,supplier_name', status: 'eq.Aktif', order: 'supplier_name.asc' }
+});
+if (!Array.isArray(rows)) throw new Error('Daftar pemasok tidak valid.');
+select.innerHTML = '<option value="">Pilih pemasok</option>' + rows.map(function(row) {
+return '<option value="' + escapeHtml(row.id) + '">' + escapeHtml(row.supplier_name) + '</option>';
+}).join('');
+if (selectedId) select.value = String(selectedId);
+}
+async function addStockSupplierPrompt() {
+const name = String(prompt('Nama pemasok / CV:') || '').trim();
+if (!name) return;
+if (name.length < 2 || name.length > 160) {
+showToast('❌ Nama pemasok harus berisi 2–160 karakter.');
+return;
+}
+try {
+const existing = await supabaseRequest('spas1_stock_suppliers', {
+query: { select: 'id,supplier_name', status: 'eq.Aktif', order: 'supplier_name.asc' }
+});
+const found = existing.find(function(row) { return String(row.supplier_name).toLocaleLowerCase('id') === name.toLocaleLowerCase('id'); });
+if (found) {
+await loadPurchaseSuppliers(found.id);
+return;
+}
+const response = await fetch(window.SPAS1_SUPABASE_URL + '/rest/v1/spas1_stock_suppliers', {
+method: 'POST',
+headers: Object.assign(supabaseHeaders(), { Prefer: 'return=representation' }),
+body: JSON.stringify({ sppg_id: getSupabaseTenantId(), supplier_name: name, status: 'Aktif' })
+});
+if (!response.ok) throw new Error(await response.text());
+const created = await response.json();
+if (!Array.isArray(created) || !created[0] || !created[0].id) throw new Error('Pemasok baru tidak dikonfirmasi oleh Supabase.');
+await loadPurchaseSuppliers(created[0].id);
+} catch (error) {
+showToast('❌ Gagal menyimpan pemasok: ' + error.message);
+}
+}
 function resetDailyPurchaseLines() {
 document.getElementById('slPurchaseLineList').replaceChildren();
 slPurchaseLineSequence = 0;
@@ -9572,6 +9670,15 @@ ensureStockMasterLoaded(function() {
 const form = document.getElementById('slMovementForm');
 form.reset();
 resetDailyPurchaseLines();
+const purchaseDate = document.getElementById('slPurchaseDate');
+purchaseDate.value = localDateInputValue();
+document.getElementById('slPurchasePoNumber').value = generatePurchaseOrderNumber(purchaseDate.value);
+purchaseDate.onchange = function() {
+document.getElementById('slPurchasePoNumber').value = generatePurchaseOrderNumber(purchaseDate.value);
+};
+loadPurchaseSuppliers().catch(function(error) {
+showToast('❌ Daftar pemasok gagal dimuat: ' + error.message);
+});
 slMovementPhotoDataUrl = '';
 document.getElementById('slMovementPhotoPreview').style.display = 'none';
 document.getElementById('slMovementPhotoPreview').removeAttribute('src');
@@ -10140,6 +10247,26 @@ body: file
 });
 return { path: path, name: file.name, mime: file.type };
 }
+async function openStockReceiptByPath(filePath) {
+const path = String(filePath || '').replace(/^\/+/, '');
+if (!isSupabaseStockReceiptPath(path)) {
+showToast('❌ Lokasi foto bukti transaksi tidak valid.');
+return;
+}
+const popup = window.open('about:blank', '_blank');
+if (!popup) {
+showToast('Izinkan pop-up untuk membuka bukti transaksi.');
+return;
+}
+popup.opener = null;
+try {
+const response = await supabaseStorageRequest('/storage/v1/object/authenticated/spas1-media/' + path.split('/').map(encodeURIComponent).join('/'), { method: 'GET' });
+await openSupabaseMediaBlobInPopup(response, popup);
+} catch (error) {
+popup.close();
+showToast('❌ Gagal membuka bukti transaksi: ' + error.message);
+}
+}
 async function openLpdhReceipt(button) {
 const path = String(button.dataset.receiptPath || '');
 if (!isSupabaseTenantStoragePath(path, 'lpdh/')) {
@@ -10286,7 +10413,10 @@ quantity: Number(line.querySelector('[data-purchase-field="quantity"]').value),
 unitPrice: Number(line.querySelector('[data-purchase-field="unitPrice"]').value)
 };
 }),
-supplier: document.getElementById('slMovementSupplier').value.trim(),
+supplierId: document.getElementById('slMovementSupplier').value,
+purchaseDate: document.getElementById('slPurchaseDate').value,
+poNumber: document.getElementById('slPurchasePoNumber').value.trim(),
+paymentType: document.getElementById('slPurchasePaymentType').value,
 note: document.getElementById('slMovementNotePurchase').value.trim(),
 location: location
 };

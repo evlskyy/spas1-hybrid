@@ -12,6 +12,15 @@ const volunteerFunction = fs.readFileSync(path.join(root, 'supabase/functions/vo
 const emptyTenantMigration = fs.readFileSync(path.join(root, 'supabase/tenant_empty_defaults_migration.sql'), 'utf8');
 const onboardingPermissionsMigration = fs.readFileSync(path.join(root, 'supabase/sppg_onboarding_permissions_migration.sql'), 'utf8');
 const purchaseMigration = fs.readFileSync(path.join(root, 'supabase/purchase_order_management_migration.sql'), 'utf8');
+const featureMigrationTables = new Set([
+  'spas1_stock_suppliers',
+  'spas1_stock_opnames',
+  'spas1_stock_opname_lines',
+  'spas1_finance_transactions',
+  'spas1_finance_transaction_audit',
+  'spas1_finance_obligations',
+  'spas1_finance_obligation_payments'
+]);
 
 function quotedNames(source) {
   return Array.from(source.matchAll(/'([^']+)'/g), function(match) { return match[1]; });
@@ -27,7 +36,7 @@ test('frontend and tenant migration cover the same operational tables', function
 
   assert.deepEqual(
     quotedNames(html.slice(clientStart, clientEnd)).filter(function(name) {
-      return name !== 'spas1_stock_suppliers';
+      return !featureMigrationTables.has(name);
     }).sort(),
     quotedNames(migrationMatch[1]).sort()
   );

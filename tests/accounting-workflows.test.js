@@ -9,18 +9,26 @@ const sourceHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const deployedHtml = fs.readFileSync(path.join(root, 'dist/index.html'), 'utf8');
 const featureScript = fs.readFileSync(path.join(root, 'accounting-features.js'), 'utf8');
 const migration = fs.readFileSync(path.join(root, 'supabase/accounting_inventory_finance_migration.sql'), 'utf8');
+const obligationsMigration = fs.readFileSync(path.join(root, 'supabase/finance_obligations_and_purchase_payments_migration.sql'), 'utf8');
 
 test('Akuntan submenu exposes stock opname and finance in source and deployed pages', function() {
   for (const html of [sourceHtml, deployedHtml]) {
     assert.match(html, /id="nav-tab-stock-opname"[^>]*switchAdminTab\('tab-stock-opname'/);
     assert.match(html, /id="nav-tab-finance"[^>]*switchAdminTab\('tab-finance'/);
+    assert.match(html, /id="nav-tab-finance-obligations"[^>]*switchAdminTab\('tab-finance-obligations'/);
     assert.match(html, /id="tab-stock-opname"/);
     assert.match(html, /id="tab-finance"/);
+    assert.match(html, /id="tab-finance-obligations"/);
+    assert.match(html, /id="slPurchasePaymentType"/);
+    assert.match(html, /id="financeLedgerRows"/);
+    assert.match(html, /id="financeLedgerArea"/);
+    assert.match(html, /id="financeObligationRows"/);
     assert.match(html, /id="financeOpeningBalance"/);
     assert.match(html, /onclick="loadFinanceAudit\(\)">Riwayat Audit/);
     assert.match(html, /id="financeAuditRows"/);
     assert.match(html, /#view-admin #tab-finance :is\(#financeTransactionForm,#financePrintArea,section\.no-print > div\.overflow-x-auto\)[\s\S]*?background-color:/);
     assert.match(html, /#view-admin #tab-finance :is\(input:not\(\[type="hidden"\]\),select,textarea\)[\s\S]*?background-color:/);
+    assert.match(html, /#view-admin #tab-finance-obligations :is\(input:not\(\[type="hidden"\]\),select,textarea\)[\s\S]*?background-color:/);
     assert.match(html, /class="finance-transactions-table w-full min-w-\[1165px\]/);
     assert.match(html, /finance-transactions-table :is\(th,td\):nth-child\(1\) \{ width: 105px; white-space: nowrap; \}/);
     assert.match(html, /finance-description-cell \{\s*white-space: normal;\s*overflow-wrap: anywhere;/);
@@ -30,9 +38,29 @@ test('Akuntan submenu exposes stock opname and finance in source and deployed pa
     assert.match(html, /'spas1_finance_transactions'/);
     assert.match(html, /initializeStockOpnameDate\(\); loadStockOpnames\(\)/);
     assert.match(html, /initializeFinanceDate\(\); loadFinanceTransactions\(\)/);
+    assert.match(html, /initializeFinanceDate\(\); loadFinanceObligations\(\)/);
   }
   assert.equal(fs.readFileSync(path.join(root, 'dist/accounting-features.js'), 'utf8'), featureScript);
   assert.match(featureScript, /finance-description-cell p-3/);
+});
+
+test('cash purchases, payables, receivables, and payment approvals use dedicated migration RPCs', function() {
+  assert.match(obligationsMigration, /p_payment_type is null/);
+  assert.match(obligationsMigration, /spas1_record_stock_purchase_with_payment/);
+  assert.match(obligationsMigration, /spas1_edit_stock_purchase_with_payment/);
+  assert.match(obligationsMigration, /spas1_create_finance_receivable/);
+  assert.match(obligationsMigration, /spas1_record_finance_obligation_payment/);
+  assert.match(obligationsMigration, /check \("Status Pembayaran" in \('Belum Dicatat', 'Cash\/Lunas', 'Hutang', 'Hutang Sebagian', 'Lunas', 'Dibatalkan'\)\)/);
+  assert.match(obligationsMigration, /if p_payment_type is null or p_payment_type not in \('cash_lunas', 'hutang'\) then/);
+  assert.match(obligationsMigration, /only applies to historical|nota lama/i);
+  assert.match(obligationsMigration, /source_obligation_id/);
+  assert.match(obligationsMigration, /transaction\.status = 'approved'/);
+  assert.match(obligationsMigration, /transaction\.status in \('pending', 'approved'\)/);
+  assert.match(obligationsMigration, /Finance obligation payments tenant admin read/);
+  assert.match(sourceHtml, /Nota lama - belum diselaraskan/);
+  assert.match(featureScript, /spas1_record_finance_obligation_payment/);
+  assert.match(featureScript, /Rincian_Saldo/);
+  assert.match(featureScript, /openStockReceiptByPath\(path\)/);
 });
 
 test('finance actions render as evenly sized two-column buttons', function() {
@@ -67,6 +95,88 @@ test('finance actions render as evenly sized two-column buttons', function() {
   assert.ok(markup.indexOf('>Setujui</button>') < markup.indexOf('>Tolak</button>'));
   assert.ok(markup.indexOf('>Tolak</button>') < markup.indexOf('>Edit</button>'));
   assert.ok(markup.indexOf('>Edit</button>') < markup.indexOf('>Hapus</button>'));
+});
+
+test('linked purchase and obligation transactions cannot be edited or deleted from the generic finance list', function() {
+  const elements = {
+    financeTransactionRows: { innerHTML: '' },
+    financeFilterFrom: { value: '' },
+    financeFilterTo: { value: '' },
+    financeFilterType: { value: '' },
+    financeFilterStatus: { value: '' }
+  };
+  const context = {
+    document: { getElementById: function(id) { return elements[id]; } },
+    financeTransactions: [{
+      id: 'linked-transaction',
+      transaction_date: '2026-11-27',
+      transaction_type: 'pengeluaran',
+      category: 'Pembelian Stok',
+      description: 'Nota PO',
+      amount: 125000,
+      payment_method: 'Cash/Lunas',
+      status: 'pending',
+      source_purchase_id: 'purchase-1'
+    }],
+    escapeHtml: function(value) { return String(value); }
+  };
+  vm.runInNewContext(featureScript, context);
+
+  context.renderFinanceTransactions();
+
+  const markup = elements.financeTransactionRows.innerHTML;
+  assert.match(markup, /Setujui/);
+  assert.match(markup, /Tolak/);
+  assert.match(markup, /Kelola melalui nota atau Hutang\/Piutang/);
+  assert.doesNotMatch(markup, />Edit<\/button>/);
+  assert.doesNotMatch(markup, />Hapus<\/button>/);
+});
+
+test('chronological balance ledger ignores pending and rejected transactions', function() {
+  const context = {
+    financeTransactions: [
+      { id: 'late', transaction_date: '2026-01-03', transaction_type: 'pengeluaran', amount: 125, status: 'approved' },
+      { id: 'pending', transaction_date: '2026-01-02', transaction_type: 'pemasukan', amount: 500, status: 'pending' },
+      { id: 'opening', transaction_date: '2026-01-01', transaction_type: 'saldo_awal', amount: 1000, status: 'approved' },
+      { id: 'income', transaction_date: '2026-01-02', transaction_type: 'pemasukan', amount: 300, status: 'approved' },
+      { id: 'rejected', transaction_date: '2026-01-02', transaction_type: 'pengeluaran', amount: 75, status: 'rejected' }
+    ]
+  };
+  vm.runInNewContext(featureScript, context);
+
+  const rows = Array.from(context.getFinanceLedgerRows(), function(row) {
+    return [row.transaction.id, row.change, row.balance];
+  });
+
+  assert.deepEqual(rows, [['opening', 1000, 1000], ['income', 300, 1300], ['late', -125, 1175]]);
+});
+
+test('obligation totals reserve pending installments without treating them as paid', function() {
+  const context = {
+    financeTransactions: [
+      { id: 'paid-1', status: 'approved' },
+      { id: 'pending-1', status: 'pending' },
+      { id: 'rejected-1', status: 'rejected' }
+    ],
+    financeObligationPayments: [
+      { obligation_id: 'obligation-1', finance_transaction_id: 'paid-1', amount: 200 },
+      { obligation_id: 'obligation-1', finance_transaction_id: 'pending-1', amount: 150 },
+      { obligation_id: 'obligation-1', finance_transaction_id: 'rejected-1', amount: 100 }
+    ]
+  };
+  vm.runInNewContext(featureScript, context);
+  context.financeObligationPayments = [
+    { obligation_id: 'obligation-1', finance_transaction_id: 'paid-1', amount: 200 },
+    { obligation_id: 'obligation-1', finance_transaction_id: 'pending-1', amount: 150 },
+    { obligation_id: 'obligation-1', finance_transaction_id: 'rejected-1', amount: 100 }
+  ];
+
+  const amounts = context.getFinanceObligationAmounts({ id: 'obligation-1', total_amount: 1000 });
+
+  assert.deepEqual(
+    { approved: amounts.approved, pending: amounts.pending, outstanding: amounts.outstanding, available: amounts.available },
+    { approved: 200, pending: 150, outstanding: 800, available: 650 }
+  );
 });
 
 test('stock opname approval is tenant-bound, snapshot-checked, and applies audited stock adjustments', function() {

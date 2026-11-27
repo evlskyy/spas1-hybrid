@@ -7,6 +7,7 @@ const vm = require('node:vm');
 const root = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const migration = fs.readFileSync(path.join(root, 'supabase', 'purchase_order_management_migration.sql'), 'utf8');
+const financeMigration = fs.readFileSync(path.join(root, 'supabase', 'finance_obligations_and_purchase_payments_migration.sql'), 'utf8');
 
 function sourceOf(name, nextName) {
   const start = html.indexOf('function ' + name + '(');
@@ -67,7 +68,8 @@ test('purchase archive exposes date grouping and audited edit/cancel paths', fun
   assert.match(html, /function openPurchaseTransactions\(\)/);
   assert.match(html, /case 'fetchPurchaseTransactions'/);
   assert.match(html, /case 'fetchPurchaseTransactionDetails'/);
-  assert.match(html, /supabaseRpc\('edit_stok_logistik_purchase_order'/);
+  assert.match(html, /supabaseRpc\('spas1_edit_stock_purchase_with_payment'/);
+  assert.match(financeMigration, /public\.edit_stok_logistik_purchase_order\(/);
   assert.match(html, /voidStockMovement', \{ movementId: movementId, reason: reason\.trim\(\) \}/);
   assert.match(migration, /perform public\.void_stok_logistik_transaction\(v_movement_id/);
   assert.match(migration, /v_result := public\.record_stok_logistik_purchase_order/);

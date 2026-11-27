@@ -238,6 +238,253 @@ function financeStatusLabel(status) {
   return { pending: 'Menunggu', approved: 'Disetujui', rejected: 'Ditolak' }[status] || status;
 }
 
+var financeObligations = [];
+var financeObligationPayments = [];
+
+function financeTransactionDelta(row) {
+  const amount = Math.round(Number(row.amount || 0) * 100);
+  if (row.transaction_type === 'pengeluaran') return -amount;
+  return amount;
+}
+
+function getFinanceLedgerRows() {
+  let balanceCents = 0;
+  return financeTransactions.filter(function(row) { return row.status === 'approved'; })
+    .slice()
+    .sort(function(left, right) {
+      return String(left.transaction_date).localeCompare(String(right.transaction_date)) ||
+        String(left.created_at || '').localeCompare(String(right.created_at || '')) ||
+        String(left.id || '').localeCompare(String(right.id || ''));
+    })
+    .map(function(row) {
+      balanceCents += financeTransactionDelta(row);
+      return { transaction: row, change: financeTransactionDelta(row) / 100, balance: balanceCents / 100 };
+    });
+}
+
+function renderFinanceLedger() {
+  const tbody = document.getElementById('financeLedgerRows');
+  if (!tbody) return;
+  const rows = getFinanceLedgerRows();
+  tbody.innerHTML = rows.length ? rows.map(function(entry) {
+    const row = entry.transaction;
+    return '<tr class="border-t border-gray-100"><td class="whitespace-nowrap p-3">' + escapeHtml(row.transaction_date) + '</td>' +
+      '<td class="p-3">' + escapeHtml(row.description) + '</td>' +
+      '<td class="p-3">' + escapeHtml(financeTypeLabel(row.transaction_type)) + '</td>' +
+      '<td class="whitespace-nowrap p-3 ' + (entry.change < 0 ? 'text-rose-700' : 'text-emerald-700') + '">' +
+      escapeHtml(formatFinanceMoney(entry.change)) + '</td>' +
+      '<td class="whitespace-nowrap p-3 font-bold">' + escapeHtml(formatFinanceMoney(entry.balance)) + '</td></tr>';
+  }).join('') : '<tr><td colspan="5" class="p-4 text-center text-gray-500">Belum ada transaksi disetujui untuk dirinci.</td></tr>';
+}
+
+function getFinanceObligationAmounts(obligation, transactionById) {
+  const transactions = transactionById || new Map(financeTransactions.map(function(row) { return [String(row.id), row]; }));
+  let approvedCents = 0;
+  let pendingCents = 0;
+  financeObligationPayments.forEach(function(payment) {
+    if (String(payment.obligation_id) !== String(obligation.id)) return;
+    const transaction = transactions.get(String(payment.finance_transaction_id));
+    if (!transaction) return;
+    const amountCents = Math.round(Number(payment.amount || 0) * 100);
+    if (transaction.status === 'approved') approvedCents += amountCents;
+    if (transaction.status === 'pending') pendingCents += amountCents;
+  });
+  const totalCents = Math.round(Number(obligation.total_amount || 0) * 100);
+  return {
+    approved: approvedCents / 100,
+    pending: pendingCents / 100,
+    outstanding: Math.max(0, totalCents - approvedCents) / 100,
+    available: Math.max(0, totalCents - approvedCents - pendingCents) / 100
+  };
+}
+
+function financeObligationStatusLabel(obligation, amounts) {
+  if (obligation.status === 'cancelled') return 'Dibatalkan';
+  if (amounts.outstanding <= 0) return 'Lunas';
+  if (amounts.pending > 0) return 'Menunggu persetujuan';
+  if (obligation.due_date && obligation.due_date < localDateInputValue()) return 'Jatuh tempo';
+  if (amounts.approved > 0) return 'Cicilan';
+  return 'Belum dibayar';
+}
+
+function renderFinanceObligations() {
+  const tbody = document.getElementById('financeObligationRows');
+  if (!tbody) return;
+  let payablesCents = 0;
+  let receivablesCents = 0;
+  let pendingCents = 0;
+  const transactionById = new Map(financeTransactions.map(function(row) { return [String(row.id), row]; }));
+  const rows = financeObligations.map(function(obligation) {
+    const amounts = getFinanceObligationAmounts(obligation, transactionById);
+    if (obligation.direction === 'payable') payablesCents += Math.round(amounts.outstanding * 100);
+    else receivablesCents += Math.round(amounts.outstanding * 100);
+    pendingCents += Math.round(amounts.pending * 100);
+    const history = financeObligationPayments
+      .filter(function(payment) { return String(payment.obligation_id) === String(obligation.id); })
+      .sort(function(left, right) { return String(left.created_at || '').localeCompare(String(right.created_at || '')); })
+      .map(function(payment) {
+        const transaction = transactionById.get(String(payment.finance_transaction_id));
+        if (!transaction) return '';
+        const receipt = transaction.receipt_path
+          ? ' · <button type="button" class="text-indigo-700 underline" data-receipt-path="' +
+            escapeHtml(transaction.receipt_path) + '" onclick="openFinanceReceipt(this)">Bukti</button>'
+          : '';
+        return '<li>' + escapeHtml(transaction.transaction_date) + ' · ' +
+          escapeHtml(formatFinanceMoney(payment.amount)) + ' · ' +
+          escapeHtml(financeStatusLabel(transaction.status)) +
+          (transaction.payment_method ? ' · ' + escapeHtml(transaction.payment_method) : '') +
+          (transaction.reference ? ' · ' + escapeHtml(transaction.reference) : '') +
+          receipt + '</li>';
+      }).filter(Boolean);
+    const historyMarkup = '<details class="mt-1"><summary class="cursor-pointer text-indigo-700">Riwayat pembayaran (' +
+      history.length + ')</summary><ul class="mt-1 space-y-1">' +
+      (history.length ? history.join('') : '<li>Belum ada pembayaran atau penerimaan.</li>') + '</ul></details>';
+    const typeLabel = obligation.direction === 'payable' ? 'Hutang' : 'Piutang';
+    const action = amounts.available > 0 && obligation.status !== 'cancelled'
+      ? '<button type="button" class="rounded bg-indigo-700 px-3 py-2 font-bold text-white" onclick="beginFinanceObligationPayment(\'' +
+        escapeHtml(obligation.id) + '\')">' + (obligation.direction === 'payable' ? 'Catat Pembayaran' : 'Catat Penerimaan') + '</button>'
+      : amounts.pending > 0 ? '<span class="text-violet-700">Menunggu persetujuan</span>' : '—';
+    return '<tr class="border-t border-gray-100"><td class="p-3 font-bold">' + typeLabel + '</td>' +
+      '<td class="p-3"><strong>' + escapeHtml(obligation.party_name) + '</strong><div>' + escapeHtml(obligation.description) + '</div>' +
+      (obligation.source_purchase_id ? '<div class="font-mono text-[10px] text-gray-500">Nota: ' + escapeHtml(obligation.source_purchase_id) + '</div>' : '') +
+      historyMarkup + '</td>' +
+      '<td class="whitespace-nowrap p-3">' + escapeHtml(obligation.due_date || '—') + '</td>' +
+      '<td class="whitespace-nowrap p-3">' + escapeHtml(formatFinanceMoney(obligation.total_amount)) + '</td>' +
+      '<td class="whitespace-nowrap p-3">' + escapeHtml(formatFinanceMoney(amounts.approved)) + '</td>' +
+      '<td class="whitespace-nowrap p-3">' + escapeHtml(formatFinanceMoney(amounts.pending)) + '</td>' +
+      '<td class="whitespace-nowrap p-3 font-bold">' + escapeHtml(formatFinanceMoney(amounts.outstanding)) + '</td>' +
+      '<td class="p-3">' + escapeHtml(financeObligationStatusLabel(obligation, amounts)) + '</td>' +
+      '<td class="p-3">' + action + '</td></tr>';
+  });
+  tbody.innerHTML = rows.length
+    ? rows.join('')
+    : '<tr><td colspan="9" class="p-4 text-center text-gray-500">Belum ada Hutang atau Piutang.</td></tr>';
+  const payables = document.getElementById('financePayablesOutstanding');
+  const receivables = document.getElementById('financeReceivablesOutstanding');
+  const pending = document.getElementById('financeObligationsPending');
+  if (payables) payables.textContent = formatFinanceMoney(payablesCents / 100);
+  if (receivables) receivables.textContent = formatFinanceMoney(receivablesCents / 100);
+  if (pending) pending.textContent = formatFinanceMoney(pendingCents / 100);
+}
+
+async function loadFinanceObligations(refreshTransactions) {
+  const status = document.getElementById('financeObligationsStatus');
+  const tbody = document.getElementById('financeObligationRows');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-gray-500">Memuat Hutang dan Piutang...</td></tr>';
+  try {
+    if (refreshTransactions !== false) await loadFinanceTransactions();
+    const results = await Promise.all([
+      fetchAccountingRows('spas1_finance_obligations', { select: '*', order: 'created_at.desc,id.desc' }),
+      fetchAccountingRows('spas1_finance_obligation_payments', { select: '*', order: 'created_at.desc,id.desc' })
+    ]);
+    financeObligations = results[0];
+    financeObligationPayments = results[1];
+    renderFinanceObligations();
+    status.textContent = financeObligations.length + ' catatan Hutang/Piutang dimuat. Transaksi pembayarannya tetap menunggu persetujuan SUPER ADMIN.';
+  } catch (error) {
+    tbody.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-rose-700">Gagal memuat Hutang/Piutang: ' + escapeHtml(error.message) + '</td></tr>';
+    status.textContent = 'Pastikan finance_obligations_and_purchase_payments_migration.sql sudah diterapkan setelah migrasi keuangan dan pembelian.';
+    showToast('❌ Gagal memuat Hutang/Piutang: ' + error.message);
+  }
+}
+
+async function saveFinanceReceivable(event) {
+  event.preventDefault();
+  const button = document.getElementById('financeReceivableSave');
+  if (button.disabled) return;
+  button.disabled = true;
+  try {
+    const partyName = document.getElementById('financeReceivableParty').value.trim();
+    const description = document.getElementById('financeReceivableDescription').value.trim();
+    const amount = Number(document.getElementById('financeReceivableAmount').value);
+    if (!partyName || partyName.length > 160 || !description || description.length > 500 ||
+        !Number.isFinite(amount) || amount <= 0 || amount > 999999999999.99) {
+      throw new Error('Nama pihak, keterangan, dan nilai Piutang harus valid.');
+    }
+    await supabaseRpc('spas1_create_finance_receivable', {
+      p_party_name: partyName,
+      p_description: description,
+      p_amount: amount,
+      p_due_date: document.getElementById('financeReceivableDueDate').value || null
+    });
+    document.getElementById('financeReceivableForm').reset();
+    showToast('✅ Piutang dicatat. Saldo bertambah setelah penerimaan dan persetujuan.');
+    await loadFinanceObligations();
+  } catch (error) {
+    showToast('❌ Gagal mencatat Piutang: ' + error.message);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+function beginFinanceObligationPayment(id) {
+  const obligation = financeObligations.find(function(row) { return String(row.id) === String(id); });
+  if (!obligation) {
+    showToast('❌ Hutang/Piutang tidak ditemukan.');
+    return;
+  }
+  const amounts = getFinanceObligationAmounts(obligation);
+  if (amounts.available <= 0) {
+    showToast('Pembayaran penuh sudah diajukan atau kewajiban telah lunas.');
+    return;
+  }
+  const form = document.getElementById('financeObligationPaymentForm');
+  document.getElementById('financeObligationPaymentId').value = obligation.id;
+  document.getElementById('financeObligationPaymentDate').value = localDateInputValue();
+  const amountInput = document.getElementById('financeObligationPaymentAmount');
+  amountInput.max = amounts.available.toFixed(2);
+  amountInput.value = amounts.available.toFixed(2);
+  document.getElementById('financeObligationPaymentMethod').value = '';
+  document.getElementById('financeObligationPaymentReference').value = '';
+  document.getElementById('financeObligationPaymentReceipt').value = '';
+  document.getElementById('financeObligationPaymentTitle').textContent =
+    obligation.direction === 'payable' ? 'Catat Pembayaran Hutang' : 'Catat Penerimaan Piutang';
+  document.getElementById('financeObligationPaymentContext').textContent =
+    obligation.party_name + ' · sisa yang dapat diajukan ' + formatFinanceMoney(amounts.available) +
+    '. Nominal yang diajukan belum mengubah saldo sampai disetujui.';
+  form.classList.remove('hidden');
+  form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function cancelFinanceObligationPayment() {
+  const form = document.getElementById('financeObligationPaymentForm');
+  form.reset();
+  form.classList.add('hidden');
+  document.getElementById('financeObligationPaymentId').value = '';
+}
+
+async function saveFinanceObligationPayment(event) {
+  event.preventDefault();
+  const button = document.getElementById('financeObligationPaymentSave');
+  if (button.disabled) return;
+  button.disabled = true;
+  let uploadedPath = '';
+  try {
+    const file = document.getElementById('financeObligationPaymentReceipt').files[0];
+    if (!file) throw new Error('Foto bukti wajib dipilih.');
+    uploadedPath = await uploadFinanceReceipt(file);
+    await supabaseRpc('spas1_record_finance_obligation_payment', {
+      p_obligation_id: document.getElementById('financeObligationPaymentId').value,
+      p_transaction_date: document.getElementById('financeObligationPaymentDate').value,
+      p_amount: Number(document.getElementById('financeObligationPaymentAmount').value),
+      p_payment_method: document.getElementById('financeObligationPaymentMethod').value.trim(),
+      p_reference: document.getElementById('financeObligationPaymentReference').value.trim(),
+      p_receipt_path: uploadedPath
+    });
+    cancelFinanceObligationPayment();
+    showToast('✅ Pembayaran/penerimaan diajukan; saldo berubah setelah SUPER ADMIN menyetujui.');
+    await loadFinanceObligations();
+  } catch (error) {
+    const receiptWarning = uploadedPath
+      ? ' Bukti diunggah tetapi tidak tertaut; hapus file tersebut dari bucket privat spas1-finance bila transaksi tidak berhasil disimpan.'
+      : '';
+    showToast('❌ Gagal mencatat pembayaran/penerimaan: ' + error.message + receiptWarning);
+  } finally {
+    button.disabled = false;
+  }
+}
+
 function getFilteredFinanceTransactions() {
   const from = document.getElementById('financeFilterFrom').value;
   const to = document.getElementById('financeFilterTo').value;
@@ -268,6 +515,7 @@ async function loadFinanceTransactions() {
     document.getElementById('financeTotalIncome').textContent = formatFinanceMoney(income);
     document.getElementById('financeTotalExpense').textContent = formatFinanceMoney(expense);
     renderFinanceTransactions();
+    renderFinanceLedger();
     document.getElementById('financeStatus').textContent = financeTransactions.length + ' transaksi dimuat. Pengeluaran hanya dapat disetujui jika saldo mencukupi.';
   } catch (error) {
     tbody.innerHTML = '<tr><td colspan="9" class="p-5 text-center text-rose-700">Gagal memuat transaksi: ' + escapeHtml(error.message) + '</td></tr>';
@@ -286,6 +534,10 @@ function renderFinanceTransactions() {
     const review = row.status === 'pending'
       ? '<button type="button" class="finance-action-button finance-action-approve" onclick="approveFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Setujui</button><button type="button" class="finance-action-button finance-action-reject" onclick="rejectFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Tolak</button>'
       : '';
+    const linked = Boolean(row.source_purchase_id || row.source_obligation_id);
+    const maintenance = linked
+      ? '<span class="col-span-2 text-center text-[10px] text-gray-500">Kelola melalui nota atau Hutang/Piutang</span>'
+      : '<button type="button" class="finance-action-button finance-action-edit" onclick="editFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Edit</button><button type="button" class="finance-action-button finance-action-delete" onclick="deleteFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Hapus</button>';
     return '<tr class="border-t border-gray-100"><td class="p-3">' + escapeHtml(row.transaction_date) + '</td>' +
       '<td class="p-3">' + escapeHtml(financeTypeLabel(row.transaction_type)) + '</td>' +
       '<td class="p-3">' + escapeHtml(row.category) + '</td>' +
@@ -294,8 +546,7 @@ function renderFinanceTransactions() {
       '<td class="p-3">' + escapeHtml(row.payment_method) + '</td>' +
       '<td class="p-3">' + escapeHtml(row.reference || '—') + '<div>' + receipt + '</div></td>' +
       '<td class="p-3">' + escapeHtml(financeStatusLabel(row.status)) + (row.rejection_reason ? '<div class="text-rose-700">' + escapeHtml(row.rejection_reason) + '</div>' : '') + '</td>' +
-      '<td class="finance-actions-cell p-3 no-print"><div class="finance-action-grid">' + review +
-      '<button type="button" class="finance-action-button finance-action-edit" onclick="editFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Edit</button><button type="button" class="finance-action-button finance-action-delete" onclick="deleteFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Hapus</button></div></td></tr>';
+      '<td class="finance-actions-cell p-3 no-print"><div class="finance-action-grid">' + review + maintenance + '</div></td></tr>';
   }).join('') : '<tr><td colspan="9" class="p-5 text-center text-gray-500">Tidak ada transaksi sesuai filter.</td></tr>';
 }
 
@@ -386,6 +637,10 @@ async function saveFinanceTransaction(event) {
 
 async function openFinanceReceipt(button) {
   const path = String(button.dataset.receiptPath || '');
+  if (typeof isSupabaseStockReceiptPath === 'function' && isSupabaseStockReceiptPath(path)) {
+    await openStockReceiptByPath(path);
+    return;
+  }
   if (!isSupabaseTenantStoragePath(path, 'akuntan-keuangan/')) {
     showToast('❌ Lokasi bukti transaksi tidak valid.');
     return;
@@ -433,6 +688,7 @@ async function approveFinanceTransaction(id) {
     await supabaseRpc('spas1_approve_finance_transaction', { p_transaction_id: id });
     showToast('✅ Transaksi disetujui.');
     await loadFinanceTransactions();
+    if (document.getElementById('financeObligationRows')) await loadFinanceObligations(false);
   } catch (error) {
     showToast('❌ Gagal menyetujui transaksi: ' + error.message);
   }
@@ -445,6 +701,7 @@ async function rejectFinanceTransaction(id) {
     await supabaseRpc('spas1_reject_finance_transaction', { p_transaction_id: id, p_reason: reason.trim() });
     showToast('✅ Transaksi ditolak dengan alasan tercatat.');
     await loadFinanceTransactions();
+    if (document.getElementById('financeObligationRows')) await loadFinanceObligations(false);
   } catch (error) {
     showToast('❌ Gagal menolak transaksi: ' + error.message);
   }
@@ -484,6 +741,17 @@ function exportFinanceExcel() {
   sheet['!cols'] = [{ wch: 14 }, { wch: 18 }, { wch: 24 }, { wch: 40 }, { wch: 18 }, { wch: 24 }, { wch: 22 }, { wch: 18 }, { wch: 44 }];
   const workbook = window.XLSX.utils.book_new();
   window.XLSX.utils.book_append_sheet(workbook, sheet, 'Transaksi_Keuangan');
+  const ledgerData = [['Tanggal', 'Keterangan', 'Jenis', 'Perubahan (Rp)', 'Saldo Setelah (Rp)']];
+  getFinanceLedgerRows().forEach(function(entry) {
+    ledgerData.push([
+      entry.transaction.transaction_date,
+      entry.transaction.description,
+      financeTypeLabel(entry.transaction.transaction_type),
+      entry.change,
+      entry.balance
+    ]);
+  });
+  window.XLSX.utils.book_append_sheet(workbook, window.XLSX.utils.aoa_to_sheet(ledgerData), 'Rincian_Saldo');
   window.XLSX.writeFile(workbook, 'Transaksi_Keuangan_' + localDateInputValue() + '.xlsx');
 }
 
