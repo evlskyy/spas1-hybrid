@@ -142,6 +142,7 @@ console.error('PWA service worker registration failed:', error);
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js" integrity="sha384-Pqp51FUN2/qzfxZxBCtF0stpc9ONI6MYZpVqmo8m20SoaQCzf+arZvACkLkirlPz" crossorigin="anonymous" defer></script>
 <script src="./lpj.js" defer></script>
 <script src="./super-gizi.js" defer></script>
+<script src="./accounting-features.js" defer></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -2905,6 +2906,26 @@ height: auto !important;
 max-height: none !important;
 overflow: visible !important;
 }
+body.printing-admin-finance #view-admin #tab-finance {
+display: block !important;
+visibility: visible !important;
+height: auto !important;
+max-height: none !important;
+overflow: visible !important;
+}
+body.printing-admin-finance #view-admin .admin-tab:not(#tab-finance) {
+display: none !important;
+}
+body.printing-admin-finance #view-admin,
+body.printing-admin-finance #view-admin main,
+body.printing-admin-finance #view-admin #tab-finance,
+body.printing-admin-finance #view-admin #tab-finance * {
+background-color: #FFFFFF !important;
+background-image: none !important;
+color: #000000 !important;
+border-color: #000000 !important;
+box-shadow: none !important;
+}
 body.printing-admin-laporan #view-admin #tab-laporan,
 body.printing-admin-laporan #view-admin #tab-laporan *,
 body.printing-admin-karyawan #view-admin #tab-karyawan,
@@ -3445,6 +3466,14 @@ body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) :is(
   #modul-joblist,#view-admin,#spas1-webapp-root
 ) :is(.text-gray-900,.text-gray-800,.text-gray-700,.text-slate-900,.text-slate-800,.text-slate-700) {
 color: var(--appearance-text) !important;
+}
+#view-admin #adminAppearanceResetButton {
+background: #FFFFFF !important;
+border-color: #D1D5DB !important;
+color: #1F2937 !important;
+}
+#view-admin #adminAppearanceResetButton:hover {
+background: #F3F4F6 !important;
 }
 body:is(.ui-theme-candy,.ui-theme-linux,.ui-theme-windows,.ui-theme-retro) :is(
   #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
@@ -4531,6 +4560,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="mn-login-field floating-label-field"><input type="text" id="mnLoginUser" autocomplete="username" placeholder=" " onkeydown="if(event.key==='Enter') verifyMnLogin()"><label for="mnLoginUser">Username</label></div>
 <div class="mn-login-field floating-label-field"><input type="password" id="mnLoginPass" autocomplete="current-password" placeholder=" " onkeydown="if(event.key==='Enter') verifyMnLogin()"><label for="mnLoginPass">Kata Sandi Portal</label></div>
 <button id="mnLoginSubmit" class="mn-login-btn" onclick="verifyMnLogin()"><i class="fa-solid fa-right-to-bracket"></i> Masuk ke Portal</button>
+<button id="mnLoginAdminSubmit" class="mn-login-btn" onclick="verifyMnLogin(true)"><i class="fa-solid fa-user-shield"></i> Masuk sebagai SUPER ADMIN</button>
 <button class="mn-login-back" onclick="closeMnLogin()"><i class="fa-solid fa-arrow-left"></i> Kembali ke Menu Utama</button>
 <div class="mn-login-footer">Hak Akses Terbatas | ©2026.CraftedSkyy.With ❤️ </div>
 </div>
@@ -4599,6 +4629,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="sl-login-field floating-label-field"><input type="text" id="slLoginUser" autocomplete="username" placeholder=" " onkeydown="if(event.key==='Enter') verifySlLogin()"><label for="slLoginUser">Username</label></div>
 <div class="sl-login-field floating-label-field"><input type="password" id="slLoginPass" autocomplete="current-password" placeholder=" " onkeydown="if(event.key==='Enter') verifySlLogin()"><label for="slLoginPass">Kata Sandi Portal</label></div>
 <button id="slLoginSubmit" class="sl-login-btn" onclick="verifySlLogin()"><i class="fa-solid fa-right-to-bracket"></i> Masuk ke Portal</button>
+<button id="slLoginAdminSubmit" class="sl-login-btn" onclick="verifySlLogin(true)"><i class="fa-solid fa-user-shield"></i> Masuk sebagai SUPER ADMIN</button>
 <button class="sl-login-back" onclick="closeSlLogin()"><i class="fa-solid fa-arrow-left"></i> Kembali ke Menu Utama</button>
 <div class="sl-login-footer">Hak Akses Terbatas | ©2026.CraftedSkyy.With ❤️</div>
 </div>
@@ -4621,6 +4652,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="form-group floating-label-field" style="text-align: left;"><input class="input-field" id="loginUsername" autocomplete="username" onkeydown="if(event.key==='Enter') handleLogin()" placeholder=" " type="text" /><label class="form-label" for="loginUsername">Username</label></div>
 <div class="form-group floating-label-field" style="text-align: left;"><input class="input-field" id="loginPassword" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleLogin()" placeholder=" " type="password" /><label class="form-label" for="loginPassword">Kata Sandi Portal</label></div>
 <button id="portalLoginSubmit" class="btn btn-emerald" onclick="handleLogin()" style="font-size: 13px; justify-content: center; margin-top: 8px; padding: 10px; width: 100%;">Masuk ke Portal</button>
+<button id="portalAdminLoginSubmit" class="btn" onclick="handleLogin(true)" style="font-size: 13px; justify-content: center; margin-top: 8px; padding: 10px; width: 100%; background:#4F46E5; color:#FFFFFF;">Masuk sebagai SUPER ADMIN</button>
 <div style="color: var(--text-muted); font-size: 10px; margin-top: 12px;">Hak Akses Terbatas | ©2026.CraftedSkyy.with ❤️ </div>
 <div style="margin-top: 10px;"><button onclick="kembaliKeHome()" id="btnLoginBack" class="btn-kembali-animated" style="width: 100%; padding: 10px 16px; background-color: rgba(2, 44, 34, 0.8); border: 1px solid rgba(16, 185, 129, 0.7); color: #6ee7b7; font-weight: bold; border-radius: 12px; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;"><span style="font-size: 14px;">←</span><span>Kembali ke Menu Utama</span></button></div>
 </div>
@@ -4896,6 +4928,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <button id="adminThemeToggle" type="button" onclick="toggleMainAppTheme()" class="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 hover:bg-gray-100 text-xs font-bold flex items-center justify-center md:justify-start gap-2 transition" aria-label="Ganti ke mode gelap">
 <i id="adminThemeIcon" class="fa-solid fa-moon text-indigo-500"></i><span>Mode <span id="adminThemeLabel">Gelap</span></span>
 </button>
+<button type="button" onclick="kembaliKeHome()" class="w-full px-3 py-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold flex items-center justify-center md:justify-start gap-2 transition"><i class="fa-solid fa-house"></i><span>Menu Utama</span></button>
 <nav class="order-3 md:order-6 flex md:flex-col gap-2 text-xs font-semibold overflow-x-auto pb-2 md:pb-0">
 <div id="adminSettingsGroup" class="sidebar-settings-group">
 <button id="nav-settings-toggle" type="button" onclick="toggleAdminSettingsMenu()" aria-expanded="false" aria-controls="adminSettingsSubnav" class="sidebar-settings-toggle text-xs p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap">
@@ -4932,6 +4965,8 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div id="akuntanSubnav" class="admin-settings-subnav hidden" aria-label="Menu Akuntan">
 <button id="nav-tab-audit" onclick="switchAdminTab('tab-audit', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-clipboard-check w-5"></i> <span>Audit &amp; Riwayat Transaksi Stok</span></button>
 <button id="nav-tab-stok" onclick="switchAdminTab('tab-stok', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-boxes-stacked w-5"></i> <span>Stok &amp; Nota</span></button>
+<button id="nav-tab-stock-opname" onclick="switchAdminTab('tab-stock-opname', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-clipboard-list w-5"></i> <span>Stok Opname</span></button>
+<button id="nav-tab-finance" onclick="switchAdminTab('tab-finance', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-money-bill-transfer w-5"></i> <span>Transaksi Keuangan</span></button>
 <button id="nav-tab-accounting-folders" onclick="switchAdminTab('tab-accounting-folders', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><img class="accounting-folder-icon" src="assets/spas1-folder.svg" alt="Folder" title="Folder LPDH &amp; LPJ"> <span>Folder LPDH &amp; LPJ</span></button>
 <button id="nav-tab-lpdh" onclick="switchAdminTab('tab-lpdh', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-file-invoice-dollar w-5"></i> <span>LPDH Harian</span></button>
 <button id="nav-tab-lpj" onclick="switchAdminTab('tab-lpj', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-file-signature w-5"></i> <span>LPJ</span></button>
@@ -5023,6 +5058,73 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div id="slPurchaseTransactionDetail" class="sl-purchase-archive-detail" aria-live="polite"><p class="text-sm text-gray-500">Pilih transaksi pembelian di sebelah kiri.</p></div>
 </div>
 </div>
+</section>
+</section>
+<section id="tab-stock-opname" class="admin-tab space-y-4 hidden">
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Stok Opname</h2><p class="mt-1 text-xs text-gray-500">Catat jumlah fisik seluruh item. Opname yang diajukan menunggu persetujuan SUPER ADMIN; persetujuan menerapkan selisih ke stok dan mencatatnya di audit.</p></div>
+<div class="grid gap-3 sm:grid-cols-3">
+<label class="text-xs font-bold text-gray-700">Tanggal Opname<input id="stockOpnameDate" type="date" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" required></label>
+<label class="text-xs font-bold text-gray-700 sm:col-span-2">Catatan<input id="stockOpnameNote" type="text" maxlength="500" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" placeholder="Catatan pemeriksaan (opsional)"></label>
+</div>
+<div class="flex flex-wrap gap-2">
+<button type="button" class="rounded-lg bg-indigo-600 px-4 py-2.5 text-xs font-bold text-white" onclick="loadStockOpnameInventory()">Muat Item Stok</button>
+<button type="button" class="rounded-lg bg-slate-600 px-4 py-2.5 text-xs font-bold text-white" onclick="resetStockOpnameForm()">Opname Baru</button>
+</div>
+<p id="stockOpnameStatus" class="text-xs text-gray-500" role="status" aria-live="polite">Muat item stok untuk memulai opname.</p>
+<div class="overflow-x-auto rounded-xl border border-gray-200">
+<table id="stockOpnamePrintTable" class="w-full min-w-[700px] text-left text-xs">
+<thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Nama Item</th><th class="p-3">Kategori</th><th class="p-3">Satuan</th><th class="p-3">Stok Sistem</th><th class="p-3">Hitung Fisik</th><th class="p-3">Selisih</th></tr></thead>
+<tbody id="stockOpnameItems"><tr><td colspan="6" class="p-5 text-center text-gray-500">Item stok belum dimuat.</td></tr></tbody>
+</table>
+</div>
+<div class="flex flex-wrap gap-2 no-print">
+<button id="stockOpnameSaveDraft" type="button" class="rounded-lg bg-slate-700 px-4 py-2.5 text-xs font-bold text-white" onclick="saveStockOpname(false)">Simpan Draft</button>
+<button id="stockOpnameSubmit" type="button" class="rounded-lg bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white" onclick="saveStockOpname(true)">Ajukan Persetujuan</button>
+</div>
+<section class="space-y-3">
+<div class="flex flex-wrap items-center justify-between gap-2"><h3 class="font-bold text-gray-800">Riwayat &amp; Persetujuan Opname</h3><button type="button" class="rounded-lg border border-gray-300 px-3 py-2 text-xs font-bold" onclick="loadStockOpnames()">Muat Ulang</button></div>
+<div class="overflow-x-auto rounded-xl border border-gray-200"><table class="w-full min-w-[760px] text-left text-xs"><thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Tanggal</th><th class="p-3">Dibuat</th><th class="p-3">Status</th><th class="p-3">Catatan</th><th class="p-3">Aksi</th></tr></thead><tbody id="stockOpnameRows"><tr><td colspan="5" class="p-5 text-center text-gray-500">Memuat riwayat...</td></tr></tbody></table></div>
+<div id="stockOpnameDetail" class="hidden rounded-xl border border-gray-200 p-3" aria-live="polite"></div>
+</section>
+</section>
+<section id="tab-finance" class="admin-tab space-y-4 hidden">
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Transaksi Keuangan</h2><p class="mt-1 text-xs text-gray-500">Saldo berjalan dihitung dari saldo awal + pemasukan yang disetujui − pengeluaran yang disetujui. Setiap transaksi menunggu persetujuan SUPER ADMIN.</p></div>
+<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+<div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4"><span class="text-xs font-bold text-emerald-800">Saldo Berjalan</span><strong id="financeCurrentBalance" class="mt-1 block text-xl text-emerald-900">Rp 0</strong></div>
+<div class="rounded-xl border border-violet-200 bg-violet-50 p-4"><span class="text-xs font-bold text-violet-800">Saldo Awal Disetujui</span><strong id="financeOpeningBalance" class="mt-1 block text-xl text-violet-900">Rp 0</strong></div>
+<div class="rounded-xl border border-sky-200 bg-sky-50 p-4"><span class="text-xs font-bold text-sky-800">Total Pemasukan Disetujui</span><strong id="financeTotalIncome" class="mt-1 block text-xl text-sky-900">Rp 0</strong></div>
+<div class="rounded-xl border border-rose-200 bg-rose-50 p-4"><span class="text-xs font-bold text-rose-800">Total Pengeluaran Disetujui</span><strong id="financeTotalExpense" class="mt-1 block text-xl text-rose-900">Rp 0</strong></div>
+</div>
+<form id="financeTransactionForm" class="no-print grid gap-3 rounded-xl border border-gray-200 bg-white p-4 sm:grid-cols-2" onsubmit="saveFinanceTransaction(event)">
+<input id="financeTransactionId" type="hidden"><input id="financeReceiptPath" type="hidden">
+<label class="text-xs font-bold text-gray-700">Jenis Transaksi<select id="financeTransactionType" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" required><option value="pemasukan">Pemasukan</option><option value="saldo_awal">Saldo Awal</option><option value="pengeluaran">Pengeluaran</option></select></label>
+<label class="text-xs font-bold text-gray-700">Tanggal<input id="financeTransactionDate" type="date" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" required></label>
+<label class="text-xs font-bold text-gray-700">Kategori<input id="financeCategory" type="text" maxlength="100" list="financeCategorySuggestions" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" placeholder="Misalnya: Bahan Pangan" required><datalist id="financeCategorySuggestions"><option value="Bahan Pangan"><option value="Operasional"><option value="Honorarium/Insentif"><option value="Top-up"><option value="Lain-lain"></datalist></label>
+<label class="text-xs font-bold text-gray-700">Jumlah (Rp)<input id="financeAmount" type="number" min="0.01" max="999999999999.99" step="0.01" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" required></label>
+<label class="text-xs font-bold text-gray-700 sm:col-span-2">Keterangan<input id="financeDescription" type="text" maxlength="500" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" required></label>
+<label class="text-xs font-bold text-gray-700">Metode / Sumber<input id="financePaymentMethod" type="text" maxlength="100" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" placeholder="Tunai, transfer, sumber dana..." required></label>
+<label class="text-xs font-bold text-gray-700">Referensi<input id="financeReference" type="text" maxlength="160" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5" placeholder="Nomor kuitansi / bukti"></label>
+<label id="financeReceiptField" class="text-xs font-bold text-gray-700 sm:col-span-2">Foto Bukti<input id="financeReceipt" type="file" accept="image/jpeg,image/png,image/webp" capture="environment" class="mt-1 block w-full rounded-lg border border-gray-300 p-2.5"><span id="financeReceiptHint" class="mt-1 block font-normal text-gray-500">Wajib untuk pemasukan/pengeluaran; saldo awal boleh tanpa foto. Maksimum 10 MB.</span></label>
+<div class="flex flex-wrap gap-2 sm:col-span-2"><button id="financeSaveButton" type="submit" class="rounded-lg bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white">Simpan &amp; Ajukan Persetujuan</button><button type="button" class="rounded-lg bg-slate-600 px-4 py-2.5 text-xs font-bold text-white" onclick="resetFinanceForm()">Batal / Form Baru</button></div>
+</form>
+<div class="flex flex-wrap items-end gap-2 no-print">
+<label class="text-xs font-bold text-gray-700">Dari<input id="financeFilterFrom" type="date" class="mt-1 block rounded-lg border border-gray-300 p-2"></label>
+<label class="text-xs font-bold text-gray-700">Sampai<input id="financeFilterTo" type="date" class="mt-1 block rounded-lg border border-gray-300 p-2"></label>
+<label class="text-xs font-bold text-gray-700">Jenis<select id="financeFilterType" class="mt-1 block rounded-lg border border-gray-300 p-2"><option value="">Semua</option><option value="saldo_awal">Saldo Awal</option><option value="pemasukan">Pemasukan</option><option value="pengeluaran">Pengeluaran</option></select></label>
+<label class="text-xs font-bold text-gray-700">Status<select id="financeFilterStatus" class="mt-1 block rounded-lg border border-gray-300 p-2"><option value="">Semua</option><option value="pending">Menunggu</option><option value="approved">Disetujui</option><option value="rejected">Ditolak</option></select></label>
+<button type="button" class="rounded-lg bg-indigo-600 px-4 py-2.5 text-xs font-bold text-white" onclick="loadFinanceTransactions()">Tampilkan</button>
+<button type="button" class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-bold" onclick="exportFinanceExcel()">Ekspor XLSX</button>
+<button type="button" class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-bold" onclick="printFinanceReport()">Simpan PDF / Cetak</button>
+<button type="button" class="rounded-lg border border-gray-300 px-4 py-2.5 text-xs font-bold" onclick="loadFinanceAudit()">Riwayat Audit</button>
+</div>
+<p id="financeStatus" class="text-xs text-gray-500" role="status" aria-live="polite">Memuat transaksi...</p>
+<div id="financePrintArea" class="overflow-x-auto rounded-xl border border-gray-200">
+<table class="w-full min-w-[1050px] text-left text-xs"><thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Tanggal</th><th class="p-3">Jenis</th><th class="p-3">Kategori</th><th class="p-3">Keterangan</th><th class="p-3">Jumlah</th><th class="p-3">Metode / Sumber</th><th class="p-3">Referensi / Bukti</th><th class="p-3">Status</th><th class="p-3 no-print">Aksi</th></tr></thead><tbody id="financeTransactionRows"><tr><td colspan="9" class="p-5 text-center text-gray-500">Memuat transaksi...</td></tr></tbody></table>
+</div>
+<section class="no-print space-y-3">
+<h3 class="font-bold text-gray-800">Riwayat Audit Keuangan</h3>
+<p id="financeAuditStatus" class="text-xs text-gray-500" role="status" aria-live="polite">Klik Riwayat Audit untuk memuat perubahan yang tercatat.</p>
+<div class="overflow-x-auto rounded-xl border border-gray-200"><table class="w-full min-w-[760px] text-left text-xs"><thead class="bg-gray-100 text-gray-700"><tr><th class="p-3">Waktu</th><th class="p-3">Aksi</th><th class="p-3">ID Transaksi</th><th class="p-3">Aktor</th><th class="p-3">Perubahan</th></tr></thead><tbody id="financeAuditRows"><tr><td colspan="5" class="p-4 text-center text-gray-500">Belum dimuat.</td></tr></tbody></table></div>
 </section>
 </section>
 <section id="tab-accounting-folders" class="admin-tab space-y-4 hidden">
@@ -5242,7 +5344,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </div>
 <p id="adminAppearanceStatus" class="sm:col-span-2 text-xs text-gray-600" role="status" aria-live="polite">Preferensi tampilan hanya tersimpan di browser ini.</p>
 <div class="sm:col-span-2 flex flex-wrap justify-end gap-2">
-<button type="button" onclick="resetAdminAppearance()" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-bold text-gray-700"><i class="fa-solid fa-rotate-left"></i> Kembalikan bawaan</button>
+<button id="adminAppearanceResetButton" type="button" onclick="resetAdminAppearance()" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-bold text-gray-700"><i class="fa-solid fa-rotate-left"></i> Kembalikan bawaan</button>
 <button id="adminAppearanceApplyButton" type="button" onclick="saveAdminAppearance()" class="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Terapkan</button>
 </div>
 </div>
@@ -5343,7 +5445,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </section>
 <section id="tab-module-access" class="admin-tab space-y-4 hidden">
 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Akun &amp; Akses Modul</h2><p class="mt-1 text-xs text-gray-500">Buat akun login individual untuk relawan, lalu pilih modul yang boleh dibuka oleh akun tersebut.</p></div>
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Akun &amp; Akses Modul</h2><p class="mt-1 text-xs text-gray-500">Buat akun login individual untuk relawan, lalu pilih modul yang boleh dibuka oleh akun tersebut. SUPER ADMIN yang sudah login dapat mengakses semua modul tanpa akun tambahan.</p></div>
 <button type="button" onclick="loadModuleAccountsAdmin(this)" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold flex items-center gap-2 shadow"><i class="fa-solid fa-rotate"></i> Muat Ulang</button>
 </div>
 <div class="rounded-xl border border-amber-300 bg-amber-50 p-3 text-xs text-amber-900"><strong>Keamanan password:</strong> password hanya dikirim saat dibuat atau direset dan diproses oleh spas1-hybrid Auth. Password tidak ditampilkan kembali atau disimpan sebagai teks biasa. Nonaktifkan juga akun relawan di tab Relawan untuk mencabut akses terkait.</div>
@@ -5354,8 +5456,9 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <label class="text-xs font-semibold">Relawan
 <select id="moduleAccountEmployee" required class="mt-1 w-full rounded-lg border border-gray-300 p-2.5 text-sm"><option value="">Pilih relawan</option></select>
 </label>
-<label class="text-xs font-semibold">Username akun modul
-<div class="mt-1 flex items-center"><input id="moduleAccountUsername" required maxlength="48" pattern="[A-Za-z0-9._-]{3,48}" autocomplete="off" class="w-full rounded-l-lg border border-gray-300 p-2.5 text-sm" placeholder="contoh: nama.staf"><span class="rounded-r-lg border border-l-0 border-gray-300 bg-gray-50 px-2.5 py-2.5 text-[11px] text-gray-500">@module.spas1.local</span></div>
+<label class="text-xs font-semibold">Username singkat untuk login
+<input id="moduleAccountUsername" required maxlength="48" pattern="[A-Za-z0-9._-]{3,48}" autocomplete="off" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5 text-sm" placeholder="contoh: iamsky">
+<span class="mt-1 block text-[11px] font-normal text-gray-500">Gunakan username saja, tanpa domain email.</span>
 </label>
 <label class="text-xs font-semibold sm:col-span-2">Password awal / password baru
 <input id="moduleAccountPassword" type="password" required minlength="8" maxlength="128" autocomplete="new-password" class="mt-1 w-full rounded-lg border border-gray-300 p-2.5 text-sm" placeholder="Minimal 8 karakter; kosongkan saat mengubah akses saja">
@@ -5679,6 +5782,11 @@ let supabaseRefreshPromise = null;
 let slStockMovements = [];
 let slMovementPhotoDataUrl = '';
 let slStockMovementSaving = false;
+let stockOpnameItems = [];
+let stockOpnameRows = [];
+let stockOpnameEditingId = '';
+let financeTransactions = [];
+let financeEditingReceiptPath = '';
 let slPurchaseLineSequence = 0;
 let slPurchaseSuppliers = [];
 let slPurchaseTransactions = [];
@@ -5834,6 +5942,10 @@ const SPAS1_TENANT_SCOPED_TABLES = new Set([
 'spas1_stock_suppliers',
 'modul3_stok_logistik_pemakaian_harian',
 'modul3_stok_logistik_transaksi',
+'spas1_stock_opnames',
+'spas1_stock_opname_lines',
+'spas1_finance_transactions',
+'spas1_finance_transaction_audit',
 'spas1_lpdh_reports',
 'spas1_lpj_reports'
 ]);
@@ -5960,7 +6072,7 @@ const requestOptions = Object.assign({}, options || {});
 const headers = supabaseHeaders();
 if (requestOptions.body == null) delete headers['Content-Type'];
 requestOptions.headers = Object.assign(headers, requestOptions.headers || {});
-const storagePathMatch = String(path || '').match(/^\/storage\/v1\/object\/(?:(public|authenticated)\/)?(spas1-media|spas1-lpdh)\/(.+)$/);
+const storagePathMatch = String(path || '').match(/^\/storage\/v1\/object\/(?:(public|authenticated)\/)?(spas1-media|spas1-lpdh|spas1-finance)\/(.+)$/);
 let response;
 let isMediaProxyRequest = false;
 if (storagePathMatch) {
@@ -5974,7 +6086,8 @@ throw new Error('Lokasi Supabase Storage tidak valid.');
 const proxyUrl = new URL('/api/media', window.location.origin);
 proxyUrl.searchParams.set('bucket', storagePathMatch[2]);
 proxyUrl.searchParams.set('path', objectPath);
-if (storagePathMatch[1] === 'authenticated' || storagePathMatch[2] === 'spas1-lpdh') {
+if (String(requestOptions.method || 'GET').toUpperCase() === 'GET' &&
+    (storagePathMatch[1] === 'authenticated' || storagePathMatch[2] !== 'spas1-media')) {
 proxyUrl.searchParams.set('access', 'authenticated');
 }
 response = await fetch(proxyUrl.pathname + proxyUrl.search, requestOptions);
@@ -6489,22 +6602,59 @@ return { status: 'success', sessionToken: result.session.access_token, role: 'ad
 case 'verifyModuleLogin': {
 const module = String(payload.module || '');
 if (['stok', 'bank_menu', 'persiapan'].indexOf(module) === -1) throw new Error('Modul yang diminta tidak valid.');
-const auth = await supabaseLogin(payload.username, payload.password, '@module.spas1.local');
+const loginAsAdmin = payload.loginAsAdmin === true;
+let auth;
+if (loginAsAdmin) {
+const result = await callSupabaseFunction('admin-account-auth', {
+action: 'login',
+username: payload.username,
+password: payload.password
+});
+if (!result || !result.session || !result.session.access_token || !result.session.refresh_token) {
+throw new Error('Respons login SUPER ADMIN tidak valid.');
+}
+auth = result.session;
+window.SPAS1_SUPABASE_SESSION = auth.access_token;
+window.SPAS1_SUPABASE_REFRESH_TOKEN = auth.refresh_token;
+window.SPAS1_AUTH_TOKEN = auth.access_token;
+window.SPAS1_AUTH_ROLE = 'admin';
+if (typeof window.SPAS1_RELOAD_TENANT_LOCAL_STATE === 'function') window.SPAS1_RELOAD_TENANT_LOCAL_STATE();
+} else {
+auth = await supabaseLogin(payload.username, payload.password, '@module.spas1.local');
+}
 try {
 await callSupabaseFunction('module-account-admin', { action: 'verifyLogin', module: module });
 } catch (error) {
 clearSupabaseSession();
 throw error;
 }
-window.SPAS1_AUTH_ROLE = module;
-return { status: 'success', sessionToken: auth.access_token, module: module, role: module };
+window.SPAS1_AUTH_ROLE = loginAsAdmin ? 'admin' : module;
+return { status: 'success', sessionToken: auth.access_token, module: module, role: window.SPAS1_AUTH_ROLE };
 }
 case 'verifySyncPassword':
 case 'verifyEmployeeLogin': {
-const domain = action === 'verifyEmployeeLogin' ? '@relawan.spas1.local' : payload.module === 'admin' ? '@admin.spas1.local' : '@module.spas1.local';
 const identity = payload.nik || payload.username || payload.user;
 const password = payload.pin || payload.password;
-const auth = await supabaseLogin(identity, password, domain);
+const isAdminSync = action === 'verifySyncPassword' && window.SPAS1_AUTH_ROLE === 'admin';
+let auth;
+if (isAdminSync) {
+const result = await callSupabaseFunction('admin-account-auth', {
+action: 'login',
+username: identity,
+password: password
+});
+if (!result || !result.session || !result.session.access_token || !result.session.refresh_token) {
+throw new Error('Respons login SUPER ADMIN tidak valid.');
+}
+auth = result.session;
+window.SPAS1_SUPABASE_SESSION = auth.access_token;
+window.SPAS1_SUPABASE_REFRESH_TOKEN = auth.refresh_token;
+window.SPAS1_AUTH_TOKEN = auth.access_token;
+if (typeof window.SPAS1_RELOAD_TENANT_LOCAL_STATE === 'function') window.SPAS1_RELOAD_TENANT_LOCAL_STATE();
+} else {
+const domain = action === 'verifyEmployeeLogin' ? '@relawan.spas1.local' : payload.module === 'admin' ? '@admin.spas1.local' : '@module.spas1.local';
+auth = await supabaseLogin(identity, password, domain);
+}
 if (action === 'verifySyncPassword') {
 const requestedModule = String(payload.module || '');
 const verificationModule = requestedModule === 'admin' ? 'stok' : requestedModule;
@@ -6518,7 +6668,7 @@ await callSupabaseFunction('module-account-admin', { action: 'verifyLogin', modu
 clearSupabaseSession();
 throw error;
 }
-window.SPAS1_AUTH_ROLE = requestedModule;
+window.SPAS1_AUTH_ROLE = isAdminSync ? 'admin' : requestedModule;
 }
 if (action === 'verifyEmployeeLogin') {
 const rows = await supabaseRequest('MODUL1_DataRelawan', { query: { select: '"ID Relawan","Nama Lengkap",Divisi,Role,"Status Akun","Auth User ID"', '"ID Relawan"': 'eq.' + identity, '"Auth User ID"': 'eq.' + auth.user.id, limit: '1' } });
@@ -7999,6 +8149,7 @@ message.className = 'mt-2 min-h-5 text-xs leading-5 text-rose-700';
 input.focus();
 return;
 }
+if (!confirm('Apakah Anda yakin ingin mengganti username menjadi "' + username + '"?')) return;
 button.disabled = true;
 button.textContent = 'Menyimpan...';
 message.textContent = '';
@@ -8645,7 +8796,7 @@ const superAksesTab = ['tab-laporan', 'tab-karyawan', 'tab-module-access', 'tab-
 const superAksesToggle = document.getElementById('nav-super-akses-toggle');
 if (superAksesToggle) superAksesToggle.classList.toggle('is-current', superAksesTab);
 if (superAksesTab) toggleSuperAksesMenu(true);
-const akuntanTab = ['tab-audit', 'tab-stok', 'tab-accounting-folders', 'tab-lpdh', 'tab-lpj'].indexOf(tabId) !== -1;
+const akuntanTab = ['tab-audit', 'tab-stok', 'tab-stock-opname', 'tab-finance', 'tab-accounting-folders', 'tab-lpdh', 'tab-lpj'].indexOf(tabId) !== -1;
 const akuntanToggle = document.getElementById('nav-akuntan-toggle');
 if (akuntanToggle) akuntanToggle.classList.toggle('is-current', akuntanTab);
 if (akuntanTab) toggleAkuntanMenu(true);
@@ -8664,6 +8815,8 @@ if (tabId === 'tab-module-access') loadModuleAccountsAdmin();
 if (tabId === 'tab-registrations') loadVolunteerRegistrationRequests();
 if (tabId === 'tab-organization-requests') loadOrganizationRequests();
 if (tabId === 'tab-audit') { initializeStockAuditDate(); loadStockMovements(); }
+if (tabId === 'tab-stock-opname') { initializeStockOpnameDate(); loadStockOpnames(); }
+if (tabId === 'tab-finance') { initializeFinanceDate(); loadFinanceTransactions(); }
 if (tabId === 'tab-accounting-folders') loadAccountingReportFolders();
 if (tabId === 'tab-lpdh') {
 initializeLpdhForm();
@@ -9094,7 +9247,7 @@ return moduleAccountModuleLabels[module] || '';
 }).filter(Boolean);
 const active = account.status === 'active' && !!employee && employee['Status Akun'] === 'Aktif';
 return '<tr><td class="p-3"><strong>' + escapeHtml(name) + '</strong><br><span class="text-gray-500">' + escapeHtml(employeeId) + '</span></td>' +
-'<td class="p-3">' + escapeHtml(account.username || '') + '@module.spas1.local</td>' +
+'<td class="p-3">' + escapeHtml(account.username || '') + '</td>' +
 '<td class="p-3">' + escapeHtml(moduleLabels.join(', ') || 'Tidak ada') + '</td>' +
 '<td class="p-3"><span class="rounded-full px-2 py-1 text-[10px] font-bold ' + (active ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-600') + '">' + (active ? 'Aktif' : 'Nonaktif') + '</span></td>' +
 '<td class="p-3"><button type="button" class="rounded-lg border border-indigo-200 px-2.5 py-1.5 font-bold text-indigo-700 hover:bg-indigo-50" data-employee-id="' + escapeHtml(employeeId) + '" onclick="editModuleAccountAdmin(this.dataset.employeeId)">Kelola</button></td></tr>';
@@ -9850,23 +10003,30 @@ localStorage.setItem('spas1m_custom_theme', theme);
 if (!hasAppearancePreset) localStorage.setItem('spas1_main_theme', currentTheme);
 } catch(e) { console.error('Gagal menyimpan tema:', e); }
 }
-function setPortalLoginBusy(buttonId, busy) {
-const button = document.getElementById(buttonId);
-if (!button) return;
-button.disabled = busy;
-button.innerHTML = busy ? '<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Verifikasi Login...' : '<i class="fa-solid fa-right-to-bracket"></i> Masuk ke Portal';
+function setPortalLoginBusy(prefix, busy, loginAsAdmin) {
+const normalButton = document.getElementById(prefix + 'LoginSubmit');
+const adminButton = document.getElementById(prefix + 'LoginAdminSubmit');
+const loadingLabel = '<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Verifikasi Login...';
+if (normalButton) {
+normalButton.disabled = busy;
+normalButton.innerHTML = busy && !loginAsAdmin ? loadingLabel : '<i class="fa-solid fa-right-to-bracket"></i> Masuk ke Portal';
 }
-function verifyMnLogin() {
+if (adminButton) {
+adminButton.disabled = busy;
+adminButton.innerHTML = busy && loginAsAdmin ? loadingLabel : '<i class="fa-solid fa-user-shield"></i> Masuk sebagai SUPER ADMIN';
+}
+}
+function verifyMnLogin(loginAsAdmin) {
+const adminLogin = loginAsAdmin === true;
 const user = document.getElementById('mnLoginUser').value.trim();
 const pass = document.getElementById('mnLoginPass').value;
 const errorEl = document.getElementById('mnLoginError');
-const button = document.getElementById('mnLoginSubmit');
-if (button.disabled) return;
+if (document.getElementById('mnLoginSubmit').disabled || document.getElementById('mnLoginAdminSubmit').disabled) return;
 errorEl.classList.remove('show');
 errorEl.textContent = 'Username atau kata sandi salah!';
-setPortalLoginBusy('mnLoginSubmit', true);
-callSupabaseAction('verifyModuleLogin', { username: user, password: pass, module: 'bank_menu' }, function(res) {
-setPortalLoginBusy('mnLoginSubmit', false);
+setPortalLoginBusy('mn', true, adminLogin);
+callSupabaseAction('verifyModuleLogin', { username: user, password: pass, module: 'bank_menu', loginAsAdmin: adminLogin }, function(res) {
+setPortalLoginBusy('mn', false, adminLogin);
 if (res && res.status === 'success' && res.sessionToken) {
 window.SPAS1_AUTH_TOKEN = res.sessionToken;
 window.SPAS1_AUTH_ROLE = res.role;
@@ -9894,19 +10054,19 @@ errorEl.classList.add('show');
 document.getElementById('mnLoginPass').value = '';
 document.getElementById('mnLoginPass').focus();
 }
-}, function(error) { setPortalLoginBusy('mnLoginSubmit', false); errorEl.textContent = error.message || 'Gagal menghubungi server login.'; errorEl.classList.add('show'); });
+}, function(error) { setPortalLoginBusy('mn', false, adminLogin); errorEl.textContent = error.message || 'Gagal menghubungi server login.'; errorEl.classList.add('show'); });
 }
-function verifySlLogin() {
+function verifySlLogin(loginAsAdmin) {
+const adminLogin = loginAsAdmin === true;
 const user = document.getElementById('slLoginUser').value.trim();
 const pass = document.getElementById('slLoginPass').value;
 const errorEl = document.getElementById('slLoginError');
-const button = document.getElementById('slLoginSubmit');
-if (button.disabled) return;
+if (document.getElementById('slLoginSubmit').disabled || document.getElementById('slLoginAdminSubmit').disabled) return;
 errorEl.classList.remove('show');
 errorEl.textContent = 'Username atau kata sandi salah!';
-setPortalLoginBusy('slLoginSubmit', true);
-callSupabaseAction('verifyModuleLogin', { username: user, password: pass, module: 'stok' }, function(res) {
-setPortalLoginBusy('slLoginSubmit', false);
+setPortalLoginBusy('sl', true, adminLogin);
+callSupabaseAction('verifyModuleLogin', { username: user, password: pass, module: 'stok', loginAsAdmin: adminLogin }, function(res) {
+setPortalLoginBusy('sl', false, adminLogin);
 if (res && res.status === 'success' && res.sessionToken) {
 window.SPAS1_AUTH_TOKEN = res.sessionToken;
 window.SPAS1_AUTH_ROLE = res.role;
@@ -9931,12 +10091,12 @@ errorEl.classList.add('show');
 document.getElementById('slLoginPass').value = '';
 document.getElementById('slLoginPass').focus();
 }
-}, function(error) { setPortalLoginBusy('slLoginSubmit', false); errorEl.textContent = error.message || 'Gagal menghubungi server login.'; errorEl.classList.add('show'); });
+}, function(error) { setPortalLoginBusy('sl', false, adminLogin); errorEl.textContent = error.message || 'Gagal menghubungi server login.'; errorEl.classList.add('show'); });
 }
 function closeMnLogin() { document.getElementById('mnLoginOverlay').classList.remove('show'); document.getElementById('modul-menu').classList.add('hidden'); document.getElementById('view-home').classList.remove('hidden'); setModuleLoginBackground(false); document.body.classList.add('home-screen-active'); }
 function closeSlLogin() { document.getElementById('slLoginOverlay').classList.remove('show'); document.getElementById('modul-stok').classList.add('hidden'); document.getElementById('view-home').classList.remove('hidden'); setModuleLoginBackground(false); document.body.classList.add('home-screen-active'); }
-function logoutMnPortal() { const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; }
-function logoutSlPortal() { const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; }
+function logoutMnPortal() { if (window.SPAS1_AUTH_ROLE === 'admin' && window.SPAS1_SUPABASE_SESSION) return; const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; }
+function logoutSlPortal() { if (window.SPAS1_AUTH_ROLE === 'admin' && window.SPAS1_SUPABASE_SESSION) return; const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; }
 function generateMenuNusantara() {
 if (MN_MENU_DATA.length > 0) return;
 let id = 1;
@@ -10477,7 +10637,7 @@ showToast('✅ Menu berhasil diperbarui!');
 // =============================================
 function preparePrint(targetModuleClass) {
   // Hapus semua class printing sebelumnya
-  document.body.classList.remove('printing-fullpage', 'printing-modul-absensi', 'printing-modul-menu', 'printing-modul-stok', 'printing-modul-joblist', 'printing-view-admin', 'printing-admin-laporan', 'printing-admin-karyawan', 'printing-admin-stok', 'printing-admin-lpdh', 'printing-admin-lpj', 'printing-admin-gizi', 'printing-stock-invoice');
+  document.body.classList.remove('printing-fullpage', 'printing-modul-absensi', 'printing-modul-menu', 'printing-modul-stok', 'printing-modul-joblist', 'printing-view-admin', 'printing-admin-laporan', 'printing-admin-karyawan', 'printing-admin-stok', 'printing-admin-lpdh', 'printing-admin-lpj', 'printing-admin-gizi', 'printing-admin-finance', 'printing-stock-invoice');
   // Tambahkan class untuk modul target
   document.body.classList.add(targetModuleClass);
   const targetSelectors = {
@@ -10504,7 +10664,7 @@ function preparePrint(targetModuleClass) {
   });
 }
 function cleanupPrint() {
-  document.body.classList.remove('printing-fullpage', 'printing-modul-absensi', 'printing-modul-menu', 'printing-modul-stok', 'printing-modul-joblist', 'printing-view-admin', 'printing-admin-laporan', 'printing-admin-karyawan', 'printing-admin-stok', 'printing-admin-lpdh', 'printing-admin-lpj', 'printing-admin-gizi', 'printing-stock-invoice');
+  document.body.classList.remove('printing-fullpage', 'printing-modul-absensi', 'printing-modul-menu', 'printing-modul-stok', 'printing-modul-joblist', 'printing-view-admin', 'printing-admin-laporan', 'printing-admin-karyawan', 'printing-admin-stok', 'printing-admin-lpdh', 'printing-admin-lpj', 'printing-admin-gizi', 'printing-admin-finance', 'printing-stock-invoice');
   document.querySelectorAll('[data-print-was-hidden="true"]').forEach(function(element) {
     element.classList.add('hidden');
     delete element.dataset.printWasHidden;
@@ -13384,27 +13544,35 @@ ctx.shadowBlur = 0;
 }
 (function() {
 const STORAGE_KEY = 'spas1m_dapur_cloud_data_v2';
-function setMainPortalLoginBusy(busy) {
-const button = document.getElementById('portalLoginSubmit');
-if (!button) return;
-button.disabled = busy;
-button.setAttribute('aria-busy', String(busy));
-button.innerHTML = busy ? '<span class="login-loading-spinner" aria-hidden="true"></span> Verifikasi Login...' : 'Masuk ke Portal';
+function setMainPortalLoginBusy(busy, loginAsAdmin) {
+const normalButton = document.getElementById('portalLoginSubmit');
+const adminButton = document.getElementById('portalAdminLoginSubmit');
+const loadingLabel = '<span class="login-loading-spinner" aria-hidden="true"></span> Verifikasi Login...';
+if (normalButton) {
+normalButton.disabled = busy;
+normalButton.setAttribute('aria-busy', String(busy));
+normalButton.innerHTML = busy && !loginAsAdmin ? loadingLabel : 'Masuk ke Portal';
 }
-window.handleLogin = function() {
+if (adminButton) {
+adminButton.disabled = busy;
+adminButton.setAttribute('aria-busy', String(busy));
+adminButton.innerHTML = busy && loginAsAdmin ? loadingLabel : '<i class="fa-solid fa-user-shield"></i> Masuk sebagai SUPER ADMIN';
+}
+}
+window.handleLogin = function(loginAsAdmin) {
+const adminLogin = loginAsAdmin === true;
 const u = document.getElementById('loginUsername').value.trim();
 const p = document.getElementById('loginPassword').value;
-const button = document.getElementById('portalLoginSubmit');
-if (button && button.disabled) return;
+if (document.getElementById('portalLoginSubmit').disabled || document.getElementById('portalAdminLoginSubmit').disabled) return;
 if (!u || !p) { alert('Username dan kata sandi wajib diisi.'); return; }
-setMainPortalLoginBusy(true);
+setMainPortalLoginBusy(true, adminLogin);
 requestAnimationFrame(function() {
-callSupabaseAction('verifyModuleLogin', { username: u, password: p, module: 'persiapan' }, function(res) {
-setMainPortalLoginBusy(false);
+callSupabaseAction('verifyModuleLogin', { username: u, password: p, module: 'persiapan', loginAsAdmin: adminLogin }, function(res) {
+setMainPortalLoginBusy(false, adminLogin);
 if (res && res.status === 'success' && res.sessionToken) { window.SPAS1_AUTH_TOKEN = res.sessionToken; window.SPAS1_AUTH_ROLE = res.role; document.getElementById('loginPortal').style.display = 'none'; document.getElementById('dashboardActionButtons').style.display = 'flex'; setModuleLoginBackground(false); }
 else { alert('Login gagal: ' + (res && res.message ? res.message : 'Respons server tidak valid.')); }
 }, function(err) {
-setMainPortalLoginBusy(false);
+setMainPortalLoginBusy(false, adminLogin);
 alert('Gagal login: ' + err.message);
 });
 });

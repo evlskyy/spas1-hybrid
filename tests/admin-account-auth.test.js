@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const vm = require('node:vm');
 
 const root = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
@@ -53,6 +54,57 @@ test('username updates require the authenticated admin and do not change the Aut
   assert.match(edgeFunction, /Email pemulihan tidak berubah/);
   assert.match(migration, /user_id uuid primary key references auth\.users\(id\)/);
   assert.match(migration, /Auth email itself is never changed/i);
+});
+
+test('username update requires confirmation before sending the change request', async function() {
+  const start = html.indexOf('async function saveAdminUsername()');
+  const end = html.indexOf('\nasync function updateAdminRecoveryEmail()', start);
+  assert.notEqual(start, -1, 'Missing username update handler');
+  assert.notEqual(end, -1, 'Missing username update handler boundary');
+
+  const input = { value: 'New.Admin', focus: function() {} };
+  const message = { textContent: '', className: '' };
+  const button = { disabled: false, textContent: 'Simpan Username' };
+  const calls = [];
+  const prompts = [];
+  let confirmed = false;
+  const context = {
+    document: {
+      getElementById: function(id) {
+        return {
+          adminUsernameNew: input,
+          adminUsernameMessage: message,
+          btnAdminUsernameSave: button
+        }[id] || null;
+      }
+    },
+    confirm: function(prompt) {
+      prompts.push(prompt);
+      return confirmed;
+    },
+    callSupabaseFunction: function() {
+      calls.push(Array.from(arguments));
+      return Promise.resolve({ message: 'Username berhasil diperbarui.' });
+    }
+  };
+  vm.runInNewContext(html.slice(start, end), context);
+
+  await context.saveAdminUsername();
+
+  assert.deepEqual(prompts, ['Apakah Anda yakin ingin mengganti username menjadi "new.admin"?']);
+  assert.deepEqual(calls, []);
+  assert.equal(button.disabled, false);
+  assert.equal(button.textContent, 'Simpan Username');
+
+  confirmed = true;
+  await context.saveAdminUsername();
+
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0][0], 'admin-account-auth');
+  assert.equal(calls[0][1].action, 'set-username');
+  assert.equal(calls[0][1].username, 'new.admin');
+  assert.equal(message.textContent, 'Username berhasil diperbarui.');
+  assert.equal(button.disabled, false);
 });
 
 test('password recovery is available before login and rejects synthetic internal addresses', function() {

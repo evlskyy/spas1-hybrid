@@ -181,6 +181,7 @@ test('uploads enforce MIME and size limits and forward the authenticated tenant 
     }
     return Response.json({ Key: tenantId + '/team/photo.png' });
   });
+
   const response = await context.onRequest({
     request: new Request('https://spas1.my.id/api/media?bucket=spas1-media&path=' + encodeURIComponent(tenantId + '/team/photo.png'), {
       method: 'POST',
@@ -211,6 +212,53 @@ test('uploads enforce MIME and size limits and forward the authenticated tenant 
   assert.equal(calls[1].options.headers.get('x-upsert'), 'true');
   assert.equal(oversized.status, 413);
   assert.equal(calls.filter(function(call) { return call.url.includes('/storage/v1/object/'); }).length, 1);
+});
+
+test('finance receipt uploads use the private tenant bucket without public access mode', async function() {
+  const calls = [];
+  const context = createClientContext();
+  context.fetch = async function(url, options) {
+    calls.push({ url: String(url), options: options });
+    return new Response('ok');
+  };
+  await context.supabaseStorageRequest('/storage/v1/object/spas1-finance/' + tenantId + '/akuntan-keuangan/receipt.png', {
+    method: 'POST',
+    headers: { 'Content-Type': 'image/png' },
+    body: new Blob(['png'], { type: 'image/png' })
+  });
+
+  const request = new URL(calls[0].url, 'https://spas1.my.id');
+  assert.equal(request.searchParams.get('bucket'), 'spas1-finance');
+  assert.equal(request.searchParams.get('path'), tenantId + '/akuntan-keuangan/receipt.png');
+  assert.equal(request.searchParams.has('access'), false);
+  assert.equal(calls[0].options.method, 'POST');
+  assert.equal(new Headers(calls[0].options.headers).get('Authorization'), 'Bearer user-token');
+});
+
+test('private finance media proxy enforces tenant authentication and image allowlist', async function() {
+  const calls = [];
+  const context = createMediaContext(async function(url, options) {
+    calls.push({ url: String(url), options: options });
+    if (String(url).endsWith('/auth/v1/user')) {
+      return Response.json({ app_metadata: { sppg_id: tenantId } });
+    }
+    return new Response('uploaded', { status: 200 });
+  });
+  const response = await context.onRequest({
+    request: new Request('https://spas1.my.id/api/media?bucket=spas1-finance&path=' + encodeURIComponent(tenantId + '/akuntan-keuangan/receipt.png'), {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer user-token',
+        'Content-Type': 'image/png',
+        'Content-Length': '3'
+      },
+      body: 'png'
+    })
+  });
+
+  assert.equal(response.status, 200);
+  assert.equal(calls[1].url, supabaseUrl + '/storage/v1/object/spas1-finance/' + tenantId + '/akuntan-keuangan/receipt.png');
+  assert.equal(calls[1].options.headers.get('Authorization'), 'Bearer user-token');
 });
 
 test('source and deployed clients use same-origin media URLs and convert legacy public URLs', async function() {

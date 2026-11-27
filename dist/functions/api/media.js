@@ -12,6 +12,11 @@ const BUCKETS = {
     publicRead: false,
     maxBytes: 10 * 1024 * 1024,
     contentTypes: new Set(["application/pdf", "image/jpeg", "image/png", "image/webp"])
+  },
+  "spas1-finance": {
+    publicRead: false,
+    maxBytes: 10 * 1024 * 1024,
+    contentTypes: new Set(["image/jpeg", "image/png", "image/webp"])
   }
 };
 
