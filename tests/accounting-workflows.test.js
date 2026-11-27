@@ -24,6 +24,8 @@ test('Akuntan submenu exposes stock opname and finance in source and deployed pa
     assert.match(html, /class="finance-transactions-table w-full min-w-\[1165px\]/);
     assert.match(html, /finance-transactions-table :is\(th,td\):nth-child\(1\) \{ width: 105px; white-space: nowrap; \}/);
     assert.match(html, /finance-description-cell \{\s*white-space: normal;\s*overflow-wrap: anywhere;/);
+    assert.match(html, /finance-action-grid \{\s*display: grid;\s*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+    assert.match(html, /finance-action-button \{\s*display: inline-flex;[\s\S]*?height: 28px;/);
     assert.match(html, /src="\.\/accounting-features\.js" defer/);
     assert.match(html, /'spas1_finance_transactions'/);
     assert.match(html, /initializeStockOpnameDate\(\); loadStockOpnames\(\)/);
@@ -31,6 +33,40 @@ test('Akuntan submenu exposes stock opname and finance in source and deployed pa
   }
   assert.equal(fs.readFileSync(path.join(root, 'dist/accounting-features.js'), 'utf8'), featureScript);
   assert.match(featureScript, /finance-description-cell p-3/);
+});
+
+test('finance actions render as evenly sized two-column buttons', function() {
+  const elements = {
+    financeTransactionRows: { innerHTML: '' },
+    financeFilterFrom: { value: '' },
+    financeFilterTo: { value: '' },
+    financeFilterType: { value: '' },
+    financeFilterStatus: { value: '' }
+  };
+  const context = {
+    document: { getElementById: function(id) { return elements[id]; } },
+    financeTransactions: [{
+      id: 'transaction-1',
+      transaction_date: '2026-11-27',
+      transaction_type: 'pemasukan',
+      category: 'Top-up',
+      description: 'Sumber saldo',
+      amount: 300000000,
+      payment_method: 'Transfer',
+      status: 'pending'
+    }],
+    escapeHtml: function(value) { return String(value); }
+  };
+  vm.runInNewContext(featureScript, context);
+
+  context.renderFinanceTransactions();
+
+  const markup = elements.financeTransactionRows.innerHTML;
+  assert.match(markup, /class="finance-action-grid"/);
+  assert.equal((markup.match(/class="finance-action-button/g) || []).length, 4);
+  assert.ok(markup.indexOf('>Setujui</button>') < markup.indexOf('>Tolak</button>'));
+  assert.ok(markup.indexOf('>Tolak</button>') < markup.indexOf('>Edit</button>'));
+  assert.ok(markup.indexOf('>Edit</button>') < markup.indexOf('>Hapus</button>'));
 });
 
 test('stock opname approval is tenant-bound, snapshot-checked, and applies audited stock adjustments', function() {

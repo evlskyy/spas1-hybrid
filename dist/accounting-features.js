@@ -284,7 +284,7 @@ function renderFinanceTransactions() {
       ? '<button type="button" class="text-indigo-700 underline" data-receipt-path="' + escapeHtml(row.receipt_path) + '" onclick="openFinanceReceipt(this)">Lihat foto</button>'
       : '—';
     const review = row.status === 'pending'
-      ? '<button type="button" class="mb-1 mr-1 rounded bg-emerald-600 px-2 py-1 text-white" onclick="approveFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Setujui</button><button type="button" class="mb-1 rounded bg-rose-600 px-2 py-1 text-white" onclick="rejectFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Tolak</button>'
+      ? '<button type="button" class="finance-action-button finance-action-approve" onclick="approveFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Setujui</button><button type="button" class="finance-action-button finance-action-reject" onclick="rejectFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Tolak</button>'
       : '';
     return '<tr class="border-t border-gray-100"><td class="p-3">' + escapeHtml(row.transaction_date) + '</td>' +
       '<td class="p-3">' + escapeHtml(financeTypeLabel(row.transaction_type)) + '</td>' +
@@ -294,7 +294,8 @@ function renderFinanceTransactions() {
       '<td class="p-3">' + escapeHtml(row.payment_method) + '</td>' +
       '<td class="p-3">' + escapeHtml(row.reference || '—') + '<div>' + receipt + '</div></td>' +
       '<td class="p-3">' + escapeHtml(financeStatusLabel(row.status)) + (row.rejection_reason ? '<div class="text-rose-700">' + escapeHtml(row.rejection_reason) + '</div>' : '') + '</td>' +
-      '<td class="p-3 no-print">' + review + '<button type="button" class="mb-1 mr-1 rounded border border-gray-300 px-2 py-1" onclick="editFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Edit</button><button type="button" class="rounded bg-rose-700 px-2 py-1 text-white" onclick="deleteFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Hapus</button></td></tr>';
+      '<td class="finance-actions-cell p-3 no-print"><div class="finance-action-grid">' + review +
+      '<button type="button" class="finance-action-button finance-action-edit" onclick="editFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Edit</button><button type="button" class="finance-action-button finance-action-delete" onclick="deleteFinanceTransaction(\'' + escapeHtml(row.id) + '\')">Hapus</button></div></td></tr>';
   }).join('') : '<tr><td colspan="9" class="p-5 text-center text-gray-500">Tidak ada transaksi sesuai filter.</td></tr>';
 }
 

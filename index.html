@@ -3735,6 +3735,37 @@ white-space: normal;
 overflow-wrap: anywhere;
 line-height: 1.45;
 }
+#view-admin #tab-finance .finance-action-grid {
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 5px;
+width: 100%;
+min-width: 0;
+}
+#view-admin #tab-finance .finance-action-button {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 100%;
+min-width: 0;
+height: 28px;
+padding: 4px;
+border: 1px solid transparent;
+border-radius: 6px;
+font-size: 10px;
+font-weight: 700;
+line-height: 1;
+white-space: nowrap;
+cursor: pointer;
+}
+#view-admin #tab-finance .finance-action-approve { background-color: #059669 !important; border-color: #047857 !important; color: #FFFFFF !important; }
+#view-admin #tab-finance .finance-action-reject { background-color: #E11D48 !important; border-color: #BE123C !important; color: #FFFFFF !important; }
+#view-admin #tab-finance .finance-action-edit {
+background-color: var(--appearance-muted, #334155) !important;
+border-color: var(--appearance-border, #475569) !important;
+color: var(--appearance-text, #F8FAFC) !important;
+}
+#view-admin #tab-finance .finance-action-delete { background-color: #BE123C !important; border-color: #9F1239 !important; color: #FFFFFF !important; }
 }
 @media print {
 html body[class*="printing-"][class*="ui-theme-"],
