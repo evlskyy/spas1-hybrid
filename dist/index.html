@@ -3029,6 +3029,39 @@ body[class*="printing-"] tfoot {
 display: table-footer-group;
 }
 }
+body:not(.app-light-mode) #view-admin #tab-finance :is(#financeTransactionForm,#financePrintArea,section.no-print > div.overflow-x-auto) {
+background-color: #1C2541 !important;
+border-color: #334155 !important;
+color: #E2E8F0 !important;
+}
+body:not(.app-light-mode) #view-admin #tab-finance :is(input:not([type="hidden"]),select,textarea) {
+background-color: #0F172A !important;
+border-color: #475569 !important;
+color: #F8FAFC !important;
+}
+body:not(.app-light-mode) #view-admin #tab-finance input[type="file"]::file-selector-button {
+background-color: #334155 !important;
+border-color: #475569 !important;
+color: #F8FAFC !important;
+}
+body.app-light-mode #view-admin #tab-finance :is(#financeTransactionForm,#financePrintArea,section.no-print > div.overflow-x-auto) {
+background-color: #FFFFFF !important;
+border-color: #D1D5DB !important;
+color: #111827 !important;
+}
+body.app-light-mode #view-admin #tab-finance :is(input:not([type="hidden"]),select,textarea) {
+background-color: #FFFFFF !important;
+border-color: #9CA3AF !important;
+color: #0F172A !important;
+}
+body.app-light-mode #view-admin #tab-finance input[type="file"]::file-selector-button {
+background-color: #E5E7EB !important;
+border-color: #D1D5DB !important;
+color: #1F2937 !important;
+}
+body #view-admin #tab-finance .border-gray-300 {
+border-color: #64748B !important;
+}
 </style>
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4933FEDV2TW"></script>

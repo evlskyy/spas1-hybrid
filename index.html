@@ -3689,6 +3689,24 @@ color: var(--appearance-text) !important;
 body :is(#view-admin,#modul-stok,#spas1-webapp-root) table :is(th,td) {
 border-color: var(--appearance-border) !important;
 }
+body #view-admin #tab-finance :is(#financeTransactionForm,#financePrintArea,section.no-print > div.overflow-x-auto) {
+background-color: var(--appearance-surface) !important;
+border-color: var(--appearance-border) !important;
+color: var(--appearance-text) !important;
+}
+body #view-admin #tab-finance :is(input:not([type="hidden"]),select,textarea) {
+background-color: var(--appearance-raised) !important;
+border-color: var(--appearance-border) !important;
+color: var(--appearance-text) !important;
+}
+body #view-admin #tab-finance input[type="file"]::file-selector-button {
+background-color: var(--appearance-muted) !important;
+border-color: var(--appearance-border) !important;
+color: var(--appearance-text) !important;
+}
+body #view-admin #tab-finance .border-gray-300 {
+border-color: var(--appearance-border) !important;
+}
 }
 @media print {
 html body[class*="printing-"][class*="ui-theme-"],

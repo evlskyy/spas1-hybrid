@@ -19,6 +19,8 @@ test('Akuntan submenu exposes stock opname and finance in source and deployed pa
     assert.match(html, /id="financeOpeningBalance"/);
     assert.match(html, /onclick="loadFinanceAudit\(\)">Riwayat Audit/);
     assert.match(html, /id="financeAuditRows"/);
+    assert.match(html, /#view-admin #tab-finance :is\(#financeTransactionForm,#financePrintArea,section\.no-print > div\.overflow-x-auto\)[\s\S]*?background-color:/);
+    assert.match(html, /#view-admin #tab-finance :is\(input:not\(\[type="hidden"\]\),select,textarea\)[\s\S]*?background-color:/);
     assert.match(html, /src="\.\/accounting-features\.js" defer/);
     assert.match(html, /'spas1_finance_transactions'/);
     assert.match(html, /initializeStockOpnameDate\(\); loadStockOpnames\(\)/);
