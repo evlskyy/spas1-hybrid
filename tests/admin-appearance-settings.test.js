@@ -5,6 +5,7 @@ const test = require('node:test');
 const vm = require('node:vm');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const deployHtml = fs.readFileSync(path.join(__dirname, '..', 'dist', 'index.html'), 'utf8');
 
 function appearanceFunctionContext() {
   const classes = new Set(['ui-theme-candy', 'ui-font-linux']);
@@ -50,6 +51,40 @@ function appearanceFunctionContext() {
   assert.notEqual(end, -1, 'Missing appearance preference handler boundary');
   vm.runInNewContext(html.slice(start, end), context);
   return { context: context, classes: classes, selects: selects, preview: preview, status: status, stored: stored };
+}
+
+function adminUiStyleFunctionContext(initialStyle) {
+  const select = { value: '' };
+  const preview = { dataset: {} };
+  const status = { textContent: '' };
+  const adminView = { dataset: {} };
+  const stored = initialStyle ? { spas1_admin_ui_style: initialStyle } : {};
+  const context = {
+    document: {
+      getElementById: function(id) {
+        if (id === 'adminUiStyleSelect') return select;
+        if (id === 'adminUiStyleStatus') return status;
+        if (id === 'view-admin') return adminView;
+        return null;
+      },
+      querySelector: function(selector) {
+        return selector === '.admin-ui-style-preview' ? preview : null;
+      }
+    },
+    localStorage: {
+      getItem: function(key) { return Object.prototype.hasOwnProperty.call(stored, key) ? stored[key] : null; },
+      setItem: function(key, value) { stored[key] = value; }
+    },
+    window: { SPAS1_AUTH_ROLE: 'admin', SPAS1_SUPABASE_SESSION: { user: 'admin' } },
+    showToast: function() {},
+    console: { error: function() {} }
+  };
+  const start = html.indexOf('const adminUiStyleOptions =');
+  const end = html.indexOf('\nfunction changeCustomTheme(', start);
+  assert.notEqual(start, -1, 'Missing SUPER ADMIN UI style handlers');
+  assert.notEqual(end, -1, 'Missing SUPER ADMIN UI style handler boundary');
+  vm.runInNewContext(html.slice(start, end), context);
+  return { context: context, select: select, preview: preview, status: status, adminView: adminView, stored: stored };
 }
 
 function mainThemeToggleContext() {
@@ -186,6 +221,60 @@ test('SUPER ADMIN appearance panel offers requested themes and whole-app fonts',
   assert.match(html, /body\.ui-theme-candy:not\(\.app-light-mode\)\s*\{[\s\S]*color-scheme: dark/);
   assert.match(html, /body\.ui-theme-linux:not\(\.app-light-mode\)\s*\{[\s\S]*color-scheme: dark/);
   assert.match(html, /body\.ui-theme-windows:not\(\.app-light-mode\)\s*\{[\s\S]*color-scheme: dark/);
+});
+
+test('SUPER ADMIN panel offers all nine UI styles separately from global appearance', function() {
+  const styles = ['liquid-glass', 'material-you', 'terminal', 'hand-drawn', 'y2k-chrome', 'bauhaus', 'pixel-art', 'aurora-gradient', 'manga'];
+  assert.match(html, /id="adminUiStyleSelect" onchange="previewAdminUiStyle\(\)"/);
+  assert.match(html, /Gaya ini hanya mengubah panel SUPER ADMIN/);
+  for (const style of styles) {
+    assert.match(html, new RegExp(`<option value="${style}">`));
+    assert.match(html, new RegExp(`#view-admin\\[data-ui-style="${style}"\\]`));
+  }
+  assert.match(html, /id="adminUiStyleApplyButton"[^>]*onclick="saveAdminUiStyle\(\)"/);
+  assert.match(html, /localStorage\.setItem\('spas1_admin_ui_style', style\)/);
+  assert.match(html, /loadAdminUiStyle\(\)/);
+  assert.match(deployHtml, /id="tab-ui-style"/);
+  assert.match(deployHtml, /id="adminUiStyleSelect"/);
+  assert.match(deployHtml, /loadAdminUiStyle\(\)/);
+  for (const style of styles) assert.match(deployHtml, new RegExp(`<option value="${style}">`));
+});
+
+test('SUPER ADMIN UI style selection previews, applies, persists, and resets locally', function() {
+  const state = adminUiStyleFunctionContext();
+  state.select.value = 'pixel-art';
+  state.context.previewAdminUiStyle();
+
+  assert.equal(state.preview.dataset.adminStyle, 'pixel-art');
+  assert.equal(state.adminView.dataset.uiStyle, undefined);
+  assert.equal(state.stored.spas1_admin_ui_style, undefined);
+
+  state.context.saveAdminUiStyle();
+
+  assert.equal(state.adminView.dataset.uiStyle, 'pixel-art');
+  assert.equal(state.stored.spas1_admin_ui_style, 'pixel-art');
+  assert.equal(state.status.textContent, 'Gaya UI SUPER ADMIN berhasil diterapkan dan disimpan pada browser ini.');
+
+  state.context.resetAdminUiStyle();
+
+  assert.equal(state.adminView.dataset.uiStyle, 'spas');
+  assert.equal(state.select.value, 'spas');
+  assert.equal(state.stored.spas1_admin_ui_style, 'spas');
+});
+
+test('SUPER ADMIN UI style restores saved choices and rejects unsupported values', function() {
+  const state = adminUiStyleFunctionContext('manga');
+  state.context.loadAdminUiStyle();
+  assert.equal(state.adminView.dataset.uiStyle, 'manga');
+  assert.equal(state.select.value, 'manga');
+
+  assert.throws(function() {
+    state.context.applyAdminUiStyle('unknown', true);
+  }, /tidak valid/);
+
+  const invalidState = adminUiStyleFunctionContext('unknown');
+  invalidState.context.loadAdminUiStyle();
+  assert.equal(invalidState.adminView.dataset.uiStyle, 'spas');
 });
 
 test('appearance preview text stays readable in dark mode and controls are easier to read', function() {

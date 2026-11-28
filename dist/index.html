@@ -143,6 +143,7 @@ console.error('PWA service worker registration failed:', error);
 <script src="./lpj.js" defer></script>
 <script src="./super-gizi.js" defer></script>
 <script src="./accounting-features.js" defer></script>
+<script src="./bank-menu-spreadsheet-import.js" defer></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -465,8 +466,6 @@ body.app-light-mode #loginPortal h2 { color: #0F172A !important; }
 body.app-light-mode #loginPortal .form-label { color: #374151 !important; }
 body.app-light-mode #loginPortal .input-field { background-color: #F9FAFB !important; color: #111827 !important; border-color: #D1D5DB !important; }
 body.app-light-mode #loginPortal .input-field:focus { border-color: #059669 !important; }
-body.app-light-mode #loginPortal .btn-kembali-animated { background-color: rgba(5, 150, 105, 0.1) !important; border-color: #047857 !important; color: #047857 !important; }
-body.app-light-mode #loginPortal .btn-kembali-animated:hover { background-color: #047857 !important; color: #FFFFFF !important; }
 body.app-light-mode #loginPortal .spaceman-anim-wrapper { background: rgba(5, 150, 105, 0.1) !important; border-color: #059669 !important; }
 body.app-light-mode .mn-login-overlay, body.app-light-mode .sl-login-overlay { background: rgba(243, 244, 246, 0.42) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 body.app-light-mode .mn-login-card, body.app-light-mode .sl-login-card { background: #FFFFFF !important; border-color: #10B981 !important; }
@@ -1479,8 +1478,6 @@ body.app-light-mode #modul-stok .sl-cat-kering { background: #FFE4E6; border-col
 body.app-light-mode #modul-stok .sl-cat-basah { background: #DBEAFE; border-color: #93C5FD; color: #1E40AF; }
 body.app-light-mode #modul-stok .sl-cat-kemasan { background: #F3F4F6; border-color: #9CA3AF; color: #374151; }
 body.app-light-mode #modul-stok .sl-scroll-hint { background: #ECFDF5; color: #4B5563; }
-body.app-light-mode .btn-kembali-animated { color: #047857 !important; }
-body.app-light-mode .btn-kembali-animated:hover { background-color: #047857 !important; color: #FFFFFF !important; }
 body.app-light-mode #toast-notify { background-color: #047857 !important; border-color: #065F46 !important; }
 body.app-light-mode #spas1-webapp-root { --emerald: #047857; --emerald-light: #065F46; }
 body.app-light-mode #spas1-webapp-root.light-mode {
@@ -2118,9 +2115,54 @@ body.budget-table-fullscreen-open { overflow: hidden !important; }
 #spas1-webapp-root .filter-grid { grid-template-columns: 1fr; gap: 6px; }
 #spas1-webapp-root .vol-grid { grid-template-columns: 1fr; gap: 6px; }
 }
-@keyframes moveGlow { 0% { transform: translateY(0px); box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); } 50% { transform: translateY(-3px); box-shadow: 0 0 15px rgba(16, 185, 129, 0.7); } 100% { transform: translateY(0px); box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); } }
-.btn-kembali-animated { animation: moveGlow 2.5s infinite ease-in-out; transition: all 0.3s ease; }
-.btn-kembali-animated:hover { background-color: #10B981 !important; color: #ffffff !important; }
+button:is(.app-back-button, .btn-kembali-animated, .mn-login-back, .sl-login-back, .accounting-folder-back, .sl-purchase-detail-back, #btnBackVolunteerLogin, #btnLoginBack, [onclick="kembaliKeHome()"]:not(.sponsor-404-close):not(#view-admin button), [onclick="kembaliKeInfoSPPG()"], [onclick="kembaliKeLoginRelawan()"], [onclick="bukaInfoProyek()"], [onclick="closeMnLogin()"], [onclick="closeSlLogin()"], [onclick="showAccountingReportFolderList()"], [onclick="closePurchaseTransactionFolder()"], [onclick="backToPurchaseTransactionList()"]) {
+  box-sizing: border-box;
+  min-height: 40px !important;
+  padding: 8px 12px !important;
+  border: 1px solid #475569 !important;
+  border-radius: 8px !important;
+  background-color: #1F2937 !important;
+  color: #E2E8F0 !important;
+  font-family: 'Roboto', Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  letter-spacing: normal !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+button:is(.app-back-button, .btn-kembali-animated, .mn-login-back, .sl-login-back, .accounting-folder-back, .sl-purchase-detail-back, #btnBackVolunteerLogin, #btnLoginBack, [onclick="kembaliKeHome()"]:not(.sponsor-404-close):not(#view-admin button), [onclick="kembaliKeInfoSPPG()"], [onclick="kembaliKeLoginRelawan()"], [onclick="bukaInfoProyek()"], [onclick="closeMnLogin()"], [onclick="closeSlLogin()"], [onclick="showAccountingReportFolderList()"], [onclick="closePurchaseTransactionFolder()"], [onclick="backToPurchaseTransactionList()"]):hover:not(:disabled) {
+  background-color: #374151 !important;
+  color: #F8FAFC !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+button:is(.app-back-button, .btn-kembali-animated, .mn-login-back, .sl-login-back, .accounting-folder-back, .sl-purchase-detail-back, #btnBackVolunteerLogin, #btnLoginBack, [onclick="kembaliKeHome()"]:not(.sponsor-404-close):not(#view-admin button), [onclick="kembaliKeInfoSPPG()"], [onclick="kembaliKeLoginRelawan()"], [onclick="bukaInfoProyek()"], [onclick="closeMnLogin()"], [onclick="closeSlLogin()"], [onclick="showAccountingReportFolderList()"], [onclick="closePurchaseTransactionFolder()"], [onclick="backToPurchaseTransactionList()"]):is(:active, :focus) {
+  transform: none !important;
+  box-shadow: none !important;
+}
+button:is(.app-back-button, .btn-kembali-animated, .mn-login-back, .sl-login-back, .accounting-folder-back, .sl-purchase-detail-back, #btnBackVolunteerLogin, #btnLoginBack, [onclick="kembaliKeHome()"]:not(.sponsor-404-close):not(#view-admin button), [onclick="kembaliKeInfoSPPG()"], [onclick="kembaliKeLoginRelawan()"], [onclick="bukaInfoProyek()"], [onclick="closeMnLogin()"], [onclick="closeSlLogin()"], [onclick="showAccountingReportFolderList()"], [onclick="closePurchaseTransactionFolder()"], [onclick="backToPurchaseTransactionList()"]):focus-visible {
+  outline: 2px solid #6EE7B7 !important;
+  outline-offset: 2px;
+}
+button:is(.app-back-button, .btn-kembali-animated, .mn-login-back, .sl-login-back, .accounting-folder-back, .sl-purchase-detail-back, #btnBackVolunteerLogin, #btnLoginBack, [onclick="kembaliKeHome()"]:not(.sponsor-404-close):not(#view-admin button), [onclick="kembaliKeInfoSPPG()"], [onclick="kembaliKeLoginRelawan()"], [onclick="bukaInfoProyek()"], [onclick="closeMnLogin()"], [onclick="closeSlLogin()"], [onclick="showAccountingReportFolderList()"], [onclick="closePurchaseTransactionFolder()"], [onclick="backToPurchaseTransactionList()"]) i {
+  font-size: 14px !important;
+}
+body.app-light-mode button:is(.app-back-button, .btn-kembali-animated, .mn-login-back, .sl-login-back, .accounting-folder-back, .sl-purchase-detail-back, #btnBackVolunteerLogin, #btnLoginBack, [onclick="kembaliKeHome()"]:not(.sponsor-404-close):not(#view-admin button), [onclick="kembaliKeInfoSPPG()"], [onclick="kembaliKeLoginRelawan()"], [onclick="bukaInfoProyek()"], [onclick="closeMnLogin()"], [onclick="closeSlLogin()"], [onclick="showAccountingReportFolderList()"], [onclick="closePurchaseTransactionFolder()"], [onclick="backToPurchaseTransactionList()"]) {
+  border-color: #CBD5E1 !important;
+  background-color: #F8FAFC !important;
+  color: #334155 !important;
+}
+body.app-light-mode button:is(.app-back-button, .btn-kembali-animated, .mn-login-back, .sl-login-back, .accounting-folder-back, .sl-purchase-detail-back, #btnBackVolunteerLogin, #btnLoginBack, [onclick="kembaliKeHome()"]:not(.sponsor-404-close):not(#view-admin button), [onclick="kembaliKeInfoSPPG()"], [onclick="kembaliKeLoginRelawan()"], [onclick="bukaInfoProyek()"], [onclick="closeMnLogin()"], [onclick="closeSlLogin()"], [onclick="showAccountingReportFolderList()"], [onclick="closePurchaseTransactionFolder()"], [onclick="backToPurchaseTransactionList()"]):hover:not(:disabled) {
+  border-color: #94A3B8 !important;
+  background-color: #E2E8F0 !important;
+  color: #1E293B !important;
+}
 
 /* ============================================= */
 /* ✅ PERBAIKAN #1: WHATSAPP - Posisi tengah vertikal, ukuran lebih kecil */
@@ -3152,6 +3194,34 @@ border-color: var(--appearance-border, #475569) !important;
 color: var(--appearance-text, #F8FAFC) !important;
 }
 #view-admin #tab-finance .finance-action-delete { background-color: #BE123C !important; border-color: #9F1239 !important; color: #FFFFFF !important; }
+#view-admin[data-ui-style="liquid-glass"],.admin-ui-style-preview[data-admin-style="liquid-glass"] { --admin-ui-page:linear-gradient(135deg,#14213D,#355070);--admin-ui-surface:rgba(255,255,255,.16);--admin-ui-text:#F8FAFC;--admin-ui-muted:#DBEAFE;--admin-ui-border:rgba(255,255,255,.35);--admin-ui-accent:#7DD3FC;--admin-ui-accent-text:#0F172A;--admin-ui-radius:22px;--admin-ui-shadow:0 12px 30px rgba(2,6,23,.22);--admin-ui-font:"Inter",system-ui,sans-serif; }
+#view-admin[data-ui-style="material-you"],.admin-ui-style-preview[data-admin-style="material-you"] { --admin-ui-page:#F3EDF7;--admin-ui-surface:#FFFBFE;--admin-ui-text:#211B28;--admin-ui-muted:#625B71;--admin-ui-border:#E7DFF1;--admin-ui-accent:#6750A4;--admin-ui-accent-text:#FFFFFF;--admin-ui-radius:24px;--admin-ui-shadow:0 5px 16px rgba(45,34,65,.12);--admin-ui-font:system-ui,sans-serif; }
+#view-admin[data-ui-style="terminal"],.admin-ui-style-preview[data-admin-style="terminal"] { --admin-ui-page:#06120A;--admin-ui-surface:#0B1C10;--admin-ui-text:#D6FFE0;--admin-ui-muted:#9AC9A6;--admin-ui-border:#23633C;--admin-ui-accent:#00D563;--admin-ui-accent-text:#041108;--admin-ui-radius:2px;--admin-ui-shadow:0 0 0 1px rgba(0,213,99,.12);--admin-ui-font:"SFMono-Regular",Consolas,"Liberation Mono",monospace; }
+#view-admin[data-ui-style="hand-drawn"],.admin-ui-style-preview[data-admin-style="hand-drawn"] { --admin-ui-page:#FFF9E8;--admin-ui-surface:#FFFDF5;--admin-ui-text:#263238;--admin-ui-muted:#58666B;--admin-ui-border:#38454A;--admin-ui-accent:#F28C28;--admin-ui-accent-text:#1F2937;--admin-ui-radius:14px;--admin-ui-shadow:3px 3px 0 rgba(38,50,56,.2);--admin-ui-font:"Comic Sans MS","Trebuchet MS",sans-serif; }
+#view-admin[data-ui-style="y2k-chrome"],.admin-ui-style-preview[data-admin-style="y2k-chrome"] { --admin-ui-page:linear-gradient(140deg,#CDEBFF,#F9D8F7);--admin-ui-surface:linear-gradient(145deg,#F9FCFF,#D8E7F2 45%,#FFFFFF 55%,#E3D8F2);--admin-ui-text:#211A36;--admin-ui-muted:#514B68;--admin-ui-border:#7A9FB8;--admin-ui-accent:#E14BBA;--admin-ui-accent-text:#FFFFFF;--admin-ui-radius:18px;--admin-ui-shadow:0 8px 18px rgba(57,61,103,.2);--admin-ui-font:"Trebuchet MS",system-ui,sans-serif; }
+#view-admin[data-ui-style="bauhaus"],.admin-ui-style-preview[data-admin-style="bauhaus"] { --admin-ui-page:#F3EFE4;--admin-ui-surface:#FFF9E8;--admin-ui-text:#181818;--admin-ui-muted:#454545;--admin-ui-border:#181818;--admin-ui-accent:#D62828;--admin-ui-accent-text:#FFFFFF;--admin-ui-radius:0;--admin-ui-shadow:4px 4px 0 #181818;--admin-ui-font:Arial,Helvetica,sans-serif; }
+#view-admin[data-ui-style="pixel-art"],.admin-ui-style-preview[data-admin-style="pixel-art"] { --admin-ui-page:#071A2E;--admin-ui-surface:#0B2945;--admin-ui-text:#F7F9FF;--admin-ui-muted:#B7D2EA;--admin-ui-border:#7DD3FC;--admin-ui-accent:#FACC15;--admin-ui-accent-text:#111827;--admin-ui-radius:0;--admin-ui-shadow:5px 5px 0 #020617;--admin-ui-font:"SFMono-Regular",Consolas,"Liberation Mono",monospace; }
+#view-admin[data-ui-style="aurora-gradient"],.admin-ui-style-preview[data-admin-style="aurora-gradient"] { --admin-ui-page:linear-gradient(130deg,#08152F,#14384A 52%,#28214C);--admin-ui-surface:rgba(255,255,255,.13);--admin-ui-text:#F4F7FF;--admin-ui-muted:#D2DAF0;--admin-ui-border:rgba(188,220,255,.3);--admin-ui-accent:#65E6C6;--admin-ui-accent-text:#08251F;--admin-ui-radius:20px;--admin-ui-shadow:0 12px 28px rgba(3,10,31,.25);--admin-ui-font:system-ui,sans-serif; }
+#view-admin[data-ui-style="manga"],.admin-ui-style-preview[data-admin-style="manga"] { --admin-ui-page:radial-gradient(#D6D3D1 1px,transparent 1px),#FFFDF8;--admin-ui-surface:#FFFFFF;--admin-ui-text:#171717;--admin-ui-muted:#404040;--admin-ui-border:#171717;--admin-ui-accent:#E63946;--admin-ui-accent-text:#FFFFFF;--admin-ui-radius:0;--admin-ui-shadow:5px 5px 0 #171717;--admin-ui-font:"Trebuchet MS",Arial,sans-serif; }
+#view-admin[data-ui-style]:not([data-ui-style="spas"]) { background:var(--admin-ui-page) !important;color:var(--admin-ui-text);font-family:var(--admin-ui-font); }
+#view-admin[data-ui-style]:not([data-ui-style="spas"]) > aside { background:var(--admin-ui-surface) !important;border-color:var(--admin-ui-border) !important;color:var(--admin-ui-text) !important;box-shadow:var(--admin-ui-shadow);backdrop-filter:blur(14px); }
+#view-admin[data-ui-style]:not([data-ui-style="spas"]) :is(.light-card,.dark-card,.card,.site-settings-heading,.overflow-x-auto,.admin-ui-style-preview) { background:var(--admin-ui-surface) !important;border-color:var(--admin-ui-border) !important;border-radius:var(--admin-ui-radius) !important;box-shadow:var(--admin-ui-shadow) !important;color:var(--admin-ui-text) !important;backdrop-filter:blur(12px); }
+#view-admin[data-ui-style]:not([data-ui-style="spas"]) :is(h1,h2,h3,h4,h5,th,td),#view-admin[data-ui-style]:not([data-ui-style="spas"]) .admin-tab > div > p { color:var(--admin-ui-text) !important; }
+#view-admin[data-ui-style]:not([data-ui-style="spas"]) :is(.text-gray-900,.text-gray-800,.text-gray-700,.text-gray-600,.text-gray-500,.text-gray-400,.text-slate-900,.text-slate-800,.text-slate-700,.text-slate-600,.text-slate-500,.text-slate-400) { color:var(--admin-ui-muted) !important; }
+#view-admin[data-ui-style]:not([data-ui-style="spas"]) :is(.text-gray-900,.text-gray-800,.text-gray-700,.text-slate-900,.text-slate-800,.text-slate-700) { color:var(--admin-ui-text) !important; }
+#view-admin[data-ui-style]:not([data-ui-style="spas"]) :is(input,select,textarea) { background:var(--admin-ui-surface) !important;border-color:var(--admin-ui-border) !important;border-radius:var(--admin-ui-radius) !important;color:var(--admin-ui-text) !important;font-family:var(--admin-ui-font); }
+#view-admin[data-ui-style]:not([data-ui-style="spas"]) :is(button,.sidebar-link,.sidebar-settings-toggle) { border-radius:var(--admin-ui-radius);font-family:var(--admin-ui-font); }
+#view-admin[data-ui-style]:not([data-ui-style="spas"]) :is(.sidebar-link.active,#adminUiStyleApplyButton) { background:var(--admin-ui-accent) !important;border-color:var(--admin-ui-accent) !important;color:var(--admin-ui-accent-text) !important;box-shadow:var(--admin-ui-shadow); }
+#view-admin[data-ui-style="terminal"] :is(button,input,select,textarea) { border-style:solid !important; }
+#view-admin[data-ui-style="hand-drawn"] :is(.light-card,.dark-card,.card,.site-settings-heading,.overflow-x-auto) { border-style:dashed !important; }
+#view-admin[data-ui-style="pixel-art"] :is(.light-card,.dark-card,.card,.site-settings-heading,.overflow-x-auto) { border-width:3px !important;border-style:solid !important; }
+#view-admin[data-ui-style="manga"] :is(.light-card,.dark-card,.card,.site-settings-heading,.overflow-x-auto) { border-width:2px !important; }
+.admin-ui-style-preview { display:none;grid-column:1 / -1;overflow:hidden;border:1px solid var(--admin-ui-border,#CBD5E1);border-radius:var(--admin-ui-radius,10px);background:var(--admin-ui-page,#F1F5F9);color:var(--admin-ui-text,#1F2937);font-family:var(--admin-ui-font,system-ui,sans-serif);box-shadow:var(--admin-ui-shadow,0 6px 18px rgba(15,23,42,.12)); }
+.admin-ui-style-preview-bar { display:flex;justify-content:space-between;padding:9px 12px;background:var(--admin-ui-surface,#FFFFFF);border-bottom:1px solid var(--admin-ui-border,#CBD5E1);font-size:11px;font-weight:800; }
+.admin-ui-style-preview-content { padding:14px; }
+.admin-ui-style-preview-content p { margin:6px 0;color:var(--admin-ui-muted,#475569);font-size:12px; }
+.admin-ui-style-preview-content button { margin-top:5px;padding:6px 10px;border:1px solid var(--admin-ui-accent,#4F46E5);border-radius:var(--admin-ui-radius,8px);background:var(--admin-ui-accent,#4F46E5);color:var(--admin-ui-accent-text,#FFFFFF);font-size:11px;font-weight:800; }
+#view-admin :is(#tab-appearance,#tab-ui-style) .admin-ui-style-preview { display:block; }
 </style>
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4933FEDV2TW"></script>
@@ -3914,6 +3984,9 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <input type="text" id="mnSearchInput" class="mn-search-input" placeholder=" Cari menu (nama, karbohidrat, protein...)..." oninput="renderMenuNusantara()">
 <select id="mnFilterHari" class="mn-select" onchange="renderMenuNusantara()"><option value="all">Semua Hari</option><option value="Senin">Senin</option><option value="Selasa">Selasa</option><option value="Rabu">Rabu</option><option value="Kamis">Kamis</option><option value="Jumat">Jumat</option></select>
 <select id="mnFilterKategori" class="mn-select" onchange="renderMenuNusantara()"><option value="all">Semua Kategori</option><option value="Tradisional Jawa">Tradisional Jawa</option><option value="Tradisional Sunda">Tradisional Sunda</option><option value="Tradisional Sumatra">Tradisional Sumatra</option><option value="Tradisional Bali">Tradisional Bali</option><option value="Tradisional Kalimantan">Tradisional Kalimantan</option><option value="Tradisional Sulawesi">Tradisional Sulawesi</option><option value="Tradisional Papua">Tradisional Papua</option><option value="Menu SPPG">Menu SPPG</option></select>
+<input id="mnSpreadsheetImportInput" type="file" accept=".csv,text/csv" class="hidden" onchange="importBankMenuSpreadsheet(event)">
+<a class="mn-btn-export" style="background:linear-gradient(135deg,#0369A1,#0284C7);text-decoration:none;" href="https://docs.google.com/spreadsheets/d/1uybUy_wgbrDn5FeOqiheT1ntCT4TW8AM0mCKYi7ud-s/export?format=csv&amp;gid=0" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-download"></i> Unduh CSV Spreadsheet</a>
+<button type="button" class="mn-btn-export" style="background:linear-gradient(135deg,#0F766E,#0D9488);" onclick="document.getElementById('mnSpreadsheetImportInput').click()"><i class="fa-solid fa-file-import"></i> Impor Spreadsheet CSV</button>
 <button onclick="fetchBankMenuFromCloud(event)" class="mn-btn-export" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED);"><i class="fa-solid fa-cloud-arrow-down"></i> Tarik dari Database</button>
 <button onclick="printMenuNusantara()" class="mn-btn-export" style="background:linear-gradient(135deg,#3B82F6,#2563EB);"><i class="fa-solid fa-print"></i> Print</button>
 <button onclick="syncMenuToCloud(event)" class="mn-btn-export" style="background:linear-gradient(135deg,#10B981,#059669);"><i class="fa-solid fa-cloud-arrow-up"></i> Sync Database</button>
@@ -3946,7 +4019,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <input type="hidden" id="mnEditId">
 <input type="hidden" id="mnEditPeriodId">
 <div class="mn-edit-field"><label>Nama Menu</label><input type="text" id="mnEditNama" placeholder="Contoh: Nasi Putih + Ayam Goreng..."></div>
-<div class="mn-edit-field"><label>Hari</label><select id="mnEditHari"><option value="Senin">Senin</option><option value="Selasa">Selasa</option><option value="Rabu">Rabu</option><option value="Kamis">Kamis</option><option value="Jumat">Jumat</option></select><small id="mnEditHariHelp" style="display:none;">Untuk memindahkan menu, hapus salinan ini lalu tambahkan kembali pada hari tujuan.</small></div>
+<div class="mn-edit-field"><label>Hari</label><select id="mnEditHari"><option value="">Belum ditentukan</option><option value="Senin">Senin</option><option value="Selasa">Selasa</option><option value="Rabu">Rabu</option><option value="Kamis">Kamis</option><option value="Jumat">Jumat</option></select><small id="mnEditHariHelp" style="display:none;">Untuk memindahkan menu, hapus salinan ini lalu tambahkan kembali pada hari tujuan.</small></div>
 <div class="mn-edit-field"><label>Kategori Daerah</label><select id="mnEditKategori"><option value="Tradisional Jawa">Tradisional Jawa</option><option value="Tradisional Sunda">Tradisional Sunda</option><option value="Tradisional Sumatra">Tradisional Sumatra</option><option value="Tradisional Bali">Tradisional Bali</option><option value="Tradisional Kalimantan">Tradisional Kalimantan</option><option value="Tradisional Sulawesi">Tradisional Sulawesi</option><option value="Tradisional Papua">Tradisional Papua</option><option value="Menu SPPG">Menu SPPG</option></select></div>
 <div class="mn-edit-field"><label>Karbohidrat (Nama | Gram)</label><input type="text" id="mnEditKarbo" placeholder="Contoh: Nasi Putih | 150"></div>
 <div class="mn-edit-field"><label>Protein Hewani (Nama | Gram)</label><input type="text" id="mnEditProteinH" placeholder="Contoh: Ayam Goreng | 80"></div>
@@ -4347,6 +4420,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <i class="fa-solid fa-sliders w-5"></i><span>Pengaturan</span><i id="adminSettingsChevron" class="fa-solid fa-chevron-down ml-auto text-[10px] transition-transform"></i>
 </button>
 <div id="adminSettingsSubnav" class="admin-settings-subnav hidden" aria-label="Menu Pengaturan">
+<button id="nav-tab-ui-style" onclick="switchAdminTab('tab-ui-style', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-palette w-5"></i><span>Gaya UI SUPER ADMIN</span></button>
 <button id="nav-tab-settings" onclick="switchAdminTab('tab-settings', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-building w-5"></i> <span>Identitas Aplikasi</span></button>
 <button id="nav-tab-about" onclick="switchAdminTab('tab-about', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-people-group w-5"></i> <span>Tentang Kami</span></button>
 <button id="nav-tab-news" onclick="switchAdminTab('tab-news', this)" class="sidebar-link p-2.5 md:px-3 md:py-2.5 rounded-xl transition text-center md:text-left text-gray-600 hover:bg-gray-50 flex items-center justify-center md:justify-start gap-2 whitespace-nowrap"><i class="fa-solid fa-bullhorn w-5"></i> <span>Info SPPG</span></button>
@@ -4715,6 +4789,37 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </div>
 <div><button id="siteSettingsSubmit" type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold"><i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan</button></div>
 </form>
+</section>
+<section id="tab-ui-style" class="admin-tab space-y-4 hidden">
+<div class="site-settings-heading flex items-start gap-3 rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4">
+<span class="site-settings-icon grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-600 text-white"><i class="fa-solid fa-palette"></i></span>
+<div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Gaya UI SUPER ADMIN</h2><p class="mt-1 text-xs text-gray-500">Pilih gaya visual untuk panel SUPER ADMIN saja. Pilihan tersimpan pada browser ini.</p></div>
+</div>
+<div class="light-card appearance-settings-card grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 sm:p-5">
+<label for="adminUiStyleSelect" class="admin-about-label">Pilih gaya
+<select id="adminUiStyleSelect" onchange="previewAdminUiStyle()">
+<option value="spas">SPAS1 bawaan</option>
+<option value="liquid-glass">Liquid Glass</option>
+<option value="material-you">Material You</option>
+<option value="terminal">Terminal</option>
+<option value="hand-drawn">Hand-drawn</option>
+<option value="y2k-chrome">Y2K Chrome</option>
+<option value="bauhaus">Bauhaus</option>
+<option value="pixel-art">Pixel Art</option>
+<option value="aurora-gradient">Aurora Gradient</option>
+<option value="manga">Manga</option>
+</select>
+</label>
+<div class="admin-ui-style-preview" data-admin-style="spas" aria-live="polite">
+<div class="admin-ui-style-preview-bar"><span>SPAS1</span><span>SUPER ADMIN</span></div>
+<div class="admin-ui-style-preview-content"><strong>Contoh panel</strong><p>Pratinjau kartu dan tombol.</p><button type="button">Tombol</button></div>
+</div>
+<p id="adminUiStyleStatus" class="text-xs text-gray-600 sm:col-span-2" role="status" aria-live="polite">Gaya tersimpan hanya di browser ini.</p>
+<div class="sm:col-span-2 flex flex-wrap justify-end gap-2">
+<button id="adminUiStyleResetButton" type="button" onclick="resetAdminUiStyle()" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-bold text-gray-700"><i class="fa-solid fa-rotate-left"></i> Kembalikan bawaan</button>
+<button id="adminUiStyleApplyButton" type="button" onclick="saveAdminUiStyle()" class="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow">Terapkan gaya</button>
+</div>
+</div>
 </section>
 <section id="tab-about" class="admin-tab space-y-4 hidden">
 <div><h2 class="text-lg sm:text-xl font-bold text-gray-900">Pengelolaan Tentang Kami</h2><p class="mt-1 text-xs text-gray-500">Atur statistik penerima manfaat, rincian sekolah/Posyandu, struktur jabatan, tugas, nama, dan foto personel.</p></div>
@@ -5727,6 +5832,7 @@ prefer: 'return=minimal'
 }
 
 function toSupabaseMenuRow(menu, index) {
+const akgMissing = menu.akg && menu.akg.status === 'belum_diisi';
 return {
 ID: Number(menu.id) || index + 1,
 'Nama Menu': menu.nama || '',
@@ -5738,9 +5844,9 @@ Karbohidrat: serializeMenuComposition(menu.karbohidrat),
 'Protein Nabati': serializeMenuComposition(menu.proteinNabati),
 Sayuran: serializeMenuComposition(menu.sayuran),
 Buah: serializeMenuComposition(menu.buah),
-Kalori: Number(menu.akg && menu.akg.kalori) || 0,
-Protein: Number(menu.akg && menu.akg.protein) || 0,
-Lemak: Number(menu.akg && menu.akg.lemak) || 0,
+Kalori: akgMissing ? null : Number(menu.akg && menu.akg.kalori) || 0,
+Protein: akgMissing ? null : Number(menu.akg && menu.akg.protein) || 0,
+Lemak: akgMissing ? null : Number(menu.akg && menu.akg.lemak) || 0,
 'AKG Data': menu.akg || {}
 };
 }
@@ -6106,6 +6212,117 @@ prefer: 'return=representation'
 });
 if (!Array.isArray(insertedRows) || !insertedRows.length || Number(insertedRows[0].ID) !== nextId) throw new Error('Menu belum berhasil dikonfirmasi tersimpan di Supabase.');
 return { status: 'success', menuId: nextId, message: 'Menu berhasil ditambahkan dan disimpan ke Database.' };
+}
+case 'importBankMenuFromSpreadsheet': {
+requireSupabaseSession();
+if (!['admin', 'bank_menu'].includes(window.SPAS1_AUTH_ROLE)) throw new Error('Login Bank Menu diperlukan untuk mengimpor menu.');
+const expectedSppgId = String(payload.expectedSppgId || '').toLowerCase();
+if (!expectedSppgId || expectedSppgId !== getSupabaseTenantId()) throw new Error('SPPG aktif berubah. Muat ulang aplikasi lalu ulangi impor.');
+const records = payload.records;
+const spreadsheetId = window.SPAS1MenuSpreadsheetImport && window.SPAS1MenuSpreadsheetImport.spreadsheetId;
+if (!spreadsheetId || !Array.isArray(records) || records.length < 1 || records.length > 100) {
+throw new Error('Data impor spreadsheet tidak valid.');
+}
+const tenantOrganizations = await supabaseRequest('spas1_organizations', {
+query: { select: 'id,name,status', id: 'eq.' + expectedSppgId, limit: '1' }
+});
+const tenantOrganization = Array.isArray(tenantOrganizations) ? tenantOrganizations[0] : null;
+if (!tenantOrganization || tenantOrganization.status !== 'active' ||
+    !window.SPAS1MenuSpreadsheetImport.matchesTenantOrganization(tenantOrganization.name)) {
+throw new Error('Kategori spreadsheet ini bukan milik SPPG aktif. Impor dibatalkan agar data tidak masuk ke tenant yang keliru.');
+}
+const seenNumbers = new Set();
+const insertRows = records.map(function(record) {
+if (!record || typeof record !== 'object' || Array.isArray(record) ||
+    record.sourceCategory !== window.SPAS1MenuSpreadsheetImport.sourceCategory) {
+throw new Error('Kategori pada data impor tidak valid.');
+}
+const sourceNo = Number(record.sourceNo);
+if (!Number.isSafeInteger(sourceNo) || sourceNo < 1 || sourceNo > 500 || seenNumbers.has(sourceNo)) {
+throw new Error('Nomor baris sumber tidak valid atau berulang.');
+}
+seenNumbers.add(sourceNo);
+const components = [
+String(record.karbohidrat || '').trim(),
+String(record.proteinHewani || '').trim(),
+String(record.proteinNabati || '').trim(),
+String(record.sayuran || '').trim(),
+String(record.buah || '').trim()
+];
+if (components.some(function(value) { return value.length > 300; }) || !components.some(Boolean)) {
+throw new Error('Komponen menu tidak valid pada baris ' + sourceNo + '.');
+}
+const menuName = components.filter(Boolean).join(' + ');
+const region = record.sourceCategory.replace(/^Menu\s+/, '');
+return {
+'Nama Menu': menuName.slice(0, 300),
+Hari: null,
+Kategori: 'Menu SPPG',
+Daerah: region,
+Karbohidrat: components[0],
+'Protein Hewani': components[1],
+'Protein Nabati': components[2],
+Sayuran: components[3],
+Buah: components[4],
+Kalori: null,
+Protein: null,
+Lemak: null,
+'AKG Data': {
+status: 'belum_diisi',
+sumber: 'Google Sheets',
+spreadsheetId: spreadsheetId,
+sourceRowNo: sourceNo,
+importKey: 'google-sheet:' + spreadsheetId + ':' + sourceNo
+}
+};
+});
+const existingRows = await supabaseRequest('modul2_bank_menu', { query: { limit: '1000' } });
+if (!Array.isArray(existingRows)) throw new Error('Data Bank Menu aktif tidak dapat diperiksa untuk mencegah impor ganda.');
+const existingKeys = new Set();
+const existingSignatures = new Set();
+const normalizeComponent = function(value) {
+return String(value || '').trim().replace(/\s+\d+(?:\.\d+)?\s*g$/i, '').trim();
+};
+existingRows.forEach(function(row) {
+const akgData = row['AKG Data'];
+if (akgData && typeof akgData === 'object' && akgData.importKey) existingKeys.add(String(akgData.importKey));
+if (row.Kategori === 'Menu SPPG' || row.Kategori === 'SPPG Sungai Pasir1 Meral') {
+existingSignatures.add(JSON.stringify([
+normalizeComponent(row.Karbohidrat),
+normalizeComponent(row['Protein Hewani']),
+normalizeComponent(row['Protein Nabati']),
+normalizeComponent(row.Sayuran),
+normalizeComponent(row.Buah)
+]));
+}
+});
+const newRows = insertRows.filter(function(row) {
+const data = row['AKG Data'];
+const signature = JSON.stringify([
+normalizeComponent(row.Karbohidrat),
+normalizeComponent(row['Protein Hewani']),
+normalizeComponent(row['Protein Nabati']),
+normalizeComponent(row.Sayuran),
+normalizeComponent(row.Buah)
+]);
+return !existingKeys.has(data.importKey) && !existingSignatures.has(signature);
+});
+if (newRows.length) {
+const insertedRows = await supabaseRequest('modul2_bank_menu', {
+method: 'POST',
+body: newRows,
+prefer: 'return=representation'
+});
+if (!Array.isArray(insertedRows) || insertedRows.length !== newRows.length) {
+throw new Error('Jumlah menu yang berhasil disimpan tidak sesuai. Tarik data Bank Menu untuk memeriksa hasilnya.');
+}
+}
+return {
+status: 'success',
+insertedCount: newRows.length,
+skippedCount: insertRows.length - newRows.length,
+message: 'Impor menu spreadsheet selesai.'
+};
 }
 case 'deleteBankMenu': {
 requireSupabaseSession();
@@ -7639,7 +7856,7 @@ document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
 document.querySelectorAll('.sidebar-link').forEach(b => { b.classList.remove('active'); b.style.backgroundColor = ''; b.style.color = ''; });
 document.getElementById(tabId).classList.remove('hidden');
 if (btn) { btn.classList.add('active'); btn.style.backgroundColor = '#4F46E5'; btn.style.color = '#FFFFFF'; }
-const settingsTab = ['tab-settings', 'tab-about', 'tab-news'].indexOf(tabId) !== -1;
+const settingsTab = ['tab-settings', 'tab-ui-style', 'tab-about', 'tab-news'].indexOf(tabId) !== -1;
 const settingsToggle = document.getElementById('nav-settings-toggle');
 if (settingsToggle) settingsToggle.classList.toggle('is-current', settingsTab);
 if (settingsTab) toggleAdminSettingsMenu(true);
@@ -7678,6 +7895,69 @@ if (tabId === 'tab-lpj') {
 initializeLpjForm();
 initializeLpjDate();
 if (document.getElementById('lpjReportDate').value !== lpjLoadedDate) loadLpjReport();
+}
+}
+const adminUiStyleOptions = ['spas', 'liquid-glass', 'material-you', 'terminal', 'hand-drawn', 'y2k-chrome', 'bauhaus', 'pixel-art', 'aurora-gradient', 'manga'];
+function previewAdminUiStyle() {
+const select = document.getElementById('adminUiStyleSelect');
+const preview = document.querySelector('.admin-ui-style-preview');
+const status = document.getElementById('adminUiStyleStatus');
+if (!select || !adminUiStyleOptions.includes(select.value)) return;
+if (preview) preview.dataset.adminStyle = select.value;
+if (status) status.textContent = 'Pratinjau diperbarui. Tekan Terapkan gaya untuk menggunakan pilihan ini.';
+}
+function applyAdminUiStyle(style, persist) {
+if (!adminUiStyleOptions.includes(style)) throw new Error('Pilihan gaya UI SUPER ADMIN tidak valid.');
+const adminView = document.getElementById('view-admin');
+if (!adminView) throw new Error('Panel SUPER ADMIN tidak ditemukan.');
+adminView.dataset.uiStyle = style;
+const select = document.getElementById('adminUiStyleSelect');
+const preview = document.querySelector('.admin-ui-style-preview');
+if (select) select.value = style;
+if (preview) preview.dataset.adminStyle = style;
+if (persist) localStorage.setItem('spas1_admin_ui_style', style);
+}
+function loadAdminUiStyle() {
+let style = 'spas';
+try {
+const savedStyle = localStorage.getItem('spas1_admin_ui_style');
+if (adminUiStyleOptions.includes(savedStyle)) style = savedStyle;
+} catch (error) {
+console.error('Preferensi gaya UI SUPER ADMIN tidak dapat dibaca:', error);
+}
+try {
+applyAdminUiStyle(style, false);
+} catch (error) {
+console.error('Preferensi gaya UI SUPER ADMIN gagal diterapkan:', error);
+}
+}
+function saveAdminUiStyle() {
+if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_SUPABASE_SESSION) {
+showToast('❌ Pengaturan gaya UI hanya tersedia untuk SUPER ADMIN yang sudah login.');
+return;
+}
+const select = document.getElementById('adminUiStyleSelect');
+const status = document.getElementById('adminUiStyleStatus');
+try {
+applyAdminUiStyle(select ? select.value : '', true);
+if (status) status.textContent = 'Gaya UI SUPER ADMIN berhasil diterapkan dan disimpan pada browser ini.';
+} catch (error) {
+if (status) status.textContent = 'Gaya UI SUPER ADMIN gagal disimpan: ' + error.message;
+showToast('❌ Gaya UI SUPER ADMIN gagal disimpan: ' + error.message);
+}
+}
+function resetAdminUiStyle() {
+if (window.SPAS1_AUTH_ROLE !== 'admin' || !window.SPAS1_SUPABASE_SESSION) {
+showToast('❌ Pengaturan gaya UI hanya tersedia untuk SUPER ADMIN yang sudah login.');
+return;
+}
+const status = document.getElementById('adminUiStyleStatus');
+try {
+applyAdminUiStyle('spas', true);
+if (status) status.textContent = 'Gaya UI bawaan SPAS1 dipulihkan dan disimpan pada browser ini.';
+} catch (error) {
+if (status) status.textContent = 'Gaya UI SUPER ADMIN gagal dipulihkan: ' + error.message;
+showToast('❌ Gaya UI SUPER ADMIN gagal dipulihkan: ' + error.message);
 }
 }
 function toggleAdminSettingsMenu(forceOpen) {
@@ -8735,28 +9015,38 @@ const deleteMasterButton = !periodRecordId && Number.isSafeInteger(id) && id > 0
 ? '<button type="button" class="mn-master-delete-btn" onclick="deleteMasterBankMenu(' + id + ', this)" title="Hapus menu master" aria-label="Hapus menu master ' + text(menu.nama) + '"><i class="fa-solid fa-trash"></i></button>'
 : '';
 const estimatedAkg = menu.akg && menu.akg.status === 'estimasi';
+const akgMissing = menu.akg && menu.akg.status === 'belum_diisi';
+const componentText = function(component) {
+if (!component || !component.nama) return 'Belum diisi';
+const gram = Number(component.gram);
+return text(component.nama) + (gram > 0 ? ' (' + text(gram) + 'g)' : ' (gramasi belum diisi)');
+};
+const nutrientText = function(key, unit) {
+return akgMissing ? 'Belum diisi' : text(menu.akg && menu.akg[key]) + unit;
+};
 return '<div class="mn-menu-card">' + editButton + removeButton + deleteMasterButton +
 '<div class="mn-menu-header"><div class="mn-menu-id">#' + text(String(menu.id).padStart(3, '0')) + '</div></div>' +
 '<div class="mn-menu-name">' + text(menu.nama) + '</div><div class="mn-menu-tags">' +
-'<span class="mn-tag mn-tag-hari">📅 ' + text(menu.hari) + '</span><span class="mn-tag mn-tag-kategori">🏷️ ' + text(menu.kategori) + '</span><span class="mn-tag mn-tag-daerah">📍 ' + text(menu.daerah) + '</span>' +
+'<span class="mn-tag mn-tag-hari">📅 ' + text(menu.hari || 'Hari belum ditentukan') + '</span><span class="mn-tag mn-tag-kategori">🏷️ ' + text(menu.kategori) + '</span><span class="mn-tag mn-tag-daerah">📍 ' + text(menu.daerah) + '</span>' +
 (periodLabel ? '<span class="mn-tag mn-tag-hari">🗓️ ' + text(periodLabel) + '</span>' : '') + '</div>' +
-'<div class="mn-composition-grid"><div class="mn-comp-item"><div class="mn-comp-label">🍚 Karbohidrat</div><div class="mn-comp-value">' + text(menu.karbohidrat && menu.karbohidrat.nama) + ' (' + text(menu.karbohidrat && menu.karbohidrat.gram) + 'g)</div></div>' +
-'<div class="mn-comp-item"><div class="mn-comp-label">🥩 Protein Hewani</div><div class="mn-comp-value">' + text(menu.proteinHewani && menu.proteinHewani.nama) + ' (' + text(menu.proteinHewani && menu.proteinHewani.gram) + 'g)</div></div>' +
-'<div class="mn-comp-item"><div class="mn-comp-label">🫘 Protein Nabati</div><div class="mn-comp-value">' + text(menu.proteinNabati && menu.proteinNabati.nama) + ' (' + text(menu.proteinNabati && menu.proteinNabati.gram) + 'g)</div></div>' +
-'<div class="mn-comp-item"><div class="mn-comp-label">Sayuran</div><div class="mn-comp-value">' + text(menu.sayuran && menu.sayuran.nama) + ' (' + text(menu.sayuran && menu.sayuran.gram) + 'g)</div></div>' +
-'<div class="mn-comp-item" style="grid-column: 1/-1;"><div class="mn-comp-label">Buah</div><div class="mn-comp-value">' + text(menu.buah && menu.buah.nama) + ' (' + text(menu.buah && menu.buah.gram) + 'g)</div></div></div>' +
-'<div class="mn-akg-bar"><div class="mn-akg-title">' + (estimatedAkg ? 'Estimasi AKG per Porsi' : 'Komposisi Gizi (AKG per Porsi)') + '</div>' +
+'<div class="mn-composition-grid"><div class="mn-comp-item"><div class="mn-comp-label">🍚 Karbohidrat</div><div class="mn-comp-value">' + componentText(menu.karbohidrat) + '</div></div>' +
+'<div class="mn-comp-item"><div class="mn-comp-label">🥩 Protein Hewani</div><div class="mn-comp-value">' + componentText(menu.proteinHewani) + '</div></div>' +
+'<div class="mn-comp-item"><div class="mn-comp-label">🫘 Protein Nabati</div><div class="mn-comp-value">' + componentText(menu.proteinNabati) + '</div></div>' +
+'<div class="mn-comp-item"><div class="mn-comp-label">Sayuran</div><div class="mn-comp-value">' + componentText(menu.sayuran) + '</div></div>' +
+'<div class="mn-comp-item" style="grid-column: 1/-1;"><div class="mn-comp-label">Buah</div><div class="mn-comp-value">' + componentText(menu.buah) + '</div></div></div>' +
+'<div class="mn-akg-bar"><div class="mn-akg-title">' + (estimatedAkg ? 'Estimasi AKG per Porsi' : akgMissing ? 'AKG dan gramasi belum diisi' : 'Komposisi Gizi (AKG per Porsi)') + '</div>' +
 (estimatedAkg ? '<div style="font-size:10px;color:#FBBF24;margin-bottom:8px;">Perkiraan dari gramasi standar; bukan hasil uji laboratorium.</div>' : '') +
+(akgMissing ? '<div style="font-size:10px;color:#FBBF24;margin-bottom:8px;">Spreadsheet sumber tidak menyediakan hari, gramasi, atau nilai gizi.</div>' : '') +
 '<div class="mn-akg-grid">' +
-'<div class="mn-akg-item"><div class="mn-akg-val">' + text(menu.akg && menu.akg.kalori) + '</div><div class="mn-akg-unit">Kalori</div></div>' +
-'<div class="mn-akg-item"><div class="mn-akg-val">' + text(menu.akg && menu.akg.protein) + 'g</div><div class="mn-akg-unit">Protein</div></div>' +
-'<div class="mn-akg-item"><div class="mn-akg-val">' + text(menu.akg && menu.akg.lemak) + 'g</div><div class="mn-akg-unit">Lemak</div></div>' +
-'<div class="mn-akg-item"><div class="mn-akg-val">' + text(menu.akg && menu.akg.karbohidrat) + 'g</div><div class="mn-akg-unit">Karbo</div></div>' +
-'<div class="mn-akg-item"><div class="mn-akg-val">' + text(menu.akg && menu.akg.serat) + 'g</div><div class="mn-akg-unit">Serat</div></div>' +
-'<div class="mn-akg-item"><div class="mn-akg-val">' + text(menu.akg && menu.akg.vitA) + 'µg</div><div class="mn-akg-unit">Vit A</div></div>' +
-'<div class="mn-akg-item"><div class="mn-akg-val">' + text(menu.akg && menu.akg.vitC) + 'mg</div><div class="mn-akg-unit">Vit C</div></div>' +
-'<div class="mn-akg-item"><div class="mn-akg-val">' + text(menu.akg && menu.akg.kalsium) + 'mg</div><div class="mn-akg-unit">Kalsium</div></div>' +
-'<div class="mn-akg-item"><div class="mn-akg-val">' + text(menu.akg && menu.akg.zatBesi) + 'mg</div><div class="mn-akg-unit">Zat Besi</div></div>' +
+'<div class="mn-akg-item"><div class="mn-akg-val">' + nutrientText('kalori', '') + '</div><div class="mn-akg-unit">Kalori</div></div>' +
+'<div class="mn-akg-item"><div class="mn-akg-val">' + nutrientText('protein', 'g') + '</div><div class="mn-akg-unit">Protein</div></div>' +
+'<div class="mn-akg-item"><div class="mn-akg-val">' + nutrientText('lemak', 'g') + '</div><div class="mn-akg-unit">Lemak</div></div>' +
+'<div class="mn-akg-item"><div class="mn-akg-val">' + nutrientText('karbohidrat', 'g') + '</div><div class="mn-akg-unit">Karbo</div></div>' +
+'<div class="mn-akg-item"><div class="mn-akg-val">' + nutrientText('serat', 'g') + '</div><div class="mn-akg-unit">Serat</div></div>' +
+'<div class="mn-akg-item"><div class="mn-akg-val">' + nutrientText('vitA', 'µg') + '</div><div class="mn-akg-unit">Vit A</div></div>' +
+'<div class="mn-akg-item"><div class="mn-akg-val">' + nutrientText('vitC', 'mg') + '</div><div class="mn-akg-unit">Vit C</div></div>' +
+'<div class="mn-akg-item"><div class="mn-akg-val">' + nutrientText('kalsium', 'mg') + '</div><div class="mn-akg-unit">Kalsium</div></div>' +
+'<div class="mn-akg-item"><div class="mn-akg-val">' + nutrientText('zatBesi', 'mg') + '</div><div class="mn-akg-unit">Zat Besi</div></div>' +
 '<div class="mn-akg-item"><div class="mn-akg-val">✓</div><div class="mn-akg-unit">MBG OK</div></div></div></div></div>';
 }
 const htmlRenderIds = new WeakMap();
@@ -9069,7 +9359,7 @@ document.getElementById('mnEditHari').disabled = Boolean(record);
 document.getElementById('mnEditHariHelp').style.display = record ? 'block' : 'none';
 document.getElementById('mnEditModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square"></i> ' + (record ? 'Edit Salinan Menu Periode' : 'Edit Menu Nusantara');
 document.getElementById('mnEditNama').value = menu.nama || '';
-document.getElementById('mnEditHari').value = menu.hari || 'Senin';
+document.getElementById('mnEditHari').value = MN_HARI.includes(menu.hari) ? menu.hari : '';
 document.getElementById('mnEditKategori').value = menu.kategori || MN_KATEGORI[0];
 document.getElementById('mnEditKarbo').value = (menu.karbohidrat && menu.karbohidrat.nama || '') + ' | ' + (menu.karbohidrat && menu.karbohidrat.gram || 0);
 document.getElementById('mnEditProteinH').value = (menu.proteinHewani && menu.proteinHewani.nama || '') + ' | ' + (menu.proteinHewani && menu.proteinHewani.gram || 0);
@@ -13302,7 +13592,7 @@ window.printBudgetOnly = function() {
 function updateClock() { const now = new Date(); const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; const dateEl = document.getElementById('currentDate'); const clockEl = document.getElementById('currentClock'); if (dateEl) dateEl.textContent = now.toLocaleDateString('id-ID', options); if (clockEl) clockEl.textContent = now.toTimeString().split(' ')[0] + ' WIB'; }
 setInterval(updateClock, 1000);
 function saveHaccpCheck() { haccpChecks = { cold: document.getElementById('haccpCold').checked, organo: document.getElementById('haccpOrgano').checked, sanitasi: document.getElementById('haccpSanitasi').checked, label: document.getElementById('haccpLabel').checked }; saveAppDataToCloud(); }
-function initApp() { initializePasswordVisibilityToggles(); loadAppDataFromCloud(); initializeInvitePasswordSetup(); applySiteSettings(currentSiteSettings); checkPortalAuth(); updateClock(); loadTheme(); let savedTheme = null; let legacyLightTheme = false; try { savedTheme = localStorage.getItem('spas1m_custom_theme'); legacyLightTheme = localStorage.getItem('spas1m_theme') === 'light'; } catch(e){} if (['emerald', 'ocean', 'royal', 'light'].indexOf(savedTheme) !== -1) changeCustomTheme(savedTheme); else if (legacyLightTheme && !savedTheme) changeCustomTheme('light'); loadPublicSiteSettings(); loadPublicSiteContent(); loadPublicAnnouncements(); loadPublicMedia(); renderDayTabs(); renderRecipeView(); renderBudgetTable(); renderAkgPosters(); }
+function initApp() { initializePasswordVisibilityToggles(); loadAppDataFromCloud(); initializeInvitePasswordSetup(); applySiteSettings(currentSiteSettings); checkPortalAuth(); updateClock(); loadTheme(); loadAdminUiStyle(); let savedTheme = null; let legacyLightTheme = false; try { savedTheme = localStorage.getItem('spas1m_custom_theme'); legacyLightTheme = localStorage.getItem('spas1m_theme') === 'light'; } catch(e){} if (['emerald', 'ocean', 'royal', 'light'].indexOf(savedTheme) !== -1) changeCustomTheme(savedTheme); else if (legacyLightTheme && !savedTheme) changeCustomTheme('light'); loadPublicSiteSettings(); loadPublicSiteContent(); loadPublicAnnouncements(); loadPublicMedia(); renderDayTabs(); renderRecipeView(); renderBudgetTable(); renderAkgPosters(); }
 if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initApp); } else { initApp(); }
 })();
 function formatAnnouncementText(value) {
@@ -14767,6 +15057,72 @@ window.revokeSyncAuthorization(syncToken);
 alert('❌ Gagal sync Bank Menu: ' + err.message);
 });
 });
+};
+window.importBankMenuSpreadsheet = async function(event) {
+const input = event && event.target;
+const file = input && input.files && input.files[0];
+if (!file) return;
+if (!window.SPAS1_SUPABASE_SESSION || !['admin', 'bank_menu'].includes(window.SPAS1_AUTH_ROLE)) {
+alert('Login sebagai SUPER ADMIN atau akun Bank Menu terlebih dahulu.');
+input.value = '';
+return;
+}
+if (!window.SPAS1MenuSpreadsheetImport || typeof window.SPAS1MenuSpreadsheetImport.parseMenuSpreadsheetCsv !== 'function') {
+alert('Fitur impor spreadsheet belum tersedia. Muat ulang aplikasi lalu coba lagi.');
+input.value = '';
+return;
+}
+input.disabled = true;
+let importCommitted = false;
+try {
+const tenantId = getSupabaseTenantId();
+const tenantResponse = await callSupabaseFunction('module-account-admin', { action: 'tenantStatus' });
+const tenantStatus = tenantResponse && tenantResponse.tenantStatus;
+if (!tenantResponse || tenantResponse.status !== 'success' || !tenantStatus ||
+    !tenantStatus.organizationActive || !window.SPAS1MenuSpreadsheetImport.matchesTenantOrganization(tenantStatus.organizationName) ||
+    getSupabaseTenantId() !== tenantId) {
+throw new Error('SPPG aktif tidak dapat diverifikasi. Impor dibatalkan.');
+}
+const records = window.SPAS1MenuSpreadsheetImport.parseMenuSpreadsheetCsv(await file.text());
+const incomplete = records.filter(function(record) {
+return ['karbohidrat', 'proteinHewani', 'proteinNabati', 'sayuran', 'buah'].some(function(key) {
+return !record[key];
+});
+});
+const confirmed = confirm(
+'Impor ' + records.length + ' baris kategori Menu SPPG ke ' + tenantStatus.organizationName + '?\n\n' +
+(incomplete.length ? incomplete.length + ' menu memiliki komponen kosong dan akan tetap ditandai kosong.\n' : '') +
+'Hari, gramasi, dan nilai AKG tidak tersedia di spreadsheet, sehingga tidak akan dibuat-buat. ' +
+'Menu yang sudah ada akan dilewati. Data hanya masuk ke SPPG aktif pada sesi ini.'
+);
+if (!confirmed) return;
+const result = await new Promise(function(resolve, reject) {
+callSupabaseAction('importBankMenuFromSpreadsheet', {
+records: records,
+expectedSppgId: tenantId
+}, resolve, reject);
+});
+if (result && result.status === 'success') importCommitted = true;
+if (!result || result.status !== 'success' ||
+    !Number.isSafeInteger(Number(result.insertedCount)) ||
+    !Number.isSafeInteger(Number(result.skippedCount))) {
+throw new Error(result && result.message || 'Respons impor dari database tidak valid.');
+}
+const fetched = await new Promise(function(resolve, reject) {
+callSupabaseAction('fetchBankMenu', {}, resolve, reject);
+});
+if (!fetched || fetched.status !== 'success' || !Array.isArray(fetched.data)) {
+throw new Error('Impor selesai, tetapi Bank Menu gagal dimuat ulang. Klik Tarik dari Database untuk memeriksa hasil.');
+}
+window.fetchBankMenuFromCloud(null, fetched.data);
+showToast('✅ Impor selesai: ' + result.insertedCount + ' ditambahkan, ' + result.skippedCount + ' dilewati (sudah ada).');
+} catch (error) {
+console.error('Gagal mengimpor spreadsheet Bank Menu:', error);
+alert((importCommitted ? 'Impor sudah tersimpan, tetapi proses pemuatan ulang bermasalah: ' : 'Impor spreadsheet gagal: ') + error.message);
+} finally {
+input.disabled = false;
+input.value = '';
+}
 };
 window.fetchBankMenuFromCloud = function(clickEvent, providedRows) {
 const btn = clickEvent ? clickEvent.currentTarget : null;
