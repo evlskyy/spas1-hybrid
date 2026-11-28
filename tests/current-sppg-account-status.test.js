@@ -57,6 +57,7 @@ function createHarness(options) {
   const functionCalls = [];
   const requests = [];
   const errors = [];
+  let publicSiteSettingsLoads = 0;
   const context = {
     window: {
       SPAS1_AUTH_ROLE: 'admin',
@@ -70,6 +71,7 @@ function createHarness(options) {
         return identityStatuses.get(id) || null;
       }
     },
+    loadPublicSiteSettings: function() { publicSiteSettingsLoads += 1; },
     fetch: async function(url, requestOptions) {
       assert.equal(url, 'https://test.supabase.co/auth/v1/user');
       assert.equal(requestOptions.method, 'GET');
@@ -105,6 +107,7 @@ function createHarness(options) {
     functionCalls,
     requests,
     errors,
+    publicSiteSettingsLoads: function() { return publicSiteSettingsLoads; },
     setTenantId: function(value) { currentTenantId = value; }
   };
 }
@@ -198,6 +201,7 @@ test('module and relawan identity badges use the server-verified tenant status',
 
   await harness.context.loadAuthenticatedSppgIdentityStatus();
 
+  assert.equal(harness.publicSiteSettingsLoads(), 1);
   assert.equal(harness.functionCalls.length, 1);
   assert.equal(harness.functionCalls[0].functionName, 'module-account-admin');
   assert.equal(harness.functionCalls[0].payload.action, 'tenantStatus');
@@ -282,6 +286,14 @@ test('source and deployed HTML both contain the current SPPG status indicator', 
     }
     assert.match(deployedHtml, /loadAuthenticatedSppgIdentityStatus\(\)/, relativePath);
     assert.match(deployedHtml, /Fungsi status SPPG di server perlu diperbarui/, relativePath);
+    const portalStart = deployedHtml.indexOf('function enterSuperAdminPortal(');
+    const portalEnd = deployedHtml.indexOf('\nfunction verifikasiAdmin', portalStart);
+    assert.ok(portalStart >= 0 && portalEnd > portalStart, relativePath + ' should define the SUPER ADMIN portal entry');
+    assert.match(deployedHtml.slice(portalStart, portalEnd), /resetAdminNavigationState\(\);\s*loadAdminSiteSettings\(\);/);
+    const adminLoginStart = deployedHtml.indexOf('window.handleAdminLogin = function()');
+    const adminLoginEnd = deployedHtml.indexOf('\nwindow.fetchAllAdminData', adminLoginStart);
+    assert.ok(adminLoginStart >= 0 && adminLoginEnd > adminLoginStart, relativePath + ' should define the direct admin login handler');
+    assert.match(deployedHtml.slice(adminLoginStart, adminLoginEnd), /loadCurrentSppgAccountStatus\(\);\s*loadAdminSiteSettings\(\);/);
     const versionBadgeIndex = deployedHtml.indexOf('SPAS1 Version 2.2.2 Hybrid</span>');
     const statusIndex = deployedHtml.indexOf('id="currentSppgAccountStatus"');
     const adminSidebarIndex = deployedHtml.indexOf('<div id="view-admin"');

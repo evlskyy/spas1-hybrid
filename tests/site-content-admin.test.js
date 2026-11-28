@@ -237,3 +237,43 @@ test('loading incomplete identity settings never puts undefined in the admin inp
   assert.equal(nodes.foundationNameInput.value, '');
   assert.equal(nodes.sppgNameInput.value, '');
 });
+
+test('public identity reload uses the authenticated tenant and ignores a stale anonymous response', function() {
+  const start = html.indexOf('function loadPublicSiteSettings()');
+  const end = html.indexOf('\nfunction loadAdminSiteSettings()', start);
+  const source = html.slice(start, end);
+
+  function createLoader(sessionToken) {
+    let responseCallback;
+    const appliedSettings = [];
+    const context = {
+      window: { SPAS1_SUPABASE_SESSION: sessionToken },
+      getSupabaseTenantId: function() { return 'tenant-a'; },
+      callSupabaseAction: function(action, payload, onSuccess) {
+        assert.equal(action, 'fetchPublicSettings');
+        responseCallback = onSuccess;
+      },
+      applySiteSettings: function(settings) { appliedSettings.push(settings); },
+      console: { error: function() {} }
+    };
+    vm.runInNewContext(source + '\nthis.run = loadPublicSiteSettings;', context);
+    context.run();
+    return {
+      context,
+      appliedSettings,
+      respond: function(settings) {
+        responseCallback({ status: 'success', data: settings });
+      }
+    };
+  }
+
+  const anonymousLoad = createLoader('');
+  anonymousLoad.context.window.SPAS1_SUPABASE_SESSION = 'tenant-session';
+  anonymousLoad.respond({ foundationName: 'Legacy Foundation' });
+  assert.equal(anonymousLoad.appliedSettings.length, 0);
+
+  const tenantLoad = createLoader('tenant-session');
+  tenantLoad.respond({ foundationName: 'Tenant Foundation' });
+  assert.equal(tenantLoad.appliedSettings.length, 1);
+  assert.equal(tenantLoad.appliedSettings[0].foundationName, 'Tenant Foundation');
+});

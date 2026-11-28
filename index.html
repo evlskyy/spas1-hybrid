@@ -6252,6 +6252,7 @@ renderSppgIdentityStatus(document.getElementById(id), null);
 });
 return;
 }
+loadPublicSiteSettings();
 const isCurrentScope = function() {
 if (!window.SPAS1_SUPABASE_SESSION || window.SPAS1_AUTH_ROLE !== role) return false;
 try {
@@ -8719,6 +8720,7 @@ document.getElementById('view-tutorial').classList.add('hidden');
 document.getElementById('view-admin').classList.remove('hidden');
 document.body.classList.remove('home-screen-active');
 resetAdminNavigationState();
+loadAdminSiteSettings();
 loadCurrentSppgAccountStatus();
 window.requestAnimationFrame(function() {
 setTimeout(function() { tarikDataSupabaseAdmin(); }, 50);
@@ -16992,7 +16994,25 @@ image.alt = 'Logo SPAS1';
 container.replaceChildren(image);
 }
 function loadPublicSiteSettings() {
+let requestTenantId = '';
+if (window.SPAS1_SUPABASE_SESSION) {
+try {
+requestTenantId = getSupabaseTenantId();
+} catch (error) {
+console.error('Gagal membaca SPPG aktif untuk memuat identitas:', error);
+return;
+}
+}
 callSupabaseAction('fetchPublicSettings', {}, function(res) {
+let activeTenantId = '';
+if (window.SPAS1_SUPABASE_SESSION) {
+try {
+activeTenantId = getSupabaseTenantId();
+} catch (_) {
+return;
+}
+}
+if (activeTenantId !== requestTenantId) return;
 if (!res || res.status !== 'success' || !res.data) {
 console.error('Gagal memuat pengaturan identitas publik:', res);
 return;
@@ -17141,6 +17161,7 @@ if (loginModal) loginModal.style.display = 'none';
 const adminDashboard = document.getElementById('view-admin') || document.getElementById('admin-dashboard');
 if (adminDashboard) adminDashboard.style.display = 'block';
 loadCurrentSppgAccountStatus();
+loadAdminSiteSettings();
 fetchAllAdminData();
 } else {
 alert('❌ ' + (res ? res.message : 'Login gagal!'));
