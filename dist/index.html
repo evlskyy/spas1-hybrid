@@ -2018,6 +2018,7 @@ box-shadow: 0 0 16px rgba(16, 185, 129, 0.8), 0 0 32px rgba(16, 185, 129, 0.5), 
 #spas1-webapp-root .budget-table-fullscreen { width: 100%; min-width: 0; }
 #spas1-webapp-root .budget-table-fullscreen-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; }
 #spas1-webapp-root .budget-table-fullscreen-toolbar strong { color: var(--text-main); font-size: 12px; }
+#spas1-webapp-root .budget-table-fullscreen-icon { display: block; width: 18px; height: 18px; flex: 0 0 18px; }
 #spas1-webapp-root .budget-table-fullscreen.is-fullscreen { position: fixed !important; inset: 0 !important; z-index: 99990; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; width: 100vw; height: 100vh; height: 100dvh; max-height: 100dvh; margin: 0 !important; padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left)); overflow: hidden; border: 1px solid var(--border); border-radius: 0 !important; background: var(--card-bg); }
 #spas1-webapp-root .budget-table-fullscreen.is-fullscreen .budget-table-fullscreen-toolbar { flex: 0 0 auto; margin: 0; }
 #spas1-webapp-root .budget-table-fullscreen.is-fullscreen .budget-table-wrapper { flex: 1 1 auto; min-height: 0; margin: 0; overflow: auto; overscroll-behavior: contain; }
@@ -4169,7 +4170,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div id="budgetEstimateStatus" role="status" aria-live="polite" style="margin-top:8px;color:var(--text-muted);font-size:11px;"></div>
 <div id="budgetAkgSummary" class="recipe-text" style="margin-top:10px;"></div>
 <div id="budgetTableFullscreen" class="budget-table-fullscreen">
-<div class="budget-table-fullscreen-toolbar no-print"><strong>Tabel Rincian PO Belanja Harian</strong><button id="budgetTableFullscreenToggle" type="button" class="btn btn-outline" aria-controls="budgetTableFullscreen" aria-expanded="false" aria-label="Perluas tabel PO Belanja Harian" onclick="toggleBudgetTableFullscreen()"><i class="fa-solid fa-expand" aria-hidden="true"></i> Perluas Tabel</button></div>
+<div class="budget-table-fullscreen-toolbar no-print"><strong>Tabel Rincian PO Belanja Harian</strong><button id="budgetTableFullscreenToggle" type="button" class="btn btn-outline" aria-controls="budgetTableFullscreen" aria-expanded="false" aria-label="Perluas tabel PO Belanja Harian" onclick="toggleBudgetTableFullscreen()"><svg class="budget-table-fullscreen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/></svg><span>Perluas Tabel</span></button></div>
 <div class="budget-table-wrapper"><table class="budget-table"><thead><tr><th>Kategori & Nama Bahan</th><th id="tableHeaderTakaranPorsiBesar">Gramasi / Porsi Besar</th><th id="tableHeaderTakaranPorsiKecil">Gramasi / Porsi Kecil</th><th id="tableHeaderTotalKebutuhanBesar">Kebutuhan Besar (2.000 Porsi) <button class="btn-icon" style="margin-left:4px; font-size:10px;" onclick="editPorsiBesar()">✏️</button></th><th id="tableHeaderTotalKebutuhanKecil">Kebutuhan Kecil (503 Porsi) <button class="btn-icon" style="margin-left:4px; font-size:10px;" onclick="editPorsiKecil()">✏️</button></th><th id="tableHeaderSisaStok">Sisa Stok Gudang</th><th>Berat Matang (BDD)</th><th>Berat Mentah</th><th>Harga Satuan (Rp)</th><th>Anggaran (Rp)</th><th>Aksi</th></tr></thead><tbody id="budgetTableBody"></tbody></table></div>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start; margin-top: 12px;"><button class="btn btn-emerald" onclick="calculateMenuBudgetForSelectedDay()">🧮 Hitung dari Menu Harian</button><button class="btn btn-outline" onclick="searchCookpadRecipeForSelectedDay()">🔎 Standard Recepi Sky - Cookpad</button><button id="restoreBudgetBackupButton" class="btn btn-outline" style="display:none;" onclick="restoreBudgetBackup()">↩ Pulihkan Pagu Sebelumnya</button><button class="btn btn-emerald" onclick="openAddBudgetItemModal()">➕ Tambah Bahan Baku & Bumbu</button><button class="btn btn-emerald" onclick="printBudgetOnly()">🖨️ Print/Export PDF</button></div>
@@ -11716,8 +11717,8 @@ document.body.classList.toggle('budget-table-fullscreen-open', expanded);
 button.setAttribute('aria-expanded', String(expanded));
 button.setAttribute('aria-label', expanded ? 'Keluar dari tampilan layar penuh' : 'Perluas tabel PO Belanja Harian');
 button.innerHTML = expanded
-? '<i class="fa-solid fa-compress" aria-hidden="true"></i> Keluar Layar Penuh'
-: '<i class="fa-solid fa-expand" aria-hidden="true"></i> Perluas Tabel';
+? '<svg class="budget-table-fullscreen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v3a2 2 0 0 0 2 2h3M16 3v3a2 2 0 0 1-2 2h-3M21 16h-3a2 2 0 0 0-2 2v3M8 21v-3a2 2 0 0 1 2-2h3"/></svg><span>Keluar Layar Penuh</span>'
+: '<svg class="budget-table-fullscreen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/></svg><span>Perluas Tabel</span>';
 if (expanded) {
 button.focus();
 } else {

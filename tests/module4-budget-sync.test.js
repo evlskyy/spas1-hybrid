@@ -33,7 +33,10 @@ test('Module 4 uses global branding without a logo edit override', function() {
 
 test('Module 4 PO table can expand, close with Escape, and restore page scroll', function() {
   for (const appHtml of [html, deployedHtml]) {
-    assert.match(appHtml, /id="budgetTableFullscreenToggle"[^>]*>[\s\S]*?Perluas Tabel/);
+    const fullscreenButton = appHtml.match(/<button id="budgetTableFullscreenToggle"[\s\S]*?<\/button>/);
+    assert.ok(fullscreenButton, 'fullscreen toggle should exist');
+    assert.match(fullscreenButton[0], /<svg[\s\S]*?Perluas Tabel/);
+    assert.doesNotMatch(fullscreenButton[0], /fa-expand/);
     assert.match(appHtml, /\.budget-table-fullscreen\.is-fullscreen/);
   }
 
@@ -84,10 +87,13 @@ test('Module 4 PO table can expand, close with Escape, and restore page scroll',
   assert.equal(panel.classList.contains('is-fullscreen'), true);
   assert.equal(body.classList.contains('budget-table-fullscreen-open'), true);
   assert.equal(button.attributes['aria-expanded'], 'true');
+  assert.match(button.innerHTML, /<svg/);
+  assert.match(button.innerHTML, /Keluar Layar Penuh/);
 
   escapeHandler({ key: 'Escape' });
   assert.equal(panel.classList.contains('is-fullscreen'), false);
   assert.equal(body.classList.contains('budget-table-fullscreen-open'), false);
   assert.equal(button.attributes['aria-expanded'], 'false');
+  assert.match(button.innerHTML, /Perluas Tabel/);
   assert.deepEqual(scrollCalls, [[0, 321]]);
 });
