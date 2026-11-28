@@ -3645,17 +3645,17 @@ body.ui-theme-retro :is(button,input,select,textarea) { border-radius: 7px; bord
 body.ui-theme-retro :is(button:not(.mn-btn-export):not(.sl-btn-export),input,select,textarea) { border-style: outset; }
 body[class*="ui-theme-"] :is(button,input,select,textarea) { border-color:var(--appearance-border) !important; border-radius:var(--appearance-card-radius) !important; }
 body[class*="ui-theme-"] #view-admin :is(.sidebar-link.active,#adminAppearanceApplyButton) { background:var(--appearance-accent) !important;border-color:var(--appearance-accent) !important;color:var(--appearance-accent-text,#FFFFFF) !important; }
-body.ui-theme-liquid-glass :is(.dark-card,.light-card,.card,[class*="-card"],#view-admin aside) { backdrop-filter:blur(14px); }
+body.ui-theme-liquid-glass :is(.dark-card,.light-card,.card,[class*="-card"]:not([class*="-card-"]),#view-admin aside) { backdrop-filter:blur(14px); }
 body.ui-theme-terminal :not(i):not([class*="fa-"]) { font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace !important; }
 body.ui-theme-terminal :is(button,input,select,textarea) { border-style:solid !important; }
-body.ui-theme-hand-drawn :is(.dark-card,.light-card,.card,[class*="-card"]) { border-style:dashed !important; }
+body.ui-theme-hand-drawn :is(.dark-card,.light-card,.card,[class*="-card"]:not([class*="-card-"])) { border-style:dashed !important; }
 body.ui-theme-hand-drawn :not(i):not([class*="fa-"]) { font-family:"Comic Sans MS","Trebuchet MS",sans-serif !important; }
-body.ui-theme-y2k-chrome :is(.dark-card,.light-card,.card,[class*="-card"]) { background-image:var(--appearance-surface) !important; }
-body.ui-theme-bauhaus :is(.dark-card,.light-card,.card,[class*="-card"]) { border-width:2px !important; }
-body.ui-theme-pixel-art :is(.dark-card,.light-card,.card,[class*="-card"]) { border-width:3px !important; }
+body.ui-theme-y2k-chrome :is(.dark-card,.light-card,.card,[class*="-card"]:not([class*="-card-"])) { background-image:var(--appearance-surface) !important; }
+body.ui-theme-bauhaus :is(.dark-card,.light-card,.card,[class*="-card"]:not([class*="-card-"])) { border-width:2px !important; }
+body.ui-theme-pixel-art :is(.dark-card,.light-card,.card,[class*="-card"]:not([class*="-card-"])) { border-width:3px !important; }
 body.ui-theme-pixel-art :not(i):not([class*="fa-"]) { font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace !important; }
-body.ui-theme-aurora-gradient :is(.dark-card,.light-card,.card,[class*="-card"],#view-admin aside) { backdrop-filter:blur(12px); }
-body.ui-theme-manga :is(.dark-card,.light-card,.card,[class*="-card"]) { border-width:2px !important; }
+body.ui-theme-aurora-gradient :is(.dark-card,.light-card,.card,[class*="-card"]:not([class*="-card-"]),#view-admin aside) { backdrop-filter:blur(12px); }
+body.ui-theme-manga :is(.dark-card,.light-card,.card,[class*="-card"]:not([class*="-card-"])) { border-width:2px !important; }
 body.ui-theme-manga :is(#view-home,#view-news-archive,#view-announcement-detail,#view-project-info,#view-tutorial,#view-about-us,#view-sponsor,#modul-absensi,#modul-menu,#modul-stok,#modul-joblist,#view-admin,#spas1-webapp-root) { background-image:radial-gradient(var(--appearance-border) 1px,transparent 1px) !important; background-size:12px 12px !important; }
 body.ui-theme-retro #view-admin .sidebar-link.active,
 body.ui-theme-retro #view-admin #adminAppearanceApplyButton {
@@ -3724,7 +3724,7 @@ body.ui-font-linux .appearance-preview-window[data-font="macos"],
 body.ui-font-linux .appearance-preview-window[data-font="macos"] :not(i):not([class*="fa-"]) { font-family:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif !important; }
 body.ui-font-macos .appearance-preview-window[data-font="linux"],
 body.ui-font-macos .appearance-preview-window[data-font="linux"] :not(i):not([class*="fa-"]) { font-family:system-ui,"Noto Sans","DejaVu Sans",sans-serif !important; }
-body.ui-theme-retro :is(#view-home,#view-news-archive,#view-announcement-detail,#view-project-info,#view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,#modul-joblist,#view-admin,#spas1-webapp-root) :is(.dark-card,.light-card,.card,[class*="-card"]) {
+body.ui-theme-retro :is(#view-home,#view-news-archive,#view-announcement-detail,#view-project-info,#view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,#modul-joblist,#view-admin,#spas1-webapp-root) :is(.dark-card,.light-card,.card,[class*="-card"]:not([class*="-card-"])) {
 border-width: 2px !important;
 box-shadow: var(--appearance-shadow) !important;
 }
@@ -3766,7 +3766,7 @@ body :is(
   #view-home,#view-news-archive,#view-announcement-detail,#view-project-info,
   #view-tutorial,#view-about-us,#modul-absensi,#modul-menu,#modul-stok,
   #modul-joblist,#view-admin,#spas1-webapp-root
-) :is(.dark-card,.light-card,.card,[class*="-card"]) {
+) :is(.dark-card,.light-card,.card,[class*="-card"]:not([class*="-card-"])) {
 background: var(--appearance-surface) !important;
 border: 1px solid var(--appearance-border) !important;
 border-radius: var(--appearance-card-radius) !important;
@@ -3955,6 +3955,17 @@ body[class*="printing-"] #view-admin > .admin-about-skyy-link {
 display: none !important;
 visibility: hidden !important;
 }
+}
+body :is(
+  .dark-card,.light-card,.card,.modal-card,[class*="-card"]:not([class*="-card-"]),
+  .home-news-panel,.home-news-launcher,.mn-stat-box,.sl-stat-box,.mn-comp-item,.mn-akg-bar,
+  .sl-purchase-line,.mn-period-section,.mn-empty-state,.sl-empty-state,.sl-table-wrapper,
+  .sl-table-scroll-wrapper,.sl-daily-table-wrapper,.sl-audit-section,.sl-audit-stat,
+  .sl-audit-chart,.sl-audit-chart-row,.lpj-sheet,.site-settings-heading,
+  .about-metric,.recovery-chat-card,.sync-auth-card,.version-welcome-card,
+  #sppgApplicationOverlay > div,#invitePasswordOverlay > div
+) {
+border-radius: var(--appearance-card-radius, 16px) !important;
 }
 
 </style>

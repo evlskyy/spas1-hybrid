@@ -300,11 +300,16 @@ test('retro theme persists, applies across modules, and does not affect white pr
 
 test('all modules share readable text and consistent themed card surfaces', function() {
   assert.match(html, /@media screen \{\s*body \{\s*--appearance-page: #0B132B/);
-  assert.match(html, /body :is\([\s\S]*#modul-absensi,#modul-menu,#modul-stok,[\s\S]*\) :is\(\.dark-card,\.light-card,\.card,\[class\*="-card"\]\) \{[\s\S]*background: var\(--appearance-surface\) !important;[\s\S]*border-radius: var\(--appearance-card-radius\) !important;[\s\S]*border-style: var\(--appearance-card-border-style\) !important/);
+  assert.match(html, /body :is\([\s\S]*#modul-absensi,#modul-menu,#modul-stok,[\s\S]*\) :is\(\.dark-card,\.light-card,\.card,\[class\*="-card"\]:not\(\[class\*="-card-"\]\)\) \{[\s\S]*background: var\(--appearance-surface\) !important;[\s\S]*border-radius: var\(--appearance-card-radius\) !important;[\s\S]*border-style: var\(--appearance-card-border-style\) !important/);
   assert.match(html, /body :is\([\s\S]*#modul-absensi,#modul-menu,#modul-stok,[\s\S]*\) :is\(h1,h2,h3,h4,h5,p,label,th,td\) \{\s*overflow-wrap: anywhere;/);
   assert.match(html, /:is\(\.text-gray-600,\.text-gray-500,\.text-gray-400,\.text-gray-300,[\s\S]*\.text-slate-400[\s\S]*color: var\(--appearance-subtle\) !important;/);
   assert.match(html, /--appearance-card-radius: 18px;\s*--appearance-card-border-style: solid;/);
   assert.match(html, /--appearance-card-radius: 2px;\s*--appearance-card-border-style: outset;/);
+  for (const source of [html, deployHtml]) {
+    assert.match(source, /body :is\([\s\S]*\.home-news-panel,[\s\S]*\) \{\s*border-radius:\s*var\(--appearance-card-radius, ?16px\) !important;/);
+    assert.match(source, /\[class\*="-card"\]:not\(\[class\*="-card-"\]\)/);
+    assert.doesNotMatch(source, /\[class\*="-card"\](?!:not\(\[class\*="-card-"\]\))/);
+  }
 });
 
 test('appearance selections update global classes, controls, and browser preference', function() {
