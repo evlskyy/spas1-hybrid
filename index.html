@@ -2119,6 +2119,14 @@ box-shadow: 0 0 16px rgba(16, 185, 129, 0.8), 0 0 32px rgba(16, 185, 129, 0.5), 
 #spas1-webapp-root .budget-stock-suggestion small { display: block; margin-top: 2px; color: var(--text-muted); font-size: 10px; }
 #spas1-webapp-root .budget-stock-suggestion-status { padding: 8px 10px; color: var(--text-muted); font-size: 11px; }
 #spas1-webapp-root .budget-table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 10px; border: 1px solid var(--border); border-radius: 10px; }
+#spas1-webapp-root .budget-table-fullscreen { width: 100%; min-width: 0; }
+#spas1-webapp-root .budget-table-fullscreen-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; }
+#spas1-webapp-root .budget-table-fullscreen-toolbar strong { color: var(--text-main); font-size: 12px; }
+#spas1-webapp-root .budget-table-fullscreen.is-fullscreen { position: fixed !important; inset: 0 !important; z-index: 99990; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; width: 100vw; height: 100vh; height: 100dvh; max-height: 100dvh; margin: 0 !important; padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left)); overflow: hidden; border: 1px solid var(--border); border-radius: 0 !important; background: var(--card-bg); }
+#spas1-webapp-root .budget-table-fullscreen.is-fullscreen .budget-table-fullscreen-toolbar { flex: 0 0 auto; margin: 0; }
+#spas1-webapp-root .budget-table-fullscreen.is-fullscreen .budget-table-wrapper { flex: 1 1 auto; min-height: 0; margin: 0; overflow: auto; overscroll-behavior: contain; }
+#spas1-webapp-root .budget-table-fullscreen.is-fullscreen .budget-table thead th { position: sticky; top: 0; z-index: 2; }
+body.budget-table-fullscreen-open { overflow: hidden !important; }
 #spas1-webapp-root .budget-table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 650px; }
 #spas1-webapp-root .budget-table th, #spas1-webapp-root .budget-table td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; white-space: nowrap; }
 #spas1-webapp-root .budget-table th { background: var(--card-inner); color: var(--text-muted); text-transform: uppercase; font-weight: 800; font-size: 10px; }
@@ -4847,7 +4855,10 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 </div>
 <div id="budgetEstimateStatus" role="status" aria-live="polite" style="margin-top:8px;color:var(--text-muted);font-size:11px;"></div>
 <div id="budgetAkgSummary" class="recipe-text" style="margin-top:10px;"></div>
+<div id="budgetTableFullscreen" class="budget-table-fullscreen">
+<div class="budget-table-fullscreen-toolbar no-print"><strong>Tabel Rincian PO Belanja Harian</strong><button id="budgetTableFullscreenToggle" type="button" class="btn btn-outline" aria-controls="budgetTableFullscreen" aria-expanded="false" aria-label="Perluas tabel PO Belanja Harian" onclick="toggleBudgetTableFullscreen()"><i class="fa-solid fa-expand" aria-hidden="true"></i> Perluas Tabel</button></div>
 <div class="budget-table-wrapper"><table class="budget-table"><thead><tr><th>Kategori & Nama Bahan</th><th id="tableHeaderTakaranPorsiBesar">Gramasi / Porsi Besar</th><th id="tableHeaderTakaranPorsiKecil">Gramasi / Porsi Kecil</th><th id="tableHeaderTotalKebutuhanBesar">Kebutuhan Besar (2.000 Porsi) <button class="btn-icon" style="margin-left:4px; font-size:10px;" onclick="editPorsiBesar()">✏️</button></th><th id="tableHeaderTotalKebutuhanKecil">Kebutuhan Kecil (503 Porsi) <button class="btn-icon" style="margin-left:4px; font-size:10px;" onclick="editPorsiKecil()">✏️</button></th><th id="tableHeaderSisaStok">Sisa Stok Gudang</th><th>Berat Matang (BDD)</th><th>Berat Mentah</th><th>Harga Satuan (Rp)</th><th>Anggaran (Rp)</th><th>Aksi</th></tr></thead><tbody id="budgetTableBody"></tbody></table></div>
+</div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start; margin-top: 12px;"><button class="btn btn-emerald" onclick="calculateMenuBudgetForSelectedDay()">🧮 Hitung dari Menu Harian</button><button class="btn btn-outline" onclick="searchCookpadRecipeForSelectedDay()">🔎 Standard Recepi Sky - Cookpad</button><button id="restoreBudgetBackupButton" class="btn btn-outline" style="display:none;" onclick="restoreBudgetBackup()">↩ Pulihkan Pagu Sebelumnya</button><button class="btn btn-emerald" onclick="openAddBudgetItemModal()">➕ Tambah Bahan Baku & Bumbu</button><button class="btn btn-emerald" onclick="printBudgetOnly()">🖨️ Print/Export PDF</button></div>
 </div>
 </div>
@@ -7667,13 +7678,13 @@ Tanggal: timestamp,
 },
 prefer: 'resolution=merge-duplicates,return=minimal'
 });
-return { status: 'success', total: total, message: 'Target porsi berhasil disimpan ke Supabase.' };
+return { status: 'success', total: total, message: 'Target porsi berhasil disimpan ke Database.' };
 }
 case 'saveModule4Joblist': {
 requireSupabaseSession();
 if (!Array.isArray(payload.tasks)) throw new Error('Format daftar tugas tidak valid.');
 await saveModuleState('MODUL4_Joblist', payload.tasks);
-return { status: 'success', message: 'Daftar tugas berhasil disimpan ke Supabase.' };
+return { status: 'success', message: 'Daftar tugas berhasil disimpan ke Database.' };
 }
 case 'saveModule4Budget': {
 requireSupabaseSession();
@@ -7710,7 +7721,7 @@ await Promise.all([
 saveModuleState('MODUL4_AnggaranPO', normalizedBudget),
 saveModuleState('MODUL4_CloudSync', cloudState)
 ]);
-return { status: 'success', message: 'Anggaran PO dan salinan sebelumnya berhasil disimpan ke Supabase.' };
+return { status: 'success', message: 'Anggaran PO dan salinan sebelumnya berhasil disimpan ke Database.' };
 }
 case 'saveModule4Schedule': {
 requireSupabaseSession();
@@ -7718,7 +7729,7 @@ if (!payload.schedules || typeof payload.schedules !== 'object' || Array.isArray
 throw new Error('Format jadwal distribusi tidak valid.');
 }
 await saveModuleState('MODUL4_JadwalDistribusi', payload.schedules);
-return { status: 'success', message: 'Jadwal distribusi berhasil disimpan ke Supabase.' };
+return { status: 'success', message: 'Jadwal distribusi berhasil disimpan ke Database.' };
 }
 case 'fetchAkgPosters': {
 requireSupabaseSession();
@@ -7743,7 +7754,7 @@ poster.title = String(poster.title || 'Poster Menu AKG').trim();
 poster.imageUrl = poster.imageUrl || supabasePublicMediaUrl(poster.fileId);
 delete poster.image;
 await saveAkgPosterRecord(poster);
-return { status: 'success', poster: poster, message: 'Poster AKG berhasil disimpan ke Supabase.' };
+return { status: 'success', poster: poster, message: 'Poster AKG berhasil disimpan ke Database.' };
 }
 case 'deleteAkgPoster': {
 requireSupabaseSession();
@@ -7997,7 +8008,7 @@ await Promise.all([
 supabaseRequest('SPAS1_SETTINGS', { method: 'POST', query: { on_conflict: 'Pengaturan' }, prefer: 'resolution=merge-duplicates,return=minimal', body: { Pengaturan: 'totalBeneficiaries', Nilai: String(payload.totalBeneficiaries || 0), Diperbarui: new Date().toISOString() } }),
 supabaseRequest('SPAS1_SETTINGS', { method: 'POST', query: { on_conflict: 'Pengaturan' }, prefer: 'resolution=merge-duplicates,return=minimal', body: { Pengaturan: 'volunteerCount', Nilai: String(payload.volunteerCount || 0), Diperbarui: new Date().toISOString() } })
 ]);
-return { status: 'success', message: 'Data Tentang Kami berhasil disimpan ke Supabase.' };
+return { status: 'success', message: 'Data Tentang Kami berhasil disimpan ke Database.' };
 }
 case 'deleteAdminTeamPhoto':
 await supabaseRequest('SPAS1_TEAM', { method: 'DELETE', query: { ID: 'eq.' + payload.memberId }, prefer: 'return=minimal' });
@@ -8015,7 +8026,7 @@ query: { on_conflict: 'Pengaturan' },
 body: { Pengaturan: 'siteContent', Nilai: JSON.stringify(payload), Diperbarui: new Date().toISOString() },
 prefer: 'resolution=merge-duplicates,return=minimal'
 });
-return { status: 'success', message: 'Konten situs berhasil disimpan ke Supabase.' };
+return { status: 'success', message: 'Konten situs berhasil disimpan ke Database.' };
 case 'fetchPublicSettings':
 case 'fetchAdminSettings': {
 const rows = await supabaseRequest('SPAS1_SETTINGS');
@@ -10269,7 +10280,7 @@ return '<div class="mn-category-stat-card"><div class="mn-category-stat-count">'
 const addButton = document.getElementById('mnAddMasterMenuButton');
 if (addButton) {
 addButton.disabled = !mnMenuLoadedFromSupabase || mnMenuLoadPending;
-addButton.title = mnMenuLoadedFromSupabase && !mnMenuLoadPending ? 'Tambahkan menu dan simpan langsung ke Supabase' : 'Muat data dari Supabase terlebih dahulu';
+addButton.title = mnMenuLoadedFromSupabase && !mnMenuLoadPending ? 'Tambahkan menu dan simpan langsung ke Database' : 'Muat data dari Supabase terlebih dahulu';
 }
 }
 function renderMenuNusantara() {
@@ -10617,7 +10628,7 @@ document.getElementById('mnEditKategori').value = MN_KATEGORI.includes(selectedC
 ['mnEditKarbo', 'mnEditProteinH', 'mnEditProteinN', 'mnEditSayur', 'mnEditBuah', 'mnEditKalori', 'mnEditProtein', 'mnEditLemak', 'mnEditAkgKarbo', 'mnEditSerat', 'mnEditVitA', 'mnEditVitC', 'mnEditKalsium', 'mnEditZatBesi'].forEach(function(id) {
 document.getElementById(id).value = '';
 });
-document.getElementById('mnEditSaveButton').textContent = 'Simpan ke Supabase';
+document.getElementById('mnEditSaveButton').textContent = 'Simpan ke Database';
 document.getElementById('mnEditModal').classList.add('show');
 }
 function openMnEditModal(menuId, periodRecordId) {
@@ -10737,7 +10748,7 @@ saveButton.textContent = 'Menyimpan...';
 callSupabaseAction('insertBankMenu', { menu: menu, authToken: window.SPAS1_AUTH_TOKEN }, function(res) {
 saveButton.disabled = false;
 if (!res || res.status !== 'success' || !Number.isSafeInteger(Number(res.menuId)) || Number(res.menuId) < 1) {
-saveButton.textContent = 'Simpan ke Supabase';
+saveButton.textContent = 'Simpan ke Database';
 alert('Menu belum dapat dikonfirmasi tersimpan. Tarik data dari Supabase untuk memeriksa hasilnya.');
 return;
 }
@@ -10747,10 +10758,10 @@ mnMenuLoadedFromSupabase = true;
 closeMnEditModal();
 renderMenuNusantara();
 renderMenuPeriodControls();
-showToast('✅ ' + (res.message || 'Menu berhasil disimpan ke Supabase.'));
+showToast('✅ ' + (res.message || 'Menu berhasil disimpan ke Database.'));
 }, function(error) {
 saveButton.disabled = false;
-saveButton.textContent = 'Simpan ke Supabase';
+saveButton.textContent = 'Simpan ke Database';
 alert('Gagal menyimpan menu ke Supabase: ' + error.message);
 });
 return;
@@ -14224,6 +14235,33 @@ document.getElementById('tableHeaderTotalKebutuhanBesar').innerHTML = 'Kebutuhan
 document.getElementById('tableHeaderTotalKebutuhanKecil').innerHTML = 'Kebutuhan Kecil (<span id="porsiKecilLabel">' + porsiKecil.toLocaleString('id-ID') + '</span> Porsi) <button class=\'btn-icon\' style=\'margin-left:4px; font-size:10px;\' onclick=\'editPorsiKecil()\'>✏️</button>';
 }
 window.selectBudgetDay = function(d) { selectedBudgetDay = d; renderBudgetTabs(); renderBudgetTable(); };
+let budgetTableFullscreenScrollY = 0;
+window.toggleBudgetTableFullscreen = function() {
+const panel = document.getElementById('budgetTableFullscreen');
+const button = document.getElementById('budgetTableFullscreenToggle');
+if (!panel || !button) return;
+const expanded = !panel.classList.contains('is-fullscreen');
+if (expanded) budgetTableFullscreenScrollY = window.scrollY;
+panel.classList.toggle('is-fullscreen', expanded);
+document.body.classList.toggle('budget-table-fullscreen-open', expanded);
+button.setAttribute('aria-expanded', String(expanded));
+button.setAttribute('aria-label', expanded ? 'Keluar dari tampilan layar penuh' : 'Perluas tabel PO Belanja Harian');
+button.innerHTML = expanded
+? '<i class="fa-solid fa-compress" aria-hidden="true"></i> Keluar Layar Penuh'
+: '<i class="fa-solid fa-expand" aria-hidden="true"></i> Perluas Tabel';
+if (expanded) {
+button.focus();
+} else {
+window.scrollTo(0, budgetTableFullscreenScrollY);
+button.focus();
+}
+};
+document.addEventListener('keydown', function(event) {
+const panel = document.getElementById('budgetTableFullscreen');
+if (event.key === 'Escape' && panel && panel.classList.contains('is-fullscreen')) {
+window.toggleBudgetTableFullscreen();
+}
+});
 function normalizeBudgetStockName(value) {
 return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\([^)]*\)/g, ' ').replace(/\b(daging|ikan|buah|segar|pilihan|potong|fillet)\b/g, ' ').replace(/[^a-z0-9]+/g, ' ').trim().replace(/\s+/g, ' ');
 }
@@ -14872,8 +14910,8 @@ else if (action === 'delete') window.deleteTask(id);
 });
 });
 }
-window.toggleTask = function(id) { const t = defaultTasks.find(x => String(x.id) === String(id)); if (t) { if (t.statusDetail === 'Selesai') { t.statusDetail = 'Belum Dimulai'; t.done = false; } else { t.statusDetail = 'Selesai'; t.done = true; } renderTasks(); persistModule4JoblistChanges('Status tugas berhasil disimpan ke Supabase.'); } };
-window.markAllDone = function() { defaultTasks.forEach(t => { t.statusDetail = 'Selesai'; t.done = true; }); renderTasks(); persistModule4JoblistChanges('Semua tugas berhasil disimpan ke Supabase.'); };
+window.toggleTask = function(id) { const t = defaultTasks.find(x => String(x.id) === String(id)); if (t) { if (t.statusDetail === 'Selesai') { t.statusDetail = 'Belum Dimulai'; t.done = false; } else { t.statusDetail = 'Selesai'; t.done = true; } renderTasks(); persistModule4JoblistChanges('Status tugas berhasil disimpan ke Database.'); } };
+window.markAllDone = function() { defaultTasks.forEach(t => { t.statusDetail = 'Selesai'; t.done = true; }); renderTasks(); persistModule4JoblistChanges('Semua tugas berhasil disimpan ke Database.'); };
 window.updateTargetPorsiTotal = function() {
 const large = Number(document.getElementById('targetPorsiLargeInput').value) || 0;
 const small = Number(document.getElementById('targetPorsiSmallInput').value) || 0;
@@ -14895,9 +14933,9 @@ alert('Masukkan porsi besar dan kecil berupa bilangan bulat nonnegatif dengan to
 return;
 }
 const button = document.getElementById('targetPorsiSaveButton');
-setAkgActionBusy(button, true, 'Simpan ke Supabase');
+setAkgActionBusy(button, true, 'Simpan ke Database');
 callSupabaseAction('saveTargetPorsi', { porsiBesar: large, porsiKecil: small }, function(res) {
-setAkgActionBusy(button, false, 'Simpan ke Supabase');
+setAkgActionBusy(button, false, 'Simpan ke Database');
 if (!res || res.status !== 'success') {
 alert('Gagal menyimpan target porsi: ' + (res && res.message || 'Respons Supabase tidak valid.'));
 return;
@@ -14913,7 +14951,7 @@ renderBudgetTable();
 saveAppDataToCloud();
 showToast(res.message || 'Target porsi berhasil disimpan.');
 }, function(error) {
-setAkgActionBusy(button, false, 'Simpan ke Supabase');
+setAkgActionBusy(button, false, 'Simpan ke Database');
 alert('Gagal menyimpan target porsi: ' + error.message);
 });
 };
@@ -15177,11 +15215,11 @@ if (status) status.textContent = 'Menu ' + day + ' tersimpan lokal. Masuk ke Mod
 };
 window.openScheduleModal = function() { const menu = defaultMenus[selectedDay] || (defaultMenus[selectedDay] = {}); document.getElementById('scheduleInputText').value = menu.jamKirim || ''; document.getElementById('schedSelectedDayLabel').textContent = selectedDay; const dayScope = document.querySelector('input[name="schedScope"][value="day"]'); if (dayScope) dayScope.checked = true; document.getElementById('scheduleModal').style.display = 'flex'; };
 window.closeScheduleModal = function() { document.getElementById('scheduleModal').style.display = 'none'; };
-window.saveScheduleModal = function() { const val = document.getElementById('scheduleInputText').value.trim(); const selectedScope = document.querySelector('input[name="schedScope"]:checked'); const scope = selectedScope ? selectedScope.value : 'day'; const days = scope === 'all' ? ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] : [selectedDay]; days.forEach(function(day) { defaultMenus[day] = Object.assign({}, defaultMenus[day] || {}, { jamKirim: val }); }); closeScheduleModal(); renderDayTabs(); persistModule4ScheduleChanges('Jadwal distribusi berhasil disimpan ke Supabase.'); };
+window.saveScheduleModal = function() { const val = document.getElementById('scheduleInputText').value.trim(); const selectedScope = document.querySelector('input[name="schedScope"]:checked'); const scope = selectedScope ? selectedScope.value : 'day'; const days = scope === 'all' ? ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] : [selectedDay]; days.forEach(function(day) { defaultMenus[day] = Object.assign({}, defaultMenus[day] || {}, { jamKirim: val }); }); closeScheduleModal(); renderDayTabs(); persistModule4ScheduleChanges('Jadwal distribusi berhasil disimpan ke Database.'); };
 window.openAddTaskModal = function() { document.getElementById('taskModalTitle').textContent = 'Tambah Tugas Baru'; document.getElementById('editTaskId').value = ''; document.getElementById('taskInputTitle').value = ''; document.getElementById('taskInputDay').value = selectedDay; document.getElementById('taskInputStatusDetail').value = 'Belum Dimulai'; document.getElementById('taskInputCategory').value = 'Persiapan Bahan'; document.getElementById('taskInputPriority').value = 'Tinggi'; document.getElementById('taskInputAssignee').value = 'Tim Dapur'; document.getElementById('taskModal').style.display = 'flex'; };
 window.openEditTaskModal = function(id) { const t = defaultTasks.find(x => String(x.id) === String(id)); if (!t) return; document.getElementById('taskModalTitle').textContent = 'Edit Tugas Dapur'; document.getElementById('editTaskId').value = t.id; document.getElementById('taskInputTitle').value = t.title; document.getElementById('taskInputDay').value = t.day; document.getElementById('taskInputStatusDetail').value = t.statusDetail || (t.done ? 'Selesai' : 'Belum Dimulai'); document.getElementById('taskInputCategory').value = t.category || 'Persiapan Bahan'; document.getElementById('taskInputPriority').value = t.priority || 'Tinggi'; document.getElementById('taskInputAssignee').value = t.assignee || 'Tim Dapur'; document.getElementById('taskModal').style.display = 'flex'; };
 window.closeTaskModal = function() { document.getElementById('taskModal').style.display = 'none'; };
-window.saveTaskModal = function() { const id = document.getElementById('editTaskId').value; const title = document.getElementById('taskInputTitle').value.trim(); const day = document.getElementById('taskInputDay').value; const statusDetail = document.getElementById('taskInputStatusDetail').value; const category = document.getElementById('taskInputCategory').value.trim() || 'Persiapan Bahan'; const priority = document.getElementById('taskInputPriority').value; const assignee = document.getElementById('taskInputAssignee').value.trim() || 'Tim Dapur'; if (!title) { alert('Judul tugas tidak boleh kosong.'); document.getElementById('taskInputTitle').focus(); return; } const isDone = statusDetail === 'Selesai'; if (id) { const task = defaultTasks.find(x => String(x.id) === String(id)); if (!task) { alert('Tugas yang akan diedit tidak ditemukan.'); return; } Object.assign(task, { title: title, day: day, statusDetail: statusDetail, category: category, priority: priority, assignee: assignee, done: isDone }); } else { defaultTasks.push({ id: String(Date.now()) + '-' + Math.random().toString(36).slice(2, 8), title: title, day: day, statusDetail: statusDetail, category: category, priority: priority, assignee: assignee, done: isDone }); } closeTaskModal(); renderTasks(); persistModule4JoblistChanges('Tugas berhasil disimpan ke Supabase.'); };
+window.saveTaskModal = function() { const id = document.getElementById('editTaskId').value; const title = document.getElementById('taskInputTitle').value.trim(); const day = document.getElementById('taskInputDay').value; const statusDetail = document.getElementById('taskInputStatusDetail').value; const category = document.getElementById('taskInputCategory').value.trim() || 'Persiapan Bahan'; const priority = document.getElementById('taskInputPriority').value; const assignee = document.getElementById('taskInputAssignee').value.trim() || 'Tim Dapur'; if (!title) { alert('Judul tugas tidak boleh kosong.'); document.getElementById('taskInputTitle').focus(); return; } const isDone = statusDetail === 'Selesai'; if (id) { const task = defaultTasks.find(x => String(x.id) === String(id)); if (!task) { alert('Tugas yang akan diedit tidak ditemukan.'); return; } Object.assign(task, { title: title, day: day, statusDetail: statusDetail, category: category, priority: priority, assignee: assignee, done: isDone }); } else { defaultTasks.push({ id: String(Date.now()) + '-' + Math.random().toString(36).slice(2, 8), title: title, day: day, statusDetail: statusDetail, category: category, priority: priority, assignee: assignee, done: isDone }); } closeTaskModal(); renderTasks(); persistModule4JoblistChanges('Tugas berhasil disimpan ke Database.'); };
 window.deleteTask = function(id) { if (confirm('Hapus tugas ini?')) { defaultTasks = defaultTasks.filter(x => String(x.id) !== String(id)); renderTasks(); persistModule4JoblistChanges('Tugas berhasil dihapus dari Supabase.'); } };
 function renderBudgetMenuOptions(selectedId) {
 const select = document.getElementById('biMenuId');
@@ -15341,7 +15379,7 @@ defaultTasks = defaultTasks.concat(importedTasks);
 document.getElementById('importInputText').value = '';
 closeImportModal();
 renderTasks();
-persistModule4JoblistChanges(importedTasks.length + ' tugas berhasil diimpor dan disimpan ke Supabase.' + (skipped ? ' ' + skipped + ' baris tidak valid dilewati.' : ''));
+persistModule4JoblistChanges(importedTasks.length + ' tugas berhasil diimpor dan disimpan ke Database.' + (skipped ? ' ' + skipped + ' baris tidak valid dilewati.' : ''));
 };
 function getCurrentBackupData() {
 return {
