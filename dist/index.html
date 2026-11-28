@@ -3846,6 +3846,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold" id="userInitial">K</div><div><h4 class="font-bold text-sm text-white" id="userNameDisplay">Nama Relawan</h4><p class="text-[10px] text-indigo-300" id="userIdDisplay">ID: #EMP001 | Tim Dapur</p></div></div>
 <button onclick="logoutKaryawan()" class="p-2 bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded-xl text-xs font-bold"><i class="fa-solid fa-right-from-bracket"></i> Keluar</button>
 </div>
+<p id="employeeSppgIdentityStatus" class="hidden flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[10px] sm:text-xs" role="status" aria-live="polite"></p>
 <div class="text-center py-4"><h1 class="text-5xl sm:text-6xl font-black tracking-wider text-white" id="digitalClock">00.00</h1><p class="text-sm text-gray-400 mt-1" id="digitalDate">Sabtu, 24 Oktober 2026</p></div>
 <p class="text-xs text-center text-gray-400 font-medium">Silakan pilih opsi kehadiran berikut:</p>
 <div class="grid grid-cols-2 gap-3 sm:gap-4">
@@ -3893,7 +3894,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <span id="mnLogoDefault">🍽️</span>
 </div>
 <input type="file" id="mnLogoInput" class="logo-custom-input" accept="image/*" onchange="handleMnLogoUpload(event)">
-<div><h2 class="text-xl sm:text-2xl font-black text-white">Bank Menu <span data-brand-field="sppg">SPPG Sungai Pasir 1 Meral</span></h2><p class="text-xs text-gray-400 mt-1">Kelola menu dan komposisi gizi SPPG sesuai kebutuhan.</p></div>
+<div><h2 class="text-xl sm:text-2xl font-black text-white">Bank Menu <span data-brand-field="sppg">SPPG Sungai Pasir 1 Meral</span></h2><p class="text-xs text-gray-400 mt-1">Kelola menu dan komposisi gizi SPPG sesuai kebutuhan.</p><p id="mnSppgIdentityStatus" class="hidden mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] sm:text-xs" role="status" aria-live="polite"></p></div>
 <div class="cloud-sync-indicator" id="mnCloudSync"><span class="cloud-sync-dot"></span><span>Cloud Sync Active</span></div>
 </div>
 <div class="mn-stat-grid">
@@ -3987,7 +3988,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <span id="slLogoDefault">📦</span>
 </div>
 <input type="file" id="slLogoInput" class="logo-custom-input" accept="image/*" onchange="handleSlLogoUpload(event)">
-<div><h2 class="text-xl sm:text-2xl font-black text-white">Stok Logistik Dapur</h2><p class="text-xs text-gray-400 mt-1">Daftar bahan mengikuti nota pembelian pada hari kerja yang dipilih.</p></div>
+<div><h2 class="text-xl sm:text-2xl font-black text-white">Stok Logistik Dapur</h2><p class="text-xs text-gray-400 mt-1">Daftar bahan mengikuti nota pembelian pada hari kerja yang dipilih.</p><p id="slSppgIdentityStatus" class="hidden mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] sm:text-xs" role="status" aria-live="polite"></p></div>
 <div class="cloud-sync-indicator" id="slCloudSync"><span class="cloud-sync-dot"></span><span>Cloud Sync Active</span></div>
 </div>
 <div class="sl-stat-grid" aria-live="polite">
@@ -4084,7 +4085,7 @@ $$ |  $$ |\$$$$$$  | \$$$$  |      $$ |     \$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$
 <div class="logo-badge"><img alt="Logo Yayasan" id="brandLogoImg" data-brand-logo="true" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJYzPk2Xea4JAccvonUAeQSs-3E69THE8bVeyXD7m-yyTN78e60a09u-TS_v99dJcbPCtfJNJ9vNMPflbA1sx3jSi0T-BYBSP-_vDNefVbO-z2FVazjn6fktuCFRfZhOodqLqQRSaJIZS0dG1xkP3kbD4NmWbMuIvDSDKL3HdBP1XLgjS3aagtRyK88cHu/s1600/image.png" style="display: block;" /></div>
 <div class="module-mark-badge"><img data-spas1-logo="true" src="assets/spas1-mark.png" alt="Logo SPAS1"></div>
 </div>
-<div class="title-box"><h1 data-brand-field="sppg">SPPG SUNGAI PASIR 1 MERAL</h1><div class="sub-title" data-brand-field="foundation">YAYASAN BIDADARI INDONESIA GEMILANG</div><div class="badge badge-emerald" style="margin-top: 3px;">SPAS1 Version 2.2.2 Hybrid</div></div>
+<div class="title-box"><h1 data-brand-field="sppg">SPPG SUNGAI PASIR 1 MERAL</h1><div class="sub-title" data-brand-field="foundation">YAYASAN BIDADARI INDONESIA GEMILANG</div><div class="badge badge-emerald" style="margin-top: 3px;">SPAS1 Version 2.2.2 Hybrid</div><p id="preparationSppgIdentityStatus" class="hidden mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px]" role="status" aria-live="polite"></p></div>
 </div>
 </div>
 <div class="clock-row"><span id="currentDate">Sabtu, 24 Oktober 2026</span><span class="clock" id="currentClock">00:00:00 WIB</span></div>
@@ -5297,6 +5298,99 @@ status.classList.remove('hidden');
 }
 }
 
+const SPAS1_IDENTITY_STATUS_IDS = [
+'employeeSppgIdentityStatus',
+'mnSppgIdentityStatus',
+'slSppgIdentityStatus',
+'preparationSppgIdentityStatus'
+];
+
+function clearSppgIdentityStatus() {
+SPAS1_IDENTITY_STATUS_IDS.forEach(function(id) {
+const status = document.getElementById(id);
+if (!status) return;
+status.classList.add('hidden');
+status.textContent = '';
+status.style.color = '';
+});
+}
+
+function renderSppgIdentityStatus(status, tenantStatus) {
+if (!status) return;
+status.classList.add('hidden');
+status.textContent = '';
+status.style.color = '';
+if (!tenantStatus || typeof tenantStatus !== 'object') {
+status.textContent = 'Identitas SPPG tidak dapat diverifikasi.';
+status.style.color = '#b45309';
+status.classList.remove('hidden');
+return;
+}
+
+const organizationName = document.createElement('span');
+organizationName.className = 'font-semibold text-emerald-100';
+organizationName.textContent = tenantStatus.organizationName || 'SPPG';
+const organizationStatus = document.createElement('span');
+organizationStatus.className = tenantStatus.organizationActive
+? 'inline-flex items-center rounded-full border border-emerald-400/40 bg-emerald-500/15 px-2 py-0.5 font-bold text-emerald-300'
+: 'inline-flex items-center rounded-full border border-amber-400/50 bg-amber-400/15 px-2 py-0.5 font-bold text-amber-200';
+organizationStatus.textContent = tenantStatus.organizationActive ? 'SPPG aktif' : 'SPPG tidak aktif';
+const emailStatus = document.createElement('span');
+emailStatus.className = tenantStatus.adminEmailVerified === true
+? 'inline-flex items-center rounded-full border border-emerald-400/40 bg-emerald-500/15 px-2 py-0.5 font-bold text-emerald-300'
+: 'inline-flex items-center rounded-full border border-amber-400/50 bg-amber-400/15 px-2 py-0.5 font-bold text-amber-200';
+emailStatus.textContent = tenantStatus.adminEmailVerified === true
+? 'Email admin terverifikasi'
+: tenantStatus.adminEmailVerified === false
+? 'Email admin belum terverifikasi'
+: 'Status email admin tidak tersedia';
+status.replaceChildren(organizationName, organizationStatus, emailStatus);
+status.classList.remove('hidden');
+}
+
+async function loadAuthenticatedSppgIdentityStatus() {
+const role = window.SPAS1_AUTH_ROLE;
+if (!role || !window.SPAS1_SUPABASE_SESSION) {
+clearSppgIdentityStatus();
+return;
+}
+let tenantId;
+try {
+tenantId = getSupabaseTenantId();
+} catch (error) {
+console.error('Gagal memeriksa identitas SPPG pada sesi:', error);
+SPAS1_IDENTITY_STATUS_IDS.forEach(function(id) {
+renderSppgIdentityStatus(document.getElementById(id), null);
+});
+return;
+}
+const isCurrentScope = function() {
+if (!window.SPAS1_SUPABASE_SESSION || window.SPAS1_AUTH_ROLE !== role) return false;
+try {
+return getSupabaseTenantId() === tenantId;
+} catch (_) {
+return false;
+}
+};
+clearSppgIdentityStatus();
+try {
+const result = await callSupabaseFunction('module-account-admin', { action: 'tenantStatus' });
+if (!isCurrentScope()) return;
+if (!result || result.status !== 'success' || !result.tenantStatus) {
+throw new Error('Respons status SPPG dari server tidak valid.');
+}
+SPAS1_IDENTITY_STATUS_IDS.forEach(function(id) {
+renderSppgIdentityStatus(document.getElementById(id), result.tenantStatus);
+});
+} catch (error) {
+if (!isCurrentScope()) return;
+console.error('Gagal memeriksa identitas SPPG:', error);
+SPAS1_IDENTITY_STATUS_IDS.forEach(function(id) {
+renderSppgIdentityStatus(document.getElementById(id), null);
+});
+}
+}
+
 function applySupabaseTenantScope(table, options) {
 if (!SPAS1_TENANT_SCOPED_TABLES.has(table)) return options;
 const tenantId = getSupabaseTenantId();
@@ -5385,6 +5479,7 @@ window.SPAS1_SUPABASE_SESSION = '';
 window.SPAS1_SUPABASE_REFRESH_TOKEN = '';
 window.SPAS1_AUTH_TOKEN = '';
 window.SPAS1_AUTH_ROLE = '';
+clearSppgIdentityStatus();
 const status = document.getElementById('currentSppgAccountStatus');
 if (status) {
 status.classList.add('hidden');
@@ -7108,6 +7203,7 @@ return;
 loginPortal.style.display = 'none';
 }
 document.getElementById(modulId).classList.remove('hidden');
+if (['modul-menu', 'modul-stok', 'modul-joblist'].indexOf(modulId) !== -1) loadAuthenticatedSppgIdentityStatus();
 }
 function kembaliKeHome() {
 setModuleLoginBackground(false);
@@ -8495,6 +8591,7 @@ setPortalLoginBusy('mnLoginSubmit', false);
 if (res && res.status === 'success' && res.sessionToken) {
 window.SPAS1_AUTH_TOKEN = res.sessionToken;
 window.SPAS1_AUTH_ROLE = res.role;
+loadAuthenticatedSppgIdentityStatus();
 errorEl.classList.remove('show');
 document.getElementById('mnLoginOverlay').classList.remove('show');
 setModuleLoginBackground(false);
@@ -8535,6 +8632,7 @@ setPortalLoginBusy('slLoginSubmit', false);
 if (res && res.status === 'success' && res.sessionToken) {
 window.SPAS1_AUTH_TOKEN = res.sessionToken;
 window.SPAS1_AUTH_ROLE = res.role;
+loadAuthenticatedSppgIdentityStatus();
 errorEl.classList.remove('show');
 document.getElementById('slLoginOverlay').classList.remove('show');
 setModuleLoginBackground(false);
@@ -8560,8 +8658,8 @@ document.getElementById('slLoginPass').focus();
 }
 function closeMnLogin() { document.getElementById('mnLoginOverlay').classList.remove('show'); document.getElementById('modul-menu').classList.add('hidden'); document.getElementById('view-home').classList.remove('hidden'); setModuleLoginBackground(false); document.body.classList.add('home-screen-active'); }
 function closeSlLogin() { document.getElementById('slLoginOverlay').classList.remove('show'); document.getElementById('modul-stok').classList.add('hidden'); document.getElementById('view-home').classList.remove('hidden'); setModuleLoginBackground(false); document.body.classList.add('home-screen-active'); }
-function logoutMnPortal() { const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; }
-function logoutSlPortal() { const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; }
+function logoutMnPortal() { const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; clearSppgIdentityStatus(); }
+function logoutSlPortal() { const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; clearSppgIdentityStatus(); }
 function generateMenuNusantara() {
 if (MN_MENU_DATA.length > 0) return;
 let id = 1;
@@ -11066,8 +11164,8 @@ message.className = 'rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py
 if (window.turnstile && organizationTurnstileWidgetId !== null) window.turnstile.reset(organizationTurnstileWidgetId);
 });
 }
-function prosesLoginKaryawan() { const inputNik = document.getElementById('inputNikLogin').value.trim(); const pin = document.getElementById('inputEmployeePin').value; const btn = document.getElementById('btnLoginKaryawan'); if(!inputNik || !pin) { alert('Masukkan ID relawan dan PIN Anda!'); return; } btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Mengecek Database...</span>'; btn.disabled = true; callSupabaseAction('verifyEmployeeLogin', { nik: inputNik, pin: pin }, function(res) { btn.innerHTML = '<span>Verifikasi & Masuk</span> <i class="fa-solid fa-arrow-right"></i>'; btn.disabled = false; if (res.status === 'success' && res.sessionToken) { window.SPAS1_AUTH_TOKEN = res.sessionToken; window.SPAS1_AUTH_ROLE = 'employee'; activeUserData = res; setModuleLoginBackground(false); document.getElementById('userIdDisplay').innerText = 'ID: #' + res.idKaryawan + ' | ' + res.divisi; document.getElementById('userNameDisplay').innerText = res.nama; document.getElementById('userInitial').innerText = res.nama.charAt(0).toUpperCase(); document.getElementById('screen-login-nik').classList.add('hidden'); document.getElementById('screen-menu-absen').classList.remove('hidden'); showToast('Selamat Datang, ' + res.nama); } else { alert(res.message || 'Login gagal.'); } }, function(err) { btn.innerHTML = '<span>Verifikasi & Masuk</span>'; btn.disabled = false; alert('Gagal memverifikasi: ' + err.message); }); }
-function logoutKaryawan() { const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; activeUserData = null; document.getElementById('inputNikLogin').value = ''; document.getElementById('inputEmployeePin').value = ''; document.getElementById('screen-menu-absen').classList.add('hidden'); document.getElementById('screen-login-nik').classList.remove('hidden'); setModuleLoginBackground(true); document.getElementById('loginPortal').style.display = 'flex'; document.getElementById('dashboardActionButtons').style.display = 'none'; }
+function prosesLoginKaryawan() { const inputNik = document.getElementById('inputNikLogin').value.trim(); const pin = document.getElementById('inputEmployeePin').value; const btn = document.getElementById('btnLoginKaryawan'); if(!inputNik || !pin) { alert('Masukkan ID relawan dan PIN Anda!'); return; } btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Mengecek Database...</span>'; btn.disabled = true; callSupabaseAction('verifyEmployeeLogin', { nik: inputNik, pin: pin }, function(res) { btn.innerHTML = '<span>Verifikasi & Masuk</span> <i class="fa-solid fa-arrow-right"></i>'; btn.disabled = false; if (res.status === 'success' && res.sessionToken) { window.SPAS1_AUTH_TOKEN = res.sessionToken; window.SPAS1_AUTH_ROLE = 'employee'; activeUserData = res; setModuleLoginBackground(false); document.getElementById('userIdDisplay').innerText = 'ID: #' + res.idKaryawan + ' | ' + res.divisi; document.getElementById('userNameDisplay').innerText = res.nama; document.getElementById('userInitial').innerText = res.nama.charAt(0).toUpperCase(); document.getElementById('screen-login-nik').classList.add('hidden'); document.getElementById('screen-menu-absen').classList.remove('hidden'); loadAuthenticatedSppgIdentityStatus(); showToast('Selamat Datang, ' + res.nama); } else { alert(res.message || 'Login gagal.'); } }, function(err) { btn.innerHTML = '<span>Verifikasi & Masuk</span>'; btn.disabled = false; alert('Gagal memverifikasi: ' + err.message); }); }
+function logoutKaryawan() { const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; activeUserData = null; clearSppgIdentityStatus(); document.getElementById('inputNikLogin').value = ''; document.getElementById('inputEmployeePin').value = ''; document.getElementById('screen-menu-absen').classList.add('hidden'); document.getElementById('screen-login-nik').classList.remove('hidden'); setModuleLoginBackground(true); document.getElementById('loginPortal').style.display = 'flex'; document.getElementById('dashboardActionButtons').style.display = 'none'; }
 function triggerAbsenAction(jenis) { activeAbsenType = jenis; document.getElementById('screen-menu-absen').classList.add('hidden'); document.getElementById('screen-scan-wajah').classList.remove('hidden'); document.getElementById('titleScanAksi').innerText = 'Pemindaian visual (tanpa pencocokan wajah) - ' + jenis; document.getElementById('lokasiGPSDisplay').innerText = 'Lokasi tidak tersedia'; if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(position => { const lat = position.coords.latitude; const lon = position.coords.longitude; document.getElementById('lokasiGPSDisplay').innerText = lat.toFixed(4) + ', ' + lon.toFixed(4) + ' (dilaporkan browser; tidak diverifikasi)'; }, () => { document.getElementById('lokasiGPSDisplay').innerText = 'Lokasi tidak tersedia'; }); } }
 async function bukaKameraDepanOtomatis() { const video = document.getElementById('webcamVideo'); const canvas = document.getElementById('faceCanvas'); const statusText = document.getElementById('cameraStatusText'); const errorPanel = document.getElementById('frErrorPanel'); const loadingOverlay = document.getElementById('frLoadingOverlay'); stopCamera(); errorPanel.classList.remove('show'); loadingOverlay.classList.add('show'); statusText.innerHTML = '<span class="fr-status-dot"></span><span>Menghubungkan kamera...</span>'; if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { showCameraError('Browser tidak mendukung akses kamera.'); return; } try { const constraints = { video: { facingMode: { ideal: 'user' }, width: { ideal: 640, min: 320 }, height: { ideal: 480, min: 240 } }, audio: false }; try { cameraStream = await navigator.mediaDevices.getUserMedia(constraints); } catch (exactErr) { constraints.video.facingMode = { ideal: 'user' }; cameraStream = await navigator.mediaDevices.getUserMedia(constraints); } video.srcObject = cameraStream; await new Promise((resolve, reject) => { const timeout = setTimeout(() => reject(new Error('Timeout menunggu kamera')), 5000); video.onloadedmetadata = () => { clearTimeout(timeout); resolve(); }; video.onerror = () => { clearTimeout(timeout); reject(new Error('Video error')); }; }); try { await video.play(); } catch (playErr) { video.muted = true; await video.play(); } canvas.width = video.videoWidth || 640; canvas.height = video.videoHeight || 480; video.onplay = () => { loadingOverlay.classList.remove('show'); statusText.innerHTML = '<span class="fr-status-dot"></span><span>Kamera aktif; animasi ini tidak mengenali identitas.</span>'; runAIFaceTrackingLoop(video, canvas, statusText); }; } catch (err) { loadingOverlay.classList.remove('show'); console.error('Camera error:', err); showCameraError('Error: ' + (err.message || err.name || 'Tidak diketahui')); } }
 function showCameraError(message) { const statusText = document.getElementById('cameraStatusText'); const errorPanel = document.getElementById('frErrorPanel'); const errorMessage = document.getElementById('frErrorMessage'); statusText.innerHTML = '<span class="fr-status-dot error"></span><span>Kamera Tidak Tersedia</span>'; errorMessage.textContent = message; errorPanel.classList.add('show'); }
@@ -11207,7 +11305,7 @@ setMainPortalLoginBusy(true);
 requestAnimationFrame(function() {
 callSupabaseAction('verifyModuleLogin', { username: u, password: p, module: 'persiapan' }, function(res) {
 setMainPortalLoginBusy(false);
-if (res && res.status === 'success' && res.sessionToken) { window.SPAS1_AUTH_TOKEN = res.sessionToken; window.SPAS1_AUTH_ROLE = res.role; document.getElementById('loginPortal').style.display = 'none'; document.getElementById('dashboardActionButtons').style.display = 'flex'; setModuleLoginBackground(false); }
+if (res && res.status === 'success' && res.sessionToken) { window.SPAS1_AUTH_TOKEN = res.sessionToken; window.SPAS1_AUTH_ROLE = res.role; loadAuthenticatedSppgIdentityStatus(); document.getElementById('loginPortal').style.display = 'none'; document.getElementById('dashboardActionButtons').style.display = 'flex'; setModuleLoginBackground(false); }
 else { alert('Login gagal: ' + (res && res.message ? res.message : 'Respons server tidak valid.')); }
 }, function(err) {
 setMainPortalLoginBusy(false);
@@ -11215,7 +11313,7 @@ alert('Gagal login: ' + err.message);
 });
 });
 };
-window.handleLogout = function() { if (confirm('Kunci kembali portal dapur?')) { const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; document.getElementById('loginPortal').style.display = 'flex'; document.getElementById('dashboardActionButtons').style.display = 'none'; document.getElementById('loginUsername').value = ''; document.getElementById('loginPassword').value = ''; setModuleLoginBackground(true); } };
+window.handleLogout = function() { if (confirm('Kunci kembali portal dapur?')) { const token = window.SPAS1_AUTH_TOKEN; if (token) callSupabaseAction('logout', { authToken: token }); window.SPAS1_AUTH_TOKEN = ''; window.SPAS1_AUTH_ROLE = ''; clearSppgIdentityStatus(); document.getElementById('loginPortal').style.display = 'flex'; document.getElementById('dashboardActionButtons').style.display = 'none'; document.getElementById('loginUsername').value = ''; document.getElementById('loginPassword').value = ''; setModuleLoginBackground(true); } };
 function checkPortalAuth() { const isAuthed = ['admin', 'persiapan'].indexOf(window.SPAS1_AUTH_ROLE) !== -1 && Boolean(window.SPAS1_AUTH_TOKEN); const moduleActive = !document.getElementById('modul-joblist').classList.contains('hidden'); document.getElementById('loginPortal').style.display = isAuthed ? 'none' : 'flex'; document.getElementById('dashboardActionButtons').style.display = isAuthed ? 'flex' : 'none'; setModuleLoginBackground(!isAuthed && moduleActive); }
 document.addEventListener('visibilitychange', function() { if (document.visibilityState === 'visible') checkPortalAuth(); });
 let currentMainView = 'dashboard'; let pendingTargetView = null; let selectedDay = 'Senin'; let selectedRecipeDay = 'Senin'; let selectedBudgetDay = 'Senin'; let globalTargetPorsi = 2547; let recipeBankMenuLoadPending = false; let menuModalBankSelections = [];

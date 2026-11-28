@@ -115,6 +115,57 @@ Deno.serve(async (request) => {
       throw new RequestError("Identitas SPPG pada sesi login tidak sesuai.", 403);
     }
 
+    if (input.action === "tenantStatus") {
+      const role = text(user.app_metadata?.role);
+      if (!["admin", "module", "employee"].includes(role) || role !== membership.member_role) {
+        throw new RequestError("Sesi tidak memiliki keanggotaan SPPG yang valid.", 403);
+      }
+
+      const { data: organization, error: organizationError } = await adminClient
+        .from("spas1_organizations")
+        .select("id,name,status")
+        .eq("id", sppgId)
+        .maybeSingle();
+      if (organizationError) throw organizationError;
+      if (!organization || String(organization.id).toLowerCase() !== sppgId.toLowerCase()) {
+        throw new RequestError("Data SPPG pada sesi tidak ditemukan.", 404);
+      }
+
+      let adminEmailVerified: boolean | null = null;
+      if (role === "admin") {
+        adminEmailVerified = Boolean(user.email_confirmed_at);
+      } else {
+        const { data: adminMembership, error: adminMembershipError } = await adminClient
+          .from("spas1_memberships")
+          .select("user_id")
+          .eq("sppg_id", sppgId)
+          .eq("member_role", "admin")
+          .eq("status", "active")
+          .order("created_at", { ascending: true })
+          .limit(1)
+          .maybeSingle();
+        if (adminMembershipError) throw adminMembershipError;
+        if (adminMembership) {
+          const { data: adminUser, error: adminUserError } = await adminClient.auth.admin
+            .getUserById(adminMembership.user_id);
+          if (adminUserError) throw adminUserError;
+          if (adminUser.user?.app_metadata?.role === "admin" &&
+              String(adminUser.user.app_metadata?.sppg_id || "").toLowerCase() === sppgId.toLowerCase()) {
+            adminEmailVerified = Boolean(adminUser.user.email_confirmed_at);
+          }
+        }
+      }
+
+      return jsonResponse({
+        status: "success",
+        tenantStatus: {
+          organizationName: organization.name,
+          organizationActive: organization.status === "active",
+          adminEmailVerified,
+        },
+      }, 200, origin);
+    }
+
     if (input.action === "verifyLogin") {
       const requestedModule = text(input.module);
       if (!moduleNames.includes(requestedModule as ModuleName)) {

@@ -62,7 +62,8 @@ test('returning home preserves the SUPER ADMIN session for switching modules', f
       SPAS1_AUTH_TOKEN: 'admin-token',
       SPAS1_SUPABASE_SESSION: 'admin-session'
     },
-    callSupabaseAction: function() { adminCalls.push(Array.from(arguments)); }
+    callSupabaseAction: function() { adminCalls.push(Array.from(arguments)); },
+    clearSppgIdentityStatus: function() {}
   };
   vm.runInNewContext(logoutSource, adminContext);
   adminContext.logoutMnPortal();
@@ -78,7 +79,8 @@ test('returning home preserves the SUPER ADMIN session for switching modules', f
       SPAS1_AUTH_TOKEN: 'module-token',
       SPAS1_SUPABASE_SESSION: 'module-session'
     },
-    callSupabaseAction: function() { moduleCalls.push(Array.from(arguments)); }
+    callSupabaseAction: function() { moduleCalls.push(Array.from(arguments)); },
+    clearSppgIdentityStatus: function() {}
   };
   vm.runInNewContext(logoutSource, moduleContext);
   moduleContext.logoutMnPortal();
@@ -103,6 +105,22 @@ test('module login is authorized by the server before entering a module', functi
   assert.match(loginSource, /window\.SPAS1_AUTH_ROLE = loginAsAdmin \? 'admin' : module/);
   assert.match(edgeFunction, /input\.action === "verifyLogin"/);
   assert.match(edgeFunction, /employee\["Status Akun"\] !== "Aktif"/);
+});
+
+test('tenant identity status is derived from the authenticated SPPG and its admin account', function() {
+  const start = edgeFunction.indexOf('if (input.action === "tenantStatus")');
+  const end = edgeFunction.indexOf('\n    if (input.action === "verifyLogin")', start);
+  const statusSource = edgeFunction.slice(start, end);
+
+  assert.notEqual(start, -1, 'Missing tenant status action');
+  assert.notEqual(end, -1, 'Missing tenant status action boundary');
+  assert.match(statusSource, /role !== membership\.member_role/);
+  assert.match(statusSource, /\.from\("spas1_organizations"\)[\s\S]*?\.eq\("id", sppgId\)/);
+  assert.match(statusSource, /\.from\("spas1_memberships"\)[\s\S]*?\.eq\("sppg_id", sppgId\)[\s\S]*?\.eq\("member_role", "admin"\)[\s\S]*?\.eq\("status", "active"\)/);
+  assert.match(statusSource, /\.getUserById\(adminMembership\.user_id\)/);
+  assert.match(statusSource, /adminUser\.user\?\.app_metadata\?\.role === "admin"[\s\S]*?adminUser\.user\.app_metadata\?\.sppg_id/);
+  assert.match(statusSource, /adminEmailVerified,\s*/);
+  assert.doesNotMatch(statusSource, /email: adminUser\.user/);
 });
 
 test('module account provisioning uses Supabase Auth and does not store passwords in the account table', function() {
