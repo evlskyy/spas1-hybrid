@@ -21,10 +21,24 @@ function createClassList(initialClasses) {
 }
 
 function createHarness(options) {
+  let statusText = '';
   const status = {
+    children: [],
     classList: createClassList(['hidden']),
     style: { color: '' },
-    textContent: ''
+    set textContent(value) {
+      statusText = String(value || '');
+      this.children = [];
+    },
+    get textContent() {
+      return this.children.length
+        ? this.children.map(function(child) { return child.textContent; }).join(' · ')
+        : statusText;
+    },
+    replaceChildren: function() {
+      this.children = Array.from(arguments);
+      statusText = '';
+    }
   };
   const requests = [];
   const errors = [];
@@ -35,6 +49,7 @@ function createHarness(options) {
       SPAS1_SUPABASE_URL: 'https://test.supabase.co'
     },
     document: {
+      createElement: function(tagName) { return { tagName: tagName, className: '', textContent: '' }; },
       getElementById: function(id) {
         return id === 'currentSppgAccountStatus' ? status : null;
       }
@@ -72,7 +87,7 @@ function createUser(overrides) {
   }, overrides || {});
 }
 
-test('active current SPPG is shown only for a verified admin with active membership and organization', async function() {
+test('active current SPPG and verified email are shown as separate status labels', async function() {
   const harness = createHarness({
     user: createUser(),
     memberships: [{ sppg_id: sppgId, member_role: 'admin', status: 'active' }],
@@ -82,22 +97,30 @@ test('active current SPPG is shown only for a verified admin with active members
   await harness.context.loadCurrentSppgAccountStatus();
 
   assert.equal(harness.status.classList.contains('hidden'), false);
-  assert.equal(harness.status.textContent, 'SPPG Sungai Pasir 1 aktif · email admin terverifikasi');
+  assert.equal(harness.status.textContent, 'SPPG Sungai Pasir 1 · SPPG aktif · Email admin terverifikasi');
+  assert.match(harness.status.children[1].className, /text-emerald-300/);
+  assert.match(harness.status.children[2].className, /text-emerald-300/);
   assert.deepEqual(harness.requests.map(function(request) { return request.table; }), [
     'spas1_memberships',
     'spas1_organizations'
   ]);
 });
 
-test('unverified email and inactive membership or organization do not show an active SPPG status', async function() {
+test('unverified email is shown distinctly while inactive membership or organization remains hidden', async function() {
   const unverified = createHarness({
     user: createUser({ email_confirmed_at: null }),
     memberships: [{ sppg_id: sppgId, member_role: 'admin', status: 'active' }],
     organizations: [{ id: sppgId, name: 'SPPG', status: 'active' }]
   });
   await unverified.context.loadCurrentSppgAccountStatus();
-  assert.equal(unverified.status.classList.contains('hidden'), true);
-  assert.equal(unverified.requests.length, 0);
+  assert.equal(unverified.status.classList.contains('hidden'), false);
+  assert.equal(unverified.status.children[1].textContent, 'SPPG aktif');
+  assert.equal(unverified.status.children[2].textContent, 'Email admin belum terverifikasi');
+  assert.match(unverified.status.children[2].className, /text-amber-200/);
+  assert.deepEqual(unverified.requests.map(function(request) { return request.table; }), [
+    'spas1_memberships',
+    'spas1_organizations'
+  ]);
 
   const inactiveMembership = createHarness({
     user: createUser(),

@@ -4051,7 +4051,7 @@ gtag('config', 'G-4933FEDV2TW');
 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
 <span class="text-emerald-300">SPAS1 Version 2.2.2 Hybrid</span>
 </div>
-<p id="currentSppgAccountStatus" class="hidden mt-2 text-[10px] sm:text-xs font-bold text-emerald-200" role="status" aria-live="polite"></p>
+<p id="currentSppgAccountStatus" class="hidden mt-2 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[10px] sm:justify-start sm:text-xs" role="status" aria-live="polite"></p>
 </div>
 </div>
 </div>
@@ -6141,8 +6141,8 @@ cache: 'no-store'
 });
 if (!response.ok) throw new Error('Supabase Auth HTTP ' + response.status);
 const user = await response.json();
-if (!user || !user.id || !user.email_confirmed_at ||
-    !user.app_metadata || user.app_metadata.role !== 'admin' || !user.app_metadata.sppg_id) return;
+if (!user || !user.id || !user.app_metadata ||
+    user.app_metadata.role !== 'admin' || !user.app_metadata.sppg_id) return;
 const tenantId = getSupabaseTenantId();
 if (String(user.app_metadata.sppg_id).toLowerCase() !== tenantId) return;
 const memberships = await supabaseRequest('spas1_memberships', {
@@ -6162,7 +6162,20 @@ query: { select: 'id,name,status', id: 'eq.' + tenantId, limit: '1' }
 const organization = Array.isArray(organizations) ? organizations[0] : null;
 if (!organization || organization.status !== 'active' ||
     String(organization.id).toLowerCase() !== tenantId) return;
-status.textContent = (organization.name || 'SPPG') + ' aktif · email admin terverifikasi';
+const organizationName = document.createElement('span');
+organizationName.className = 'font-semibold text-emerald-100';
+organizationName.textContent = organization.name || 'SPPG';
+const organizationStatus = document.createElement('span');
+organizationStatus.className = 'inline-flex items-center rounded-full border border-emerald-400/40 bg-emerald-500/15 px-2 py-0.5 font-bold text-emerald-300';
+organizationStatus.textContent = 'SPPG aktif';
+const emailStatus = document.createElement('span');
+emailStatus.className = user.email_confirmed_at
+? 'inline-flex items-center rounded-full border border-emerald-400/40 bg-emerald-500/15 px-2 py-0.5 font-bold text-emerald-300'
+: 'inline-flex items-center rounded-full border border-amber-400/50 bg-amber-400/15 px-2 py-0.5 font-bold text-amber-200';
+emailStatus.textContent = user.email_confirmed_at
+? 'Email admin terverifikasi'
+: 'Email admin belum terverifikasi';
+status.replaceChildren(organizationName, organizationStatus, emailStatus);
 status.classList.remove('hidden');
 } catch (error) {
 console.error('Gagal memeriksa status akun SPPG:', error);
