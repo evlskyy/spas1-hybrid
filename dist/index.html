@@ -5315,13 +5315,13 @@ status.style.color = '';
 });
 }
 
-function renderSppgIdentityStatus(status, tenantStatus) {
+function renderSppgIdentityStatus(status, tenantStatus, errorMessage) {
 if (!status) return;
 status.classList.add('hidden');
 status.textContent = '';
 status.style.color = '';
 if (!tenantStatus || typeof tenantStatus !== 'object') {
-status.textContent = 'Identitas SPPG tidak dapat diverifikasi.';
+status.textContent = errorMessage || 'Identitas SPPG tidak dapat diverifikasi.';
 status.style.color = '#b45309';
 status.classList.remove('hidden');
 return;
@@ -5385,8 +5385,11 @@ renderSppgIdentityStatus(document.getElementById(id), result.tenantStatus);
 } catch (error) {
 if (!isCurrentScope()) return;
 console.error('Gagal memeriksa identitas SPPG:', error);
+const errorMessage = /Aksi tidak dikenal|Hanya SUPER ADMIN yang dapat mengelola akun modul/i.test(String(error && error.message || ''))
+? 'Fungsi status SPPG di server perlu diperbarui.'
+: 'Identitas SPPG tidak dapat diverifikasi.';
 SPAS1_IDENTITY_STATUS_IDS.forEach(function(id) {
-renderSppgIdentityStatus(document.getElementById(id), null);
+renderSppgIdentityStatus(document.getElementById(id), null, errorMessage);
 });
 }
 }

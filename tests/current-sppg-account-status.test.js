@@ -236,6 +236,16 @@ test('unverified admin email is shown distinctly and failed status lookups are n
   assert.equal(failedStatus.classList.contains('hidden'), false);
   assert.match(failedStatus.textContent, /tidak dapat diverifikasi/);
   assert.equal(failed.errors.length, 1);
+
+  const outdatedBackend = createHarness({
+    functionError: new Error('Aksi tidak dikenal.')
+  });
+  outdatedBackend.context.window.SPAS1_AUTH_ROLE = 'admin';
+  await outdatedBackend.context.loadAuthenticatedSppgIdentityStatus();
+  assert.match(
+    outdatedBackend.identityStatuses.get('preparationSppgIdentityStatus').textContent,
+    /Fungsi status SPPG di server perlu diperbarui/
+  );
 });
 
 test('a late identity response for a previous SPPG is discarded', async function() {
@@ -271,6 +281,7 @@ test('source and deployed HTML both contain the current SPPG status indicator', 
       assert.match(deployedHtml, new RegExp('id="' + id + '"'), relativePath);
     }
     assert.match(deployedHtml, /loadAuthenticatedSppgIdentityStatus\(\)/, relativePath);
+    assert.match(deployedHtml, /Fungsi status SPPG di server perlu diperbarui/, relativePath);
     const versionBadgeIndex = deployedHtml.indexOf('SPAS1 Version 2.2.2 Hybrid</span>');
     const statusIndex = deployedHtml.indexOf('id="currentSppgAccountStatus"');
     const adminSidebarIndex = deployedHtml.indexOf('<div id="view-admin"');

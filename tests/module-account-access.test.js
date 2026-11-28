@@ -95,6 +95,19 @@ test('SUPER ADMIN sync reauthentication uses the existing username login flow', 
   assert.match(html, /window\.SPAS1_AUTH_ROLE = isAdminSync \? 'admin' : requestedModule/);
 });
 
+test('SUPER ADMIN login icons use inline SVG rather than the icon font', function() {
+  for (const id of ['mnLoginAdminSubmit', 'slLoginAdminSubmit', 'portalAdminLoginSubmit']) {
+    const start = html.indexOf('<button id="' + id + '"');
+    const end = html.indexOf('</button>', start);
+    assert.notEqual(start, -1, 'Missing button ' + id);
+    assert.ok(end > start, 'Missing closing button tag for ' + id);
+    const button = html.slice(start, end);
+    assert.match(button, /<svg[\s\S]*?aria-hidden="true"/);
+    assert.doesNotMatch(button, /fa-user-shield/);
+  }
+  assert.match(html, /adminButton\.innerHTML = busy && loginAsAdmin \? loadingLabel : '<svg/);
+});
+
 test('module login is authorized by the server before entering a module', function() {
   const start = html.indexOf("case 'verifyModuleLogin':");
   const end = html.indexOf("\ncase 'verifySyncPassword':", start);
