@@ -135,6 +135,11 @@ test('source and deployed HTML both contain the current SPPG status indicator', 
     const deployedHtml = fs.readFileSync(path.join(root, relativePath), 'utf8');
     assert.match(deployedHtml, /id="currentSppgAccountStatus"/, relativePath);
     assert.match(deployedHtml, /loadCurrentSppgAccountStatus\(\)/, relativePath);
+    const versionBadgeIndex = deployedHtml.indexOf('SPAS1 Version 2.2.2 Hybrid</span>');
+    const statusIndex = deployedHtml.indexOf('id="currentSppgAccountStatus"');
+    const adminSidebarIndex = deployedHtml.indexOf('<div id="view-admin"');
+    assert.ok(versionBadgeIndex >= 0 && statusIndex > versionBadgeIndex, relativePath + ' should place status after the version badge');
+    assert.ok(adminSidebarIndex < 0 || statusIndex < adminSidebarIndex, relativePath + ' should not place status in the SUPER ADMIN sidebar');
   }
 });
 
