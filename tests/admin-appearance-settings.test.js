@@ -7,7 +7,7 @@ const vm = require('node:vm');
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 const deployHtml = fs.readFileSync(path.join(__dirname, '..', 'dist', 'index.html'), 'utf8');
 
-function appearanceFunctionContext() {
+function appearanceFunctionContext(source = html) {
   const classes = new Set(['ui-theme-candy', 'ui-font-linux']);
   const selects = {
     adminAppearanceTheme: { value: '' },
@@ -40,51 +40,18 @@ function appearanceFunctionContext() {
     },
     localStorage: {
       getItem: function(key) { return Object.prototype.hasOwnProperty.call(stored, key) ? stored[key] : null; },
-      setItem: function(key, value) { stored[key] = value; }
+      setItem: function(key, value) { stored[key] = value; },
+      removeItem: function(key) { delete stored[key]; }
     },
     syncAdminPortalTheme: function() {},
     updateThemeToggleControls: function() {}
   };
-  const start = html.indexOf('function previewAdminAppearance(');
-  const end = html.indexOf('\nfunction loadAdminAppearance(', start);
+  const start = source.indexOf('function previewAdminAppearance(');
+  const end = source.indexOf('\nfunction saveAdminAppearance(', start);
   assert.notEqual(start, -1, 'Missing appearance preference handler');
   assert.notEqual(end, -1, 'Missing appearance preference handler boundary');
-  vm.runInNewContext(html.slice(start, end), context);
+  vm.runInNewContext(source.slice(start, end), context);
   return { context: context, classes: classes, selects: selects, preview: preview, status: status, stored: stored };
-}
-
-function adminUiStyleFunctionContext(initialStyle) {
-  const select = { value: '' };
-  const preview = { dataset: {} };
-  const status = { textContent: '' };
-  const adminView = { dataset: {} };
-  const stored = initialStyle ? { spas1_admin_ui_style: initialStyle } : {};
-  const context = {
-    document: {
-      getElementById: function(id) {
-        if (id === 'adminUiStyleSelect') return select;
-        if (id === 'adminUiStyleStatus') return status;
-        if (id === 'view-admin') return adminView;
-        return null;
-      },
-      querySelector: function(selector) {
-        return selector === '.admin-ui-style-preview' ? preview : null;
-      }
-    },
-    localStorage: {
-      getItem: function(key) { return Object.prototype.hasOwnProperty.call(stored, key) ? stored[key] : null; },
-      setItem: function(key, value) { stored[key] = value; }
-    },
-    window: { SPAS1_AUTH_ROLE: 'admin', SPAS1_SUPABASE_SESSION: { user: 'admin' } },
-    showToast: function() {},
-    console: { error: function() {} }
-  };
-  const start = html.indexOf('const adminUiStyleOptions =');
-  const end = html.indexOf('\nfunction changeCustomTheme(', start);
-  assert.notEqual(start, -1, 'Missing SUPER ADMIN UI style handlers');
-  assert.notEqual(end, -1, 'Missing SUPER ADMIN UI style handler boundary');
-  vm.runInNewContext(html.slice(start, end), context);
-  return { context: context, select: select, preview: preview, status: status, adminView: adminView, stored: stored };
 }
 
 function mainThemeToggleContext() {
@@ -105,6 +72,7 @@ function mainThemeToggleContext() {
       }
     },
     matches: function(selector) {
+      if (selector === '[class*="ui-theme-"]') return Array.from(classes).some(function(name) { return name.indexOf('ui-theme-') === 0; });
       return selector.split(',').some(function(name) { return classes.has(name.trim().replace(/^\./, '')); });
     }
   };
@@ -154,6 +122,7 @@ function customModuleThemeContext(hasAppearancePreset) {
       }
     },
     matches: function(selector) {
+      if (selector === '[class*="ui-theme-"]') return Array.from(classes).some(function(name) { return name.indexOf('ui-theme-') === 0; });
       return selector.split(',').some(function(name) { return classes.has(name.trim().replace(/^\./, '')); });
     }
   };
@@ -213,68 +182,67 @@ test('SUPER ADMIN appearance panel offers requested themes and whole-app fonts',
   assert.match(html, /onclick="saveAdminAppearance\(\)"[^>]*>Terapkan<\/button>/);
   assert.match(html, /id="adminAppearanceApplyButton"/);
   assert.match(html, /body\.ui-theme-linux #view-admin \.sidebar-link\.active,[\s\S]*#adminAppearanceApplyButton/);
-  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\)[\s\S]*#modul-absensi,#modul-menu,#modul-stok/);
-  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\)[\s\S]*\.mn-header-card,\.sl-header-card/);
-  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\)[\s\S]*#spas1-webapp-root \.card/);
-  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\)[\s\S]*#view-admin,#spas1-webapp-root/);
+  assert.match(html, /body\[class\*="ui-theme-"\][\s\S]*#modul-absensi,#modul-menu,#modul-stok/);
+  assert.match(html, /body\[class\*="ui-theme-"\][\s\S]*\.mn-header-card,\.sl-header-card/);
+  assert.match(html, /body\[class\*="ui-theme-"\][\s\S]*#spas1-webapp-root \.card/);
+  assert.match(html, /body\[class\*="ui-theme-"\][\s\S]*#view-admin,#spas1-webapp-root/);
   assert.match(html, /document\.body\.classList\.toggle\('app-light-mode', isLight\)/);
   assert.match(html, /body\.ui-theme-candy:not\(\.app-light-mode\)\s*\{[\s\S]*color-scheme: dark/);
   assert.match(html, /body\.ui-theme-linux:not\(\.app-light-mode\)\s*\{[\s\S]*color-scheme: dark/);
   assert.match(html, /body\.ui-theme-windows:not\(\.app-light-mode\)\s*\{[\s\S]*color-scheme: dark/);
 });
 
-test('SUPER ADMIN panel offers all nine UI styles separately from global appearance', function() {
+test('Gaya antarmuka offers all nine presets for the whole application', function() {
   const styles = ['liquid-glass', 'material-you', 'terminal', 'hand-drawn', 'y2k-chrome', 'bauhaus', 'pixel-art', 'aurora-gradient', 'manga'];
-  assert.match(html, /id="adminUiStyleSelect" onchange="previewAdminUiStyle\(\)"/);
-  assert.match(html, /Gaya ini hanya mengubah panel SUPER ADMIN/);
+  assert.match(html, /id="adminAppearanceTheme" onchange="previewAdminAppearance\(\)"/);
+  assert.match(html, /gaya visual yang diterapkan ke seluruh aplikasi/i);
   for (const style of styles) {
     assert.match(html, new RegExp(`<option value="${style}">`));
-    assert.match(html, new RegExp(`#view-admin\\[data-ui-style="${style}"\\]`));
+    assert.match(html, new RegExp(`body\\.ui-theme-${style}`));
   }
-  assert.match(html, /id="adminUiStyleApplyButton"[^>]*onclick="saveAdminUiStyle\(\)"/);
-  assert.match(html, /localStorage\.setItem\('spas1_admin_ui_style', style\)/);
-  assert.match(html, /loadAdminUiStyle\(\)/);
-  assert.match(deployHtml, /id="tab-ui-style"/);
-  assert.match(deployHtml, /id="adminUiStyleSelect"/);
-  assert.match(deployHtml, /loadAdminUiStyle\(\)/);
-  for (const style of styles) assert.match(deployHtml, new RegExp(`<option value="${style}">`));
+  assert.match(html, /body\[class\*="ui-theme-"\][\s\S]*#modul-absensi,#modul-menu,#modul-stok/);
+  assert.match(html, /body\[class\*="ui-theme-"\][\s\S]*#view-home,#view-news-archive/);
+  assert.doesNotMatch(html, /adminUiStyleSelect|tab-ui-style|data-ui-style/);
+  assert.match(deployHtml, /id="tab-appearance"/);
+  assert.match(deployHtml, /id="adminAppearanceTheme"/);
+  assert.match(deployHtml, /body\[class\*="ui-theme-"\][\s\S]*#modul-absensi,#modul-menu,#modul-stok/);
+  for (const style of styles) {
+    assert.match(deployHtml, new RegExp(`<option value="${style}">`));
+    assert.match(deployHtml, new RegExp(`body\\.ui-theme-${style}`));
+  }
 });
 
-test('SUPER ADMIN UI style selection previews, applies, persists, and resets locally', function() {
-  const state = adminUiStyleFunctionContext();
-  state.select.value = 'pixel-art';
-  state.context.previewAdminUiStyle();
+test('new appearance presets apply globally, persist, and clear the former panel-only preference', function() {
+  const state = appearanceFunctionContext();
+  state.stored.spas1_admin_ui_style = 'pixel-art';
+  state.context.applyAdminAppearance('pixel-art', 'linux', true);
 
-  assert.equal(state.preview.dataset.adminStyle, 'pixel-art');
-  assert.equal(state.adminView.dataset.uiStyle, undefined);
+  assert.equal(state.classes.has('ui-theme-candy'), false);
+  assert.equal(state.classes.has('ui-theme-pixel-art'), true);
+  assert.equal(state.classes.has('ui-font-linux'), true);
+  assert.equal(state.selects.adminAppearanceTheme.value, 'pixel-art');
+  assert.deepEqual(JSON.parse(state.stored.spas1_admin_appearance), { theme: 'pixel-art', font: 'linux' });
   assert.equal(state.stored.spas1_admin_ui_style, undefined);
 
-  state.context.saveAdminUiStyle();
-
-  assert.equal(state.adminView.dataset.uiStyle, 'pixel-art');
-  assert.equal(state.stored.spas1_admin_ui_style, 'pixel-art');
-  assert.equal(state.status.textContent, 'Gaya UI SUPER ADMIN berhasil diterapkan dan disimpan pada browser ini.');
-
-  state.context.resetAdminUiStyle();
-
-  assert.equal(state.adminView.dataset.uiStyle, 'spas');
-  assert.equal(state.select.value, 'spas');
-  assert.equal(state.stored.spas1_admin_ui_style, 'spas');
-});
-
-test('SUPER ADMIN UI style restores saved choices and rejects unsupported values', function() {
-  const state = adminUiStyleFunctionContext('manga');
-  state.context.loadAdminUiStyle();
-  assert.equal(state.adminView.dataset.uiStyle, 'manga');
-  assert.equal(state.select.value, 'manga');
+  const deployState = appearanceFunctionContext(deployHtml);
+  deployState.context.applyAdminAppearance('aurora-gradient', 'macos', true);
+  assert.equal(deployState.classes.has('ui-theme-aurora-gradient'), true);
+  assert.equal(deployState.selects.adminAppearanceTheme.value, 'aurora-gradient');
+  assert.deepEqual(JSON.parse(deployState.stored.spas1_admin_appearance), { theme: 'aurora-gradient', font: 'macos' });
 
   assert.throws(function() {
-    state.context.applyAdminUiStyle('unknown', true);
+    state.context.applyAdminAppearance('unknown', 'linux', true);
   }, /tidak valid/);
+});
 
-  const invalidState = adminUiStyleFunctionContext('unknown');
-  invalidState.context.loadAdminUiStyle();
-  assert.equal(invalidState.adminView.dataset.uiStyle, 'spas');
+test('former panel-only preset is migrated into the whole-app appearance preference', function() {
+  const state = appearanceFunctionContext();
+  state.stored.spas1_admin_appearance = JSON.stringify({ theme: 'spas', font: 'linux' });
+  state.stored.spas1_admin_ui_style = 'manga';
+  state.context.loadAdminAppearance();
+
+  assert.equal(state.classes.has('ui-theme-manga'), true);
+  assert.equal(state.selects.adminAppearanceTheme.value, 'manga');
 });
 
 test('appearance preview text stays readable in dark mode and controls are easier to read', function() {
@@ -289,14 +257,14 @@ test('appearance preview text stays readable in dark mode and controls are easie
 });
 
 test('global themes override home launcher styles and unify secondary home actions', function() {
-  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\) #view-home #btnSuperAdminLogin\s*\{[\s\S]*background: var\(--appearance-surface\) !important/);
+  assert.match(html, /body\[class\*="ui-theme-"\] #view-home #btnSuperAdminLogin\s*\{[\s\S]*background: var\(--appearance-surface\) !important/);
   assert.match(html, /#view-home #btnSuperAdminLogin :is\(\.home-utility-description,\.home-admin-access\)\s*\{[\s\S]*color: var\(--appearance-subtle\) !important/);
   assert.match(html, /#view-home \.home-footer-layout :is\([\s\S]*#btnAboutUs,#btnProjectInfo,#btnApplySppg,#btnSponsor,[\s\S]*background: var\(--appearance-surface\) !important/);
 });
 
 test('Trakteer card follows selected appearance themes and themed hover states', function() {
-  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\) #view-home \.home-footer-layout :is\([\s\S]*\.trakteer-link[^)]*\)\s*\{\s*background: var\(--appearance-surface\) !important;\s*border-color: var\(--appearance-border\) !important;\s*color: var\(--appearance-text\) !important;\s*box-shadow: var\(--appearance-shadow\) !important;\s*backdrop-filter: none !important;/);
-  assert.match(html, /body:is\(\.ui-theme-candy,\.ui-theme-linux,\.ui-theme-windows,\.ui-theme-retro\) #view-home \.home-footer-layout :is\([\s\S]*\.trakteer-link,#btnSponsor\s*\):is\(:hover,:focus-visible\)\s*\{\s*background: var\(--appearance-muted\) !important;\s*border-color: var\(--appearance-accent\) !important;\s*color: var\(--appearance-text\) !important;/);
+  assert.match(html, /body\[class\*="ui-theme-"\] #view-home \.home-footer-layout :is\([\s\S]*\.trakteer-link[^)]*\)\s*\{\s*background: var\(--appearance-surface\) !important;\s*border-color: var\(--appearance-border\) !important;\s*color: var\(--appearance-text\) !important;\s*box-shadow: var\(--appearance-shadow\) !important;\s*backdrop-filter: none !important;/);
+  assert.match(html, /body\[class\*="ui-theme-"\] #view-home \.home-footer-layout :is\([\s\S]*\.trakteer-link,#btnSponsor\s*\):is\(:hover,:focus-visible\)\s*\{\s*background: var\(--appearance-muted\) !important;\s*border-color: var\(--appearance-accent\) !important;\s*color: var\(--appearance-text\) !important;/);
 });
 
 test('Trakteer animated icon switches to black in light mode and white in dark mode', function() {
@@ -311,8 +279,8 @@ test('home registration, live demo, and sponsor icons switch between light and d
 });
 
 test('home action cards share module surfaces, get visible hover borders, and wrap on phones', function() {
-  assert.match(html, /body:not\(\.ui-theme-candy\):not\(\.ui-theme-linux\):not\(\.ui-theme-windows\):not\(\.ui-theme-retro\) #view-home \.home-footer-layout :is\([\s\S]*#btnProjectInfo,#btnApplySppg,#btnAboutUs,\.home-live-demo-button,\.trakteer-link,#btnSponsor[\s\S]*\) \{\s*background: #1C2541 !important;\s*border-color: #3A506B !important;\s*color: #E0E1DD !important;/);
-  assert.match(html, /body\.app-light-mode:not\(\.ui-theme-candy\):not\(\.ui-theme-linux\):not\(\.ui-theme-windows\):not\(\.ui-theme-retro\) #view-home \.home-footer-layout :is\([\s\S]*\) \{\s*background: #FFFFFF !important;\s*border-color: #D1D5DB !important;\s*color: #111827 !important;/);
+  assert.match(html, /body:not\(\[class\*="ui-theme-"\]\) #view-home \.home-footer-layout :is\([\s\S]*#btnProjectInfo,#btnApplySppg,#btnAboutUs,\.home-live-demo-button,\.trakteer-link,#btnSponsor[\s\S]*\) \{\s*background: #1C2541 !important;\s*border-color: #3A506B !important;\s*color: #E0E1DD !important;/);
+  assert.match(html, /body\.app-light-mode:not\(\[class\*="ui-theme-"\]\) #view-home \.home-footer-layout :is\([\s\S]*\) \{\s*background: #FFFFFF !important;\s*border-color: #D1D5DB !important;\s*color: #111827 !important;/);
   assert.match(html, /#view-home \.home-dashboard-main \.grid > \.dark-card:hover,[\s\S]*#view-home \.home-footer-layout > \.home-news-launcher:hover,[\s\S]*border-color: var\(--appearance-accent, #34D399\) !important;\s*outline: 2px solid var\(--appearance-accent, #34D399\) !important;\s*outline-offset: 1px;\s*box-shadow: 0 0 0 2px var\(--appearance-accent, #34D399\) !important;/);
   assert.match(html, /@media \(max-width: 640px\) \{\s*#view-home \.home-footer-layout :is\([\s\S]*\) \{\s*min-width: 0 !important;\s*min-height: 42px;\s*height: auto !important;[\s\S]*white-space: normal !important;[\s\S]*overflow-wrap: anywhere;/);
 });

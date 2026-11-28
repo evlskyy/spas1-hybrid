@@ -38,8 +38,7 @@ SPAS1 menyatukan alur menu dan gizi, stok logistik, absensi relawan, persiapan, 
 - Modul persiapan, distribusi, anggaran, HACCP, serta poster AKG.
 - Pengelolaan konten publik dan media situs.
 - Tutorial penggunaan yang diperbarui untuk layar ponsel, tampilan modul yang diselaraskan, serta halaman pemeliharaan.
-- SUPER ADMIN dapat mengubah tampilan seluruh aplikasi melalui **Pengaturan → Tampilan & Font**: Candy Modern, Classic Linux, Classic Windows, Retro Browser, font Mac OS atau Linux standar. Pilihan dapat dipratinjau dahulu, lalu disimpan dengan tombol **Terapkan**. Mode terang/gelap dapat ditoggle terpisah dari preset dan akan diingat saat halaman dibuka ulang. Preferensi disimpan lokal di browser dan tidak mengubah tampilan pengguna lain.
-- Di panel pengaturan SUPER ADMIN tersedia sembilan gaya tambahan—Liquid Glass, Material You, Terminal, Hand-drawn, Y2K Chrome, Bauhaus, Pixel Art, Aurora Gradient, dan Manga. Gaya ini hanya mengubah panel SUPER ADMIN, dapat dipratinjau sebelum diterapkan, dan disimpan lokal pada browser yang digunakan.
+- SUPER ADMIN dapat mengubah tampilan seluruh aplikasi melalui **Pengaturan → Tampilan & Font**. Selain SPAS1 bawaan, tersedia Candy Modern, Classic Linux, Classic Windows, Retro Browser, Liquid Glass, Material You, Terminal, Hand-drawn, Y2K Chrome, Bauhaus, Pixel Art, Aurora Gradient, dan Manga. Pilihan dapat dipratinjau lalu disimpan dengan tombol **Terapkan**. Mode terang/gelap dapat ditoggle terpisah; preferensi disimpan lokal di browser dan tidak mengubah tampilan pengguna lain.
 - Mode tema tidak diterapkan ke hasil cetak: halaman cetak menggunakan kertas putih, teks standar, dan kartu About Skyy tidak ikut tercetak dari SUPER ADMIN.
 - Kartu, border, latar, dan keterbacaan teks mengikuti preset di seluruh modul; halaman 404 responsif di ponsel. Kamera Absensi menampilkan dan menyimpan foto tanpa mirror, hanya tersedia melalui HTTPS/localhost dengan izin kamera browser.
 
